@@ -20,12 +20,12 @@
                 id="_IDGenLabel1"
                 design="Bold"
                 required="true"
-                text="Supplier Sub-Type"
+                text="Supplier Type"
             />
             <Select
                 id="_IDGenSelect1"
                 forceSelection="false"
-                selectedKey="{path:'CreateModel>/VenSubType',type:'sap.ui.model.type.String',constraints:{minLength:2}}"
+                selectedKey="{path:'CreateModel>/VendorType',type:'sap.ui.model.type.String',constraints:{minLength:2}}"
                 valueStateText="Required"
                 fieldGroupIds="required"
             >
@@ -58,7 +58,7 @@
             />
             <Input
                 id="_IDGenInput1"
-                value="{path:'CreateModel>/VenName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                value="{path:'CreateModel>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                 valueStateText="Required"
                 fieldGroupIds="required"
             />
@@ -70,7 +70,7 @@
             />
             <Input
                 id="_IDGenInput2"
-                value="{path:'CreateModel>/Dept',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                value="{path:'CreateModel>/Department',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                 valueStateText="Required"
                 fieldGroupIds="required"
             />
@@ -83,7 +83,7 @@
             <Input
                 id="_IDGenInput3"
                 type="Number"
-                value="{path:'CreateModel>/VenTel',type:'sap.ui.model.type.String',constraints:{minLength: 10,maxLength:10}}"
+                value="{path:'CreateModel>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength: 10,maxLength:10}}"
                 valueStateText="Required"
                 fieldGroupIds="required"
             />
@@ -107,7 +107,7 @@
             />
             <Input
                 id="_IDGenInput5"
-                value="{path:'CreateModel>/VenMail',type:'.customEMailType'}"
+                value="{path:'CreateModel>/VendorMail',type:'.customEMailType'}"
                 valueStateText="Required"
                 fieldGroupIds="required"
             />

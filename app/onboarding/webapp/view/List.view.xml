@@ -80,7 +80,7 @@
                         <Label
                             id="_IDGenLabel2"
                             design="Bold"
-                            text="Supplier Sub-Type"
+                            text="Supplier Type"
                             wrapping="true"
                         />
                     </Column>
@@ -194,20 +194,20 @@
                             <ObjectIdentifier
                                 id="_IDGenObjectIdentifier1"
                                 title="{parts:[{path:'DataModel>Vendor'},{path:'DataModel>ResetValidity'}],formatter:'formatter.addVendorColor'}"
-                                text="{DataModel>VenName}"
+                                text="{DataModel>VendorName}"
                                 titleActive="true"
                                 tooltip="{= ${DataModel>ResetValidity} === 'X' ? 'Validity Expired' : ''}"
                                 titlePress="onVendorPress"
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
-                                text="{path:'DataModel>VenSubType',formatter:'formatter.formatVendorSubType'}"
+                                text="{path:'DataModel>VendorType',formatter:'formatter.formatVendorSubType'}"
                                 state="Indication08"
                                 class="objectStatus"
                             />
                             <Text
                                 id="_IDGenText1"
-                                text="{path:'DataModel>CreatedOn',formatter:'formatter.formatDate'}"
+                                text="{path:'DataModel>createdAt',formatter:'formatter.formatDate'}"
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
@@ -217,7 +217,7 @@
                             />
                             <Text
                                 id="_IDGenText2"
-                                text="{DataModel>Dept}"
+                                text="{DataModel>Department}"
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus3"
@@ -242,6 +242,7 @@
                                 direction="Column"
                                 alignItems="Center"
                             >
+                                <!-- {= ${DataModel>Approve}} -->
                                 <Button
                                     id="_IDGenButton2"
                                     class="approveBtn"
@@ -249,7 +250,7 @@
                                     type="Accept"
                                     press="onActionPress"
                                     width="80px"
-                                    visible="{= ${DataModel>Approve}}"
+                                    visible="false"
                                 >
                                     <customData>
                                         <core:CustomData
@@ -258,6 +259,7 @@
                                         />
                                     </customData>
                                 </Button>
+                                <!-- {= ${DataModel>Approve}} -->
                                 <Button
                                     id="_IDGenButton3"
                                     class="rejectBtn"
@@ -265,7 +267,7 @@
                                     type="Reject"
                                     press="onActionPress"
                                     width="80px"
-                                    visible="{= ${DataModel>Approve}}"
+                                    visible="false"
                                 >
                                     <customData>
                                         <core:CustomData

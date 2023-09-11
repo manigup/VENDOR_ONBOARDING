@@ -1,43 +1,43 @@
 {
-    "name": "VENDOR_ONBOARDING",
-    "version": "1.0.0",
-    "description": "A simple CAP project.",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@sap/cds": "^7",
-        "@sap/cds-hana": "^2",
-        "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
-        "@sap/hana-client": "^2.18.22",
-        "express": "^4",
-        "hdb": "^0.19.6",
-        "@sap/xssec": "^3",
-        "passport": "^0"
+  "name": "VENDOR_ONBOARDING",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+    "@sap/hana-client": "^2.18.22",
+    "express": "^4",
+    "hdb": "^0.19.6",
+    "@sap/xssec": "^3",
+    "passport": "^0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/hdi-deploy": "4.8.0",
+    "@sap/ux-specification": "^1.108.13",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-onboarding": "cds watch --open onboarding/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy VENDOR_ONBOARDING --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "cds": {
+    "requires": {
+      "db": "hana",
+      "[production]": {
+        "auth": "xsuaa"
+      }
     },
-    "devDependencies": {
-        "@cap-js/sqlite": "^1",
-        "@sap/cds-dk": "^7",
-        "@sap/hdi-deploy": "4.8.0",
-        "@sap/ux-specification": "^1.108.13",
-        "rimraf": "^3.0.2"
-    },
-    "scripts": {
-        "start": "cds-serve",
-        "watch-onboarding": "cds watch --open onboarding/webapp/index.html?sap-ui-xx-viewCache=false",
-        "undeploy": "cf undeploy VENDOR_ONBOARDING --delete-services --delete-service-keys --delete-service-brokers",
-        "build": "rimraf resources mta_archives && mbt build --mtar archive",
-        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
-    },
-    "cds": {
-        "requires": {
-            "db": "hana",
-            "[production]": {
-                "auth": "xsuaa"
-            }
-        },
-        "hana": {
-            "deploy-format": "hdbtable"
-        }
+    "hana": {
+      "deploy-format": "hdbtable"
     }
+  }
 }

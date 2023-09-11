@@ -10,10 +10,8 @@ formatter = {
         }
     },
     formatDate: function (oDate) {
-        if (oDate && oDate !== "00000000") {
-            return sap.ui.core.format.DateFormat.getDateInstance({
-                pattern: "MMM dd, yyyy"
-            }).format(new Date(oDate.substring(4, 6) + "/" + oDate.substring(6, 8) + "/" + oDate.substring(0, 4)));
+        if (oDate) {
+            return oDate.toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" });
         } else {
             return "";
         }
@@ -29,20 +27,17 @@ formatter = {
         var text = "";
         if (status) {
             switch (status) {
-                case "PAP":
-                    text = "Partially Approved";
-                    break;
                 case "SFA":
                     text = "Sent for Approval";
+                    break;
+                case "PAP":
+                    text = "Partially Approved";
                     break;
                 case "SBS":
                     text = "Submited by Supplier";
                     break;
                 case "SBB":
                     text = "Submitted by Buyer";
-                    break;
-                case "SBF":
-                    text = "Submitted by Finance";
                     break;
                 case "SCC":
                     text = "Supplier Code Created";
@@ -56,14 +51,38 @@ formatter = {
                 case "FRE-ROUTE":
                     text = "Re-Routed to Finance";
                     break;
+                case "SAQ_SENT":
+                    text = "SAQ Sent to Supplier";
+                    break;
+                case "SAQ_SUBMIT":
+                    text = "SAQ Submitted by Supplier";
+                    break;
+                case "SAQ_ROUTES":
+                    text = "SAQ Submitted by Supplier";
+                    break;
+                case "SAQ_DRAFT":
+                    text = "SAQ Draft Submitted";
+                    break;
+                case "SAQ_ROUTEB":
+                    text = "SAQ Re ROUTE by BUYER";
+                    break;
+                case "SAQ_APROVE":
+                    text = "SPE Approval Pending";
+                    break;
                 case "CREATED":
-                    text = "Request Initiated";
+                    text = "Created";
+                    break;
+                case "INITIATED":
+                    text = "Initiated";
                     break;
                 case "APPROVED":
                     text = "Approved";
                     break;
                 case "REJECTED":
                     text = "Rejected";
+                    break;
+                case "REROUTE":
+                    text = "Re Routed";
                     break;
             }
         }
@@ -73,28 +92,21 @@ formatter = {
         var state = "None";
         if (status) {
             switch (status) {
-                case "SBS":
-                case "SBB":
-                case "SBF":
+                case "CREATED":
                 case "INITIATED":
+                case "SBS":
                 case "SAQ_SENT":
                     state = "Information";
                     break;
                 case "PAP":
-                case "SFA":
                 case "SAQ_APROVE":
-                case "BRE-ROUTE":
-                case "SRE-ROUTE":
-                case "FRE-ROUTE":
+                case "REROUTE":
                     state = "Warning";
                     break;
                 case "REJECTED":
                     state = "Error";
                     break;
-                case "SCC":
-                    state = "Success";
-                    break;
-                default: state = "None";
+                default: state = "Success";
                     break;
             }
         }

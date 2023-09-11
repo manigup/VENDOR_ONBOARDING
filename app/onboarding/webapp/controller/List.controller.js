@@ -31,27 +31,27 @@ sap.ui.define([
             getData: function () {
                 BusyIndicator.show();
                 setTimeout(() => {
-                    var requestData = this.getView().getModel("request").getData();
-                    this.getView().getModel().read("/EmpRoleSet", {
-                        success: (data) => {
-                            var access;
-                            for (var i = 0; i < data.results.length; i++) {
-                                access = data.results[i].Access.toUpperCase();
-                                if (access === "BUYER") {
-                                    requestData.buyer = true;
-                                } else if (access === "FINANCE") {
-                                    requestData.finance = true;
-                                } else if (access === "LEGAL") {
-                                    requestData.legal = true;
-                                } else if (access === "VALIDITY RESET") {
-                                    requestData.reset = true;
-                                }
-                            }
-                            this.getView().getModel("request").refresh(true);
-                        },
-                        error: () => BusyIndicator.hide()
-                    });
-                    this.getView().getModel().read("/VenOnboardHeaderSet", {
+                    // var requestData = this.getView().getModel("request").getData();
+                    // this.getView().getModel().read("/EmpRoleSet", {
+                    //     success: (data) => {
+                    //         var access;
+                    //         for (var i = 0; i < data.results.length; i++) {
+                    //             access = data.results[i].Access.toUpperCase();
+                    //             if (access === "BUYER") {
+                    //                 requestData.buyer = true;
+                    //             } else if (access === "FINANCE") {
+                    //                 requestData.finance = true;
+                    //             } else if (access === "LEGAL") {
+                    //                 requestData.legal = true;
+                    //             } else if (access === "VALIDITY RESET") {
+                    //                 requestData.reset = true;
+                    //             }
+                    //         }
+                    //         this.getView().getModel("request").refresh(true);
+                    //     },
+                    //     error: () => BusyIndicator.hide()
+                    // });
+                    this.getView().getModel().read("/VenOnboard", {
                         success: (data) => {
                             data.results.map(item => {
                                 item.StatusText = formatter.formatStatus(item.Status);
@@ -119,8 +119,10 @@ sap.ui.define([
             onCreateSubmit: function (evt) {
                 if (this.validateFields()) {
                     BusyIndicator.show();
+                    const payload = sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData();
+                    payload.Vendor = this.generateVendorNo();
                     setTimeout(() => {
-                        this.getView().getModel().create("/VenOnboardHeaderSet", sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData(), {
+                        this.getView().getModel().create("/VenOnboard", payload, {
                             success: (sData) => {
                                 BusyIndicator.hide();
                                 MessageBox.success("Vendor Creation Request " + sData.Vendor + " created successfully", {

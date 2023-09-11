@@ -104,9 +104,6 @@ sap.ui.define([
                     case "sap.m.TextArea":
                         this.showError(oControl, "value", oControl.getValue());
                         break;
-                    case "sap.ui.unified.FileUploader":
-                        this.showErrorAttach(oControl, oControl.getValue());
-                        break;
                 }
             });
             if (this.validateResults.every(state => state === true)) return true;
@@ -130,20 +127,13 @@ sap.ui.define([
             }
         },
 
-        showErrorAttach: function (control, val) {
-            if (control.getVisible() && !val) {
-                try {
-                    var oBinding = control.getBinding(binding);
-                    oBinding.getType().validateValue(val);
-                    control.setValueState("None");
-                    this.validateResults.push(true);
-                } catch (oException) {
-                    control.setValueState("Error");
-                    this.validateResults.push(false);
-                }
-            } else {
-                control.setValueState("None");
+        generateVendorNo: function () {
+            let vendor = "7800000000";
+            const data = this.getView().getModel("DataModel").getData();
+            if (data.length > 0) {
+                vendor = (parseInt(data[data.length - 1].Vendor) + 1).toString();
             }
+            return vendor;
         }
     });
 });
