@@ -1,7 +1,11 @@
 sap.ui.define([
     "./BaseController",
     "sap/m/MessageBox",
+<<<<<<< HEAD
     "sap/m/MessageToast",
+=======
+    "sap/m/Link",
+>>>>>>> 2b2a6353c4c7ca9c576870625950a257d28698d5
     "sap/ui/model/Filter",
     "sap/ui/core/BusyIndicator",
     "sap/ui/model/json/JSONModel"
@@ -9,7 +13,11 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
+<<<<<<< HEAD
     function (BaseController, MessageBox, MessageToast, Filter, BusyIndicator, JSONModel) {
+=======
+    function (BaseController, MessageBox, Link, Filter, BusyIndicator, JSONModel) {
+>>>>>>> 2b2a6353c4c7ca9c576870625950a257d28698d5
         "use strict";
 
         return BaseController.extend("sp.fiori.onboarding.controller.List", {
@@ -120,18 +128,22 @@ sap.ui.define([
             onCreateSubmit: function () {
                 if (this.validateFields()) {
                     BusyIndicator.show();
+                    var oLink = new sap.m.Link({ text: 'Supplier Form', press: [this.handleLinkPress, this]});
                     const payload = sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData();
                     payload.Vendor = this.generateVendorNo();
                     setTimeout(() => {
                         this.getView().getModel().create("/VenOnboard", payload, {
                             success: (sData) => {
                                 BusyIndicator.hide();
+                                
                                 MessageBox.success("Vendor Creation Request " + sData.Vendor + " created successfully", {
                                     onClose: () => {
                                         sap.ui.getCore().byId("createDialog").destroy();
                                         this.getData();
+                                        MessageBox.success(oLink);
                                     }
                                 });
+                                
                             },
                             error: () => BusyIndicator.hide()
                         });
@@ -139,6 +151,11 @@ sap.ui.define([
                 } else {
                     MessageBox.error("Please correct all the error's to proceed");
                 }
+            },
+
+            handleLinkPress: function (evt) {
+                var sServiceUrl =  "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html" ;
+				window.open(sServiceUrl);
             },
 
             onVendorPress: function (evt) {

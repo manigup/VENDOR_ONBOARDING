@@ -1,0 +1,332 @@
+<mvc:View controllerName="sp.fiori.supplierform.controller.View1"
+    xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified" class="sapUiSizeCompact">
+    <Page>
+        <customHeader>
+			<OverflowToolbar>
+				<Image src="images/logo.png" height="90%"/>
+				<ToolbarSpacer/>
+				<Title text="Vendor Creation Form"/>
+				<ToolbarSpacer/>
+				<FlexBox>
+					<core:Icon src="sap-icon://fob-watch" tooltip="watch" color="red" size="1.1rem"/>
+					<Label design="Bold" text="Remaining Time -" class="size5 sapUiTinyMarginEnd sapUiTinyMarginBegin"/>
+					<Label design="Bold" text="{request>/time}" class="size5"/>
+				</FlexBox>
+				<ToolbarSpacer/>
+				<Button id="saveBtnId" text="Draft" tooltip="Save as Draft" type="Ghost" press="onSavePress"/>
+				<Button id="submitBtnId" text="Submit" tooltip="Submit" type="Emphasized" press="onSubmitPress"/>
+			</OverflowToolbar>
+		</customHeader>
+		<content>
+			<Panel headerText="General Data" expandable="true" expanded="true">
+				<f:SimpleForm editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
+					<f:content>
+						<Label design="Bold" text="Vendor Type" required="true"/>
+						<RadioButtonGroup id="venTypeRbId" columns="3" enabled="false">
+							<RadioButton text="Domestic"/>
+							<RadioButton text="Import"/>
+							<RadioButton text="Employee"/>
+						</RadioButtonGroup>
+						<Label design="Bold" text="Type" required="true"/>
+						<RadioButtonGroup id="typeRbId" columns="2" enabled="true" select="onRadioButtonSelect">
+							<RadioButton text="Material"/>
+							<RadioButton text="Service"/>
+						</RadioButtonGroup>
+						<Label design="Bold" text="Vendor Name" required="true"/>
+						<Input id="venNameId" change="onVenNameChange" maxLength="40" value="{path:'create>/VenName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"/>
+						<Label design="Bold" text="Vendor Name 2"/>
+						<Input id="venName2Id" maxLength="40" value="{path:'create>/VenName2',type:'sap.ui.model.type.String'}"/>
+						<Label design="Bold" text="Vendor Name 3"/>
+						<Input id="venName3Id" maxLength="40" value="{path:'create>/VenName3',type:'sap.ui.model.type.String'}"/>
+						<Label design="Bold" text="Vendor Mobile Number" required="true"/>
+						<Input id="mobileId" value="{path:'create>/Mobile',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"/>
+						<Label design="Bold" text="Program/Purpose" required="true"/>
+						<Input id="purposeId" value="{path:'create>/Purpose',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"/>
+						<Label design="Bold" text="Constitution of Business" required="true"/>
+						<Select id="constId" forceSelection="false" selectedKey="{create>/Consitution}" items="{/ConstitutionHelpSet}">
+							<core:Item key="{Constitution}" text="{Constitution}"/>
+						</Select>
+						<Label design="Bold" text="Address 1" required="true"/>
+						<Input id="address1Id" maxLength="60" value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"/>
+						<Label design="Bold" text="Address 2" required="true"/>
+						<Input id="address2Id" maxLength="40" value="{path:'create>/Address2',type:'sap.ui.model.type.String',constraints:{minLength:1, maxLength:40}}"/>
+						<Label design="Bold" text="Address 3"/>
+						<Input value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}" maxLength="40"/>
+						<Label design="Bold" text="City"/>
+						<Input maxLength="20" value="{create>/City}"/>
+						<Label design="Bold" text="Country" required="true"/>
+						<ComboBox id="countryId" items="{path:'/CountryHelpSet', length:260}" selectedKey="{create>/Country}" change="countryHelpSelect">
+							<core:Item key="{Land1}" text="{Landx}"/>
+						</ComboBox>
+						<Label design="Bold" text="State" required="true"/>
+						<!-- enabled="{= ${create>/Country} !== ''}" -->
+						<Select id="stateId" forceSelection="false" selectedKey="{create>/Region}" items="{/StateHelpSet}">
+							<core:Item key="{Region}" text="{Bezei}"/>
+						</Select>
+						<Label design="Bold" text="District"/>
+						<Input value="{create>/District}"/>
+						<Label design="Bold" text="City Postal Code" required="true"/>
+						<Input id="pincodeId" type="Number" value="{path:'create>/Pincode',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:7}}"/>
+						<Label design="Bold" text="Contact Person Name" required="true"/>
+						<Input id="contactPersonId" value="{path:'create>/ContactPerson',type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
+						<Label design="Bold" text="Contact Person Mobile Number" required="true"/>
+						<Input id="contactPersonMobileId" value="{path:'create>/AlternateMobile',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"/>
+						<Label design="Bold" text="Email" required="true"/>
+						<Input enabled="false" value="{path:'create>/Email'}" type="Email"/>
+						<Label design="Bold" text="Landline Number"/>
+						<Input placeholder="Number" value="{create>/Landline}"/>
+						<Input placeholder="Extension" value="{create>/Extension}"/>
+						<Label design="Bold" text="Fax"/>
+						<Input value="{create>/Fax}"/>
+						<Label design="Bold" text="Website"/>
+						<Input value="{create>/Website}"/>
+						<Label design="Bold" text="Remarks"/>
+						<TextArea id="remarksId" value="{path:'create>/Remarks',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"/>
+						<Label design="Bold" text="ITIL Comments"/>
+						<TextArea enabled="false" value="{create>/Comments}"/>
+					</f:content>
+				</f:SimpleForm>
+			</Panel>
+			<Panel headerText="Finance Data" expandable="true">
+				<f:SimpleForm editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
+					<f:content>
+						<Label design="Bold" text="MSME ITIL View"/>
+						<RadioButtonGroup columns="2" id="msmeItil" select="onRadioButtonSelect" visible="{= ${request>/VenSubType} === 'DM'}">
+							<RadioButton text="MSME"/>
+							<RadioButton text="Non-MSME"/>
+						</RadioButtonGroup>
+						<Label design="Bold" text="MSME Main Certificate" required="true"/>
+						<CheckBox id="msmeCert" select="onMainCertificateChange" visible="{= ${request>/VenSubType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"/>
+						<Label design="Bold" text="MSME Certificate ID" required="true"/>
+						<Select id="MsmeCertificateId" showSecondaryValues= "true" forceSelection="false" selectedKey="{create>/MsmeCertificateId}" visible="{= ${request>/VenSubType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}">
+							<core:Item key="INMED" text="Medium"/>
+							<core:Item key="INMIC" text="Micro"/>
+							<core:Item key="INSML" text="Small"/>
+						</Select>
+						<Label design="Bold" text="MSME Certification No." required="true"/>
+						<Input id="MsmeCertificateNo" value="{path:'create>/MsmeCertificateNo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}" visible="{= ${request>/VenSubType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"/>
+						<Label design="Bold" text="MSME Valid From" required="true"/>
+						<DatePicker id="MsmeValidFrom" value="{path:'create>/MsmeValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}" valueFormat="yyyyMMdd" visible="{= ${request>/VenSubType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"/>
+						<Label design="Bold" text="MSME Valid Up To" required="true"/>
+						<DatePicker id="MsmeValidTo" value="{create>/MsmeValidTo}" valueFormat="yyyyMMdd" visible="{= ${request>/VenSubType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"/>
+						<Label design="Bold" text="MSME Registration City" required="true"/>
+						<Input id="MsmeRegistrationCity" value="{path:'create>/MsmeRegistrationCity',type:'sap.ui.model.type.String',constraints:{minLength: 1}}" visible="{= ${request>/VenSubType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"/>
+						<Label design="Bold" text="Upload MSME Certificate" required="true"/>
+						<u:FileUploader id="msmefileUploader" sendXHR="true" useMultipart="false" uploadComplete="onUploadComplete" buttonText="Browse" fileSizeExceed="onFileSizeExceded" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" change="onFileUploaderChange" maximumFileSize="5MB" visible="{= ${request>/VenSubType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}">
+							<u:customData>
+								<core:CustomData key="UMD"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link id="msmefileUploadLink" text="{create>/MsmeDeclarationName}" press="onAttachmentGet" visible="{= ${request>/VenSubType} === 'DM' &amp;&amp; ${create>/MsmeDeclarationName} !== ''}">
+							<customData>
+								<core:CustomData key="UMD"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="PAN Number" required="true"/>
+						<!-- <Input id="panId" placeholder="Enter PAN Number (Eg: ABCDE1234Z)" change="onInputChange($event,'Pan')" value="{path:'create>/Pan',type:'sap.ui.model.type.String',constraints:{minLength: 10,maxLength:10}}" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsDom'}"/> -->
+						<Input id="panId" placeholder="Enter PAN Number (Eg: ABCDE1234Z)" change="onInputChange($event,'Pan')" value="{path:'create>/Pan',type: '.customPanType'}" visible="{= ${request>/VenSubType} === 'DM' || ${request>/VenSubType} === 'EM'}"/>
+						<Label design="Bold" text="Upload PAN" required="true"/>
+						<u:FileUploader id="panfileUploader" sendXHR="true" useMultipart="false" uploadComplete="onUploadComplete" buttonText="Browse" fileSizeExceed="onFileSizeExceded" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" change="onFileUploaderChange" maximumFileSize="5MB" visible="{= ${request>/VenSubType} === 'DM' || ${request>/VenSubType} === 'EM'}">
+							<u:customData>
+								<core:CustomData key="PAN"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link id="panfileUploadLink" text="{create>/PanName}" press="onAttachmentGet" visible="{= ${request>/VenSubType} === 'DM' || ${request>/VenSubType} === 'EM' &amp;&amp; ${create>/PanName} !== ''}">
+							<customData>
+								<core:CustomData key="PAN"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="TAN Number"/>
+						<Input id="tanId" placeholder="Enter TAN Number" value="{path:'create>/Tan',type : 'sap.ui.model.type.String', constraints : { minLength: 1, maxLength: 10} }" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsDom'}"/>
+						<Label design="Bold" text="GST Applicable" required="true"/>
+						<RadioButtonGroup id="gstRbId" columns="2" select="onRadioButtonSelect" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsDom'}">
+							<RadioButton text="Yes"/>
+							<RadioButton text="No"/>
+						</RadioButtonGroup>
+						<Label design="Bold" text="GSTIN" required="true"/>
+						<!-- <Input id="gstId" type="Text" placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)" change="onInputChange($event,'GstNumber')" value="{path:'create>/GstNumber',type:'sap.ui.model.type.String',constraints:{minLength: 15,maxLength:15}}" visible="{= ${create>/GstApplicable} === 'YES'}"/> -->
+						<Input id="gstId" placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)" change="onInputChange($event,'GstNumber')" value="{path:'create>/GstNumber',type: '.customGstType'}" visible="{= ${create>/GstApplicable} === 'YES'}"/>
+						<Label design="Bold" text="Upload GSTIN" required="true"/>
+						<u:FileUploader id="gstfileUploader" sendXHR="true" useMultipart="false" uploadComplete="onUploadComplete" buttonText="Browse" fileSizeExceed="onFileSizeExceded" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" change="onFileUploaderChange" maximumFileSize="5MB" visible="{= ${create>/GstApplicable} === 'YES'}">
+							<u:customData>
+								<core:CustomData key="GA"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link id="gstfileUploadLink" text="{create>/GstFileName}" press="onAttachmentGet" visible="{= ${create>/GstApplicable} === 'YES' &amp;&amp; ${create>/GstFileName} !== ''}">
+							<customData>
+								<core:CustomData key="GA"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Currency" required="true"/>
+						<ComboBox id="currId" selectedKey="{create>/Currency}" items="{path:'/CurrencySet',length:250}" showSecondaryValues="true" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsInt'}">
+							<core:ListItem key="{Waers}" text="{Ktext}" additionalText="{Waers}"/>
+						</ComboBox>
+						<Label design="Bold" text="VAT ID/EORI Number"/>
+						<Input placeholder="Enter VAT ID/EORI Number" value="{create>/VAT}" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsInt'}"/>
+						<Label design="Bold" text="Import/Export Code"/>
+						<Input placeholder="Enter Import/Export Code" value="{create>/ImportExportCode}"/>
+						<Label design="Bold" text="Bank Name" required="true"/>
+						<Input id="bankNameId" value="{path:'create>/BankName',type:'sap.ui.model.type.String',constraints :{minLength:1}}"/>
+						<Label design="Bold" text="Account No." required="true"/>
+						<Input id="accNoId" maxLength="18" value="{path:'create>/AccountNo',type:'.customAccountType',constraints:{minLength:1,maxLength:18}}"/>
+						<Label design="Bold" text="Beneficiary Name" required="true"/>
+						<Input id="benNameId" enabled="false" value="{path:'create>/BeneficiaryName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
+						<Label design="Bold" text="Beneficiary A/C Type" required="true"/>
+						<Select id="benAccTypeId" forceSelection="false" selectedKey="{create>/AccountType}">
+							<core:Item key="SAVINGS" text="Savings"/>
+							<core:Item key="CURRENT" text="Current"/>
+						</Select>
+						<Label design="Bold" text="IFSC/Swift Code" required="true"/>
+						<Input id="ifscId" value="{ path : 'create>/IFSCCode', type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
+						<Label design="Bold" text="Branch Name" required="true"/>
+						<Input id="branchNameId" value="{path:'create>/BranchName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
+						<Label design="Bold" text="Beneficiary Bank Location" required="true"/>
+						<Input id="benLocId" value="{path:'create>/BeneficiaryLocation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
+						<Label design="Bold" text="Cancelled Cheque &amp; Declaration" required="true"/>
+						<u:FileUploader id="canChqfileUploader" sendXHR="true" useMultipart="false" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileSizeExceed="onFileSizeExceded" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse">
+							<u:customData>
+								<core:CustomData key="CHQ"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link id="canChqfileUploadLink" text="{create>/CancelledCheque}" visible="{= ${create>/CancelledCheque} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="CHQ"/>
+							</customData>
+						</Link>
+					</f:content>
+				</f:SimpleForm>
+			</Panel>
+			<Panel headerText="Attachments" expandable="true">
+				<f:SimpleForm editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
+					<f:content>
+						<Label design="Bold" text="New Vendor Quotation" required="{= ${request>/VenSubType} === 'DM' || ${request>/VenSubType} === 'IP'}"/>
+						<u:FileUploader id="quotfileUploader" sendXHR="true" useMultipart="false" change="onFileUploaderChange" uploadComplete="onUploadComplete" buttonText="Browse" fileSizeExceed="onFileSizeExceded" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB">
+							<u:customData>
+								<core:CustomData key="NVQ"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/NewVendorQuotationName}" visible="{= ${create>/NewVendorQuotationName} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="NVQ"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="NDA Attachment"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse">
+							<u:customData>
+								<core:CustomData key="NDA"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/NdaName}" visible="{= ${create>/NdaName} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="NDA"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Code of Conduct" required="{= ${request>/VenSubType} === 'DM' || ${request>/VenSubType} === 'IP'}"/>
+						<u:FileUploader id="cocFileUploader" sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse">
+							<u:customData>
+								<core:CustomData key="COC"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/CocName}" visible="{= ${create>/CocName} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="COC"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Agreement Copy"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse">
+							<u:customData>
+								<core:CustomData key="AC"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/AgreementName}" visible="{= ${create>/AgreementName} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="AC"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Project Appropriation Ref"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse">
+							<u:customData>
+								<core:CustomData key="PAR"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/ProjectAppropriationName}" visible="{= ${create>/ProjectAppropriationName} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="PAR"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Related Email Exchanges"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse">
+							<u:customData>
+								<core:CustomData key="REE"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/RelatedEmailName}" visible="{= ${create>/RelatedEmailName} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="REE"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Tax Residency Certificate"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsInt'}">
+							<u:customData>
+								<core:CustomData key="TRC"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/TaxResidencyCertificate}" visible="{= ${create>/TaxResidencyCertificate} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="TRC"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Form 10F"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsInt'}">
+							<u:customData>
+								<core:CustomData key="F10"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/Form10F}" visible="{= ${create>/Form10F} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="F10"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="No PE Establishment Certificate"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsInt'}">
+							<u:customData>
+								<core:CustomData key="PEC"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/EstablishmentCertificate}" visible="{= ${create>/EstablishmentCertificate} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="PEC"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Lower Deduction Certificate"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsInt'}">
+							<u:customData>
+								<core:CustomData key="LDC"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/DeductionCertificate}" visible="{= ${create>/DeductionCertificate} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="LDC"/>
+							</customData>
+						</Link>
+						<Label design="Bold" text="Other Document"/>
+						<u:FileUploader sendXHR="true" useMultipart="false" fileSizeExceed="onFileSizeExceded" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse" visible="{path:'request>/VenSubType',formatter:'formatter.visibleFieldsInt'}">
+							<u:customData>
+								<core:CustomData key="OTH"/>
+							</u:customData>
+						</u:FileUploader>
+						<Link text="{create>/OtherDocument}" tooltip="" visible="{= ${create>/OtherDocument} !== ''}" press="onAttachmentGet">
+							<customData>
+								<core:CustomData key="OTH"/>
+							</customData>
+						</Link>
+					</f:content>
+				</f:SimpleForm>
+			</Panel>
+		</content>
+    </Page>
+</mvc:View>
