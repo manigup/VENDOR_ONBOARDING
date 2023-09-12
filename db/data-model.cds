@@ -12,3 +12,16 @@ entity VenOnboardHeader : managed {
       VendorMail : String;
       Status     : String;
 }
+
+entity Attachments : managed {
+  key Vendor    : String(10);
+  key ObjectId  : String;
+
+      @Core.MediaType                  : Mediatype
+      @Core.ContentDisposition.Filename: Filename
+      Data      : LargeBinary;
+
+      @Core.IsMediaType
+      Mediatype : String;
+      Filename  : String;
+}

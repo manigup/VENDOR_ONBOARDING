@@ -1,6 +1,7 @@
 sap.ui.define([
     "./BaseController",
     "sap/m/MessageBox",
+    "sap/m/MessageToast",
     "sap/ui/model/Filter",
     "sap/ui/core/BusyIndicator",
     "sap/ui/model/json/JSONModel"
@@ -8,7 +9,7 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (BaseController, MessageBox, Filter, BusyIndicator, JSONModel) {
+    function (BaseController, MessageBox, MessageToast, Filter, BusyIndicator, JSONModel) {
         "use strict";
 
         return BaseController.extend("sp.fiori.onboarding.controller.List", {
@@ -154,16 +155,15 @@ sap.ui.define([
                 var source = evt.getSource();
                 this.vendor = source.getBindingContext("DataModel").getProperty("Vendor");
                 setTimeout(() => {
-                    this.getView().getModel().read("/BuyerFormSet", {
+                    this.getView().getModel().read("/Attachments", {
                         filters: [new Filter("Vendor", "EQ", this.vendor)],
                         success: (data) => {
-                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/BuyerFormSet(Vendor='"
-                                + item.Vendor + "',Sernr='" + item.Sernr + "')/$value");
+                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(Vendor='" + item.Vendor + "',ObjectId='" + item.ObjectId + "')/$value");
                             var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.Attachment", this);
                             sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
                             this.getView().addDependent(popOver);
                             popOver.openBy(source);
-                            sap.ui.getCore().byId("attachment").setUploadUrl(this.getView().getModel().sServiceUrl + "/BuyerFormSet");
+                            sap.ui.getCore().byId("attachment").setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
                             BusyIndicator.hide();
                         },
                         error: () => BusyIndicator.hide()
@@ -171,20 +171,37 @@ sap.ui.define([
                 }, 1000);
             },
 
-            onAttachmentUploadComplete: function () {
+            onBeforeUploadStartsAttach: function (evt) {
+                BusyIndicator.show();
+                evt.getParameters().addHeaderParameter(new sap.m.UploadCollectionParameter({
+                    name: "slug",
+                    value: this.vendor + "/" + evt.getParameters().fileName
+                }));
+            },
+
+            getAttachments: function () {
                 BusyIndicator.show();
                 setTimeout(() => {
-                    this.getView().getModel().read("/BuyerFormSet", {
+                    this.getView().getModel().read("/Attachments", {
                         filters: [new Filter("Vendor", "EQ", this.vendor)],
                         success: (data) => {
-                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/BuyerFormSet(Vendor='"
-                                + item.Vendor + "',Sernr='" + item.Sernr + "')/$value");
+                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(Vendor='" + item.Vendor + "',ObjectId='" + item.ObjectId + "')/$value");
                             sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
                             BusyIndicator.hide();
                         },
                         error: () => BusyIndicator.hide()
                     });
                 }, 1000);
+            },
+
+            onAttachmentUploadComplete: function (evt) {
+                if (evt.getParameter("files")[0].status == 201) {
+                    MessageToast.show("File " + evt.getParameter("files")[0].fileName + " Attached successfully");
+                    this.getAttachments();
+                } else {
+                    MessageBox.error(JSON.parse(evt.getParameter("files")[0].responseRaw).error.message.value);
+                    BusyIndicator.show();
+                }
             },
 
             onAttachmentDeletePress: function (evt) {
@@ -195,11 +212,11 @@ sap.ui.define([
                         if (action === "YES") {
                             BusyIndicator.show();
                             setTimeout(() => {
-                                this.getView().getModel().remove("/BuyerFormSet(Vendor='" + obj.Vendor + "',Sernr='" + obj.Sernr + "')", {
+                                this.getView().getModel().remove("/Attachments(Vendor='" + obj.Vendor + "',ObjectId='" + obj.ObjectId + "')", {
                                     success: () => {
                                         BusyIndicator.hide();
                                         MessageBox.success(obj.Filename + " deleted successfully", {
-                                            onClose: () => this.onAttachmentUploadComplete()
+                                            onClose: () => this.getAttachments()
                                         });
                                     },
                                     error: () => BusyIndicator.hide()

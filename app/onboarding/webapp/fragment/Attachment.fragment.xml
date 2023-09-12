@@ -14,13 +14,11 @@
         <UploadCollection
             id="attachment"
             items="{AttachModel>/results}"
-            fileType="pdf,xlsx,doc"
+            fileType="pdf,xlsx,doc,png,jpeg,jpg"
             multiple="false"
             sameFilenameAllowed="false"
-            maximumFileSize="10"
             beforeUploadStarts="onBeforeUploadStartsAttach"
             uploadComplete="onAttachmentUploadComplete"
-            class="attachments"
         >
             <items>
                 <UploadCollectionItem
