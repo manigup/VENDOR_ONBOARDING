@@ -1,0 +1,6 @@
+<mvc:View controllerName="sp.fiori.supplierform.controller.MessagePage"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+	<MessagePage id="msgPageId" showHeader="false" text="Invalid url" icon="sap-icon://message-information" description=" "/>
+</mvc:View>
