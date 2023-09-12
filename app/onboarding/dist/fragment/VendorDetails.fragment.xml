@@ -1,0 +1,58 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Popover
+        title="Supplier - {VenModel>/Vendor}"
+        placement="Right"
+        modal="true"
+        titleAlignment="Center"
+        contentMinWidth="400px"
+        id="displayPopover"
+        afterClose="onPopOverAfterClose"
+        class="venDetails"
+    >
+        <DisplayListItem
+            id="_IDGenDisplayListItem1"
+            label="Supplier Email"
+            value="{VenModel>/VendorMail}"
+        />
+        <DisplayListItem
+            id="_IDGenDisplayListItem2"
+            label="Telephone No."
+            value="{VenModel>/Telephone}"
+        />
+        <DisplayListItem
+            id="_IDGenDisplayListItem3"
+            label="City"
+            value="{VenModel>/City}"
+        />
+        <footer>
+            <OverflowToolbar id="_IDGenOverflowToolbar1">
+                <Button
+                    id="_IDGenButton1"
+                    text="History"
+                    press="onHistoryPress"
+                />
+                <Button
+                    id="_IDGenButton2"
+                    text="More Info"
+                    press="onMoreInfoBtnPress"
+                    visible="{= ${VenModel>/Status} !== 'INITIATED'}"
+                />
+                <Button
+                    id="_IDGenButton3"
+                    text="Reset Validity"
+                    press="onResetValidityPress"
+                    visible="{= ${VenModel>/ResetValidity} === 'X' &amp;&amp; ${request>/reset} === true}"
+                />
+                <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                <Button
+                    id="_IDGenButton4"
+                    text="Close"
+                    press="onPopOverClosePress"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Popover>
+</core:FragmentDefinition>

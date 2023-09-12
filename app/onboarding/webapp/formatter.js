@@ -11,7 +11,7 @@ formatter = {
     },
     formatDate: function (oDate) {
         if (oDate) {
-            return oDate.toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" });
+            return oDate.toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
         } else {
             return "";
         }

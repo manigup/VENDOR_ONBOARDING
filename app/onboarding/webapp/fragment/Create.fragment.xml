@@ -44,11 +44,6 @@
                     key="IP"
                     text="Import"
                 />
-                <core:Item
-                    id="_IDGenItem4"
-                    key="EM"
-                    text="Employee"
-                />
             </Select>
             <Label
                 id="_IDGenLabel2"

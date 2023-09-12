@@ -116,7 +116,7 @@ sap.ui.define([
                 dialog.open();
             },
 
-            onCreateSubmit: function (evt) {
+            onCreateSubmit: function () {
                 if (this.validateFields()) {
                     BusyIndicator.show();
                     const payload = sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData();
@@ -138,6 +138,76 @@ sap.ui.define([
                 } else {
                     MessageBox.error("Please correct all the error's to proceed");
                 }
+            },
+
+            onVendorPress: function (evt) {
+                var data = evt.getSource().getBindingContext("DataModel").getObject();
+                this.vendor = data.Vendor;
+                var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
+                sap.ui.getCore().byId("displayPopover").setModel(new JSONModel(data), "VenModel");
+                this.getView().addDependent(popOver);
+                popOver.openBy(evt.getSource());
+            },
+
+            onAttachmentPress: function (evt) {
+                BusyIndicator.show();
+                var source = evt.getSource();
+                this.vendor = source.getBindingContext("DataModel").getProperty("Vendor");
+                setTimeout(() => {
+                    this.getView().getModel().read("/BuyerFormSet", {
+                        filters: [new Filter("Vendor", "EQ", this.vendor)],
+                        success: (data) => {
+                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/BuyerFormSet(Vendor='"
+                                + item.Vendor + "',Sernr='" + item.Sernr + "')/$value");
+                            var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.Attachment", this);
+                            sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+                            this.getView().addDependent(popOver);
+                            popOver.openBy(source);
+                            sap.ui.getCore().byId("attachment").setUploadUrl(this.getView().getModel().sServiceUrl + "/BuyerFormSet");
+                            BusyIndicator.hide();
+                        },
+                        error: () => BusyIndicator.hide()
+                    });
+                }, 1000);
+            },
+
+            onAttachmentUploadComplete: function () {
+                BusyIndicator.show();
+                setTimeout(() => {
+                    this.getView().getModel().read("/BuyerFormSet", {
+                        filters: [new Filter("Vendor", "EQ", this.vendor)],
+                        success: (data) => {
+                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/BuyerFormSet(Vendor='"
+                                + item.Vendor + "',Sernr='" + item.Sernr + "')/$value");
+                            sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+                            BusyIndicator.hide();
+                        },
+                        error: () => BusyIndicator.hide()
+                    });
+                }, 1000);
+            },
+
+            onAttachmentDeletePress: function (evt) {
+                var obj = evt.getSource().getBindingContext("AttachModel").getObject();
+                MessageBox.confirm("Are you sure ?", {
+                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                    onClose: action => {
+                        if (action === "YES") {
+                            BusyIndicator.show();
+                            setTimeout(() => {
+                                this.getView().getModel().remove("/BuyerFormSet(Vendor='" + obj.Vendor + "',Sernr='" + obj.Sernr + "')", {
+                                    success: () => {
+                                        BusyIndicator.hide();
+                                        MessageBox.success(obj.Filename + " deleted successfully", {
+                                            onClose: () => this.onAttachmentUploadComplete()
+                                        });
+                                    },
+                                    error: () => BusyIndicator.hide()
+                                });
+                            }, 1000);
+                        }
+                    }
+                });
             }
         });
     });

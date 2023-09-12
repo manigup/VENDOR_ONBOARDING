@@ -1,0 +1,44 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Popover
+        showHeader="false"
+        placement="Left"
+        modal="true"
+        titleAlignment="Center"
+        contentMinWidth="350px"
+        afterClose="onPopOverAfterClose"
+        id="attachPopover"
+    >
+        <UploadCollection
+            id="attachment"
+            items="{AttachModel>/results}"
+            fileType="pdf,xlsx,doc"
+            multiple="false"
+            sameFilenameAllowed="false"
+            maximumFileSize="10"
+            beforeUploadStarts="onBeforeUploadStartsAttach"
+            uploadComplete="onAttachmentUploadComplete"
+            class="attachments"
+        >
+            <items>
+                <UploadCollectionItem
+                    fileName="{AttachModel>Filename}"
+                    url="{AttachModel>Url}"
+                    visibleEdit="false"
+                    deletePress="onAttachmentDeletePress"
+                />
+            </items>
+        </UploadCollection>
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    text="Close"
+                    press="onPopOverClosePress"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Popover>
+</core:FragmentDefinition>
