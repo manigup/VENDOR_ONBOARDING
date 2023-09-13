@@ -4,6 +4,7 @@ using {managed} from '@sap/cds/common';
 
 entity VenOnboardHeader : managed {
   key Vendor     : String(10);
+  key VendorId   : UUID;
       VendorName : String;
       VendorType : String(5);
       Department : String;
@@ -14,7 +15,7 @@ entity VenOnboardHeader : managed {
 }
 
 entity Attachments : managed {
-  key Vendor    : String(10);
+  key VendorId  : String;
   key ObjectId  : String;
 
       @Core.MediaType                  : Mediatype

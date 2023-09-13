@@ -23,7 +23,7 @@
             <Table
                 id="vendorList"
                 class="sapUiContentPadding sapUiLargeMarginBottom"
-                items="{DataModel>/}"
+                items="{path : 'DataModel>/',sorter : {path : 'Vendor' ,descending : 'true'}}"
                 alternateRowColors="true"
                 sticky="ColumnHeaders,HeaderToolbar"
                 growing="true"

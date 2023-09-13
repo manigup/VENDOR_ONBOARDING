@@ -31,8 +31,8 @@
             <OverflowToolbar id="_IDGenOverflowToolbar1">
                 <Button
                     id="_IDGenButton1"
-                    text="History"
-                    press="onHistoryPress"
+                    text="Fill Supplier Form"
+                    press="onFormPress"
                 />
                 <Button
                     id="_IDGenButton2"

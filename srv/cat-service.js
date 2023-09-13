@@ -26,7 +26,7 @@ module.exports = cds.service.impl(async function () {
         const connJwtToken = await _fetchJwtToken(sdmCredentials.url, sdmCredentials.clientid, sdmCredentials.clientsecret);
 
         // Creating dms folder
-        await _createFolder(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.Vendor);
+        await _createFolder(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId);
     });
 
     this.before("CREATE", 'Attachments', async (req) => {
@@ -36,7 +36,7 @@ module.exports = cds.service.impl(async function () {
         const connJwtToken = await _fetchJwtToken(sdmCredentials.url, sdmCredentials.clientid, sdmCredentials.clientsecret);
 
         req.data.ObjectId = await _uploadAttachment(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, reqData[0], reqData[1]);
-        req.data.Vendor = reqData[0];
+        req.data.VendorId = reqData[0];
         req.data.Filename = reqData[1];
     });
 
@@ -44,7 +44,7 @@ module.exports = cds.service.impl(async function () {
 
         const connJwtToken = await _fetchJwtToken(sdmCredentials.url, sdmCredentials.clientid, sdmCredentials.clientsecret);
 
-        await _deleteAttachment(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.Vendor, req.data.ObjectId);
+        await _deleteAttachment(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId, req.data.ObjectId);
     });
 });
 
@@ -68,14 +68,14 @@ const _fetchJwtToken = async function (oauthUrl, oauthClient, oauthSecret) {
 }
 
 // create a new folder for every vendor & add their respective attachments in that folder
-const _createFolder = async function (sdmUrl, jwtToken, repositoryId, forlderName) {
+const _createFolder = async function (sdmUrl, jwtToken, repositoryId, folderName) {
     return new Promise((resolve, reject) => {
         const folderCreateURL = sdmUrl + "browser/" + repositoryId + "/root";
 
         const formData = new FormData();
         formData.append("cmisaction", "createFolder");
         formData.append("propertyId[0]", "cmis:name");
-        formData.append("propertyValue[0]", forlderName);
+        formData.append("propertyValue[0]", folderName);
         formData.append("propertyId[1]", "cmis:objectTypeId");
         formData.append("propertyValue[1]", "cmis:folder");
         formData.append("succinct", 'true');
