@@ -128,6 +128,7 @@
                 },
                 "MessagePage": {
                     "viewType": "XML",
+                    "viewId": "MessagePage",
                     "viewName": "MessagePage"
                 }
             }

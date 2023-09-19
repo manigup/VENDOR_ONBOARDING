@@ -123,6 +123,8 @@ sap.ui.define([
                     BusyIndicator.show();
                     const payload = sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData();
                     payload.Vendor = this.generateVendorNo();
+                    payload.VenFrom = new Date();
+                    payload.VenValidTo = this.changeDate(payload.VenFrom,7,"add");
                     setTimeout(() => {
                         this.getView().getModel().create("/VenOnboard", payload, {
                             success: (sData) => {
