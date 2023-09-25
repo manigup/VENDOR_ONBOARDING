@@ -1,27 +1,28 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageBox",
-	'sap/ui/core/BusyIndicator',
-	'sap/ui/model/json/JSONModel',
-	"sap/m/Dialog",
-	"sap/m/DialogType",
-	"sap/m/Button",
-	"sap/m/ButtonType",
-	"sap/m/Input",
-	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator",
-	"sap/ui/model/SimpleType",
-	"sap/ui/model/ValidateException"
+    'sap/ui/core/BusyIndicator',
+    'sap/ui/model/json/JSONModel',
+    "sap/m/Dialog",
+    "sap/m/DialogType",
+    "sap/m/Button",
+    "sap/m/ButtonType",
+    "sap/m/Input",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+    "sap/ui/model/SimpleType",
+    "sap/ui/model/ValidateException"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller,MessageBox, BusyIndicator, JSONModel, Dialog, DialogType, Button, ButtonType, Input, Filter, FilterOperator, SimpleType, ValidateException) {
+    function (Controller, MessageBox, BusyIndicator, JSONModel, Dialog, DialogType, Button, ButtonType, Input, Filter, FilterOperator, SimpleType, ValidateException) {
         "use strict";
 
         return Controller.extend("sp.fiori.supplierform.controller.View1", {
             onInit: function () {
                 sap.ui.getCore().getMessageManager().registerObject(this.getView(), true);
+
 			this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
 			this.router.attachRouteMatched(this.handleRouteMatched, this);
 			this.createModel = new JSONModel({
@@ -74,108 +75,115 @@ sap.ui.define([
 			this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
             this.getView().byId("countryId").attachBrowserEvent("click", this.loadCountries.bind(this));
+
             },
             handleRouteMatched: function (oEvent) {
                 if (oEvent.getParameter("name") !== "RouteView1") {
                     return;
                 }
-    
-                 var requestData = this.getView().getModel("request").getData();
-    
                 this.id = jQuery.sap.getUriParameters().get("id");
-               // BusyIndicator.show();
-                setTimeout(() => {
-                    this.getView().getModel().read("/VendorFormSet(Reqnr='" + this.id + "',PropertyName=' ')", {
-                        success: (data) => {
-                            if (requestData.VenSubType === "DM") {
-                                if (!data.GstApplicable) {
-                                    data.GstApplicable = "YES";
-                                }
-                                if (!data.MsmeValidTo) {
-                                    data.MsmeValidTo = "99991231";
-                                }
-                            }
-                            if (!data.Type) {
-                                data.Type = "MATERIAL";
-                                // data.ScopeOfSupply = "PARTS";
-                            }
-                            if (!data.MsmeItilView && data.VenSubType === "DM") {
-                                data.MsmeItilView = "MSME";
-                                this.byId("msmeItil").setSelectedIndex(0);
-                            } else if (data.MsmeItilView === "Non MSME") {
-                                this.byId("msmeItil").setSelectedIndex(1);
-                            }
-                            if (data.MsmeMainCertificate === "X") {
-                                this.byId("msmeCert").setSelected(true);
-                            }
-                            data.BeneficiaryName = data.VenName;
-                            this.createModel.setData(data);
-                            this.createModel.refresh(true);
-                            if (data.Country) {
-                                this.countryHelpSelect();
-                            }
-                            this._setRadioButtons(data);
-                            BusyIndicator.hide();
-                        },
-                        error: () => {
-                            BusyIndicator.hide();
+                BusyIndicator.show();
+
+
+                var requestData = this.getView().getModel("request").getData();
+                BusyIndicator.show();
+                this.vendorId = requestData[0].VendorId;
+
+                var payload = {
+                    VendorId: requestData[0].VendorId,
+                    VendorName: requestData[0].VendorName,
+                    VendorMail: requestData[0].VendorMail,
+                    Telephone: requestData[0].Telephone,
+                    BeneficiaryName: requestData[0].VendorName
+
+                };
+                var payloadStr = JSON.stringify(payload);
+                var sPath = `/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
+                $.ajax({
+                    type: "PUT",
+                    contentType: "application/json",
+                    url: sPath,
+                    data: payloadStr,
+
+                    context: this,
+                    success: function (data, textStatus, jqXHR) {
+                        if (jqXHR.status === 200 || jqXHR.status === 204) {
+                            console.log("Data upserted successfully.");
                         }
-                    });
-                }, 1000);
-              //  this._showRemainingTime();
+
+
+                        this.createModel.setData(data);
+                        this.createModel.refresh(true);
+                        // if (data.Country) {
+                        //     this.countryHelpSelect();
+                        // }
+                        this._setRadioButtons(data);
+                        BusyIndicator.hide();
+                    }.bind(this),
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        BusyIndicator.hide();
+                        console.log("Upsert failed: ", errorThrown);
+                    }
+                });
+
+
+                 this._showRemainingTime();
             },
+
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
-    
-                var expiryYYYY = data.Date.substring(0, 4);
-                var expiryMonth = parseInt(data.Date.substring(4, 6)) - 1;
+
+                var expiryYYYY = data[0].VenValidTo.substring(0, 4);
+                var expiryMonth = parseInt(data[0].VenValidTo.substring(5, 7)) - 1;
                 // data.Date.substring(4, 6);
-                var expiryDD = data.Date.substring(6, 8);
-                var expiryHH = data.Time.substring(0, 2);
-                var expiryMM = data.Time.substring(2, 4);
-                var expirySS = data.Time.substring(4, 6);
-                var expiry = new Date(expiryYYYY, expiryMonth, expiryDD, expiryHH, expiryMM, expirySS, "00");
-    
-                var currentYYYY = data.SDate.substring(0, 4);
-                var currentMonth = parseInt(data.SDate.substring(4, 6)) - 1;
+                var expiryDD = data[0].VenValidTo.substring(8, 10);
+                // var expiryHH = data.Time.substring(0, 2);
+                // var expiryMM = data.Time.substring(2, 4);
+                // var expirySS = data.Time.substring(4, 6);
+                var expiry = new Date(expiryYYYY, expiryMonth, expiryDD, "00");
+
+                var todayDate = new Date();
+                var today = todayDate.toJSON();
+                var currentYYYY = today.substring(0, 4);
+                var currentMonth = parseInt(today.substring(5, 7)) - 1;
                 // data.SDate.substring(4, 6); 
-                var currentDD = data.SDate.substring(6, 8);
-                var currentHH = data.STime.substring(0, 2);
-                var currentMM = data.STime.substring(2, 4);
-                var currentSS = data.STime.substring(4, 6);
-                var current = new Date(currentYYYY, currentMonth, currentDD, currentHH, currentMM, currentSS, "00");
-    
-                var x = setInterval(function () {
+                var currentDD = today.substring(8, 10);
+                // var currentHH = data.STime.substring(0, 2);
+                // var currentMM = data.STime.substring(2, 4);
+                // var currentSS = data.STime.substring(4, 6);
+                var current = new Date(currentYYYY, currentMonth, currentDD, "00");
+
+                //var x = setInterval(function () {
                     expiry = new Date(expiry - 1000);
-    
+                    current = new Date(current - 1000);
                     that.distance = expiry - current;
-    
+
                     // Time calculations for days, hours, minutes and seconds
                     var days = Math.floor(that.distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((that.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((that.distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((that.distance % (1000 * 60)) / 1000);
-    
-                    data.time = days + " Days " + hours + " hours " + minutes + " minute " + seconds + " seconds ";
+                    // var hours = Math.floor((that.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    // var minutes = Math.floor((that.distance % (1000 * 60 * 60)) / (1000 * 60));
+                    // var seconds = Math.floor((that.distance % (1000 * 60)) / 1000);
+
+                    data[0].VenTimeLeft = days + " Days ";// + hours + " hours " + minutes + " minute " + seconds + " seconds ";
                     that.getView().getModel("request").refresh(true);
                     if (that.distance < 0) {
-                        clearInterval(x);
-                        data.time = "EXPIRED";
+                       // clearInterval(x);
+                        data[0].VenTimeLeft = "EXPIRED";
                         that.getView().getModel("request").refresh(true);
                         MessageBox.error("Form expired");
                         that.getView().byId("saveBtnId").setVisible(false);
                         that.getView().byId("submitBtnId").setVisible(false);
                         return;
                     }
-    
-                }, 1000);
+
+              //  }, 1000);
             },
-    
+
             _setRadioButtons: function (data) { //Set Radio Buttons Index
-                if (data.VenSubType === "IP") {
+                if (data.VendorType === "IP") {
                     this.byId("venTypeRbId").setSelectedIndex(1);
-                } else if (data.VenSubType === "EM") {
+                } else if (data.VendorType === "EM") {
                     this.byId("venTypeRbId").setSelectedIndex(2);
                 }
                 if (data.Type === "SERVICE") {
@@ -188,13 +196,13 @@ sap.ui.define([
                     this.byId("gstRbId").setSelectedIndex(1);
                 }
             },
-    
+
             onVenNameChange: function (oEvent) { //When vendor name is selected auto populate Beneficiary Name
                 var data = this.createModel.getData();
                 data.BeneficiaryName = oEvent.getSource().getValue();
                 this.createModel.refresh(true);
             },
-    
+
             onRadioButtonSelect: function (oEvent) {
                 var data = this.createModel.getData();
                 var id = oEvent.getParameter("id").substring(oEvent.getParameter("id").lastIndexOf('-') + 1);
@@ -202,11 +210,11 @@ sap.ui.define([
                 switch (id) {
                     case "venTypeRbId":
                         if (index === 1) {
-                            data.VenSubType = "IMPORT";
+                            data.VendorType = "IMPORT";
                         } else if (index === 2) {
-                            data.VenSubType = "EMPLOYEE";
+                            data.VendorType = "EMPLOYEE";
                         } else {
-                            data.VenSubType = "DOMESTIC";
+                            data.VendorType = "DOMESTIC";
                         }
                         break;
                     case "typeRbId":
@@ -234,35 +242,33 @@ sap.ui.define([
                 this.createModel.refresh(true);
             },
             _mandatCheck: function () {
-    
+
                 var data = this.createModel.getData();
                 var requestData = this.getView().getModel("request").getData();
-    
+
                 var oView = this.getView(),
                     bValidationError = false;
                 var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"), oView.byId("purposeId"),
-                oView.byId("address1Id"), oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
-                oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
+                 oView.byId("benNameId"), 
                 oView.byId("address2Id"), oView.byId("pincodeId"), oView.byId("contactPersonId"), oView.byId("contactPersonMobileId")];
-    
+
                 if (data.GstApplicable === "YES") {
                     aInputs.push(oView.byId("gstId"))
                 }
-    
-                var aSelects = [oView.byId("constId"), oView.byId("countryId"), oView.byId("stateId"),
-                oView.byId("benAccTypeId")];
-    
+
+                var aSelects = [];
+
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
                     aInputs.push(oView.byId("MsmeValidFrom"));
                     aInputs.push(oView.byId("MsmeRegistrationCity"));
                     aSelects.push(oView.byId("MsmeCertificateId"));
                 }
-    
-                if (requestData.VenSubType === "IP") {
+
+                if (data.VendorType === "IP") {
                     aSelects.push(oView.byId("currId"));
                 }
-                if (requestData.VenSubType === "DM" || requestData.VenSubType === "EM") {
+                if (data.VendorType === "DM" || data.VendorType === "EM") {
                     aInputs.push(oView.byId("panId"));
                 }
                 // Check that inputs are not empty.
@@ -270,20 +276,20 @@ sap.ui.define([
                 aInputs.forEach(function (oInput) {
                     bValidationError = this._validateInput(oInput) || bValidationError;
                 }, this);
-    
+
                 aSelects.forEach(function (oInput) {
                     bValidationError = this._validateSelect(oInput, bValidationError) || bValidationError;
                 }, this);
-    
-                bValidationError = this._validateAttachments(bValidationError);
-    
+
+               // bValidationError = this._validateAttachments(bValidationError);
+
                 if (data.MsmeItilView === 'MSME' && !oView.byId("msmeCert").getSelected()) {
                     oView.byId("msmeCert").setValueState("Error");
                     bValidationError = true;
                 }
                 return bValidationError;
             },
-    
+
             _validateInput: function (oInput) {
                 var bValidationError, oBinding = oInput.getBinding("value");
                 try {
@@ -297,7 +303,9 @@ sap.ui.define([
                 return bValidationError;
             },
 
-	loadCountries: function() {
+
+
+            loadCountries: function () {
                 var oComboBox = this.getView().byId("countryId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/Country";
@@ -321,7 +329,7 @@ sap.ui.define([
                     }
                 });
             },
-		
+
             countryHelpSelect: function (oEvent) {
                 var key = this.getView().byId("countryId").getSelectedKey();
                 this.getView().byId("stateId").getBinding("items").filter([new Filter({
@@ -330,11 +338,11 @@ sap.ui.define([
                     value1: key
                 })]);
             },
-    
+
             _validateSelect: function (oInput, bValidationError) {
                 var sValueState = "None";
                 var value = oInput.getSelectedKey();
-    
+
                 try {
                     if (!value) {
                         oBinding.getType().validateValue(oInput.getValue());
@@ -343,16 +351,16 @@ sap.ui.define([
                     sValueState = "Error";
                     bValidationError = true;
                 }
-    
+
                 oInput.setValueState(sValueState);
-    
+
                 return bValidationError;
             },
-    
+
             _validateAttachments: function (bValidationError) {
                 var data = this.createModel.getData();
-    
-                if ((data.VenSubType === "DM" || data.VenSubType === "IP")) {
+
+                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
                     if (this.byId("quotfileUploader").getValue() || data.NewVendorQuotationName) {
                         this.byId("quotfileUploader").setValueState("None");
                     } else {
@@ -360,8 +368,8 @@ sap.ui.define([
                         this.byId("quotfileUploader").setValueState("Error");
                     }
                 }
-    
-                if ((data.VenSubType === "DM" || data.VenSubType === "IP")) {
+
+                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
                     if (this.byId("cocFileUploader").getValue() || data.CocName) {
                         this.byId("cocFileUploader").setValueState("None");
                     } else {
@@ -369,15 +377,15 @@ sap.ui.define([
                         this.byId("cocFileUploader").setValueState("Error");
                     }
                 }
-    
-                if (data.VenSubType === "IP" || data.VenSubType === "EM" || data.MsmeItilView === 'Non MSME' || this.byId("msmefileUploader").getValue() || data.MsmeDeclarationName) {
+
+                if (data.VendorType === "IP" || data.VendorType === "EM" || data.MsmeItilView === 'Non MSME' || this.byId("msmefileUploader").getValue() || data.MsmeDeclarationName) {
                     this.byId("msmefileUploader").setValueState("None");
                 } else {
                     bValidationError = true;
                     this.byId("msmefileUploader").setValueState("Error");
                 }
-    
-                if ((data.VenSubType === "DM" || data.VenSubType === "EM")) {
+
+                if ((data.VendorType === "DM" || data.VendorType === "EM")) {
                     if (this.byId("panfileUploader").getValue() || data.PanName) {
                         this.byId("panfileUploader").setValueState("None");
                     } else {
@@ -385,7 +393,7 @@ sap.ui.define([
                         this.byId("panfileUploader").setValueState("Error");
                     }
                 }
-                
+
                 if (data.GstApplicable === "YES") {
                     if (this.byId("gstfileUploader").getValue() || data.GstFileName) {
                         this.byId("gstfileUploader").setValueState("None");
@@ -394,7 +402,7 @@ sap.ui.define([
                         this.byId("gstfileUploader").setValueState("Error");
                     }
                 }
-    
+
                 if (this.byId("canChqfileUploader").getValue() || data.CancelledCheque) {
                     this.byId("canChqfileUploader").setValueState("None");
                 } else {
@@ -403,17 +411,17 @@ sap.ui.define([
                 }
                 return bValidationError;
             },
-    
+
             onInputChange: function (evt, field) {
                 this.createModel.getData()[field] = evt.getParameter("newValue");
                 this.createModel.refresh;
             },
-    
+
             onSavePress: function (oEvent) { // Save as Draft is Pressed
                 var data = this.createModel.getData();
                 BusyIndicator.show();
                 setTimeout(() => {
-                    this.getView().getModel().update("/VendorFormSet(Reqnr='" + this.id + "',PropertyName=' ')", data, {
+                    this.getView().getModel().update("/VendorForm", data, {
                         headers: {
                             "x-csrf-token": this.csrf_token
                         },
@@ -429,48 +437,54 @@ sap.ui.define([
                     });
                 }, 1000);
             },
-    
+
             onSubmitPress: function (oEvent) { //When submit is pressed
                 var that = this;
                 var mandat = this._mandatCheck(); //Mandatory Check
                 if (!mandat) { //Check Mandatory fields
                     var createData = this.createModel.getData();
                     var data = this.getView().getModel("request").getData();
-    
-                    if (createData.VenSubType === "DM" && createData.GstApplicable === "YES" &&
-                        (createData.Pan !== createData.GstNumber.substr(2, 10))) {
-                        MessageBox.error("Invalid GSTIN Number. GSTIN does not matches with entered PAN No.");
-                        return;
-                    }
+
+                    // if (createData.VendorType === "DM" && createData.GstApplicable === "YES" &&
+                    //     (createData.Pan !== createData.GstNumber.substr(2, 10))) {
+                    //     MessageBox.error("Invalid GSTIN Number. GSTIN does not matches with entered PAN No.");
+                    //     return;
+                    // }
                     //Get OTP
                     BusyIndicator.show();
-                    setTimeout(() => {
-                        this.getView().getModel().read("/OTPGetSet(Reqnr='" + this.id + "')", {
-                            success: (oData) => {
-                                this.otp = oData.Otp; //OTP to match
-                                MessageBox.information("To submit the data, kindly enter the OTP received on " + data.VenMail, {
-                                    onClose: () => this._enterOTP()
-                                })
-                                BusyIndicator.hide();
-                            },
-                            error: () => {
-                                BusyIndicator.hide();
-                            }
-                        });
-                    }, 1000);
+                    this.otp = this.getOTP();
+                    MessageBox.information("To submit the data, kindly enter the OTP received " + this.otp, {
+                        onClose: () => this._enterOTP()
+                    });
+                    BusyIndicator.hide();
+                    // setTimeout(() => {
+                    //     this.getView().getModel().read("/OTPGetSet(Reqnr='" + this.id + "')", {
+                    //         success: (oData) => {
+                    //             this.otp = oData.Otp; //OTP to match
+                    //             MessageBox.information("To submit the data, kindly enter the OTP received on " + data.VenMail, {
+                    //                 onClose: () => this._enterOTP()
+                    //             })
+                    //             BusyIndicator.hide();
+                    //         },
+                    //         error: () => {
+                    //             BusyIndicator.hide();
+                    //         }
+                    //     });
+                    // }, 1000);
                 } else {
                     MessageBox.information("Kindly fill all the required details");
                 }
             },
-    
+
             _enterOTP: function () {
                 var that = this;
                 var core = sap.ui.getCore();
                 var data = this.createModel.getData();
+                var requestData = this.getView().getModel("request").getData();
                 if (!this.oSubmitDialog) {
                     this.oSubmitDialog = new Dialog({
                         type: DialogType.Message,
-                        title: "Enter the OTP Received on your Email",
+                        title: "Enter the OTP Received ",
                         content: [
                             new Input("submissionNote", {
                                 width: "100%",
@@ -491,19 +505,32 @@ sap.ui.define([
                                     if (enterOtp === this.otp) {
                                         BusyIndicator.show();
                                         data.Otp = enterOtp;
-                                        setTimeout(() => {
-                                            this.getView().getModel().update("/VendorFormSet(Reqnr='" + this.id + "',PropertyName=' ')", data, {
-                                                success: () => {
-                                                    BusyIndicator.hide();
+                                        var payloadStr = JSON.stringify(data);
+                                        var sPath = `/odata/v4/catalog/VendorForm('${data.VendorId}')`;
+                                        $.ajax({
+                                            type: "PUT",
+                                            contentType: "application/json",
+                                            url: sPath,
+                                            data: payloadStr,
+
+                                            context: this,
+                                            success: function (data, textStatus, jqXHR) {
+                                                BusyIndicator.hide();
+                                               
                                                     MessageBox.success("Form submitted successfully", {
-                                                        onClose: () => window.location.reload()
+                                                        onClose: () => {
+                                                            this.changeStatus();
+                                                            
+                                                        }
                                                     });
-                                                },
-                                                error: () => {
-                                                    BusyIndicator.hide();
-                                                }
-                                            });
-                                        }, 1000);
+                                            }.bind(this),
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                BusyIndicator.hide();
+                                                
+                                            }
+                                        });
+
+
                                         core.byId("submissionNote").setValue();
                                         this.oSubmitDialog.close();
                                     } else {
@@ -531,54 +558,60 @@ sap.ui.define([
                 }
                 this.oSubmitDialog.open();
             },
-    
+
             onFileUploaderChange: function (evt) {
                 var oFileUploader = evt.getSource();
-                oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/VendorFormSet");
+                oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
                 BusyIndicator.show();
-                var key = oFileUploader.getCustomData()[0].getKey();
-                oFileUploader.removeAllHeaderParameters();
+                //var key = oFileUploader.getCustomData()[0].getKey();
+               // oFileUploader.removeAllHeaderParameters();
                 oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
                     name: "slug",
-                    value: this.id + "/" + key + "/" + oFileUploader.getValue()
+                    value: this.vendorId + "/" + oFileUploader.getValue()
                 }));
-    
+                //oFileUploader.upload();
+
                 oFileUploader.checkFileReadable().then(() => {
                     oFileUploader.upload();
                 }, () => {
                     MessageBox.information("The file cannot be read. It may have changed.");
                 });
             },
-    
+            
             onUploadComplete: function (evt) {
-                if (evt.getParameter("status") !== 201) {
-                    // show error message
-                    evt.getSource().setValue("");
-                    const res = evt.getParameter("response");
-                    if (res) {
-                        MessageBox.error(res.split(".")[0].split("022")[1] || res);
-                    } else {
-                        MessageBox.error("Error while uploading file");
-                    }
+                if (evt.getParameter("files").status !== 201) {
+                    MessageBox.error(JSON.parse(evt.getParameter("files").responseRaw).error.message.value);
+                    BusyIndicator.show();
                 } else {
-                    // show success message
-                    MessageBox.success("File " + evt.getSource().getValue() + " uploaded successfully");
-                    evt.getSource().setValueState("None");
+                    MessageToast.show("File " + evt.getParameter("files").fileName + " Attached successfully");
+                    this.onAttachmentGet();
                 }
-                BusyIndicator.hide();
             },
-    
+
             onFileSizeExceded: function (evt) {
                 MessageBox.error("File size exceeds the range of 5MB");
                 evt.getSource().setValueState("Error");
             },
-    
+
             onAttachmentGet: function (evt) { // display attachments
-                var key = evt.getSource().getCustomData()[0].getKey();
-                sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
-                    "')/$value", true);
+                //var key = evt.getSource().getCustomData()[0].getKey();
+                //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
+                  //  "')/$value", true);
+                    BusyIndicator.show();
+                    setTimeout(() => {
+                        this.getView().getModel().read("/Attachments", {
+                            filters: [new Filter("VendorId", "EQ", this.vendorId)],
+                            success: (data) => {
+                                //data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
+                                sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value", true);
+                               // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+                                BusyIndicator.hide();
+                            },
+                            error: () => BusyIndicator.hide()
+                        });
+                    }, 1000);
             },
-    
+
             onMainCertificateChange: function (evt) {
                 if (evt.getParameter("selected")) {
                     this.createModel.setProperty("/MsmeMainCertificate", "X");
@@ -587,7 +620,37 @@ sap.ui.define([
                 }
                 this.createModel.refresh(true);
             },
-    
+
+            getOTP: function () {
+                var otpgen = "2305602" + 10;
+                return otpgen;
+            },
+            changeStatus: function(){
+                var requestData = this.getView().getModel("request").getData();
+                var payload = {
+                    Status: "SUBMITTED"
+                };
+                var payloadStr = JSON.stringify(payload);
+                //var keyData = requestData[0].Vendor + requestData[0].VendorId;
+                var sPath = `/odata/v4/catalog/VenOnboard(Vendor='${requestData[0].Vendor}',VendorId=${requestData[0].VendorId})`;
+                $.ajax({
+                    type: "PUT",
+                    contentType: "application/json",
+                    url: sPath,
+                    data: payloadStr,
+                    context: this,
+                    success: function (data, textStatus, jqXHR) {
+                        if (jqXHR.status === 200 || jqXHR.status === 204) {
+                            console.log("Data upserted successfully.");
+                            window.location.reload();
+                        }
+                    }.bind(this),
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Upsert failed: ", errorThrown);
+                    }
+                });
+            },
+
             customPanType: SimpleType.extend("Pan", {
                 formatValue: function (oValue) {
                     return oValue;
@@ -602,7 +665,7 @@ sap.ui.define([
                     }
                 }
             }),
-    
+
             customGstType: SimpleType.extend("Gst", {
                 formatValue: function (oValue) {
                     return oValue;
@@ -625,7 +688,7 @@ sap.ui.define([
                     return oValue;
                 },
                 validateValue: function (oValue) {
-    
+
                     var rexMail = /^[a-zA-Z0-9]+$/;
                     if (!oValue.match(rexMail)) {
                         throw new ValidateException("'" + oValue + "' is not a valid Account Number");
