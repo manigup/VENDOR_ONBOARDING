@@ -308,29 +308,27 @@ sap.ui.define([
             loadCountries: function () {
                 var oComboBox = this.getView().byId("countryId");
                 var oDataModel = this.getOwnerComponent().getModel();
+                var sPath = "/Country";
             
-                var oBinding = oDataModel.bindList("/Country");
-                oBinding.requestContexts().then(function (aContexts) {
-                    var oData = aContexts.map(function (oContext) {
-                        return oContext.getObject();
-                    });
+                oDataModel.read(sPath, {
+                    success: function(oData) {
+                        var oJsonModel = new sap.ui.model.json.JSONModel();
+                        oJsonModel.setData({Countries: oData.results});
             
-                    var oJsonModel = new sap.ui.model.json.JSONModel();
-                    oJsonModel.setData({ Countries: oData });
-            
-                    oComboBox.setModel(oJsonModel, "countries");
-                    oComboBox.bindItems({
-                        path: "countries>/Countries",
-                        template: new sap.ui.core.Item({
-                            key: "{countries>code}",
-                            text: "{countries>name}"
-                        })
-                    });
-                }).catch(function (oError) {
-                    console.log("Error", oError);
+                        oComboBox.setModel(oJsonModel, "countries");
+                        oComboBox.bindItems({
+                            path: "countries>/Countries",
+                            template: new sap.ui.core.Item({
+                                key: "{countries>code}",
+                                text: "{countries>name}"
+                            })
+                        });
+                    },
+                    error: function(oError) {
+                        console.log("Error", oError);
+                    }
                 });
             },
-    
 
             countryHelpSelect: function (oEvent) {
                 var key = this.getView().byId("countryId").getSelectedKey();
