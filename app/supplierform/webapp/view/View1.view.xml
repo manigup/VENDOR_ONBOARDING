@@ -58,9 +58,14 @@
 						<Input value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}" maxLength="40"/>
 						<Label design="Bold" text="City"/>
 						<Input maxLength="20" value="{create>/City}"/>
-						<Label design="Bold" text="Country" required="false"/>
-						<ComboBox id="countryId" items="{path:'/CountryHelpSet', length:260}" selectedKey="{create>/Country}" change="countryHelpSelect">
-							<core:Item key="{Land1}" text="{Landx}"/>
+
+						<Label design="Bold" text="Country" required="true"/>
+						<ComboBox id="countryId" 
+								  items="{countries>/}"
+							      selectedKey="{create>/Country}" 
+								  change="countryHelpSelect">
+								<core:Item key="{countries>code}" text="{countries>name}"/>
+
 						</ComboBox>
 						<Label design="Bold" text="State" required="false"/>
 						<!-- enabled="{= ${create>/Country} !== ''}" -->

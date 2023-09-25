@@ -22,59 +22,60 @@ sap.ui.define([
         return Controller.extend("sp.fiori.supplierform.controller.View1", {
             onInit: function () {
                 sap.ui.getCore().getMessageManager().registerObject(this.getView(), true);
-                this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
-                this.router.attachRouteMatched(this.handleRouteMatched, this);
-                this.createModel = new JSONModel({
-                    "Otp": "",
-                    "Werks": "",
-                    "VendorType": "DM",
-                    "Type": "MATERIAL",
-                    "VendorName": "",
-                    "Purpose": "",
-                    "Consitution": "",
-                    "VendorCategory": "",
-                    "Pan": "",
-                    "Address1": "",
-                    "Address2": "",
-                    "Address3": "",
-                    "Country": "",
-                    "State": "",
-                    "Pincode": "",
-                    "ContactPerson": "",
-                    "Telephone": "",
-                    "VendorMail": "",
-                    "Landline": "",
-                    "Fax": "",
-                    "Website": "",
-                    "ProductName": "",
-                    "PaymentTerm": "",
-                    "GstApplicable": "",
-                    "ImportExportCode": "",
-                    "Remarks": "",
-                    "Currency": "",
-                    "VAT": "",
-                    "NameOfService": "",
-                    "AvailableServiceName": "",
-                    "NameOfParts": "",
-                    "AvailablePartsName": "",
-                    "Others": "",
-                    "GstNumber": "",
-                    // "Agreement": 0
-                });
 
-                this.getView().setModel(this.createModel, "create");
+			this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
+			this.router.attachRouteMatched(this.handleRouteMatched, this);
+			this.createModel = new JSONModel({
+				"Otp": "",
+				"Werks": "",
+				"VenSubType": "DM",
+				"Type": "MATERIAL",
+				"VenName": "",
+				"Purpose": "",
+				"Consitution": "",
+				"VendorCategory": "",
+				"Pan": "",
+				"Address1": "",
+				"Address2": "",
+				"Address3": "",
+				"Country": "",
+				"State": "",
+				"Pincode": "",
+				"ContactPerson": "",
+				"Mobile": "",
+				"Email": "",
+				"Landline": "",
+				"Fax": "",
+				"Website": "",
+				"ProductName": "",
+				"PaymentTerm": "",
+				"GstApplicable": "",
+				"ImportExportCode": "",
+				"Remarks": "",
+				"Currency": "",
+				"VAT": "",
+				"NameOfService": "",
+				"AvailableServiceName": "",
+				"NameOfParts": "",
+				"AvailablePartsName": "",
+				"Others": "",
+				"GstNumber": "",
+				// "Agreement": 0
+			});
 
-                var datePckerFrom = this.byId("MsmeValidFrom");
-                datePckerFrom.addEventDelegate({
-                    onAfterRendering: () => {
-                        datePckerFrom.$().find('INPUT').attr('disabled', true).css('color', '#ccc');
-                    }
-                }, datePckerFrom);
+			this.getView().setModel(this.createModel, "create");
 
-                this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
-            },
-            getRouter: function () {
-                return this.router;
+			var datePckerFrom = this.byId("MsmeValidFrom");
+			datePckerFrom.addEventDelegate({
+				onAfterRendering: () => {
+					datePckerFrom.$().find('INPUT').attr('disabled', true).css('color', '#ccc');
+				}
+			}, datePckerFrom);
+
+			this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
+
+            this.getView().byId("countryId").attachBrowserEvent("click", this.loadCountries.bind(this));
+
             },
             handleRouteMatched: function (oEvent) {
                 if (oEvent.getParameter("name") !== "RouteView1") {
@@ -301,6 +302,35 @@ sap.ui.define([
                 }
                 return bValidationError;
             },
+
+
+
+            loadCountries: function () {
+                var oComboBox = this.getView().byId("countryId");
+                var oDataModel = this.getOwnerComponent().getModel();
+            
+                var oBinding = oDataModel.bindList("/Country");
+                oBinding.requestContexts().then(function (aContexts) {
+                    var oData = aContexts.map(function (oContext) {
+                        return oContext.getObject();
+                    });
+            
+                    var oJsonModel = new sap.ui.model.json.JSONModel();
+                    oJsonModel.setData({ Countries: oData });
+            
+                    oComboBox.setModel(oJsonModel, "countries");
+                    oComboBox.bindItems({
+                        path: "countries>/Countries",
+                        template: new sap.ui.core.Item({
+                            key: "{countries>code}",
+                            text: "{countries>name}"
+                        })
+                    });
+                }).catch(function (oError) {
+                    console.log("Error", oError);
+                });
+            },
+    
 
             countryHelpSelect: function (oEvent) {
                 var key = this.getView().byId("countryId").getSelectedKey();
