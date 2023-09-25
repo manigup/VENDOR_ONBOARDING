@@ -22,7 +22,7 @@
                 "settings": {
                     "annotations": [],
                     "localUri": "localService/metadata.xml",
-                    "odataVersion": "4.0"
+                    "odataVersion": "2.0"
                 }
             }
         }
@@ -142,6 +142,6 @@
     },
     "sap.cloud": {
         "public": true,
-        "service": "onboarding"
+        "service": "supplierform"
     }
 }

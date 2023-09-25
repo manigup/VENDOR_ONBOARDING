@@ -17,6 +17,8 @@ entity VenOnboardHeader : managed {
       Status     : String;
       VenValidTo : DateTime;
       VenFrom    : DateTime;
+      VenTimeLeft : String;
+      
 }
 
 entity Attachments : managed {
@@ -96,4 +98,5 @@ entity VendorForm : managed {
       EstablishmentCertificate : String;
       DeductionCertificate     : String;
       OtherDocument            : String;
+      Otp                      : String;
 }
