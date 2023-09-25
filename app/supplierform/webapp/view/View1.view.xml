@@ -59,8 +59,11 @@
 						<Label design="Bold" text="City"/>
 						<Input maxLength="20" value="{create>/City}"/>
 						<Label design="Bold" text="Country" required="true"/>
-						<ComboBox id="countryId" items="{path:'/CountryHelpSet', length:260}" selectedKey="{create>/Country}" change="countryHelpSelect">
-							<core:Item key="{Land1}" text="{Landx}"/>
+						<ComboBox id="countryId" 
+								  items="{countries>/}"
+							      selectedKey="{create>/Country}" 
+								  change="countryHelpSelect">
+								<core:Item key="{countries>code}" text="{countries>name}"/>
 						</ComboBox>
 						<Label design="Bold" text="State" required="true"/>
 						<!-- enabled="{= ${create>/Country} !== ''}" -->

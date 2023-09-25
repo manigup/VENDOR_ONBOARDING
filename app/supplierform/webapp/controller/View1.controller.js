@@ -72,6 +72,8 @@ sap.ui.define([
 			}, datePckerFrom);
 
 			this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
+
+            this.getView().byId("countryId").attachBrowserEvent("click", this.loadCountries.bind(this));
             },
             handleRouteMatched: function (oEvent) {
                 if (oEvent.getParameter("name") !== "RouteView1") {
@@ -293,6 +295,32 @@ sap.ui.define([
                     bValidationError = true;
                 }
                 return bValidationError;
+            },
+
+            loadCountries: function () {
+                var oComboBox = this.getView().byId("countryId");
+                var oDataModel = this.getOwnerComponent().getModel();
+            
+                var oBinding = oDataModel.bindList("/Country");
+                oBinding.requestContexts().then(function (aContexts) {
+                    var oData = aContexts.map(function (oContext) {
+                        return oContext.getObject();
+                    });
+            
+                    var oJsonModel = new sap.ui.model.json.JSONModel();
+                    oJsonModel.setData({ Countries: oData });
+            
+                    oComboBox.setModel(oJsonModel, "countries");
+                    oComboBox.bindItems({
+                        path: "countries>/Countries",
+                        template: new sap.ui.core.Item({
+                            key: "{countries>code}",
+                            text: "{countries>name}"
+                        })
+                    });
+                }).catch(function (oError) {
+                    console.log("Error", oError);
+                });
             },
     
             countryHelpSelect: function (oEvent) {
