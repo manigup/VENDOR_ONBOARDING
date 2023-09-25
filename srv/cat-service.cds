@@ -7,4 +7,9 @@ service CatalogService {
     entity Attachments as projection on db.Attachments;
     
     entity VendorForm  as projection on db.VendorForm;
+
+    entity Country as projection on db.Country;
+
+    entity States as projection on db.States;
+
 }
