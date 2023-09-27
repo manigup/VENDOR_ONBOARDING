@@ -440,12 +440,13 @@ sap.ui.define([
 
             onSavePress: function (oEvent) { // Save as Draft is Pressed
                 var data = this.createModel.getData();
+                var oDataModel = this.getOwnerComponent().getModel();
                 BusyIndicator.show();
                 setTimeout(() => {
-                    this.getView().getModel().update("/VendorForm", data, {
-                         headers: {
-                             "x-csrf-token": this.csrf_token
-                         },
+                    oDataModel.update("/VendorForm(VendorId='" + this.vendorId + "')", data, {
+                        //  headers: {
+                        //      "x-csrf-token": this.csrf_token
+                        //  },
                         success: () => {
                             BusyIndicator.hide();
                             MessageBox.success("Form data saved successfully", {
@@ -646,44 +647,33 @@ sap.ui.define([
                 var otpgen = "2305602";
                 return otpgen;
             },
-            getStatus: function() {
-                var oDataModel = this.getOwnerComponent().getModel();
-                var sPath = "/StatusCheck";
             
-                oDataModel.read(sPath, {
-                    success: function(oData) {
-                        var oJsonModel = new sap.ui.model.json.JSONModel();
-                        oJsonModel.setData(oData.results);
-                        this.getView().setModel(oJsonModel, "statusdata");                        
-                    },
-                    error: function(oError) {
-                        console.log("Error", oError);
-                    }
-                });
-            },
             changeStatus: function(){
                 var requestData = this.getView().getModel("request").getData();
-                var statusData = this.getView().getModel("statusdata").getData();
-                $.each(statusData, function (index){
-                   if(statusData[index].email === requestData.VendorMail){
-                    this.Dept = statusData[index].Department;
-                   }
-                })
-                var stat = "";
-                if (this.Dept === "Supplier"){
-                    stat = "SBS";
-                    mail = "manish@gmail.com";
-                }else if(this.Dept === "SCM"){
-                    stat = "SBC";
-                    mail = "mohsin@gmail.com";
-                }else if(this.Dept === "Finance"){
-                    stat = "SBF";
-                }
+                // var statusData = this.getView().getModel("statusdata").getData();
+                // $.each(statusData, function (index){
+                //    if(statusData[index].email === requestData.VendorMail){
+                //     this.Dept = statusData[index].Department;
+                //    }
+                // })
+                // var stat = "";
+                // if (this.Dept === "Supplier"){
+                //     stat = "SBS";
+                //     mail = "manish@gmail.com";
+                // }else if(this.Dept === "SCM"){
+                //     stat = "SBC";
+                //     mail = "mohsin@gmail.com";
+                // }else if(this.Dept === "Finance"){
+                //     stat = "SBF";
+                // }
 
-                var payload = {
-                    Status: stat,
-                    VendorMail: mail
-                };               
+                // var payload = {
+                //     Status: stat,
+                //     VendorMail: mail
+                // };               
+                var payload={
+                    Status: "SUBMITTED"
+                };
                 var payloadStr = JSON.stringify(payload);
                 //var keyData = requestData[0].Vendor + requestData[0].VendorId;
                 var sPath = `/odata/v4/catalog/VenOnboard(Vendor='${requestData.Vendor}',VendorId=${requestData.VendorId})`;

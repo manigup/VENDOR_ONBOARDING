@@ -52,8 +52,6 @@ entity Attachments : managed {
 entity VendorForm : managed {
   key VendorId                 : String;
       VendorName               : String;
-      VenValidTo               : DateTime;
-      VenFrom                  : DateTime;
       VendorType               : String(5);
       Type                     : String;
       VendorName2              : String;
