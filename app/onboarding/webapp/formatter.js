@@ -36,6 +36,12 @@ formatter = {
                 case "SBS":
                     text = "Submited by Supplier";
                     break;
+                case "SBC":
+                    text = "Submited by SCM";
+                    break; 
+                case "SBF":
+                    text = "Submited by Finance";
+                    break;        
                 case "SBB":
                     text = "Submitted by Buyer";
                     break;
