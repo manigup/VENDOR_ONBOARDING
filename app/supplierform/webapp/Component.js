@@ -49,9 +49,9 @@ sap.ui.define([
                     success: function(data){
                         console.log("Returned data:", data);
                         BusyIndicator.hide();
-                        requestModel.setData(data.value);
+                        requestModel.setData(data.value[0]);
                         requestModel.refresh(true);
-                        if (data.value[0].Status === "SUBMITTED") {
+                        if (data.value[0].Status === "SBF") {
                             this.getRouter().navTo("invalidUrl", {
                                 status: "submit"
                             });

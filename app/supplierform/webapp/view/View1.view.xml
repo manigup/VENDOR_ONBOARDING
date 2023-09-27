@@ -46,7 +46,7 @@
 						<Input id="mobileId" value="{path:'create>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"/>
 						<Label design="Bold" text="Program/Purpose" required="true"/>
 						<Input id="purposeId" value="{path:'create>/Purpose',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"/>
-						<Label design="Bold" text="Constitution of Business" required="false"/>
+						<Label design="Bold" text="Constitution of Business" required="true"/>
 						<Input id="constId"  value="{path:'create>/Consitution',type:'sap.ui.model.type.String'}"/>
 						<Label design="Bold" text="Address 1" required="true"/>
 						<Input id="address1Id" maxLength="60" value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"/>
@@ -65,7 +65,7 @@
 								<core:Item key="{countries>code}" text="{countries>name}"/>
 
 						</ComboBox>
-						<Label design="Bold" text="State" required="false"/>
+						<Label design="Bold" text="State" required="true"/>
 						<!-- enabled="{= ${create>/Country} !== ''}" -->
 						<Select id="stateId" forceSelection="false" selectedKey="{create>/Region}" items="{/StateHelpSet}">
 							<core:Item key="{Region}" text="{Bezei}"/>
@@ -172,24 +172,24 @@
 						<Input placeholder="Enter VAT ID/EORI Number" value="{create>/VAT}" visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"/>
 						<Label design="Bold" text="Import/Export Code"/>
 						<Input placeholder="Enter Import/Export Code" value="{create>/ImportExportCode}"/>
-						<Label design="Bold" text="Bank Name" required="false"/>
+						<Label design="Bold" text="Bank Name" required="true"/>
 						<Input id="bankNameId" value="{path:'create>/BankName',type:'sap.ui.model.type.String',constraints :{minLength:1}}"/>
-						<Label design="Bold" text="Account No." required="false"/>
+						<Label design="Bold" text="Account No." required="true"/>
 						<Input id="accNoId" maxLength="18" value="{path:'create>/AccountNo',type:'.customAccountType',constraints:{minLength:1,maxLength:18}}"/>
 						<Label design="Bold" text="Beneficiary Name" required="true"/>
 						<Input id="benNameId" enabled="false" value="{path:'create>/BeneficiaryName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
-						<Label design="Bold" text="Beneficiary A/C Type" required="false"/>
+						<Label design="Bold" text="Beneficiary A/C Type" required="true"/>
 						<Select id="benAccTypeId" forceSelection="false" selectedKey="{create>/AccountType}">
 							<core:Item key="SAVINGS" text="Savings"/>
 							<core:Item key="CURRENT" text="Current"/>
 						</Select>
-						<Label design="Bold" text="IFSC/Swift Code" required="false"/>
+						<Label design="Bold" text="IFSC/Swift Code" required="true"/>
 						<Input id="ifscId" value="{ path : 'create>/IFSCCode', type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
-						<Label design="Bold" text="Branch Name" required="false"/>
+						<Label design="Bold" text="Branch Name" required="true"/>
 						<Input id="branchNameId" value="{path:'create>/BranchName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
-						<Label design="Bold" text="Beneficiary Bank Location" required="false"/>
+						<Label design="Bold" text="Beneficiary Bank Location" required="true"/>
 						<Input id="benLocId" value="{path:'create>/BeneficiaryLocation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"/>
-						<Label design="Bold" text="Cancelled Cheque &amp; Declaration" required="false"/>
+						<Label design="Bold" text="Cancelled Cheque &amp; Declaration" required="true"/>
 						<u:FileUploader id="canChqfileUploader" sendXHR="true" useMultipart="false" uploadComplete="onUploadComplete" change="onFileUploaderChange" fileSizeExceed="onFileSizeExceded" fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost" maximumFileSize="5MB" buttonText="Browse">
 							<u:customData>
 								<core:CustomData key="CHQ"/>

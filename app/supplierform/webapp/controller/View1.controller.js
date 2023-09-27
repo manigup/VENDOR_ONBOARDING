@@ -83,20 +83,16 @@ sap.ui.define([
                     return;
                 }
                 this.id = jQuery.sap.getUriParameters().get("id");
-                BusyIndicator.show();
-
-
                 var requestData = this.getView().getModel("request").getData();
                 BusyIndicator.show();
-                this.vendorId = requestData[0].VendorId;
+                this.vendorId = requestData.VendorId;
 
                 var payload = {
-                    VendorId: requestData[0].VendorId,
-                    VendorName: requestData[0].VendorName,
-                    VendorMail: requestData[0].VendorMail,
-                    Telephone: requestData[0].Telephone,
-                    BeneficiaryName: requestData[0].VendorName
-
+                    VendorId: requestData.VendorId,
+                    VendorType: requestData.VendorType,
+                    VendorName: requestData.VendorName,
+                    VendorMail: requestData.VendorMail,
+                    Telephone: requestData.Telephone
                 };
                 var payloadStr = JSON.stringify(payload);
                 var sPath = `/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
@@ -107,10 +103,32 @@ sap.ui.define([
                     data: payloadStr,
 
                     context: this,
-                    success: function (data, textStatus, jqXHR) {
+                       success: function (data, textStatus, jqXHR) {
                         if (jqXHR.status === 200 || jqXHR.status === 204) {
                             console.log("Data upserted successfully.");
                         }
+                        if (requestData.VendorType === "DM") {
+							if (!data.GstApplicable) {
+								data.GstApplicable = "YES";
+							}
+							if (!data.MsmeValidTo) {
+								data.MsmeValidTo = "99991231";
+							}
+						}
+                        if (!data.Type) {
+							data.Type = "MATERIAL";
+							// data.ScopeOfSupply = "PARTS";
+						}
+						if (!data.MsmeItilView && data.VendorType === "DM") {
+							data.MsmeItilView = "MSME";
+							this.byId("msmeItil").setSelectedIndex(0);
+						} else if (data.MsmeItilView === "Non MSME") {
+							this.byId("msmeItil").setSelectedIndex(1);
+						}
+						if (data.MsmeMainCertificate === "X") {
+							this.byId("msmeCert").setSelected(true);
+						}
+						data.BeneficiaryName = data.VendorName;
 
 
                         this.createModel.setData(data);
@@ -126,8 +144,7 @@ sap.ui.define([
                         console.log("Upsert failed: ", errorThrown);
                     }
                 });
-
-
+           
                  this._showRemainingTime();
             },
 
@@ -135,10 +152,10 @@ sap.ui.define([
                 var that = this;
                 var data = this.getView().getModel("request").getData();
 
-                var expiryYYYY = data[0].VenValidTo.substring(0, 4);
-                var expiryMonth = parseInt(data[0].VenValidTo.substring(5, 7)) - 1;
+                var expiryYYYY = data.VenValidTo.substring(0, 4);
+                var expiryMonth = parseInt(data.VenValidTo.substring(5, 7)) - 1;
                 // data.Date.substring(4, 6);
-                var expiryDD = data[0].VenValidTo.substring(8, 10);
+                var expiryDD = data.VenValidTo.substring(8, 10);
                 // var expiryHH = data.Time.substring(0, 2);
                 // var expiryMM = data.Time.substring(2, 4);
                 // var expirySS = data.Time.substring(4, 6);
@@ -166,11 +183,12 @@ sap.ui.define([
                     // var minutes = Math.floor((that.distance % (1000 * 60 * 60)) / (1000 * 60));
                     // var seconds = Math.floor((that.distance % (1000 * 60)) / 1000);
 
-                    data[0].VenTimeLeft = days + " Days ";// + hours + " hours " + minutes + " minute " + seconds + " seconds ";
+                    data.VenTimeLeft = days + " Days ";// + hours + " hours " + minutes + " minute " + seconds + " seconds ";
                     that.getView().getModel("request").refresh(true);
+                    that.getView().byId("idRemTime").setText(data.VenTimeLeft);
                     if (that.distance < 0) {
                        // clearInterval(x);
-                        data[0].VenTimeLeft = "EXPIRED";
+                        data.VenTimeLeft = "EXPIRED";
                         that.getView().getModel("request").refresh(true);
                         MessageBox.error("Form expired");
                         that.getView().byId("saveBtnId").setVisible(false);
@@ -426,9 +444,9 @@ sap.ui.define([
                 BusyIndicator.show();
                 setTimeout(() => {
                     this.getView().getModel().update("/VendorForm", data, {
-                        headers: {
-                            "x-csrf-token": this.csrf_token
-                        },
+                         headers: {
+                             "x-csrf-token": this.csrf_token
+                         },
                         success: () => {
                             BusyIndicator.hide();
                             MessageBox.success("Form data saved successfully", {
@@ -629,15 +647,47 @@ sap.ui.define([
                 var otpgen = "2305602";
                 return otpgen;
             },
+            getStatus: function() {
+                var oDataModel = this.getOwnerComponent().getModel();
+                var sPath = "/StatusCheck";
+            
+                oDataModel.read(sPath, {
+                    success: function(oData) {
+                        var oJsonModel = new sap.ui.model.json.JSONModel();
+                        oJsonModel.setData(oData.results);
+                        this.getView().setModel(oJsonModel, "statusdata");                        
+                    },
+                    error: function(oError) {
+                        console.log("Error", oError);
+                    }
+                });
+            },
             changeStatus: function(){
                 var requestData = this.getView().getModel("request").getData();
+                var statusData = this.getView().getModel("statusdata").getData();
+                $.each(statusData, function (index){
+                   if(statusData[index].email === requestData.VendorMail){
+                    this.Dept = statusData[index].Department;
+                   }
+                })
+                var stat = "";
+                if (this.Dept === "Supplier"){
+                    stat = "SBS";
+                    mail = "manish@gmail.com";
+                }else if(this.Dept === "SCM"){
+                    stat = "SBC";
+                    mail = "mohsin@gmail.com";
+                }else if(this.Dept === "Finance"){
+                    stat = "SBF";
+                }
 
                 var payload = {
-                    Status: "SUBMITTED"
-                };
+                    Status: stat,
+                    VendorMail: mail
+                };               
                 var payloadStr = JSON.stringify(payload);
                 //var keyData = requestData[0].Vendor + requestData[0].VendorId;
-                var sPath = `/odata/v4/catalog/VenOnboard(Vendor='${requestData[0].Vendor}',VendorId=${requestData[0].VendorId})`;
+                var sPath = `/odata/v4/catalog/VenOnboard(Vendor='${requestData.Vendor}',VendorId=${requestData.VendorId})`;
                 $.ajax({
                     type: "PUT",
                     contentType: "application/json",

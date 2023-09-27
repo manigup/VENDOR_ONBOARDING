@@ -78,8 +78,8 @@ entity VendorForm : managed {
       Remarks                  : String;
       Comments                 : String;
       MsmeItilView             : String;
-      MsmeValidTo              : Date;
-      MsmeValidFrom            : Date;
+      MsmeValidTo              : String;
+      MsmeValidFrom            : String;
       MsmeMainCertificate      : String;
       MsmeMainCertificateId    : String;
       MsmeCertificateNo        : String;
