@@ -1,8 +1,6 @@
 namespace db.VenOnboard;
 
-using {
-  managed
-} from '@sap/cds/common';
+using {managed} from '@sap/cds/common';
 
 entity Country {
   key code : String(3);
@@ -17,20 +15,25 @@ entity States {
       Country   : Association to Country;
 };
 
-entity VenOnboardHeader : managed {
-  key Vendor     : String(10);
-  key VendorId   : UUID;
-      VendorName : String;
-      VendorType : String(5);
+entity StatusCheck {
+  key email      : String;
       Department : String;
-      Telephone  : String(10);
-      City       : String;
-      VendorMail : String;
-      Status     : String;
-      VenValidTo : DateTime;
-      VenFrom    : DateTime;
+};
+
+entity VenOnboardHeader : managed {
+  key Vendor      : String(10);
+  key VendorId    : UUID;
+      VendorName  : String;
+      VendorType  : String(5);
+      Department  : String;
+      Telephone   : String(10);
+      City        : String;
+      VendorMail  : String;
+      Status      : String;
+      VenValidTo  : DateTime;
+      VenFrom     : DateTime;
       VenTimeLeft : String;
-      
+
 }
 
 entity Attachments : managed {
@@ -110,7 +113,5 @@ entity VendorForm : managed {
       EstablishmentCertificate : String;
       DeductionCertificate     : String;
       OtherDocument            : String;
-
       Otp                      : String;
 }
-

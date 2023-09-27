@@ -47,9 +47,7 @@
 						<Label design="Bold" text="Program/Purpose" required="true"/>
 						<Input id="purposeId" value="{path:'create>/Purpose',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"/>
 						<Label design="Bold" text="Constitution of Business" required="false"/>
-						<Select id="constId" forceSelection="false" selectedKey="{create>/Consitution}" items="{/ConstitutionHelpSet}">
-							<core:Item key="{Constitution}" text="{Constitution}"/>
-						</Select>
+						<Input id="constId"  value="{path:'create>/Consitution',type:'sap.ui.model.type.String'}"/>
 						<Label design="Bold" text="Address 1" required="true"/>
 						<Input id="address1Id" maxLength="60" value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"/>
 						<Label design="Bold" text="Address 2" required="true"/>

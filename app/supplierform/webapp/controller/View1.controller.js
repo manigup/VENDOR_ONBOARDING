@@ -11,12 +11,13 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/SimpleType",
-    "sap/ui/model/ValidateException"
+    "sap/ui/model/ValidateException",
+    "sap/m/MessageToast"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, MessageBox, BusyIndicator, JSONModel, Dialog, DialogType, Button, ButtonType, Input, Filter, FilterOperator, SimpleType, ValidateException) {
+    function (Controller, MessageBox, BusyIndicator, JSONModel, Dialog, DialogType, Button, ButtonType, Input, Filter, FilterOperator, SimpleType, ValidateException,MessageToast) {
         "use strict";
 
         return Controller.extend("sp.fiori.supplierform.controller.View1", {
@@ -249,14 +250,16 @@ sap.ui.define([
                 var oView = this.getView(),
                     bValidationError = false;
                 var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"), oView.byId("purposeId"),
-                 oView.byId("benNameId"), 
+                oView.byId("address1Id"), oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
+                oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
                 oView.byId("address2Id"), oView.byId("pincodeId"), oView.byId("contactPersonId"), oView.byId("contactPersonMobileId")];
 
                 if (data.GstApplicable === "YES") {
                     aInputs.push(oView.byId("gstId"))
                 }
 
-                var aSelects = [];
+                var aSelects = [oView.byId("constId"), oView.byId("countryId"), oView.byId("stateId"),
+                oView.byId("benAccTypeId")];
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -281,7 +284,7 @@ sap.ui.define([
                     bValidationError = this._validateSelect(oInput, bValidationError) || bValidationError;
                 }, this);
 
-               // bValidationError = this._validateAttachments(bValidationError);
+                bValidationError = this._validateAttachments(bValidationError);
 
                 if (data.MsmeItilView === 'MSME' && !oView.byId("msmeCert").getSelected()) {
                     oView.byId("msmeCert").setValueState("Error");
@@ -579,12 +582,12 @@ sap.ui.define([
             },
             
             onUploadComplete: function (evt) {
-                if (evt.getParameter("files").status !== 201) {
-                    MessageBox.error(JSON.parse(evt.getParameter("files").responseRaw).error.message.value);
+                if (evt.getParameters().status !== 201) {
+                    MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
                     BusyIndicator.show();
                 } else {
-                    MessageToast.show("File " + evt.getParameter("files").fileName + " Attached successfully");
-                    this.onAttachmentGet();
+                    MessageToast.show("File " + evt.getParameters().fileName + " Attached successfully");
+                    BusyIndicator.hide();
                 }
             },
 
@@ -603,7 +606,7 @@ sap.ui.define([
                             filters: [new Filter("VendorId", "EQ", this.vendorId)],
                             success: (data) => {
                                 //data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
-                                sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value", true);
+                                sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.vendorId + "',ObjectId='" + item.ObjectId + "')/$value", true);
                                // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
                                 BusyIndicator.hide();
                             },
@@ -622,11 +625,12 @@ sap.ui.define([
             },
 
             getOTP: function () {
-                var otpgen = "2305602" + 10;
+                var otpgen = "2305602";
                 return otpgen;
             },
             changeStatus: function(){
                 var requestData = this.getView().getModel("request").getData();
+
                 var payload = {
                     Status: "SUBMITTED"
                 };
