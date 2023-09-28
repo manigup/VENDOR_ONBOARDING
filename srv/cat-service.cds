@@ -12,4 +12,10 @@ service CatalogService {
 
     entity States as projection on db.States;
 
+    function verfiyPANDetails(panNumber: String) returns String;
+
+    function verifyGSTDetails(gstin: String) returns String;
+
+    function verifyBankAccount(beneficiaryAccount: String, beneficiaryIFSC: String) returns String;
+
 }
