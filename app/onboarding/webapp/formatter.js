@@ -163,5 +163,12 @@ formatter = {
     addVendorColor: function (vendor, resetValidity) {
         resetValidity === "X" ? this.addStyleClass("resetValidity") : this.removeStyleClass("resetValidity");
         return vendor;
+    },
+    moreInfoBtnVisible: function (status, Dept) {
+        if ( (status === "SBS" && Dept === "SCM") || (status === "SBC" && Dept === "Finance")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 };

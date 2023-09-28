@@ -33,12 +33,13 @@
                     id="_IDGenButton1"
                     text="Fill Supplier Form"
                     press="onFormPress"
+                    visible="{= ${VenModel>/Status} === 'INITIATED'}"
                 />
                 <Button
                     id="_IDGenButton2"
                     text="More Info"
-                    press="onMoreInfoBtnPress"
-                    visible="{= ${VenModel>/Status} !== 'INITIATED'}"
+                    press="onFormPress"
+                    visible="{parts:[{path:'VenModel>/Status'},{path:'VenModel>/Dept'}],formatter:'formatter.moreInfoBtnVisible'}"
                 />
                 <Button
                     id="_IDGenButton3"

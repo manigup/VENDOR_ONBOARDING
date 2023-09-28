@@ -154,6 +154,7 @@ sap.ui.define([
                 var data = evt.getSource().getBindingContext("DataModel").getObject();
                 this.vendor = data.Vendor;
                 this.vendorId = data.VendorId;
+                data.Dept = "SCM";
                 var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
                 sap.ui.getCore().byId("displayPopover").setModel(new JSONModel(data), "VenModel");
                 this.getView().addDependent(popOver);

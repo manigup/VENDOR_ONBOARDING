@@ -12,9 +12,9 @@
 				<Title text="Vendor Creation Form"/>
 				<ToolbarSpacer/>
 				<FlexBox>
-					<core:Icon src="sap-icon://fob-watch" tooltip="watch" color="red" size="1.1rem"/>
-					<Label design="Bold" text="Remaining Time -" class="size5 sapUiTinyMarginEnd sapUiTinyMarginBegin"/>
-					<Label id ="idRemTime" design="Bold" text="{request>/VenTimeLeft}" class="size5"/>
+					<core:Icon src="sap-icon://fob-watch" tooltip="watch" color="red" size="1.1rem" visible ="{= ${request>/Status} === 'INITIATED'}"/>
+					<Label design="Bold" text="{= ${request>/Status} === 'INITIATED' ? 'Remaining Time -' : ''}" class="size5 sapUiTinyMarginEnd sapUiTinyMarginBegin"/>
+					<Label id ="idRemTime" design="Bold" text="{= ${request>/Status} === 'INITIATED' ? ${request>/VenTimeLeft} : ''}" class="size5"/>
 				</FlexBox>
 				<ToolbarSpacer/>
 				<Button id="saveBtnId" text="Draft" tooltip="Save as Draft" type="Ghost" press="onSavePress"/>
