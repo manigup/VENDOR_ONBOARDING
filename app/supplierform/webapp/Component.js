@@ -35,7 +35,7 @@ sap.ui.define([
                 //this.setModel(models.createDeviceModel(), "device");
                 this.id = jQuery.sap.getUriParameters().get("id");
                 var requestModel = this.getModel("request");
-                 this.getStatus();         
+                       
                 // Using Ajax instead of OData read method
                 var sPath = "/odata/v4/catalog/VenOnboard?$filter=VendorId eq " + this.id;
 
@@ -52,19 +52,13 @@ sap.ui.define([
                         requestModel.setData(data.value[0]);
                         requestModel.refresh(true);
 
-                        //  var statusData = this.getView().getModel("statusdata").getData();
-                        //   $.each(statusData, function (index){
-                        //     if(statusData[index].email === requestData.VendorMail){
-                        //      this.Dept = statusData[index].Department;
-                        //     }
-                        //  })
-                       // if ((data.value[0].Status === "SBF" && this.Dept === "Finance") || (data.value[0].Status === "SBC" && this.Dept === "SCM") || (data.value[0].Status === "SBS" && this.Dept === "Supplier")) {
-                       if(data.value[0].Status === "SUBMITTED"){     
-                       this.getRouter().navTo("invalidUrl", {
-                                status: "submit"
-                            });
-                            return;
-                        }
+                       // if ((data.value[0].Status === "SBS" && this.auth === "") || (data.value[0].Status === "SBC" && this.auth === "") || (data.value[0].Status === "SBS" && this.Dept === "Supplier")) {
+                    //    if(data.value[0].Status === "SBS"){     
+                    //    this.getRouter().navTo("invalidUrl", {
+                    //             status: "submit"
+                    //         });
+                    //         return;
+                    //     }
                         var today = new Date();
                         if ((today > new Date(data.value[0].VenValidTo)) || (today.toDateString() === new Date(data.value[0].VenValidTo).toDateString())) {
                             MessageBox.error("Link Expired");
@@ -89,21 +83,7 @@ sap.ui.define([
                 });
 
             }
-            // getStatus: function () {
-            //     var oDataModel = this.getOwnerComponent().getModel();
-            //     var sPath = "/StatusCheck";
-
-            //     oDataModel.read(sPath, {
-            //         success: function (oData) {
-            //             var oJsonModel = new sap.ui.model.json.JSONModel();
-            //             oJsonModel.setData(oData.results);
-            //             this.setModel(oJsonModel, "statusdata");
-            //         },
-            //         error: function (oError) {
-            //             console.log("Error", oError);
-            //         }
-            //     });
-            // }
+            
         });
     }
 );

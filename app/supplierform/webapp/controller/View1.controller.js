@@ -88,7 +88,7 @@ sap.ui.define([
                 var requestData = this.getView().getModel("request").getData();
                 BusyIndicator.show();
                 this.vendorId = requestData.VendorId;
-
+                if(requestData.Status === "INITIATED"){
                 var payload = {
                     VendorId: requestData.VendorId,
                     VendorType: requestData.VendorType,
@@ -148,6 +148,25 @@ sap.ui.define([
                 });
            
                  this._showRemainingTime();
+            }
+            // else{
+            //     var sPath = "/odata/v4/catalog/VendorForm?$filter=VendorId eq " + this.id;
+            //     $.ajax({
+            //         type: "GET",
+            //         contentType: "application/json",
+            //         url: sPath,
+            //         dataType: "json",
+            //         context: this,
+            //         success: function (data) {
+            //             this.createModel.setData(data);
+            //             this.createModel.refresh(true);
+            //             BusyIndicator.hide();
+            //         }.bind(this),
+            //         error: () => {
+            //             BusyIndicator.hide();
+            //         }
+            //     });
+            // }
             },
 
             _showRemainingTime: function () {
@@ -481,9 +500,7 @@ sap.ui.define([
                         //  },
                         success: () => {
                             BusyIndicator.hide();
-                            MessageBox.success("Form data saved successfully", {
-                                onClose: () => window.location.reload()
-                            });
+                            MessageBox.success("Form data saved successfully");
                         },
                         error: () => {
                             BusyIndicator.hide();
@@ -695,32 +712,17 @@ sap.ui.define([
             
             changeStatus: function(){
                 var requestData = this.getView().getModel("request").getData();
-                // var statusData = this.getView().getModel("statusdata").getData();
-                // $.each(statusData, function (index){
-                //    if(statusData[index].email === requestData.VendorMail){
-                //     this.Dept = statusData[index].Department;
-                //    }
-                // })
-                // var stat = "";
-                // if (this.Dept === "Supplier"){
-                //     stat = "SBS";
-                //     mail = "manish@gmail.com";
-                // }else if(this.Dept === "SCM"){
-                //     stat = "SBC";
-                //     mail = "mohsin@gmail.com";
-                // }else if(this.Dept === "Finance"){
-                //     stat = "SBF";
-                // }
-
-                // var payload = {
-                //     Status: stat,
-                //     VendorMail: mail
-                // };               
-                var payload={
-                    Status: "SUBMITTED"
-                };
+                var stat = "";
+                if (requestData.Status === "INITIATED"){
+                    stat = "SBS";
+                }else if(requestData.Status === "SBS"){
+                    stat = "SBC";
+                }else if(requestData.Status === "SBF"){
+                    stat = "SBF";
+                }               
+                var payload = requestData;
+                payload.Status = stat;
                 var payloadStr = JSON.stringify(payload);
-                //var keyData = requestData[0].Vendor + requestData[0].VendorId;
                 var sPath = `/odata/v4/catalog/VenOnboard(Vendor='${requestData.Vendor}',VendorId=${requestData.VendorId})`;
                 $.ajax({
                     type: "PUT",
@@ -731,7 +733,7 @@ sap.ui.define([
                     success: function (data, textStatus, jqXHR) {
                         if (jqXHR.status === 200 || jqXHR.status === 204) {
                             console.log("Data upserted successfully.");
-                            window.location.reload();
+                           // window.location.reload();
                         }
                     }.bind(this),
                     error: function (jqXHR, textStatus, errorThrown) {
