@@ -24,21 +24,46 @@ sap.ui.define([
             init: function () {
                 // call the base component's init function
                 UIComponent.prototype.init.apply(this, arguments);
-
-                // metadata success
+            
+                var reqData = {}
+            
                 this.getModel().metadataLoaded(true).then(() => {
-
+                    // metadata success
+            
+                    // Hardcoded URL for the AJAX request
+                    var hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1/user-api/attributes";
+            
+                    // Make the AJAX call
+                    $.ajax({
+                        url: hardcodedURL,
+                        type: "GET",
+                        success: res => {
+                            console.log("RESPONSE: ", res);
+                            
+                            // Store the name and email in session storage
+                            sessionStorage.setItem('userName', res.name);
+                            sessionStorage.setItem('userEmail', res.email);
+            
+                            console.log(`Name and Email stored in session storage`);
+                        },
+                        error: (jqXHR, textStatus, errorThrown) => {
+                            console.log("ERROR: ", textStatus, ", DETAILS: ", errorThrown);
+                        }
+                    });
+            
                     // enable routing
                     HashChanger.getInstance().replaceHash("");
                     this.getRouter().initialize();
-
-                }).catch(err =>
+            
+                }).catch(err => {
                     // metadata error
-                    this.handleError(err.responseText));
-
+                    this.handleError(err.responseText);
+                });
+            
                 // odata request failed
-                this.getModel().attachRequestFailed(err =>
-                    this.handleError(err.getParameter("response").responseText));
+                this.getModel().attachRequestFailed(err => {
+                    this.handleError(err.getParameter("response").responseText);
+                });
             },
 
             handleError: function (responseText) {
