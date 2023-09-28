@@ -65,6 +65,8 @@ sap.ui.define([
 			});
 
 			this.getView().setModel(this.createModel, "create");
+            this.isGSTValid = true
+            this.isPANValid = true
 
 			var datePckerFrom = this.byId("MsmeValidFrom");
 			datePckerFrom.addEventDelegate({
@@ -260,7 +262,7 @@ sap.ui.define([
                 }
                 this.createModel.refresh(true);
             },
-            _mandatCheck: function () {
+            _mandatCheck: async function () {
 
                 var data = this.createModel.getData();
                 var requestData = this.getView().getModel("request").getData();
@@ -272,9 +274,39 @@ sap.ui.define([
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
                 oView.byId("address2Id"), oView.byId("pincodeId"), oView.byId("contactPersonId"), oView.byId("contactPersonMobileId")];
 
-                if (data.GstApplicable === "YES") {
-                    aInputs.push(oView.byId("gstId"))
-                }
+                               // Inside _mandatCheck function
+                               if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
+                                aInputs.push(oView.byId("gstId"));
+                                var oDataModel = this.getView().getModel();
+                                // Reset to true before verification
+                                this.isGSTValid = true;
+                                var gstin = data.GstNumber;
+            
+                                var sPathGST = "/verifyGSTDetails";
+                                var mParametersGST = {
+                                    urlParameters: {
+                                        gstin: gstin
+                                    }
+                                };
+            
+                                // Await the GST verification
+                                await new Promise((resolve, reject) => {
+                                    oDataModel.callFunction(sPathGST, {
+                                        ...mParametersGST,
+                                        success: function (oData, response) {
+                                            var result = oData.verifyGSTDetails;
+                                            if (!result.isValid) {
+                                                this.isGSTValid = false;
+                                            }
+                                            resolve();
+                                        }.bind(this),
+                                        error: function (oError) {
+                                            this.isGSTValid = false;
+                                            resolve();
+                                        }.bind(this)
+                                    });
+                                });
+                            }
 
                 var aSelects = [oView.byId("constId"), oView.byId("countryId"), oView.byId("stateId"),
                 oView.byId("benAccTypeId")];
@@ -460,42 +492,55 @@ sap.ui.define([
                 }, 1000);
             },
 
-            onSubmitPress: function (oEvent) { //When submit is pressed
+            onSubmitPress: async function (oEvent) {
                 var that = this;
-                var mandat = this._mandatCheck(); //Mandatory Check
-                if (!mandat) { //Check Mandatory fields
+                BusyIndicator.show();
+                var mandat = await this._mandatCheck(); // Mandatory Check
+                if (!mandat && this.isGSTValid) {
                     var createData = this.createModel.getData();
                     var data = this.getView().getModel("request").getData();
+                    var oDataModel = this.getView().getModel();
+            
+                    // Prepare the function import parameters
+                    var sPath = "/verifyBankAccount";
+                    var mParameters = {
+                        urlParameters: {
+                            beneficiaryAccount: createData.AccountNo,
+                            beneficiaryIFSC: createData.IFSCCode
+                        },
+                        success: function (oData, response) {
+                            var result = oData.verifyBankAccount; // or response.data.verifyBankAccount;
+                            BusyIndicator.hide();
 
-                    // if (createData.VendorType === "DM" && createData.GstApplicable === "YES" &&
-                    //     (createData.Pan !== createData.GstNumber.substr(2, 10))) {
-                    //     MessageBox.error("Invalid GSTIN Number. GSTIN does not matches with entered PAN No.");
-                    //     return;
-                    // }
-                    //Get OTP
-                    BusyIndicator.show();
-                    this.otp = this.getOTP();
-                    MessageBox.information("To submit the data, kindly enter the OTP received " + this.otp, {
-                        onClose: () => this._enterOTP()
-                    });
+                            if (result.isValid) {
+                                // Generate OTP and proceed
+                                that.otp = that.getOTP();
+                                MessageBox.information("To submit the data, kindly enter the OTP received " + that.otp, {
+                                    onClose: () => that._enterOTP()
+                                });
+                            } else {
+                                MessageBox.error(result.errorMessage);
+                            }
+                        },
+                        error: function (oError) {
+                            BusyIndicator.hide();
+                            MessageBox.error("An error occurred while verifying the bank account.");
+                        }
+                    };
+
+                    // Execute the function import
+                    oDataModel.callFunction(sPath, mParameters);
+                } 
+                else
+                {
                     BusyIndicator.hide();
-                    // setTimeout(() => {
-                    //     this.getView().getModel().read("/OTPGetSet(Reqnr='" + this.id + "')", {
-                    //         success: (oData) => {
-                    //             this.otp = oData.Otp; //OTP to match
-                    //             MessageBox.information("To submit the data, kindly enter the OTP received on " + data.VenMail, {
-                    //                 onClose: () => this._enterOTP()
-                    //             })
-                    //             BusyIndicator.hide();
-                    //         },
-                    //         error: () => {
-                    //             BusyIndicator.hide();
-                    //         }
-                    //     });
-                    // }, 1000);
-                } else {
-                    MessageBox.information("Kindly fill all the required details");
+                    if (mandat) {
+                        MessageBox.information("Kindly fill all the required details");
+                    } else if (!this.isGSTValid) {
+                        MessageBox.error("Invalid GST Number");
+                    }
                 }
+
             },
 
             _enterOTP: function () {

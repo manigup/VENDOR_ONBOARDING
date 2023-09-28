@@ -1,5 +1,6 @@
 const cds = require('@sap/cds');
 const axios = require('axios').default;
+const { panOptions, gstOptions, bankOptions } = require('./apiConfig');
 const FormData = require('form-data');
 
 const sdmCredentials = {
@@ -46,6 +47,75 @@ module.exports = cds.service.impl(async function () {
 
         await _deleteAttachment(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId, req.data.ObjectId);
     });
+
+    this.on('verifyPANDetails', async (req) => {
+        const panNumber = req.data.panNumber;
+        const apiReqConfig = { ...panOptions };
+        apiReqConfig.data = {
+          task: 'fetch',
+          essentials: { number: panNumber }
+        };
+    
+        try {
+          const apiResponse = await axios.request(apiReqConfig);
+          return apiResponse.data;
+        } catch (error) {
+            const statusCode = error.response ? error.response.status : 'Unknown status code';
+            const errorMessage = error.message ? error.message : 'Unknown error';
+            return { isValid: false, statusCode: statusCode, errorMessage: errorMessage };
+        }
+    });
+    
+    this.on('verifyGSTDetails', async (req) => {
+        const gstin = req.data.gstin;
+    
+        const apiReqConfig = { ...gstOptions };
+        apiReqConfig.data = {
+            task: 'gstinSearch',
+            essentials: { gstin: gstin }
+        };
+    
+        try {
+            const apiResponse = await axios.request(apiReqConfig);
+            if (apiResponse.status === 200) {
+                return { isValid: true, statusCode: 200 };
+            } else {
+                return { isValid: false, statusCode: apiResponse.status };
+            }
+        } catch (error) {
+            const statusCode = error.response ? error.response.status : 'Unknown status code';
+            const errorMessage = error.message ? error.message : 'Unknown error';
+            return { isValid: false, statusCode: statusCode, errorMessage: errorMessage };
+        }
+    });
+
+    this.on('verifyBankAccount', async (req) => {
+        const { beneficiaryAccount, beneficiaryIFSC } = req.data;
+    
+        const apiReqConfig = { ...bankOptions };
+        apiReqConfig.data = {
+            task: 'bankTransfer',
+            essentials: {
+                beneficiaryAccount: beneficiaryAccount,
+                beneficiaryIFSC: beneficiaryIFSC
+            }
+        };
+    
+        try {
+            const apiResponse = await axios.request(apiReqConfig);
+            if (apiResponse.status === 200 && apiResponse.data.result.active === "yes") {
+                return { isValid: true, statusCode: 200 };
+            } else {
+                return { isValid: false, statusCode: apiResponse.status, errorMessage: "Bank account is not active" };
+            }
+        } catch (error) {
+            const statusCode = error.response ? error.response.status : 'Unknown status code';
+            const errorMessage = error.message ? error.message : 'Unknown error';
+            return { isValid: false, statusCode: statusCode, errorMessage: errorMessage };
+        }
+    });
+    
+
 });
 
 const _fetchJwtToken = async function (oauthUrl, oauthClient, oauthSecret) {
