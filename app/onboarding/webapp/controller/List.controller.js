@@ -124,7 +124,7 @@ sap.ui.define([
                     const payload = sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData();
                     payload.Vendor = this.generateVendorNo();
                     payload.VenFrom = new Date();
-                    payload.VenValidTo = this.changeDate(payload.VenFrom,7,"add");
+                    payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
                     setTimeout(() => {
                         this.getView().getModel().create("/VenOnboard", payload, {
                             success: (sData) => {
@@ -145,8 +145,13 @@ sap.ui.define([
             },
 
             onFormPress: function () {
-                //const url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
-                const url ="https://port4004-workspaces-ws-gcxrf.ap10.applicationstudio.cloud.sap/supplierform/webapp/index.html?id=" + this.vendorId;
+                const href = window.location.href;
+                let url;
+                if (href.includes("impautosuppdev")) {
+                    url = href + "/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
+                } else {
+                    url = "/supplierform/webapp/index.html?id=" + this.vendorId;
+                }
                 window.open(url);
             },
 
