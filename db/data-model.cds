@@ -52,8 +52,6 @@ entity Attachments : managed {
 entity VendorForm : managed {
   key VendorId                 : String;
       VendorName               : String;
-      VenValidTo               : DateTime;
-      VenFrom                  : DateTime;
       VendorType               : String(5);
       Type                     : String;
       VendorName2              : String;
@@ -78,8 +76,8 @@ entity VendorForm : managed {
       Remarks                  : String;
       Comments                 : String;
       MsmeItilView             : String;
-      MsmeValidTo              : Date;
-      MsmeValidFrom            : Date;
+      MsmeValidTo              : String;
+      MsmeValidFrom            : String;
       MsmeMainCertificate      : String;
       MsmeMainCertificateId    : String;
       MsmeCertificateNo        : String;
