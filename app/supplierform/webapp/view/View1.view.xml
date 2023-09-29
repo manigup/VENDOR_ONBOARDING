@@ -23,16 +23,21 @@
                         tooltip="watch"
                         color="red"
                         size="1.1rem"
+
                     />
                     <Label
                         design="Bold"
                         text="Remaining Time -"
-                        class="size5 sapUiTinyMarginEnd sapUiTinyMarginBegin"
+
+                        visible="{= ${request>/Status} === 'INITIATED'}"
                     />
+                    
                     <Label
                         id="idRemTime"
                         design="Bold"
+
                         text="{request>/VenTimeLeft}"
+
                         class="size5"
                     />
                 </FlexBox>
