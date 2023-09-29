@@ -84,11 +84,12 @@ sap.ui.define([
                 if (oEvent.getParameter("name") !== "RouteView1") {
                     return;
                 }
+        
                 this.id = jQuery.sap.getUriParameters().get("id");
                 var requestData = this.getView().getModel("request").getData();
-                BusyIndicator.show();
+              //  BusyIndicator.show();
                 this.vendorId = requestData.VendorId;
-                if (requestData.Status === "INITIATED") {
+
                     var payload = {
                         VendorId: requestData.VendorId,
                         VendorType: requestData.VendorType,
@@ -97,14 +98,17 @@ sap.ui.define([
                         Telephone: requestData.Telephone
                     };
                     var payloadStr = JSON.stringify(payload);
+
+                    var modulePath = jQuery.sap.getModulePath("sp/fiori/supplierform");
+                    modulePath = modulePath === "." ? "" : modulePath;
                     var sPath = `/v2/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
                     $.ajax({
-                        type: "GET",
+                        type: "PUT",
                         contentType: "application/json",
                         url: sPath,
+                        context: this,
                         data: payloadStr,
 
-                        context: this,
                         success: function (sdata, textStatus, jqXHR) {
                             let data = sdata.d;
                             if (jqXHR.status === 200 || jqXHR.status === 204) {
@@ -131,7 +135,9 @@ sap.ui.define([
                             if (data.MsmeMainCertificate === "X") {
                                 this.byId("msmeCert").setSelected(true);
                             }
+
                             data.BeneficiaryName = data.VendorName;
+
 
 
                             this.createModel.setData(data);
@@ -149,27 +155,11 @@ sap.ui.define([
                     });
 
                     this._showRemainingTime();
-                }
-                // else{
-                //     var sPath = "/odata/v4/catalog/VendorForm?$filter=VendorId eq " + this.id;
-                //     $.ajax({
-                //         type: "GET",
-                //         contentType: "application/json",
-                //         url: sPath,
-                //         dataType: "json",
-                //         context: this,
-                //         success: function (data) {
-                //             this.createModel.setData(data);
-                //             this.createModel.refresh(true);
-                //             BusyIndicator.hide();
-                //         }.bind(this),
-                //         error: () => {
-                //             BusyIndicator.hide();
-                //         }
-                //     });
-                // }
-            },
 
+                },
+                
+            
+          
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
@@ -539,8 +529,11 @@ sap.ui.define([
             onSubmitPress: async function (oEvent) {
                 var that = this;
                 // BusyIndicator.show();
+
+
                 var mandat = await this._mandatCheck(); // Mandatory Check
                 if (!mandat) { //this.isGSTValid
+
 
 
                     // var createData = this.createModel.getData();
@@ -770,7 +763,9 @@ sap.ui.define([
                     success: function (data, textStatus, jqXHR) {
                         if (jqXHR.status === 200 || jqXHR.status === 204) {
                             console.log("Data upserted successfully.");
-                            // window.location.reload();
+
+                             window.location.reload();
+
                         }
                     }.bind(this),
                     error: function (jqXHR, textStatus, errorThrown) {

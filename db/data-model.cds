@@ -16,8 +16,8 @@ entity States {
 };
 
 entity StatusCheck {
-  key email      : String;
-      Department : String;
+  key email  : String;
+      Access : String;
 };
 
 entity VenOnboardHeader : managed {

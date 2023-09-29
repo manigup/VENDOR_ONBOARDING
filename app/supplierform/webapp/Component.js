@@ -38,8 +38,9 @@ sap.ui.define([
                 var modulePath = jQuery.sap.getModulePath("sp/fiori/supplierform");
                 modulePath = modulePath === "." ? "" : modulePath;
 
-                var sPath = modulePath + "/v2/odata/v4/catalog/VenOnboard?$filter=VendorId eq " + this.id;
 
+                var sPath = modulePath + "v2/odata/v4/catalog/VenOnboard?$filter=VendorId eq " + this.id;
+    
                 $.ajax({
                     type: "GET",
                     contentType: "application/json",
@@ -48,7 +49,9 @@ sap.ui.define([
                     context: this,
                     success: function (data) {
                         console.log("Returned data:", data);
+
                         // BusyIndicator.hide();
+
                         requestModel.setData(data.d.results[0]);
                         requestModel.refresh(true);
 
@@ -86,7 +89,9 @@ sap.ui.define([
                     }
                 });
 
+
             }
+
 
         });
     }

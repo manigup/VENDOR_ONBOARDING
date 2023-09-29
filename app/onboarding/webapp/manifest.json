@@ -121,6 +121,13 @@
                     "target": [
                         "List"
                     ]
+                },
+                {
+                    "pattern": "Info/{VendorId}",
+                    "name": "Form",
+                    "target": [
+                        "Form"
+                    ]
                 }
             ],
             "targets": {
@@ -130,6 +137,13 @@
                     "clearControlAggregation": false,
                     "viewId": "List",
                     "viewName": "List"
+                },
+                "Form": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "Form",
+                    "viewName": "Form"
                 }
             }
         },

@@ -164,8 +164,8 @@ formatter = {
         resetValidity === "X" ? this.addStyleClass("resetValidity") : this.removeStyleClass("resetValidity");
         return vendor;
     },
-    moreInfoBtnVisible: function (status, Dept) {
-        if ( (status === "SBS" && Dept === "SCM") || (status === "SBC" && Dept === "Finance")) {
+    moreInfoBtnVisible: function (status, Access) {
+        if ( (status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance")) {
             return true;
         } else {
             return false;
