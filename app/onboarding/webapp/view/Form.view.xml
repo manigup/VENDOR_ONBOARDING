@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="sp.fiori.supplierform.controller.View1"
+    controllerName="sp.fiori.onboarding.controller.Form"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc"
@@ -7,52 +7,11 @@
     xmlns:u="sap.ui.unified"
     class="sapUiSizeCompact"
 >
-    <Page>
-        <customHeader>
-            <OverflowToolbar>
-                <Image
-                    src="images/logo.png"
-                    height="90%"
-                />
-                <ToolbarSpacer />
-                <Title text="Vendor Creation Form" />
-                <ToolbarSpacer />
-                <FlexBox>
-                    <core:Icon
-                        src="sap-icon://fob-watch"
-                        tooltip="watch"
-                        color="red"
-                        size="1.1rem"
-                    />
-                    <Label
-                        design="Bold"
-                        text="Remaining Time -"
-                        class="size5 sapUiTinyMarginEnd sapUiTinyMarginBegin"
-                    />
-                    <Label
-                        id="idRemTime"
-                        design="Bold"
-                        text="{request>/VenTimeLeft}"
-                        class="size5"
-                    />
-                </FlexBox>
-                <ToolbarSpacer />
-                <Button
-                    id="saveBtnId"
-                    text="Draft"
-                    tooltip="Save as Draft"
-                    type="Ghost"
-                    press="onSavePress"
-                />
-                <Button
-                    id="submitBtnId"
-                    text="Submit"
-                    tooltip="Submit"
-                    type="Emphasized"
-                    press="onSubmitPress"
-                />
-            </OverflowToolbar>
-        </customHeader>
+    <Page id="Form" titleAlignment="Center" showNavButton="true" navButtonPress="formatter.onNavBack">
+        <headerContent>
+            <!-- <Button id="editBtnId" text="Edit" tooltip="Edit" type="Emphasized" press="onEdit" visible="{= ${request>/edit} === false}" /> -->
+            <Button id="submitBtnId" text="Submit" tooltip="Submit" type="Emphasized" press="onSubmitPress" />
+        </headerContent>
         <content>
             <Panel
                 headerText="General Data"
@@ -322,10 +281,12 @@
                             text="MSME ITIL View"
                         />
                         <RadioButtonGroup
+                        selectedIndex="{= ${create>/MsmeItilView} === 'MSME' ? 0 : 1}"
                             columns="2"
                             id="msmeItil"
+                            visible="{= ${create>/VendorType} === 'DM}"
                             select="onRadioButtonSelect"
-                            visible="{= ${request>/VendorType} === 'DM'}"
+                            
                         >
                             <RadioButton text="MSME" />
                             <RadioButton text="Non-MSME" />
@@ -338,7 +299,8 @@
                         <CheckBox
                             id="msmeCert"
                             select="onMainCertificateChange"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                            selected="{= ${create>/MsmeMainCertificate} === 'X' ? 'true' : 'false'}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
                         <Label
                             design="Bold"
@@ -350,7 +312,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/MsmeCertificateId}"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         >
                             <core:Item
                                 key="INMED"
@@ -373,7 +335,7 @@
                         <Input
                             id="MsmeCertificateNo"
                             value="{path:'create>/MsmeCertificateNo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
                         <Label
                             design="Bold"
@@ -384,7 +346,7 @@
                             id="MsmeValidFrom"
                             value="{path:'create>/MsmeValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
                         <Label
                             design="Bold"
@@ -395,7 +357,7 @@
                             id="MsmeValidTo"
                             value="{create>/MsmeValidTo}"
                             valueFormat="yyyyMMdd"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
                         <Label
                             design="Bold"
@@ -405,7 +367,7 @@
                         <Input
                             id="MsmeRegistrationCity"
                             value="{path:'create>/MsmeRegistrationCity',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
                         <Label
                             design="Bold"
@@ -422,7 +384,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
                             maximumFileSize="5MB"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         >
                             <u:customData>
                                 <core:CustomData key="UMD" />
@@ -432,7 +394,7 @@
                             id="msmefileUploadLink"
                             text="{create>/MsmeDeclarationName}"
                             press="onAttachmentGet"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeDeclarationName} !== ''}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         >
                             <customData>
                                 <core:CustomData key="UMD" />
@@ -449,7 +411,7 @@
                             placeholder="Enter PAN Number (Eg: ABCDE1234Z)"
                             change="onInputChange($event,'Pan')"
                             value="{path:'create>/Pan',type: '.customPanType'}"
-                            visible="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'EM'}"
+                            visible="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'EM'}"
                         />
                         <Label
                             design="Bold"
@@ -466,7 +428,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
                             maximumFileSize="5MB"
-                            visible="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'EM'}"
+                            visible="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'EM'}"
                         >
                             <u:customData>
                                 <core:CustomData key="PAN" />
@@ -476,7 +438,7 @@
                             id="panfileUploadLink"
                             text="{create>/PanName}"
                             press="onAttachmentGet"
-                            visible="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'EM' &amp;&amp; ${create>/PanName} !== ''}"
+                            visible="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'EM'}"
                         >
                             <customData>
                                 <core:CustomData key="PAN" />
@@ -490,7 +452,7 @@
                             id="tanId"
                             placeholder="Enter TAN Number"
                             value="{path:'create>/Tan',type : 'sap.ui.model.type.String', constraints : { minLength: 1, maxLength: 10} }"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsDom'}"
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsDom'}"
                         />
                         <Label
                             design="Bold"
@@ -500,8 +462,9 @@
                         <RadioButtonGroup
                             id="gstRbId"
                             columns="2"
+                            selectedIndex="{= ${create>/GstApplicable} === 'YES' ? 0 : 1}"
                             select="onRadioButtonSelect"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsDom'}"
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsDom'}"
                         >
                             <RadioButton text="Yes" />
                             <RadioButton text="No" />
@@ -544,7 +507,7 @@
                             id="gstfileUploadLink"
                             text="{create>/GstFileName}"
                             press="onAttachmentGet"
-                            visible="{= ${create>/GstApplicable} === 'YES' &amp;&amp; ${create>/GstFileName} !== ''}"
+                            visible="{= ${create>/GstApplicable} === 'YES'}"
                         >
                             <customData>
                                 <core:CustomData key="GA" />
@@ -555,19 +518,11 @@
                             text="Currency"
                             required="true"
                         />
-                        <ComboBox
+                        <Input
                             id="currId"
-                            selectedKey="{create>/Currency}"
-                            items="{path:'/CurrencySet',length:250}"
-                            showSecondaryValues="true"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
-                        >
-                            <core:ListItem
-                                key="{Waers}"
-                                text="{Ktext}"
-                                additionalText="{Waers}"
-                            />
-                        </ComboBox>
+                            value="{create>/Currency}"                            
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
+                        />
                         <Label
                             design="Bold"
                             text="VAT ID/EORI Number"
@@ -575,7 +530,7 @@
                         <Input
                             placeholder="Enter VAT ID/EORI Number"
                             value="{create>/VAT}"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         />
                         <Label
                             design="Bold"
@@ -683,7 +638,6 @@
                         <Link
                             id="canChqfileUploadLink"
                             text="{create>/CancelledCheque}"
-                            visible="{= ${create>/CancelledCheque} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -708,7 +662,7 @@
                         <Label
                             design="Bold"
                             text="New Vendor Quotation"
-                            required="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'IP'}"
+                            required="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'IP'}"
                         />
                         <u:FileUploader
                             id="quotfileUploader"
@@ -727,7 +681,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/NewVendorQuotationName}"
-                            visible="{= ${create>/NewVendorQuotationName} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -754,7 +707,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/NdaName}"
-                            visible="{= ${create>/NdaName} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -764,7 +716,7 @@
                         <Label
                             design="Bold"
                             text="Code of Conduct"
-                            required="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'IP'}"
+                            required="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'IP'}"
                         />
                         <u:FileUploader
                             id="cocFileUploader"
@@ -783,7 +735,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/CocName}"
-                            visible="{= ${create>/CocName} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -810,7 +761,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/AgreementName}"
-                            visible="{= ${create>/AgreementName} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -837,7 +787,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/ProjectAppropriationName}"
-                            visible="{= ${create>/ProjectAppropriationName} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -864,7 +813,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/RelatedEmailName}"
-                            visible="{= ${create>/RelatedEmailName} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -884,7 +832,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
                             buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
                                 <core:CustomData key="TRC" />
@@ -892,7 +840,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/TaxResidencyCertificate}"
-                            visible="{= ${create>/TaxResidencyCertificate} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -912,7 +859,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
                             buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
                                 <core:CustomData key="F10" />
@@ -920,7 +867,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/Form10F}"
-                            visible="{= ${create>/Form10F} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -940,7 +886,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
                             buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
                                 <core:CustomData key="PEC" />
@@ -948,7 +894,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/EstablishmentCertificate}"
-                            visible="{= ${create>/EstablishmentCertificate} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -968,7 +913,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
                             buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
                                 <core:CustomData key="LDC" />
@@ -976,7 +921,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/DeductionCertificate}"
-                            visible="{= ${create>/DeductionCertificate} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -996,7 +940,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
                             buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
+                            visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
                                 <core:CustomData key="OTH" />
@@ -1004,8 +948,6 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/OtherDocument}"
-                            tooltip=""
-                            visible="{= ${create>/OtherDocument} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
