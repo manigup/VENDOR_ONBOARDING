@@ -89,7 +89,7 @@ sap.ui.define([
                 var requestData = this.getView().getModel("request").getData();
               //  BusyIndicator.show();
                 this.vendorId = requestData.VendorId;
-                
+
                     var payload = {
                         VendorId: requestData.VendorId,
                         VendorType: requestData.VendorType,
@@ -98,6 +98,7 @@ sap.ui.define([
                         Telephone: requestData.Telephone
                     };
                     var payloadStr = JSON.stringify(payload);
+
                     var modulePath = jQuery.sap.getModulePath("sp/fiori/supplierform");
                     modulePath = modulePath === "." ? "" : modulePath;
                     var sPath = `/v2/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
@@ -107,6 +108,7 @@ sap.ui.define([
                         url: sPath,
                         context: this,
                         data: payloadStr,
+
                         success: function (sdata, textStatus, jqXHR) {
                             let data = sdata.d;
                             if (jqXHR.status === 200 || jqXHR.status === 204) {
@@ -133,8 +135,11 @@ sap.ui.define([
                             if (data.MsmeMainCertificate === "X") {
                                 this.byId("msmeCert").setSelected(true);
                             }
-                            data.BeneficiaryName = requestData.VendorName;
-                            
+
+                            data.BeneficiaryName = data.VendorName;
+
+
+
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
                             // if (data.Country) {
@@ -150,16 +155,11 @@ sap.ui.define([
                     });
 
                     this._showRemainingTime();
+
                 },
                 
             
-            // getBaseURL: function () {
-            //     var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
-            //     var appPath = appId.replaceAll(".", "/");
-            //     var appModulePath = jQuery.sap.getModulePath(appPath);
-            //     return appModulePath;
-            // },   
-
+          
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
@@ -529,8 +529,11 @@ sap.ui.define([
             onSubmitPress: async function (oEvent) {
                 var that = this;
                 // BusyIndicator.show();
-                // var mandat = await this._mandatCheck(); // Mandatory Check
-                if (true) { //this.isGSTValid
+
+
+                var mandat = await this._mandatCheck(); // Mandatory Check
+                if (!mandat) { //this.isGSTValid
+
 
 
                     // var createData = this.createModel.getData();
@@ -760,7 +763,9 @@ sap.ui.define([
                     success: function (data, textStatus, jqXHR) {
                         if (jqXHR.status === 200 || jqXHR.status === 204) {
                             console.log("Data upserted successfully.");
+
                              window.location.reload();
+
                         }
                     }.bind(this),
                     error: function (jqXHR, textStatus, errorThrown) {
