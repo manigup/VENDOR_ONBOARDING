@@ -217,14 +217,14 @@
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus4"
-                                text="{DataModel>Level}"
+                                text="{DataModel>VenLevel}"
                                 inverted="true"
-                                state="{parts:[{path:'DataModel>Level'},{path:'DataModel>Lifnr'}],formatter:'formatter.levelState'}"
+                                
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus5"
-                                text="{DataModel>ApprovalPending}"
-                                state="{parts:[{path:'DataModel>Level'},{path:'DataModel>Lifnr'}],formatter:'formatter.levelState'}"
+                                text="{DataModel>VenApprovalPending}"
+                                
                                 class="objectStatus"
                             />
                             <FlexBox
@@ -238,9 +238,10 @@
                                     class="approveBtn"
                                     text="Approve"
                                     type="Accept"
-                                    press="onActionPress"
+                                    press="onApprPress"
                                     width="80px"
-                                    visible="false"
+                                    visible="{path:'DataModel>VenApprove',formatter:'formatter.approveBtnVisible'}"
+                                    
                                 >
                                     <customData>
                                         <core:CustomData
@@ -255,9 +256,9 @@
                                     class="rejectBtn"
                                     text="Reject"
                                     type="Reject"
-                                    press="onActionPress"
+                                    press="onRejPress"
                                     width="80px"
-                                    visible="false"
+                                    visible="{path:'DataModel>VenApprove',formatter:'formatter.approveBtnVisible'}"
                                 >
                                     <customData>
                                         <core:CustomData

@@ -284,7 +284,7 @@
                         selectedIndex="{= ${create>/MsmeItilView} === 'MSME' ? 0 : 1}"
                             columns="2"
                             id="msmeItil"
-                            visible="{= ${create>/VendorType} === 'DM}"
+                            visible="{= ${create>/VendorType} === 'DM'}"
                             select="onRadioButtonSelect"
                             
                         >
@@ -299,7 +299,7 @@
                         <CheckBox
                             id="msmeCert"
                             select="onMainCertificateChange"
-                            selected="{= ${create>/MsmeMainCertificate} === 'X' ? 'true' : 'false'}"
+                            selected="{= ${create>/MsmeMainCertificate} === 'X' ? true : false}"
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
                         <Label

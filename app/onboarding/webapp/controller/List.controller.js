@@ -26,14 +26,15 @@ sap.ui.define([
                 if (evt.getParameter("name") !== "list") {
                     return;
                 }
-               // this.getView().setModel(new JSONModel([]), "DataModel");
+                // this.getView().setModel(new JSONModel([]), "DataModel");
                 this.getData();
             },
 
             getData: function () {
                 BusyIndicator.show();
                 setTimeout(() => {
-                     var requestData = this.getView().getModel("request").getData();
+                    //  var requestData = this.getView().getModel("request").getData();
+
                     // this.getView().getModel().read("/EmpRoleSet", {
                     //     success: (data) => {
                     //         var access;
@@ -61,6 +62,16 @@ sap.ui.define([
                                 parseInt(item.Score);
                                 return item;
                             });
+                            var reqData = { supplychain: false, finance: false };
+                            var accessdata = this.getView().getModel("AccessDetails").getData();
+                            var res = this.getView().getModel("UserApiDetails").getData();
+                            //var res = {};
+                            //res.email = "rajeshsehgal@impauto.com";
+                            reqData.supplychain = accessdata.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
+                            reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
+                            reqData.supplychain = true;
+                            this.getView().getModel("request").setData(reqData);
+                            this.getView().getModel("request").refresh(true);
                             this.getView().getModel("DataModel").setData(data.results);
                             this.getView().getModel("DataModel").setSizeLimit(data.results.length);
                             this.getView().getModel("DataModel").refresh(true);
@@ -82,7 +93,7 @@ sap.ui.define([
                         new Filter("Vendor", sap.ui.model.FilterOperator.Contains, sValue), // Supplier Code
                         new Filter("VendorName", sap.ui.model.FilterOperator.Contains, sValue), // Supplier Name
                         new Filter("Lifnr", sap.ui.model.FilterOperator.Contains, sValue), // Business Partner
-                        new Filter("ApprovalPending", sap.ui.model.FilterOperator.Contains, sValue), // Approval Pending
+                        new Filter("VenApprovalPending", sap.ui.model.FilterOperator.Contains, sValue), // Approval Pending
                         new Filter("StatusText", sap.ui.model.FilterOperator.Contains, sValue) // Status
                     ])]);
                 } else {
@@ -157,7 +168,7 @@ sap.ui.define([
                 window.open(url);
             },
 
-            onMoreInfoPress: function () {
+            onMoreInfoPress: function (evt) {
                 evt.getSource().getParent().getParent().destroy();
                 this.getRouter().navTo("Form", { VendorId: this.vendorId });
             },
@@ -167,10 +178,10 @@ sap.ui.define([
                 var requestData = this.getView().getModel("request").getData();
                 this.vendor = data.Vendor;
                 this.vendorId = data.VendorId;
-                if(requestData.supplychain === true){
-                    data.Access = "SCM"; 
-                }else if(requestData.finance === true){
-                    data.Access = "Finance"; 
+                if (requestData.supplychain === true) {
+                    data.Access = "SCM";
+                } else if (requestData.finance === true) {
+                    data.Access = "Finance";
                 }
                 var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
                 sap.ui.getCore().byId("displayPopover").setModel(new JSONModel(data), "VenModel");
@@ -251,6 +262,108 @@ sap.ui.define([
                                 });
                             }, 1000);
                         }
+                    }
+                });
+            },
+            onApprPress: function (evt) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
+                this.vendorId = vendata[sPath].VendorId;
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.vendorId) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "SBF" || venStatus === "RBF") {
+                    stat = "SCA";
+                    appr = "1"
+                    level = "2";
+                    pending = "Finance"
+                } else if (venStatus === "SCA") {
+                    stat = "ABF";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                    success: () => {
+
+                        MessageBox.success("Form approved successfully", {
+                            onClose: () => this.getData()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
+                    }
+                });
+            },
+            onRejPress: function (evt) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
+                this.vendorId = vendata[sPath].VendorId;
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.vendorId) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "SBF") {
+                    stat = "SCR";
+                } else if (venStatus === "SCA") {
+                    stat = "RBF";
+                    appr = "1"
+                    level = "1";
+                    pending = "Supply Chain";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                    success: () => {
+
+                        MessageBox.error("Form rejected successfully", {
+                            onClose: () => this.getData()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
                     }
                 });
             }
