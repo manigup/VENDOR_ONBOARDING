@@ -26,9 +26,10 @@ sap.ui.define([
                 // call the base component's init function
                 UIComponent.prototype.init.apply(this, arguments);
 
-                var reqData = { supplychain: false, finance: false };
+                
                 this.setModel(new JSONModel([]), "DataModel");
                 this.setModel(new JSONModel([]), "AccessDetails");
+                this.setModel(new JSONModel([]), "UserApiDetails");
                 this.getModel().metadataLoaded(true).then(() => {
                     // metadata success
                     this.getStatus();
@@ -41,35 +42,32 @@ sap.ui.define([
                         type: "GET",
                         success: res => {
                             console.log("RESPONSE: ", res);
-                            var data = this.getModel("AccessDetails").getData();
-                            reqData.supplychain = data.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
-                            reqData.finance = data.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
+                            this.getModel("UserApiDetails").setData(res);
                             // Store the name and email in session storage
                             sessionStorage.setItem('userName', res.name);
                             sessionStorage.setItem('userEmail', res.email);
-                            this.getModel("request").setData(reqData);
-                            this.getModel("request").refresh(true);
+                           
                             console.log(`Name and Email stored in session storage`);
                         },
                         error: (jqXHR, textStatus, errorThrown) => {
                             console.log("ERROR: ", textStatus, ", DETAILS: ", errorThrown);
                         }
                     });
-                    $.ajax({
-                        url: 'http://103.237.175.233:84/IAIAPI.asmx/TestConnection',
-                        type: 'POST',
-                        contentType: 'application/json',
-                         data: JSON.stringify({}),
+                    // $.ajax({
+                    //     url: 'http://103.237.175.233:84/IAIAPI.asmx/TestConnection',
+                    //     type: 'POST',
+                    //     contentType: 'application/json',
+                    //      data: JSON.stringify({}),
 
-                        success: function (response) {
+                    //     success: function (response) {
 
-                            console.log(reponse);
-                        },
-                        error: function (error) {
-                            console.log(error);
+                    //         console.log(reponse);
+                    //     },
+                    //     error: function (error) {
+                    //         console.log(error);
 
-                        },
-                        });
+                    //     },
+                    //     });
                     // enable routing
                     HashChanger.getInstance().replaceHash("");
                     this.getRouter().initialize();

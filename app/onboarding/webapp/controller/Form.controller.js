@@ -359,7 +359,7 @@ sap.ui.define([
                 var mandat = await this._mandatCheck(); // Mandatory Check
                 if (!mandat) { //this.isGSTValid
                     var createData = this.createModel.getData();
-                   // var data = this.getView().getModel("request").getData();
+                    // var data = this.getView().getModel("request").getData();
                     this.saveData(createData);
                     // Prepare the function import parameters
                     // var sPath = "/verifyBankAccount";
@@ -408,11 +408,11 @@ sap.ui.define([
                 setTimeout(() => {
                     this.getView().getModel().update("/VendorForm(VendorId='" + this.id + "')", createData, {
                         success: () => {
-                                BusyIndicator.hide();
-                                this.changeStatus();
-                                // MessageBox.success("Form submitted successfully", {
-                                //     onClose: () => formatter.onNavBack()
-                                // }); 
+                            BusyIndicator.hide();
+                            this.changeStatus();
+                            // MessageBox.success("Form submitted successfully", {
+                            //     onClose: () => formatter.onNavBack()
+                            // }); 
                         },
                         error: () => {
                             BusyIndicator.hide();
@@ -421,141 +421,179 @@ sap.ui.define([
                 }, 1000);
             },
 
-onFileUploaderChange: function (evt) {
-    var oFileUploader = evt.getSource();
-    oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
-    BusyIndicator.show();
-    //var key = oFileUploader.getCustomData()[0].getKey();
-    // oFileUploader.removeAllHeaderParameters();
-    oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
-        name: "slug",
-        value: this.vendorId + "/" + oFileUploader.getValue()
-    }));
-    //oFileUploader.upload();
+            onFileUploaderChange: function (evt) {
+                var oFileUploader = evt.getSource();
+                oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
+                BusyIndicator.show();
+                //var key = oFileUploader.getCustomData()[0].getKey();
+                // oFileUploader.removeAllHeaderParameters();
+                oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
+                    name: "slug",
+                    value: this.id + "/" + oFileUploader.getValue()
+                }));
+                //oFileUploader.upload();
 
-    oFileUploader.checkFileReadable().then(() => {
-        oFileUploader.upload();
-    }, () => {
-        MessageBox.information("The file cannot be read. It may have changed.");
-    });
-},
+                oFileUploader.checkFileReadable().then(() => {
+                    oFileUploader.upload();
+                }, () => {
+                    MessageBox.information("The file cannot be read. It may have changed.");
+                });
+            },
 
-onUploadComplete: function (evt) {
-    BusyIndicator.hide();
-    if (evt.getParameters().status !== 201) {
-        MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
-        // BusyIndicator.show();
-    } else {
-        MessageToast.show("File " + evt.getParameters().fileName + " Attached successfully");
-
-    }
-},
-
-onFileSizeExceded: function (evt) {
-    MessageBox.error("File size exceeds the range of 5MB");
-    evt.getSource().setValueState("Error");
-},
-
-onAttachmentGet: function (evt) { // display attachments
-    //var key = evt.getSource().getCustomData()[0].getKey();
-    //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
-    //  "')/$value", true);
-    BusyIndicator.show();
-    setTimeout(() => {
-        this.getView().getModel().read("/Attachments", {
-            filters: [new Filter("VendorId", "EQ", this.vendorId)],
-            success: (data) => {
-                //data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
-                sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.vendorId + "',ObjectId='" + item.ObjectId + "')/$value", true);
-                // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+            onUploadComplete: function (evt) {
                 BusyIndicator.hide();
-            },
-            error: () => BusyIndicator.hide()
-        });
-    }, 1000);
-},
+                if (evt.getParameters().status !== 201) {
+                    MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
+                    // BusyIndicator.show();
+                } else {
+                    MessageToast.show("File " + evt.getParameters().fileName + " Attached successfully");
 
-onMainCertificateChange: function (evt) {
-    if (evt.getParameter("selected")) {
-        this.createModel.setProperty("/MsmeMainCertificate", "X");
-    } else {
-        this.createModel.setProperty("/MsmeMainCertificate", "");
-    }
-    this.createModel.refresh(true);
-},
-
-changeStatus: function () {
-    var vendata = this.getView().getModel("DataModel").getData();
-    var stat = "";
-    if (vendata.Status === "SBS") {
-        stat = "SBC";
-    } else if (vendata.Status === "SBC") {
-        stat = "SBF";
-    }
-    var payload = vendata;
-    payload.Status = stat;
-    var payloadStr = JSON.stringify(payload);
-    var sPath = `/v2/odata/v4/catalog/VenOnboard(Vendor='${vendata.Vendor}',VendorId=${vendata.VendorId})`;
-    $.ajax({
-        type: "PUT",
-        contentType: "application/json",
-        url: sPath,
-        data: payloadStr,
-        context: this,
-        success: function (data, textStatus, jqXHR) {
-            MessageBox.success("Form submitted successfully", {
-                onClose: () => formatter.onNavBack()
-            }); 
-        }.bind(this),
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Upsert failed: ", errorThrown);
-        }
-    });
-},
-
-customPanType: SimpleType.extend("Pan", {
-    formatValue: function (oValue) {
-        return oValue;
-    },
-    parseValue: function (oValue) {
-        return oValue;
-    },
-    validateValue: function (oValue) {
-        var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-        if (!oValue.match(regpan)) {
-            throw new ValidateException("'" + oValue + "' is not a valid PAN Number");
-        }
-    }
-}),
-
-    customGstType: SimpleType.extend("Gst", {
-        formatValue: function (oValue) {
-            return oValue;
-        },
-        parseValue: function (oValue) {
-            return oValue;
-        },
-        validateValue: function (oValue) {
-            var reggst = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-            if (!oValue.match(reggst)) {
-                throw new ValidateException("'" + oValue + "' is not a valid GST Number");
-            }
-        }
-    }),
-        customAccountType: SimpleType.extend("accountno", {
-            formatValue: function (oValue) {
-                return oValue;
-            },
-            parseValue: function (oValue) {
-                return oValue;
-            },
-            validateValue: function (oValue) {
-
-                var rexMail = /^[a-zA-Z0-9]+$/;
-                if (!oValue.match(rexMail)) {
-                    throw new ValidateException("'" + oValue + "' is not a valid Account Number");
                 }
-            }
-        }),
+            },
+
+            onFileSizeExceded: function (evt) {
+                MessageBox.error("File size exceeds the range of 5MB");
+                evt.getSource().setValueState("Error");
+            },
+
+            onAttachmentGet: function (evt) { // display attachments
+                //var key = evt.getSource().getCustomData()[0].getKey();
+                //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
+                //  "')/$value", true);
+                BusyIndicator.show();
+                setTimeout(() => {
+                    this.getView().getModel().read("/Attachments", {
+                        filters: [new Filter("VendorId", "EQ", this.id)],
+                        success: (data) => {
+                            //data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
+                            sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.id + "',ObjectId='" + item.ObjectId + "')/$value", true);
+                            // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+                            BusyIndicator.hide();
+                        },
+                        error: () => BusyIndicator.hide()
+                    });
+                }, 1000);
+            },
+
+            onMainCertificateChange: function (evt) {
+                if (evt.getParameter("selected")) {
+                    this.createModel.setProperty("/MsmeMainCertificate", "X");
+                } else {
+                    this.createModel.setProperty("/MsmeMainCertificate", "");
+                }
+                this.createModel.refresh(true);
+            },
+
+            changeStatus: function () {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.id) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "SBS") {
+                    stat = "SBC";
+                } else if (venStatus === "SBC") {
+                    stat = "SBF";
+                    appr = "1"
+                    level = "1";
+                    pending = "Supply Chain";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.id + ")", payload, {
+                    success: () => {
+
+                        MessageBox.success("Form submitted successfully", {
+                            onClose: () => formatter.onNavBack()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
+                    }
+                });
+                // var payloadStr = JSON.stringify(payload);
+                // var sPath = `/v2/odata/v4/catalog/VenOnboard(Vendor='${vendata.Vendor}',VendorId=${vendata.VendorId})`;
+                // $.ajax({
+                //     type: "PUT",
+                //     contentType: "application/json",
+                //     url: sPath,
+                //     data: payloadStr,
+                //     context: this,
+                //     success: function (data, textStatus, jqXHR) {
+                //         MessageBox.success("Form submitted successfully", {
+                //             onClose: () => formatter.onNavBack()
+                //         }); 
+                //     }.bind(this),
+                //     error: function (jqXHR, textStatus, errorThrown) {
+                //         console.log("Upsert failed: ", errorThrown);
+                //     }
+                // });
+            },
+
+            customPanType: SimpleType.extend("Pan", {
+                formatValue: function (oValue) {
+                    return oValue;
+                },
+                parseValue: function (oValue) {
+                    return oValue;
+                },
+                validateValue: function (oValue) {
+                    var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+                    if (!oValue.match(regpan)) {
+                        throw new ValidateException("'" + oValue + "' is not a valid PAN Number");
+                    }
+                }
+            }),
+
+            customGstType: SimpleType.extend("Gst", {
+                formatValue: function (oValue) {
+                    return oValue;
+                },
+                parseValue: function (oValue) {
+                    return oValue;
+                },
+                validateValue: function (oValue) {
+                    var reggst = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+                    if (!oValue.match(reggst)) {
+                        throw new ValidateException("'" + oValue + "' is not a valid GST Number");
+                    }
+                }
+            }),
+            customAccountType: SimpleType.extend("accountno", {
+                formatValue: function (oValue) {
+                    return oValue;
+                },
+                parseValue: function (oValue) {
+                    return oValue;
+                },
+                validateValue: function (oValue) {
+
+                    var rexMail = /^[a-zA-Z0-9]+$/;
+                    if (!oValue.match(rexMail)) {
+                        throw new ValidateException("'" + oValue + "' is not a valid Account Number");
+                    }
+                }
+            }),
         });
     });

@@ -37,13 +37,22 @@ formatter = {
                     text = "Submited by Supplier";
                     break;
                 case "SBC":
-                    text = "Submited by SCM";
-                    break; 
+                    text = "Submited by Supply Chain";
+                    break;
                 case "SBF":
                     text = "Submited by Finance";
-                    break;        
-                case "SBB":
-                    text = "Submitted by Buyer";
+                    break;
+                case "SCA":
+                    text = "Approved by Supply Chain";
+                    break;
+                case "ABF":
+                    text = "Approved by Finance";
+                    break;
+                case "SCR":
+                    text = "Rejected by Supply Chain";
+                    break;
+                case "RBF":
+                    text = "Rejected by Finance";
                     break;
                 case "SCC":
                     text = "Supplier Code Created";
@@ -165,7 +174,14 @@ formatter = {
         return vendor;
     },
     moreInfoBtnVisible: function (status, Access) {
-        if ( (status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance")) {
+        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance")) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    approveBtnVisible: function (approve) {
+        if (approve === "1") {
             return true;
         } else {
             return false;
