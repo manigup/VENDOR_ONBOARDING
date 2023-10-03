@@ -42,6 +42,7 @@ entity VenOnboardHeader : managed {
 entity Attachments : managed {
   key VendorId  : String;
   key ObjectId  : String;
+  Venfiletype   : String;
 
       @Core.MediaType                  : Mediatype
       @Core.ContentDisposition.Filename: Filename

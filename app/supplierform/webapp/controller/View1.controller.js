@@ -105,11 +105,11 @@ sap.ui.define([
                     //modulePath = modulePath === "." ? "" : modulePath;
                     var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
                     $.ajax({
-                        type: "PUT",
+                        type: "GET",
                         contentType: "application/json",
                         url: sPath,
                         context: this,
-                        data: payloadStr,
+                        
 
                         success: function (sdata, textStatus, jqXHR) {
                             let data = sdata.d;
@@ -665,11 +665,12 @@ sap.ui.define([
                 var oFileUploader = evt.getSource();
                 oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
                 BusyIndicator.show();
-                //var key = oFileUploader.getCustomData()[0].getKey();
+                var key = oFileUploader.getCustomData()[0].getKey();
                 // oFileUploader.removeAllHeaderParameters();
                 oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
                     name: "slug",
-                    value: this.vendorId + "/" + oFileUploader.getValue()
+                    value: this.vendorId + "/" + oFileUploader.getValue() + "/" + key 
+                    
                 }));
                 //oFileUploader.upload();
 
@@ -697,7 +698,7 @@ sap.ui.define([
             },
 
             onAttachmentGet: function (evt) { // display attachments
-                //var key = evt.getSource().getCustomData()[0].getKey();
+                var key = evt.getSource().getCustomData()[0].getKey();
                 //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
                 //  "')/$value", true);
                 BusyIndicator.show();
@@ -705,8 +706,8 @@ sap.ui.define([
                     this.getView().getModel().read("/Attachments", {
                         filters: [new Filter("VendorId", "EQ", this.vendorId)],
                         success: (data) => {
-                            //data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
-                            sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.vendorId + "',ObjectId='" + item.ObjectId + "')/$value", true);
+                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
+                            //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.vendorId + "',ObjectId='" + item.ObjectId + "')/$value", true);
                             // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
                             BusyIndicator.hide();
                         },
