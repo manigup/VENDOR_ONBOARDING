@@ -32,8 +32,9 @@ function (UIComponent, Device, models, BusyIndicator, MessageBox, Filter, format
         async getDataFromServer() {
             return new Promise((resolve, reject) => {
                 const id = jQuery.sap.getUriParameters().get("id");
-                const hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
-                const sPath = hardcodedURL + `/v2/odata/v4/catalog/VenOnboard?$filter=VendorId eq ${id}`;
+              //  const hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
+              const  hardcodedURL = "";
+              const sPath = hardcodedURL + `/v2/odata/v4/catalog/VenOnboard?$filter=VendorId eq ${id}`;
 
                 $.ajax({
                     type: "GET",

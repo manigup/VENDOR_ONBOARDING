@@ -346,7 +346,7 @@ sap.ui.define([
                     stat = "SCR";
                 } else if (venStatus === "SCA") {
                     stat = "RBF";
-                    appr = "1"
+                    appr = ""
                     level = "1";
                     pending = "Supply Chain";
                 }

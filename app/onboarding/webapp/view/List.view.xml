@@ -240,7 +240,7 @@
                                     type="Accept"
                                     press="onApprPress"
                                     width="80px"
-                                    visible="{path:'DataModel>VenApprove',formatter:'formatter.approveBtnVisible'}"
+                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>finance'}],formatter:'formatter.approveBtnVisible'}"
                                     
                                 >
                                     <customData>
@@ -258,7 +258,7 @@
                                     type="Reject"
                                     press="onRejPress"
                                     width="80px"
-                                    visible="{path:'DataModel>VenApprove',formatter:'formatter.approveBtnVisible'}"
+                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>finance'}],formatter:'formatter.approveBtnVisible'}"
                                 >
                                     <customData>
                                         <core:CustomData
