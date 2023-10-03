@@ -346,9 +346,55 @@ sap.ui.define([
                     stat = "SCR";
                 } else if (venStatus === "SCA") {
                     stat = "RBF";
-                    appr = ""
+                    appr = "1"
                     level = "1";
                     pending = "Supply Chain";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                    success: () => {
+
+                        MessageBox.error("Form rejected successfully", {
+                            onClose: () => this.getData()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
+                    }
+                });
+            },
+            onReroutePress: function (evt) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
+                this.vendorId = vendata[sPath].VendorId;
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.vendorId) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "RBF") {
+                    stat = "SRE-ROUTE";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;

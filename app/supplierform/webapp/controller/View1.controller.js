@@ -434,7 +434,15 @@ sap.ui.define([
             },
 
             onSavePress: function (oEvent) { // Save as Draft is Pressed
-                var payloadStr = JSON.stringify(this.createModel.getData());
+                var data = this.createModel.getData();
+                var requestData = this.getView().getModel("request").getData();
+                data.VendorName = requestData.VendorName;
+                data.Telephone = requestData.Telephone;
+                data.VendorType = requestData.VendorType;
+                data.VendorMail = requestData.VendorMail;
+                data.BeneficiaryName = requestData.VendorName;
+                var payloadStr = JSON.stringify(data);
+                
                 // var oDataModel = this.getOwnerComponent().getModel();
                 BusyIndicator.show();
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${this.vendorId}')`;
@@ -539,7 +547,11 @@ sap.ui.define([
                 var core = sap.ui.getCore();
                 let data = this.createModel.getData();
                 var requestData = this.getView().getModel("request").getData();
-                
+                data.VendorName = requestData.VendorName;
+                data.Telephone = requestData.Telephone;
+                data.VendorType = requestData.VendorType;
+                data.VendorMail = requestData.VendorMail;
+                data.BeneficiaryName = requestData.VendorName;
                 if (!this.oSubmitDialog) {
                     this.oSubmitDialog = new Dialog({
                         type: DialogType.Message,
@@ -696,7 +708,7 @@ sap.ui.define([
             changeStatus: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var stat = "";
-                if (requestData.Status === "INITIATED") {
+                if (requestData.Status === "INITIATED" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
                     stat = "SBS";
                 } else if (requestData.Status === "SBS") {
                     stat = "SBC";

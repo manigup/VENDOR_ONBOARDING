@@ -49,20 +49,30 @@ sap.ui.define([
                 }
                 //this.id = jQuery.sap.getUriParameters().get("id");
                 var requestData = this.getView().getModel("request").getData();
+                var vendordata = this.getView().getModel("DataModel").getData();
                 this.id = oEvent.getParameter("arguments").VendorId;
+                for (var i = 0; i < vendordata.length; i++) {
+                    if (vendordata[i].VendorId === this.id) {
+                        var vendorStatus = vendordata[i].Status;
+                        break;
+                    }
+                }
+                
                 BusyIndicator.show();
                 setTimeout(() => {
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
 
-                            // if ((data.Status === "SBS" || data.Status === "BRE-ROUTE") && requestData.buyer) {
-                            //     requestData.edit = false
-                            // } else if (data.Status === "SBB" && requestData.finance) {
-                            //     requestData.edit = false
-                            // } else {
-                            //     requestData.edit = ""
-                            // }
-                            // this.getView().getModel("request").refresh(true);
+                            if ((vendorStatus === "SBS" || vendorStatus === "RBF") && requestData.supplychain) {
+                                requestData.edit = false
+                            } 
+                            else if (vendorStatus === "SBC" && requestData.finance) {
+                                requestData.edit = false
+                            } 
+                            else {
+                                requestData.edit = ""
+                            }
+                            this.getView().getModel("request").refresh(true);
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
                             this._setRadioButtons(data);
@@ -75,6 +85,10 @@ sap.ui.define([
                         }
                     });
                 }, 1000);
+            },
+            onEdit: function () {
+                this.getView().getModel("request").getData().edit = true;
+                this.getView().getModel("request").refresh(true);
             },
 
             _setRadioButtons: function (data) { //Set Radio Buttons Index
@@ -513,8 +527,8 @@ sap.ui.define([
                 } else if (venStatus === "SBC") {
                     stat = "SBF";
                     appr = "1"
-                    level = "2";
-                    pending = "Finance";
+                    level = "1";
+                    pending = "Supply Chain";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;
