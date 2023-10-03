@@ -354,7 +354,7 @@
                             id="MsmeCertificateId"
                             showSecondaryValues="true"
                             forceSelection="false"
-                            selectedKey="{create>/MsmeCertificateId}"
+                            selectedKey="{create>/MsmeMainCertificateId}"
                             visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
                         >
                             <core:Item

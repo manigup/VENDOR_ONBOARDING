@@ -77,7 +77,9 @@ sap.ui.define([
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
-                this.getView().byId("countryId").attachBrowserEvent("click", this.loadCountries.bind(this));
+                this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
+                //this.hardcodedURL = ""
+                this.initializeCountries();
 
             },
             handleRouteMatched: function (oEvent) {
@@ -99,9 +101,9 @@ sap.ui.define([
                     };
                     var payloadStr = JSON.stringify(payload);
 
-                    var modulePath = jQuery.sap.getModulePath("sp/fiori/supplierform");
-                    modulePath = modulePath === "." ? "" : modulePath;
-                    var sPath = `/v2/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
+                    //var modulePath = jQuery.sap.getModulePath("sp/fiori/supplierform");
+                    //modulePath = modulePath === "." ? "" : modulePath;
+                    var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
                     $.ajax({
                         type: "PUT",
                         contentType: "application/json",
@@ -157,60 +159,37 @@ sap.ui.define([
                     this._showRemainingTime();
 
                 },
+            
+                _showRemainingTime: function () {
+                    var that = this;
+                    var data = this.getView().getModel("request").getData();
+                
+                    // Extract the timestamp and convert it to integer
+                    var timestampExpiry = parseInt(data.VenValidTo.match(/\/Date\((\d+)\+\d+\)\//)[1]);
+                    var expiry = new Date(timestampExpiry);
+                
+                    var current = new Date();
+                
+                    that.distance = expiry - current;
+                
+                    // Time calculations for days
+                    var days = Math.floor(that.distance / (1000 * 60 * 60 * 24));
+                
+                    data.VenTimeLeft = days + " Days ";
+                    that.getView().getModel("request").refresh(true);
+                    that.getView().byId("idRemTime").setText(data.VenTimeLeft);
+                
+                    if (that.distance < 0) {
+                        data.VenTimeLeft = "EXPIRED";
+                        that.getView().getModel("request").refresh(true);
+                        MessageBox.error("Form expired");
+                        that.getView().byId("saveBtnId").setVisible(false);
+                        that.getView().byId("submitBtnId").setVisible(false);
+                        return;
+                    }
+                },
                 
             
-          
-            _showRemainingTime: function () {
-                var that = this;
-                var data = this.getView().getModel("request").getData();
-
-                var expiryYYYY = data.VenValidTo.substring(0, 4);
-                var expiryMonth = parseInt(data.VenValidTo.substring(5, 7)) - 1;
-                // data.Date.substring(4, 6);
-                var expiryDD = data.VenValidTo.substring(8, 10);
-                // var expiryHH = data.Time.substring(0, 2);
-                // var expiryMM = data.Time.substring(2, 4);
-                // var expirySS = data.Time.substring(4, 6);
-                var expiry = new Date(expiryYYYY, expiryMonth, expiryDD, "00");
-
-                var todayDate = new Date();
-                var today = todayDate.toJSON();
-                var currentYYYY = today.substring(0, 4);
-                var currentMonth = parseInt(today.substring(5, 7)) - 1;
-                // data.SDate.substring(4, 6); 
-                var currentDD = today.substring(8, 10);
-                // var currentHH = data.STime.substring(0, 2);
-                // var currentMM = data.STime.substring(2, 4);
-                // var currentSS = data.STime.substring(4, 6);
-                var current = new Date(currentYYYY, currentMonth, currentDD, "00");
-
-                //var x = setInterval(function () {
-                expiry = new Date(expiry - 1000);
-                current = new Date(current - 1000);
-                that.distance = expiry - current;
-
-                // Time calculations for days, hours, minutes and seconds
-                var days = Math.floor(that.distance / (1000 * 60 * 60 * 24));
-                // var hours = Math.floor((that.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                // var minutes = Math.floor((that.distance % (1000 * 60 * 60)) / (1000 * 60));
-                // var seconds = Math.floor((that.distance % (1000 * 60)) / 1000);
-
-                data.VenTimeLeft = days + " Days ";// + hours + " hours " + minutes + " minute " + seconds + " seconds ";
-                that.getView().getModel("request").refresh(true);
-                that.getView().byId("idRemTime").setText(data.VenTimeLeft);
-                if (that.distance < 0) {
-                    // clearInterval(x);
-                    data.VenTimeLeft = "EXPIRED";
-                    that.getView().getModel("request").refresh(true);
-                    MessageBox.error("Form expired");
-                    that.getView().byId("saveBtnId").setVisible(false);
-                    that.getView().byId("submitBtnId").setVisible(false);
-                    return;
-                }
-
-                //  }, 1000);
-            },
-
             _setRadioButtons: function (data) { //Set Radio Buttons Index
                 if (data.VendorType === "IP") {
                     this.byId("venTypeRbId").setSelectedIndex(1);
@@ -369,18 +348,24 @@ sap.ui.define([
                 return bValidationError;
             },
 
+            initializeCountries: function() {
+                console.log("Country initialization")
+                var oComboBox = this.getView().byId("countryId");
+                if (!oComboBox.getModel("countries")) {
+                    this.loadCountries();
+                }
+            },
 
-
-            loadCountries: function () {
+            loadCountries: function() {
                 var oComboBox = this.getView().byId("countryId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/Country";
-
+            
                 oDataModel.read(sPath, {
-                    success: function (oData) {
+                    success: function(oData) {
                         var oJsonModel = new sap.ui.model.json.JSONModel();
                         oJsonModel.setData({ Countries: oData.results });
-
+                        
                         oComboBox.setModel(oJsonModel, "countries");
                         oComboBox.bindItems({
                             path: "countries>/Countries",
@@ -390,8 +375,9 @@ sap.ui.define([
                             })
                         });
                     },
-                    error: function (oError) {
+                    error: function(oError) {
                         console.log("Error", oError);
+                        sap.m.MessageToast.show("Failed to load countries.");
                     }
                 });
             },
@@ -487,7 +473,7 @@ sap.ui.define([
                 var payloadStr = JSON.stringify(this.createModel.getData());
                 // var oDataModel = this.getOwnerComponent().getModel();
                 BusyIndicator.show();
-                var sPath = `/v2/odata/v4/catalog/VendorForm('${this.vendorId}')`;
+                var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${this.vendorId}')`;
                 $.ajax({
                     type: "PUT",
                     contentType: "application/json",
@@ -528,19 +514,15 @@ sap.ui.define([
 
             onSubmitPress: async function (oEvent) {
                 var that = this;
-                // BusyIndicator.show();
-
-
+                //BusyIndicator.show();
                 var mandat = await this._mandatCheck(); // Mandatory Check
-                if (!mandat) { //this.isGSTValid
-
-
-
+                if (!mandat) {
                     // var createData = this.createModel.getData();
                     // var data = this.getView().getModel("request").getData();
                     // var oDataModel = this.getView().getModel();
 
                     that.otp = that.getOTP();
+                    that.otpTime = new Date().getTime();
                     MessageBox.information("To submit the data, kindly enter the OTP received " + that.otp, {
                         onClose: () => that._enterOTP()
                     });
@@ -578,7 +560,7 @@ sap.ui.define([
                     // oDataModel.callFunction(sPath, mParameters);
                 }
                 else {
-                    // BusyIndicator.hide();
+                    BusyIndicator.hide();
                     if (mandat) {
                         MessageBox.information("Kindly fill all the required details");
                     }
@@ -592,8 +574,9 @@ sap.ui.define([
             _enterOTP: function () {
                 var that = this;
                 var core = sap.ui.getCore();
-                var data = this.createModel.getData();
+                let data = this.createModel.getData();
                 var requestData = this.getView().getModel("request").getData();
+                
                 if (!this.oSubmitDialog) {
                     this.oSubmitDialog = new Dialog({
                         type: DialogType.Message,
@@ -614,41 +597,47 @@ sap.ui.define([
                                 text: "Submit",
                                 enabled: false,
                                 press: function () {
+                                    var currentTime = new Date().getTime();
+                                    var timeDifference = currentTime - this.otpTime;
+            
                                     var enterOtp = core.byId("submissionNote").getValue();
-                                    if (enterOtp === this.otp) {
+            
+                                    if (timeDifference <= 300000 && enterOtp === this.otp) {
+                                        // Successful OTP validation and submission
                                         BusyIndicator.show();
                                         data.Otp = enterOtp;
                                         var payloadStr = JSON.stringify(data);
-                                        var sPath = `/v2/odata/v4/catalog/VendorForm('${data.VendorId}')`;
+                                        var sPath = this.hardcodedURL +  `/v2/odata/v4/catalog/VendorForm('${data.VendorId}')`;
                                         $.ajax({
                                             type: "PUT",
                                             contentType: "application/json",
                                             url: sPath,
                                             data: payloadStr,
-
                                             context: this,
                                             success: function (data, textStatus, jqXHR) {
                                                 BusyIndicator.hide();
-
-                                                MessageBox.success("Form submitted successfully", {
-                                                    onClose: () => {
-                                                        this.changeStatus();
-
-                                                    }
-                                                });
+                                                if (jqXHR.status === 200 || jqXHR.status === 204) {
+                                                    MessageBox.success("Form submitted successfully", {
+                                                        onClose: () => {
+                                                            this.changeStatus();
+                                                        }
+                                                    });
+                                                }
                                             }.bind(this),
                                             error: function (jqXHR, textStatus, errorThrown) {
+                                                console.log("Error: ", jqXHR, textStatus, errorThrown);
                                                 BusyIndicator.hide();
-
                                             }
                                         });
-
-
                                         core.byId("submissionNote").setValue();
                                         this.oSubmitDialog.close();
                                     } else {
                                         core.byId("submissionNote").setValue();
-                                        MessageBox.error("Incorrect OTP");
+                                        if (timeDifference > 60000) {
+                                            MessageBox.error("OTP has expired");
+                                        } else {
+                                            MessageBox.error("Incorrect OTP");
+                                        }
                                     }
                                 }.bind(this)
                             }),
@@ -736,7 +725,7 @@ sap.ui.define([
             },
 
             getOTP: function () {
-                var otpgen = "2305602";
+                var otpgen = Math.floor(100000 + Math.random() * 900000).toString();
                 return otpgen;
             },
 
@@ -753,7 +742,7 @@ sap.ui.define([
                 var payload = requestData;
                 payload.Status = stat;
                 var payloadStr = JSON.stringify(payload);
-                var sPath = `/v2/odata/v4/catalog/VenOnboard(Vendor='${requestData.Vendor}',VendorId=${requestData.VendorId})`;
+                var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VenOnboard(Vendor='${requestData.Vendor}',VendorId=${requestData.VendorId})`;
                 $.ajax({
                     type: "PUT",
                     contentType: "application/json",
