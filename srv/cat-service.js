@@ -39,6 +39,8 @@ module.exports = cds.service.impl(async function () {
         req.data.ObjectId = await _uploadAttachment(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, reqData[0], reqData[1]);
         req.data.VendorId = reqData[0];
         req.data.Filename = reqData[1];
+        req.data.Venfiletype = reqData[2];
+
     });
 
     this.before("DELETE", 'Attachments', async (req) => {

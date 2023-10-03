@@ -109,7 +109,7 @@
                             id="venNameId"
                             change="onVenNameChange"
                             maxLength="40"
-                            value="{path:'create>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            value="{path:'request>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
                             design="Bold"
@@ -136,7 +136,7 @@
                         />
                         <Input
                             id="mobileId"
-                            value="{path:'create>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                            value="{path:'request>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
                             design="Bold"
@@ -266,7 +266,7 @@
                         />
                         <Input
                             enabled="false"
-                            value="{path:'create>/VendorMail'}"
+                            value="{path:'request>/VendorMail'}"
                             type="Email"
                         />
                         <Label
