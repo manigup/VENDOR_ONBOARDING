@@ -240,7 +240,7 @@
                                     type="Accept"
                                     press="onApprPress"
                                     width="80px"
-                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>finance'}],formatter:'formatter.approveBtnVisible'}"
+                                    visible="{path:'DataModel>VenApprove',formatter:'formatter.approveBtnVisible'}"
                                     
                                 >
                                     <customData>
@@ -258,12 +258,29 @@
                                     type="Reject"
                                     press="onRejPress"
                                     width="80px"
-                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>finance'}],formatter:'formatter.approveBtnVisible'}"
+                                    visible="{path:'DataModel>VenApprove',formatter:'formatter.approveBtnVisible'}"
                                 >
                                     <customData>
                                         <core:CustomData
                                             key="action"
                                             value="R"
+                                        />
+                                    </customData>
+                                </Button>
+                                 <Button
+                                    id="_IDGenButton4"
+                                    class="rerouteBtn"
+                                    text="Re-Route"
+                                    type="Reject"
+                                    press="onReroutePress"
+                                    width="80px"
+                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/supplychain'}],formatter:'formatter.routeBtnVisible'}"
+                                    
+                                >
+                                    <customData>
+                                        <core:CustomData
+                                            key="action"
+                                            value="A"
                                         />
                                     </customData>
                                 </Button>

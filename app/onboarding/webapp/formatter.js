@@ -174,14 +174,28 @@ formatter = {
         return vendor;
     },
     moreInfoBtnVisible: function (status, Access) {
-        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance") || (status === "RBF" && Access === "SCM")) {
+        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance") || (status === "RBF" && Access === "SCM") ||(status === "SBF" && Access === "SCM") || (status === "SCA" && Access === "Finance")) {
             return true;
         } else {
             return false;
         }
     },
-    approveBtnVisible: function (approve,fin) {
-        if (approve === "1" && fin === true ) {
+    fillformBtnVisible: function (status) {
+        if (status === "INITIATED" || status === "SRE-ROUTE" || status === "SCR") {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    approveBtnVisible: function (approve) {
+        if (approve === "1" ) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    routeBtnVisible: function (approve,supply) {
+        if (approve === "1" && supply === true ) {
             return true;
         } else {
             return false;

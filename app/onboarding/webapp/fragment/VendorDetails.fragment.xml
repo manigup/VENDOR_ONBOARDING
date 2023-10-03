@@ -33,7 +33,7 @@
                     id="_IDGenButton1"
                     text="Fill Supplier Form"
                     press="onFormPress"
-                    visible="{= ${VenModel>/Status} === 'INITIATED'}"
+                    visible="{path:'VenModel>/Status',formatter:'formatter.fillformBtnVisible'}"
                 />
                 <Button
                     id="_IDGenButton2"
