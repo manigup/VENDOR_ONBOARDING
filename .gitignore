@@ -7,6 +7,8 @@ default-*.json
 .cdsrc-private.json
 gen/
 node_modules/
+app/onboarding/dist/
+app/supplierform/dist/
 target/
 
 # Web IDE, App Studio

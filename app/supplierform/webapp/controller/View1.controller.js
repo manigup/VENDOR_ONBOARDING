@@ -41,8 +41,8 @@ sap.ui.define([
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
-                //this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
-                this.hardcodedURL = ""
+                this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
+                //this.hardcodedURL = ""
                 this.initializeCountries();
 
             },
@@ -127,32 +127,41 @@ sap.ui.define([
                 _showRemainingTime: function () {
                     var that = this;
                     var data = this.getView().getModel("request").getData();
+                    
+                    try {
+                        // Extract the timestamp and convert it to integer
+                        var timestampExpiry = parseInt(data.VenValidTo.match(/\/Date\((\d+)\+\d+\)\//)[1]);
+                        var expiry = new Date(timestampExpiry);
+                        var current = new Date();
                 
-                    // Extract the timestamp and convert it to integer
-                    var timestampExpiry = parseInt(data.VenValidTo.match(/\/Date\((\d+)\+\d+\)\//)[1]);
-                    var expiry = new Date(timestampExpiry);
+                        var countdown = setInterval(function () {
+                            current = new Date();
+                            that.distance = expiry - current;
                 
-                    var current = new Date();
+                            // Time calculations for days, hours, minutes and seconds
+                            var days = Math.floor(that.distance / (1000 * 60 * 60 * 24));
+                            var hours = Math.floor((that.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            var minutes = Math.floor((that.distance % (1000 * 60 * 60)) / (1000 * 60));
+                            var seconds = Math.floor((that.distance % (1000 * 60)) / 1000);
                 
-                    that.distance = expiry - current;
+                            data.VenTimeLeft = ` ${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
                 
-                    // Time calculations for days
-                    var days = Math.floor(that.distance / (1000 * 60 * 60 * 24));
+                            that.getView().getModel("request").refresh(true);
+                            that.getView().byId("idRemTime").setText(data.VenTimeLeft);
                 
-                    data.VenTimeLeft = days + " Days ";
-                    that.getView().getModel("request").refresh(true);
-                    that.getView().byId("idRemTime").setText(data.VenTimeLeft);
-                
-                    if (that.distance < 0) {
-                        data.VenTimeLeft = "EXPIRED";
-                        that.getView().getModel("request").refresh(true);
-                        MessageBox.error("Form expired");
-                        that.getView().byId("saveBtnId").setVisible(false);
-                        that.getView().byId("submitBtnId").setVisible(false);
-                        return;
+                            if (that.distance < 0) {
+                                clearInterval(countdown);
+                                data.VenTimeLeft = "EXPIRED";
+                                that.getView().getModel("request").refresh(true);
+                                MessageBox.error("Form expired");
+                                that.getView().byId("saveBtnId").setVisible(false);
+                                that.getView().byId("submitBtnId").setVisible(false);
+                            }
+                        }, 1000);
+                    } catch (e) {
+                        console.error("Error in calculating remaining time: ", e);
                     }
                 },
-                
             
             _setRadioButtons: function (data) { //Set Radio Buttons Index
                 if (data.VendorType === "IP") {
