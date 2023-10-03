@@ -26,43 +26,7 @@ sap.ui.define([
 
                 this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
                 this.router.attachRouteMatched(this.handleRouteMatched, this);
-                this.createModel = new JSONModel({
-                    "Otp": "",
-                    "Werks": "",
-                    "VenSubType": "DM",
-                    "Type": "MATERIAL",
-                    "VenName": "",
-                    "Purpose": "",
-                    "Consitution": "",
-                    "VendorCategory": "",
-                    "Pan": "",
-                    "Address1": "",
-                    "Address2": "",
-                    "Address3": "",
-                    "Country": "",
-                    "State": "",
-                    "Pincode": "",
-                    "ContactPerson": "",
-                    "Mobile": "",
-                    "Email": "",
-                    "Landline": "",
-                    "Fax": "",
-                    "Website": "",
-                    "ProductName": "",
-                    "PaymentTerm": "",
-                    "GstApplicable": "",
-                    "ImportExportCode": "",
-                    "Remarks": "",
-                    "Currency": "",
-                    "VAT": "",
-                    "NameOfService": "",
-                    "AvailableServiceName": "",
-                    "NameOfParts": "",
-                    "AvailablePartsName": "",
-                    "Others": "",
-                    "GstNumber": "",
-                    // "Agreement": 0
-                });
+                this.createModel = new JSONModel();
 
                 this.getView().setModel(this.createModel, "create");
                 // this.isGSTValid = true
@@ -77,8 +41,8 @@ sap.ui.define([
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
-                this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
-                //this.hardcodedURL = ""
+                //this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
+                this.hardcodedURL = ""
                 this.initializeCountries();
 
             },
@@ -128,7 +92,7 @@ sap.ui.define([
                                 data.Type = "MATERIAL";
                                 // data.ScopeOfSupply = "PARTS";
                             }
-                            if (!data.MsmeItilView && data.VendorType === "DM") {
+                            if (!data.MsmeItilView && requestData.VendorType === "DM") {
                                 data.MsmeItilView = "MSME";
                                 this.byId("msmeItil").setSelectedIndex(0);
                             } else if (data.MsmeItilView === "Non MSME") {
@@ -138,7 +102,7 @@ sap.ui.define([
                                 this.byId("msmeCert").setSelected(true);
                             }
 
-                            data.BeneficiaryName = data.VendorName;
+                            data.BeneficiaryName = requestData.VendorName;
 
 
 
@@ -485,10 +449,9 @@ sap.ui.define([
                         BusyIndicator.hide();
 
                         MessageBox.success("Form data saved successfully", {
-                            // onClose: () => {
-                            //     this.changeStatus();
-
-                            // }
+                            onClose: () => {
+                                window.location.reload();
+                            }
                         });
                     }.bind(this),
                     error: function (jqXHR, textStatus, errorThrown) {

@@ -508,13 +508,13 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "SBS") {
+                if (venStatus === "SBS" || venStatus === "RBF") {
                     stat = "SBC";
                 } else if (venStatus === "SBC") {
                     stat = "SBF";
                     appr = "1"
-                    level = "1";
-                    pending = "Supply Chain";
+                    level = "2";
+                    pending = "Finance";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;

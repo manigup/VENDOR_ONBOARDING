@@ -617,7 +617,7 @@
                         <Input
                             id="benNameId"
                             enabled="false"
-                            value="{path:'create>/BeneficiaryName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            value="{path:'request>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
                             design="Bold"

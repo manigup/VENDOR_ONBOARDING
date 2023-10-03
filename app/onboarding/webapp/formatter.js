@@ -174,14 +174,14 @@ formatter = {
         return vendor;
     },
     moreInfoBtnVisible: function (status, Access) {
-        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance")) {
+        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance") || (status === "RBF" && Access === "SCM")) {
             return true;
         } else {
             return false;
         }
     },
-    approveBtnVisible: function (approve) {
-        if (approve === "1") {
+    approveBtnVisible: function (approve,fin) {
+        if (approve === "1" && fin === true ) {
             return true;
         } else {
             return false;
