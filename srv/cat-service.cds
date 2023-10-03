@@ -19,5 +19,7 @@ service CatalogService {
     function verifyGSTDetails(gstin: String) returns String;
 
     function verifyBankAccount(beneficiaryAccount: String, beneficiaryIFSC: String) returns String;
+
+    function sendMail(to: String, subject: String, text: String) returns String;
   
 }

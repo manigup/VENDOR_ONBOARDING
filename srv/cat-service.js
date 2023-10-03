@@ -114,6 +114,26 @@ module.exports = cds.service.impl(async function () {
             return { isValid: false, statusCode: statusCode, errorMessage: errorMessage };
         }
     });
+
+    this.on('sendMail', async (req) => {
+        const { to, subject, text } = req.data;
+    
+        const mailOptions = {
+            to: to,
+            subject: subject,
+            text: text
+        };
+
+        return new Promise((resolve, reject) => {
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(`Email sent: ${info.response}`);
+                }
+            });
+        });
+    });
     
 
 });
