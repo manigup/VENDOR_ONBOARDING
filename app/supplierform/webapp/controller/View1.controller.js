@@ -42,7 +42,6 @@ sap.ui.define([
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
                 this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
-                //this.hardcodedURL = ""
                 this.initializeCountries();
 
             },
@@ -560,6 +559,7 @@ sap.ui.define([
                 data.Telephone = requestData.Telephone;
                 data.VendorType = requestData.VendorType;
                 data.VendorMail = requestData.VendorMail;
+                data.vendorId = requestData.vendorId
                 data.BeneficiaryName = requestData.VendorName;
                 if (!this.oSubmitDialog) {
                     this.oSubmitDialog = new Dialog({
@@ -669,37 +669,47 @@ sap.ui.define([
                 BusyIndicator.hide();
                 if (evt.getParameters().status !== 201) {
                     MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
-                    // BusyIndicator.show();
                 } else {
-                    MessageToast.show("File " + evt.getParameters().fileName + " Attached successfully");
-
+                    var filename = evt.getParameters().fileName;
+                    var customDataKey = evt.getSource().getCustomData()[0].getKey();
+                    var data = this.createModel.getData();
+                    data[customDataKey] = filename;
+                    this.createModel.setData(data);
+            
+                    MessageToast.show("File " + filename + " Attached successfully");
                 }
             },
-
+            
             onFileSizeExceded: function (evt) {
                 MessageBox.error("File size exceeds the range of 5MB");
                 evt.getSource().setValueState("Error");
             },
 
-            onAttachmentGet: function (evt) { // display attachments
-                var key = evt.getSource().getCustomData()[0].getKey();
-                //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
-                //  "')/$value", true);
+            onAttachmentGet: function (evt) { 
+                var key = evt.getSource().getCustomData()[0].getKey(); // this should be the Venfiletype
                 BusyIndicator.show();
                 setTimeout(() => {
+                    var filters = [
+                        new sap.ui.model.Filter("VendorId", sap.ui.model.FilterOperator.EQ, this.vendorId),
+                        new sap.ui.model.Filter("Venfiletype", sap.ui.model.FilterOperator.EQ, key)
+                    ];
+                    var combinedFilter = new sap.ui.model.Filter({
+                        filters: filters,
+                        and: true // using AND to combine filters
+                    });
                     this.getView().getModel().read("/Attachments", {
-                        filters: [new Filter("VendorId", "EQ", this.vendorId)],
+                        filters: [combinedFilter],
                         success: (data) => {
-                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
-                            //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.vendorId + "',ObjectId='" + item.ObjectId + "')/$value", true);
-                            // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+                            var item = data.results[0];
+                            var fileUrl = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value";
+                            window.open(fileUrl, '_blank');
                             BusyIndicator.hide();
                         },
                         error: () => BusyIndicator.hide()
                     });
                 }, 1000);
             },
-
+            
             onMainCertificateChange: function (evt) {
                 if (evt.getParameter("selected")) {
                     this.createModel.setProperty("/MsmeMainCertificate", "X");
