@@ -442,11 +442,11 @@ sap.ui.define([
                 var oFileUploader = evt.getSource();
                 oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
                 BusyIndicator.show();
-                //var key = oFileUploader.getCustomData()[0].getKey();
+                var key = oFileUploader.getCustomData()[0].getKey();
                 // oFileUploader.removeAllHeaderParameters();
                 oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
                     name: "slug",
-                    value: this.id + "/" + oFileUploader.getValue()
+                    value: this.id + "/" + oFileUploader.getValue() + "/" + key
                 }));
                 //oFileUploader.upload();
 
@@ -463,7 +463,12 @@ sap.ui.define([
                     MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
                     // BusyIndicator.show();
                 } else {
-                    MessageToast.show("File " + evt.getParameters().fileName + " Attached successfully");
+                    var filename = evt.getParameters().fileName;
+                    var customDataKey = evt.getSource().getCustomData()[0].getKey();
+                    var data = this.createModel.getData();
+                    data[customDataKey] = filename;
+                    this.createModel.setData(data);
+                    MessageToast.show("File " + fileName + " Attached successfully");
 
                 }
             },

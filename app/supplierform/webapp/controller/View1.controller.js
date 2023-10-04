@@ -42,6 +42,7 @@ sap.ui.define([
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
                 this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
+                //this.hardcodedURL = "";
                 this.initializeCountries();
 
             },
@@ -52,6 +53,17 @@ sap.ui.define([
         
                 this.id = jQuery.sap.getUriParameters().get("id");
                 var requestData = this.getView().getModel("request").getData();
+                var createdata = this.getView().getModel("create").getData();
+                if ( requestData.VendorType === "DM") {
+                    createdata.MsmeItilView = "MSME";
+                    this.byId("msmeItil").setSelectedIndex(0);
+                } 
+                if (requestData.VendorType === "DM") {
+                    createdata.GstApplicable = "YES";
+                }
+                this.createModel.setData(createdata);
+                this.createModel.refresh(true);
+             //   this._setRadioButtons(createdata);
               //  BusyIndicator.show();
                 this.vendorId = requestData.VendorId;
 

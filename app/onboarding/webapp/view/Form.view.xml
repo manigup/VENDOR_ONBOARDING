@@ -400,7 +400,7 @@
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"  enabled="{= ${request>/edit} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="UMD" />
+                                <core:CustomData key="MsmeDeclarationName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -410,7 +410,7 @@
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         >
                             <customData>
-                                <core:CustomData key="UMD" />
+                                <core:CustomData key="MsmeDeclarationName" />
                             </customData>
                         </Link>
                         <Label
@@ -444,7 +444,7 @@
                             visible="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'EM'}"
                         >
                             <u:customData>
-                                <core:CustomData key="PAN" />
+                                <core:CustomData key="PanName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -454,7 +454,7 @@
                             visible="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'EM'}"
                         >
                             <customData>
-                                <core:CustomData key="PAN" />
+                                <core:CustomData key="PanName" />
                             </customData>
                         </Link>
                         <Label
@@ -514,7 +514,7 @@
                             visible="{= ${create>/GstApplicable} === 'YES'}"
                         >
                             <u:customData>
-                                <core:CustomData key="GA" />
+                                <core:CustomData key="GstFileName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -524,7 +524,7 @@
                             visible="{= ${create>/GstApplicable} === 'YES'}"
                         >
                             <customData>
-                                <core:CustomData key="GA" />
+                                <core:CustomData key="GstFileName" />
                             </customData>
                         </Link>
                         <Label
@@ -646,7 +646,7 @@
                             buttonText="Browse"
                         >
                             <u:customData>
-                                <core:CustomData key="CHQ" />
+                                <core:CustomData key="CancelledCheque" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -655,7 +655,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="CHQ" />
+                                <core:CustomData key="CancelledCheque" />
                             </customData>
                         </Link>
                     </f:content>
@@ -690,7 +690,7 @@
                             maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="NVQ" />
+                                <core:CustomData key="NewVendorQuotationName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -698,7 +698,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="NVQ" />
+                                <core:CustomData key="NewVendorQuotationName" />
                             </customData>
                         </Link>
                         <Label
@@ -716,7 +716,7 @@
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="NDA" />
+                                <core:CustomData key="NdaName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -724,7 +724,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="NDA" />
+                                <core:CustomData key="NdaName" />
                             </customData>
                         </Link>
                         <Label
@@ -744,7 +744,7 @@
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="COC" />
+                                <core:CustomData key="CocName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -752,7 +752,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="COC" />
+                                <core:CustomData key="CocName" />
                             </customData>
                         </Link>
                         <Label
@@ -770,7 +770,7 @@
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="AC" />
+                                <core:CustomData key="AgreementName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -778,7 +778,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="AC" />
+                                <core:CustomData key="AgreementName" />
                             </customData>
                         </Link>
                         <Label
@@ -796,7 +796,7 @@
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="PAR" />
+                                <core:CustomData key="ProjectAppropriationName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -804,7 +804,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="PAR" />
+                                <core:CustomData key="ProjectAppropriationName" />
                             </customData>
                         </Link>
                         <Label
@@ -822,7 +822,7 @@
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="REE" />
+                                <core:CustomData key="RelatedEmailName" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -830,7 +830,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="REE" />
+                                <core:CustomData key="RelatedEmailName" />
                             </customData>
                         </Link>
                         <Label
@@ -849,7 +849,7 @@
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
-                                <core:CustomData key="TRC" />
+                                <core:CustomData key="TaxResidencyCertificate" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -857,7 +857,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="TRC" />
+                                <core:CustomData key="TaxResidencyCertificate" />
                             </customData>
                         </Link>
                         <Label
@@ -876,7 +876,7 @@
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
-                                <core:CustomData key="F10" />
+                                <core:CustomData key="Form10F" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -884,7 +884,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="F10" />
+                                <core:CustomData key="Form10F" />
                             </customData>
                         </Link>
                         <Label
@@ -903,7 +903,7 @@
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
-                                <core:CustomData key="PEC" />
+                                <core:CustomData key="EstablishmentCertificate" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -911,7 +911,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="PEC" />
+                                <core:CustomData key="EstablishmentCertificate" />
                             </customData>
                         </Link>
                         <Label
@@ -930,7 +930,7 @@
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
-                                <core:CustomData key="LDC" />
+                                <core:CustomData key="DeductionCertificate" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -938,7 +938,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="LDC" />
+                                <core:CustomData key="DeductionCertificate" />
                             </customData>
                         </Link>
                         <Label
@@ -957,7 +957,7 @@
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
-                                <core:CustomData key="OTH" />
+                                <core:CustomData key="OtherDocument" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -965,7 +965,7 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="OTH" />
+                                <core:CustomData key="OtherDocument" />
                             </customData>
                         </Link>
                     </f:content>
