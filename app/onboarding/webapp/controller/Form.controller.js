@@ -474,17 +474,23 @@ sap.ui.define([
             },
 
             onAttachmentGet: function (evt) { // display attachments
-                //var key = evt.getSource().getCustomData()[0].getKey();
-                //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
-                //  "')/$value", true);
+                var key = evt.getSource().getCustomData()[0].getKey(); // this should be the Venfiletype
                 BusyIndicator.show();
                 setTimeout(() => {
+                    var filters = [
+                        new sap.ui.model.Filter("VendorId", sap.ui.model.FilterOperator.EQ, this.id),
+                        new sap.ui.model.Filter("Venfiletype", sap.ui.model.FilterOperator.EQ, key)
+                    ];
+                    var combinedFilter = new sap.ui.model.Filter({
+                        filters: filters,
+                        and: true // using AND to combine filters
+                    });
                     this.getView().getModel().read("/Attachments", {
-                        filters: [new Filter("VendorId", "EQ", this.id)],
+                        filters: [combinedFilter],
                         success: (data) => {
-                            //data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
-                            sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.id + "',ObjectId='" + item.ObjectId + "')/$value", true);
-                            // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+                            var item = data.results[0];
+                            var fileUrl = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value";
+                            window.open(fileUrl, '_blank');
                             BusyIndicator.hide();
                         },
                         error: () => BusyIndicator.hide()
