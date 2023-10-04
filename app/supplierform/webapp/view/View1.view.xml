@@ -27,8 +27,11 @@
                     />
                     <Label
                         design="Bold"
-                        text="Remaining Time - "
-                        visible="{= ${request>/Status} === 'INITIATED'}"
+
+                        text="Remaining Time -"
+
+                        
+
                     />
                     
                     <Label

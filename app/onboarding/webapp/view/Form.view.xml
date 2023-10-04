@@ -11,6 +11,7 @@
         <headerContent>
             <Button id="editBtnId" text="Edit" tooltip="Edit" type="Emphasized" press="onEdit" visible="{= ${request>/edit} === false}" />
             <Button id="submitBtnId" text="Submit" tooltip="Submit" type="Emphasized" press="onSubmitPress" visible="{= ${request>/edit} === true}" />
+            <Button id="rerouteBtnId" text="Re-Route" tooltip="Re-Route" type="Emphasized" press="onReroutePress" visible="{= ${request>/route} === true}" />
         </headerContent>
         <content>
             <Panel
@@ -48,7 +49,7 @@
                         <RadioButtonGroup
                             id="typeRbId"
                             columns="2"
-                            enabled="{= ${request>/edit} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton text="Material" />
@@ -63,7 +64,7 @@
                             id="venNameId"
                             change="onVenNameChange"
                             maxLength="40"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
@@ -73,7 +74,7 @@
                         <Input
                             id="venName2Id"
                             maxLength="40"
-                            enabled="{= ${request>/edit} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/VendorName2',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -83,7 +84,7 @@
                         <Input
                             id="venName3Id"
                             maxLength="40"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/VendorName3',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -93,7 +94,7 @@
                         />
                         <Input
                             id="mobileId"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
@@ -103,7 +104,7 @@
                         />
                         <Input
                             id="purposeId"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Purpose',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
@@ -113,7 +114,7 @@
                         />
                         <Input
                             id="constId"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Consitution',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -124,7 +125,7 @@
                         <Input
                             id="address1Id"
                             maxLength="60"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
                         />
                         <Label
@@ -135,7 +136,7 @@
                         <Input
                             id="address2Id"
                             maxLength="40"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Address2',type:'sap.ui.model.type.String',constraints:{minLength:1, maxLength:40}}"
                         />
                         <Label
@@ -144,7 +145,7 @@
                         />
                         <Input
                             value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
-                            maxLength="40"  enabled="{= ${request>/edit} === true}"
+                            maxLength="40"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         />
                         <Label
                             design="Bold"
@@ -152,7 +153,7 @@
                         />
                         <Input
                             maxLength="20"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{create>/City}"
                         />
 
@@ -163,7 +164,7 @@
                         />
                         <ComboBox
                             id="countryId"
-                            items="{countries>/}"  enabled="{= ${request>/edit} === true}"
+                            items="{countries>/}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selectedKey="{create>/Country_code}"
                             change="countryHelpSelect"
                         >
@@ -180,7 +181,7 @@
                         <!-- enabled="{= ${create>/Country} !== ''}" -->
                         <Select
                             id="stateId"
-                            forceSelection="false"  enabled="{= ${request>/edit} === true}"
+                            forceSelection="false"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selectedKey="{create>/Region}"
                             items="{/States}"
                         >
@@ -193,7 +194,7 @@
                             design="Bold"
                             text="District"
                         />
-                        <Input value="{create>/District}"  enabled="{= ${request>/edit} === true}"/>
+                        <Input value="{create>/District}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"/>
                         <Label
                             design="Bold"
                             text="City Postal Code"
@@ -201,7 +202,7 @@
                         />
                         <Input
                             id="pincodeId"
-                            type="Number"  enabled="{= ${request>/edit} === true}"
+                            type="Number"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Pincode',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:7}}"
                         />
                         <Label
@@ -210,7 +211,7 @@
                             required="true"
                         />
                         <Input
-                            id="contactPersonId"  enabled="{= ${request>/edit} === true}"
+                            id="contactPersonId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ContactPerson',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -219,7 +220,7 @@
                             required="true"
                         />
                         <Input
-                            id="contactPersonMobileId"  enabled="{= ${request>/edit} === true}"
+                            id="contactPersonMobileId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/AlternateMobile',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
@@ -228,7 +229,7 @@
                             required="true"
                         />
                         <Input
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/VendorMail'}"
                             type="Email"
                         />
@@ -237,29 +238,29 @@
                             text="Landline Number"
                         />
                         <Input
-                            placeholder="Number"  enabled="{= ${request>/edit} === true}"
+                            placeholder="Number"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{create>/Landline}"
                         />
                         <Input
-                            placeholder="Extension"  enabled="{= ${request>/edit} === true}"
+                            placeholder="Extension"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{create>/Extension}"
                         />
                         <Label
                             design="Bold"
                             text="Fax"
                         />
-                        <Input value="{create>/Fax}"  enabled="{= ${request>/edit} === true}"/>
+                        <Input value="{create>/Fax}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"/>
                         <Label
                             design="Bold"
                             text="Website"
                         />
-                        <Input value="{create>/Website}"  enabled="{= ${request>/edit} === true}"/>
+                        <Input value="{create>/Website}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"/>
                         <Label
                             design="Bold"
                             text="Remarks"
                         />
                         <TextArea
-                            id="remarksId"  enabled="{= ${request>/edit} === true}"
+                            id="remarksId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Remarks',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
@@ -267,7 +268,7 @@
                             text="ITIL Comments"
                         />
                         <TextArea
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{create>/Comments}"
                         />
                     </f:content>
@@ -686,7 +687,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true}"
+                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="NVQ" />
@@ -712,7 +713,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="NDA" />
@@ -740,7 +741,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="COC" />
@@ -766,7 +767,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="AC" />
@@ -792,7 +793,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="PAR" />
@@ -818,7 +819,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="REE" />
@@ -844,7 +845,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
@@ -871,7 +872,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
@@ -898,7 +899,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
@@ -925,7 +926,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
@@ -952,7 +953,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>

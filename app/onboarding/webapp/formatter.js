@@ -110,15 +110,18 @@ formatter = {
                 case "CREATED":
                 case "INITIATED":
                 case "SBS":
+                case "SBC": 
+                case "SBF":   
                 case "SAQ_SENT":
                     state = "Information";
                     break;
                 case "PAP":
                 case "SAQ_APROVE":
-                case "REROUTE":
+                case "SRE-ROUTE":
                     state = "Warning";
                     break;
-                case "REJECTED":
+                case "SCR":
+                case "RBF":
                     state = "Error";
                     break;
                 default: state = "Success";
@@ -187,18 +190,12 @@ formatter = {
             return false;
         }
     },
-    approveBtnVisible: function (approve) {
-        if (approve === "1" ) {
-            return true;
-        } else {
-            return false;
-        }
-    },
-    routeBtnVisible: function (approve,supply) {
-        if (approve === "1" && supply === true ) {
+    approveBtnVisible: function (approve, btn, status) {
+        if ((approve === "1" && btn === "supply" && status === "SBF") || (approve === "1" && btn === "finance" && status === "SCA" )) {
             return true;
         } else {
             return false;
         }
     }
+   
 };
