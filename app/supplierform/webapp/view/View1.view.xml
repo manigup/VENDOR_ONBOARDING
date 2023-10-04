@@ -442,7 +442,7 @@
                             visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeDeclarationName} !== ''}"
                         >
                             <customData>
-                                <core:CustomData key="UMD" />
+                                <core:CustomData key="MsmeDeclarationName" />
                             </customData>
                         </Link>
                         <Label
