@@ -63,12 +63,15 @@ sap.ui.define([
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
 
-                            if ((vendorStatus === "SBS" || vendorStatus === "RBF") && requestData.supplychain) {
-                                requestData.edit = false
+                            if (vendorStatus === "SBS"  && requestData.supplychain) {
+                                requestData.edit = false;
                             } 
                             else if (vendorStatus === "SBC" && requestData.finance) {
-                                requestData.edit = false
-                            } 
+                                requestData.edit = false;
+                            }else if ( vendorStatus === "RBF" && requestData.supplychain) {
+                                requestData.edit = false;
+                                requestData.route = true;
+                            }
                             else {
                                 requestData.edit = ""
                             }
@@ -515,6 +518,7 @@ sap.ui.define([
                         payload.VenFrom = vendata[i].VenFrom;
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
                         break;
                     }
                 }
@@ -524,11 +528,13 @@ sap.ui.define([
                 var appr = "0";
                 if (venStatus === "SBS" || venStatus === "RBF") {
                     stat = "SBC";
+                    this.msg = "Form submitted successfully by Supply Chain";
                 } else if (venStatus === "SBC") {
                     stat = "SBF";
                     appr = "1"
                     level = "1";
                     pending = "Supply Chain";
+                    this.msg = "Form submitted successfully by Finance";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;
@@ -537,7 +543,7 @@ sap.ui.define([
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.id + ")", payload, {
                     success: () => {
 
-                        MessageBox.success("Form submitted successfully", {
+                        MessageBox.success(this.msg, {
                             onClose: () => formatter.onNavBack()
                         });
                     },
@@ -563,6 +569,51 @@ sap.ui.define([
                 //         console.log("Upsert failed: ", errorThrown);
                 //     }
                 // });
+            },
+            onReroutePress: function (evt) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.id) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "RBF") {
+                    stat = "SRE-ROUTE";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.id + ")", payload, {
+                    success: () => {
+
+                        MessageBox.success("Form re-routed successfully to supplier", {
+                            onClose: () => formatter.onNavBack()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
+                    }
+                });
             },
 
             customPanType: SimpleType.extend("Pan", {
