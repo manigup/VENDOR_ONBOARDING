@@ -54,6 +54,7 @@ sap.ui.define([
                 this.id = jQuery.sap.getUriParameters().get("id");
                 var requestData = this.getView().getModel("request").getData();
                 var createdata = this.getView().getModel("create").getData();
+                createdata.VendorId = this.id;
                 if ( requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
                     this.byId("msmeItil").setSelectedIndex(0);
