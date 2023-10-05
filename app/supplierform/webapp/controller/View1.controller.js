@@ -463,7 +463,7 @@ sap.ui.define([
                 data.VendorMail = requestData.VendorMail;
                 data.BeneficiaryName = requestData.VendorName;
                 var payloadStr = JSON.stringify(data);
-                
+                this.draft = true;
                 // var oDataModel = this.getOwnerComponent().getModel();
                 BusyIndicator.show();
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${this.vendorId}')`;
@@ -479,7 +479,8 @@ sap.ui.define([
 
                         MessageBox.success("Form data saved successfully", {
                             onClose: () => {
-                                window.location.reload();
+                                this.changeStatus();
+                                
                             }
                         });
                     }.bind(this),
@@ -740,13 +741,19 @@ sap.ui.define([
             changeStatus: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var stat = "";
-                if (requestData.Status === "INITIATED" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
+                if(this.draft){
+                    if (requestData.Status === "INITIATED"){
+                        stat = "SAD";
+                    }
+                }else{
+                if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
                     stat = "SBS";
                 } else if (requestData.Status === "SBS") {
                     stat = "SBC";
                 } else if (requestData.Status === "SBF") {
                     stat = "SBF";
                 }
+            }
                 var payload = requestData;
                 payload.Status = stat;
                 var payloadStr = JSON.stringify(payload);
@@ -770,6 +777,7 @@ sap.ui.define([
                     }
                 });
             },
+            
 
             customPanType: SimpleType.extend("Pan", {
                 formatValue: function (oValue) {
