@@ -742,7 +742,8 @@ sap.ui.define([
                 var requestData = this.getView().getModel("request").getData();
                 var stat = "";
                 if(this.draft){
-                    if (requestData.Status === "INITIATED"){
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD"){
+                        this.draft = false;
                         stat = "SAD";
                     }
                 }else{
