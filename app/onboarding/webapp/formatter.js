@@ -188,7 +188,7 @@ formatter = {
         }
     },
     fillformBtnVisible: function (status) {
-        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "SCR") {
+        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "SCR" ) {
             return true;
         } else {
             return false;
