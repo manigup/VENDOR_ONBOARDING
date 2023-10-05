@@ -2,6 +2,7 @@ const cds = require('@sap/cds');
 const axios = require('axios').default;
 const { panOptions, gstOptions, bankOptions } = require('./apiConfig');
 const FormData = require('form-data');
+const transporter = require('./emailTransporter');
 
 const sdmCredentials = {
     "clientid": "sb-af5ed0ac-6872-41a0-956e-ec2fea18c139!b26649|sdm-di-DocumentManagement-sdm_integration!b247",
@@ -130,6 +131,7 @@ module.exports = cds.service.impl(async function () {
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     reject(error);
+                    console.log("Error in email: ", error)
                 } else {
                     resolve(`Email sent: ${info.response}`);
                 }
