@@ -8,6 +8,8 @@ sap.ui.define([
     "sap/m/Button",
     "sap/m/ButtonType",
     "sap/m/Input",
+    "sap/m/Label",
+    "sap/m/Text",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/SimpleType",
@@ -17,7 +19,7 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, MessageBox, BusyIndicator, JSONModel, Dialog, DialogType, Button, ButtonType, Input, Filter, FilterOperator, SimpleType, ValidateException, MessageToast) {
+    function (Controller, MessageBox, BusyIndicator, JSONModel, Dialog, DialogType, Button, ButtonType, Input, Label, Text, Filter, FilterOperator, SimpleType, ValidateException, MessageToast) {
         "use strict";
 
         return Controller.extend("sp.fiori.onboarding.controller.Form", {
@@ -62,7 +64,10 @@ sap.ui.define([
                 setTimeout(() => {
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
-
+                        data.TaxNumCat = "IN3";
+                        data.ChkDoubleInv = "X";
+                        data.GrBasedInv = "X";
+                        data.SerBasedInv = "X";
                             if (vendorStatus === "SBS"  && requestData.supplychain) {
                                 requestData.edit = false;
                             } 
@@ -78,7 +83,14 @@ sap.ui.define([
                             this.getView().getModel("request").refresh(true);
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
+                            // if (data.WitholdingTax) {
+                            //     this.withHoldingTaxSelect();
+                            // }
+                            // if (data.Bukrs) {
+                            //     this.compCodeSelect();
+                            // }
                             this._setRadioButtons(data);
+                            this._setCheckBoxes(data);
                             // this.createModel.setData(data);
                             this.createModel.refresh(true);
                             BusyIndicator.hide();
@@ -92,6 +104,24 @@ sap.ui.define([
             onEdit: function () {
                 this.getView().getModel("request").getData().edit = true;
                 this.getView().getModel("request").refresh(true);
+            },
+            _setCheckBoxes: function (data) {
+                if (data.ChkDoubleInv === "X") {
+                    this.getView().byId("chkInvId").setSelected(true);
+                }
+                if (data.ClrWthCust === "X") {
+                    this.getView().byId("clrCustId").setSelected(true);
+                }
+                if (data.SubWitholdingTax === "X") {
+                    this.getView().byId("withTaxId").setSelected(true);
+                }
+                if (data.GrBasedInv === "X") {
+                    this.getView().byId("grbasedId").setSelected(true);
+                }
+                if (data.SerBasedInv === "X") {
+                    this.getView().byId("srvbasedId").setSelected(true);
+                }
+    
             },
 
             _setRadioButtons: function (data) { //Set Radio Buttons Index
@@ -158,6 +188,50 @@ sap.ui.define([
                         }
                         break;
                 }
+                this.createModel.refresh(true);
+            },
+            onCheckSelect: function (oEvent) {
+                var data = this.createModel.getData();
+                var name = oEvent.getSource().getName();
+    
+                if (oEvent.getParameter("selected")) {
+                    switch (name) {
+                        case "doubleInv":
+                            data.ChkDoubleInv = "X";
+                            break;
+                        case "clearCustomer":
+                            data.ClrWthCust = "X";
+                            break;
+                        case "withTax":
+                            data.SubWitholdingTax = "X";
+                            break;
+                        case "grbased":
+                            data.GrBasedInv = "X";
+                            break;
+                        case "srvbased":
+                            data.SerBasedInv = "X";
+                            break;
+                    }
+                } else {
+                    switch (name) {
+                        case "doubleInv":
+                            data.ChkDoubleInv = "";
+                            break;
+                        case "clearCustomer":
+                            data.ClrWthCust = "";
+                            break;
+                        case "withTax":
+                            data.SubWitholdingTax = "";
+                            break;
+                        case "grbased":
+                            data.GrBasedInv = "";
+                            break;
+                        case "srvbased":
+                            data.SerBasedInv = "";
+                            break;
+                    }
+                }
+    
                 this.createModel.refresh(true);
             },
             _mandatCheck: async function () {
@@ -287,6 +361,41 @@ sap.ui.define([
                 var key = this.getView().byId("countryId").getSelectedKey();
                 this.getView().byId("stateId").getBinding("items").filter([new Filter({
                     path: "Land1",
+                    operator: FilterOperator.EQ,
+                    value1: key
+                })]);
+            },
+            compCodeSelect: function (oEvent) {
+                var key = this.getView().byId("compCodeId").getSelectedKey();
+                this.getView().byId("houseBankId").getBinding("items").filter([new Filter({
+                    path: "Bukrs",
+                    operator: FilterOperator.EQ,
+                    value1: key
+                })]);
+            },
+    
+            withHoldingTaxSelect: function (oEvent) {
+                var data = this.createModel.getData();
+                var key = this.getView().byId("taxTypeId").getSelectedKey();
+    
+                this.getView().byId("recTypeId").getBinding("items").filter([new Filter({
+                    path: "Country",
+                    operator: FilterOperator.EQ,
+                    value1: data.Country
+                }),
+                new Filter({
+                    path: "WitholdingTax",
+                    operator: FilterOperator.EQ,
+                    value1: key
+                })]);
+    
+                this.getView().byId("taxCodeId").getBinding("items").filter([new Filter({
+                    path: "Country",
+                    operator: FilterOperator.EQ,
+                    value1: data.Country
+                }),
+                new Filter({
+                    path: "WitholdingTax",
                     operator: FilterOperator.EQ,
                     value1: key
                 })]);

@@ -84,7 +84,7 @@ sap.ui.define([
             },
 
             getStatus: function () {
-                this.getModel().read("/StatusCheck", {
+                this.getModel().read("/AccessInfo", {
                     success: data => {
                         this.getModel("AccessDetails").setData(data.results);
                     },
