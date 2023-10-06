@@ -15,9 +15,12 @@ entity States {
       Country   : Association to Country;
 };
 
-entity StatusCheck {
-  key email  : String;
-      Access : String;
+entity AccessInfo {
+  key email           : String;
+      Access          : String;
+      Application     : String;
+      ApplicationName : String;
+      CompCode        : String;
 };
 
 entity VenOnboardHeader : managed {
@@ -117,4 +120,22 @@ entity VendorForm : managed {
       DeductionCertificate     : String;
       OtherDocument            : String;
       Otp                      : String;
+      PrevAccNo                : String;
+      Bukrs                    : String;
+      ReconAccount             : String;
+      HouseBank                : String;
+      ExtBpNo                  : String;
+      PurOrg                   : String;
+      PurGrp                   : String;
+      SchemaGrp                : String;
+      Waers                    : String;
+      WitholdingTax            : String;
+      RecipientType            : String;
+      WitholdTaxcode           : String;
+      TaxNumCat                : String;
+      ChkDoubleInv             : String;
+      ClrWthCust               : String;
+      SubWitholdingTax         : String;
+      GrBasedInv               : String;
+      SerBasedInv              : String;
 }

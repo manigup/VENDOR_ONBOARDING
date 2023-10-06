@@ -12,7 +12,7 @@ service CatalogService {
 
     entity States as projection on db.States;
     
-    entity StatusCheck as projection on db.StatusCheck;
+    entity AccessInfo as projection on db.AccessInfo;
     
     function verfiyPANDetails(panNumber: String) returns String;
 

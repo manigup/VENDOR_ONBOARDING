@@ -1,8 +1,8 @@
 <mvc:View
     controllerName="sp.fiori.onboarding.controller.Form"
-    xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
     xmlns:f="sap.ui.layout.form"
     xmlns:u="sap.ui.unified"
     class="sapUiSizeCompact"
@@ -296,7 +296,7 @@
                             id="msmeItil"
                             visible="{= ${create>/VendorType} === 'DM'}"
                             select="onRadioButtonSelect"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             
                         >
                             <RadioButton text="MSME" />
@@ -310,7 +310,7 @@
                         <CheckBox
                             id="msmeCert"
                             select="onMainCertificateChange"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             selected="{= ${create>/MsmeMainCertificate} === 'X' ? true : false}"
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
@@ -325,7 +325,7 @@
                             forceSelection="false"
                             selectedKey="{create>/MsmeCertificateId}"
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         >
                             <core:Item
                                 key="INMED"
@@ -346,7 +346,7 @@
                             required="true"
                         />
                         <Input
-                            id="MsmeCertificateNo"  enabled="{= ${request>/edit} === true}"
+                            id="MsmeCertificateNo"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/MsmeCertificateNo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
@@ -359,7 +359,7 @@
                             id="MsmeValidFrom"
                             value="{path:'create>/MsmeValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"  enabled="{= ${request>/edit} === true}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         />
                         <Label
                             design="Bold"
@@ -370,7 +370,7 @@
                             id="MsmeValidTo"
                             value="{create>/MsmeValidTo}"
                             valueFormat="yyyyMMdd"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"  enabled="{= ${request>/edit} === true}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         />
                         <Label
                             design="Bold"
@@ -378,7 +378,7 @@
                             required="true"
                         />
                         <Input
-                            id="MsmeRegistrationCity"  enabled="{= ${request>/edit} === true}"
+                            id="MsmeRegistrationCity"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/MsmeRegistrationCity',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"
                         />
@@ -397,7 +397,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
                             maximumFileSize="5MB"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"  enabled="{= ${request>/edit} === true}"
+                            visible="{= ${create>/MsmeItilView} === 'MSME'}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="MsmeDeclarationName" />
@@ -423,7 +423,7 @@
                             id="panId"
                             placeholder="Enter PAN Number (Eg: ABCDE1234Z)"
                             change="onInputChange($event,'Pan')"
-                            value="{path:'create>/Pan',type: '.customPanType'}"  enabled="{= ${request>/edit} === true}"
+                            value="{path:'create>/Pan',type: '.customPanType'}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             visible="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'EM'}"
                         />
                         <Label
@@ -440,7 +440,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true}"
+                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             visible="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'EM'}"
                         >
                             <u:customData>
@@ -463,7 +463,7 @@
                         />
                         <Input
                             id="tanId"
-                            placeholder="Enter TAN Number"  enabled="{= ${request>/edit} === true}"
+                            placeholder="Enter TAN Number"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/Tan',type : 'sap.ui.model.type.String', constraints : { minLength: 1, maxLength: 10} }"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsDom'}"
                         />
@@ -478,7 +478,7 @@
                             selectedIndex="{= ${create>/GstApplicable} === 'YES' ? 0 : 1}"
                             select="onRadioButtonSelect"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsDom'}"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         >
                             <RadioButton text="Yes" />
                             <RadioButton text="No" />
@@ -491,7 +491,7 @@
                         <!-- <Input id="gstId" type="Text" placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)" change="onInputChange($event,'GstNumber')" value="{path:'create>/GstNumber',type:'sap.ui.model.type.String',constraints:{minLength: 15,maxLength:15}}" visible="{= ${create>/GstApplicable} === 'YES'}"/> -->
                         <Input
                             id="gstId"
-                            placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)"  enabled="{= ${request>/edit} === true}"
+                            placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             change="onInputChange($event,'GstNumber')"
                             value="{path:'create>/GstNumber',type: '.customGstType'}"
                             visible="{= ${create>/GstApplicable} === 'YES'}"
@@ -510,7 +510,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true}"
+                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             visible="{= ${create>/GstApplicable} === 'YES'}"
                         >
                             <u:customData>
@@ -534,7 +534,7 @@
                         />
                         <Input
                             id="currId"
-                            value="{create>/Currency}"     enabled="{= ${request>/edit} === true}"                        
+                            value="{create>/Currency}"     enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"                        
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         />
                         <Label
@@ -543,7 +543,7 @@
                         />
                         <Input
                             placeholder="Enter VAT ID/EORI Number"
-                            value="{create>/VAT}"  enabled="{= ${request>/edit} === true}"
+                            value="{create>/VAT}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         />
                         <Label
@@ -551,7 +551,7 @@
                             text="Import/Export Code"
                         />
                         <Input
-                            placeholder="Enter Import/Export Code"  enabled="{= ${request>/edit} === true}"
+                            placeholder="Enter Import/Export Code"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{create>/ImportExportCode}"
                         />
                         <Label
@@ -560,7 +560,7 @@
                             required="true"
                         />
                         <Input
-                            id="bankNameId"  enabled="{= ${request>/edit} === true}"
+                            id="bankNameId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/BankName',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
                         />
                         <Label
@@ -570,7 +570,7 @@
                         />
                         <Input
                             id="accNoId"
-                            maxLength="18"  enabled="{= ${request>/edit} === true}"
+                            maxLength="18"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/AccountNo',type:'.customAccountType',constraints:{minLength:1,maxLength:18}}"
                         />
                         <Label
@@ -580,7 +580,7 @@
                         />
                         <Input
                             id="benNameId"
-                             enabled="{= ${request>/edit} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/BeneficiaryName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -589,7 +589,7 @@
                             required="true"
                         />
                         <Select
-                            id="benAccTypeId"  enabled="{= ${request>/edit} === true}"
+                            id="benAccTypeId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             forceSelection="false"
                             selectedKey="{create>/AccountType}"
                         >
@@ -608,7 +608,7 @@
                             required="true"
                         />
                         <Input
-                            id="ifscId"  enabled="{= ${request>/edit} === true}"
+                            id="ifscId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{ path : 'create>/IFSCCode', type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -617,7 +617,7 @@
                             required="true"
                         />
                         <Input
-                            id="branchNameId"  enabled="{= ${request>/edit} === true}"
+                            id="branchNameId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/BranchName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -626,7 +626,7 @@
                             required="true"
                         />
                         <Input
-                            id="benLocId"  enabled="{= ${request>/edit} === true}"
+                            id="benLocId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/BeneficiaryLocation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -642,7 +642,7 @@
                             change="onFileUploaderChange"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true}"
+                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             buttonText="Browse"
                         >
                             <u:customData>
@@ -661,6 +661,68 @@
                     </f:content>
                 </f:SimpleForm>
             </Panel>
+<Panel headerText="Company Code Data" expandable="true" >
+<f:SimpleForm editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
+<f:content>
+<Label design="Bold" text="Company Code" required="true"/>
+<Select id="compCodeId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" forceSelection="false" selectedKey="{create>/Bukrs}" items="{/CompanyCodeHelpSet}" change="compCodeSelect">
+<core:Item key="{Bukrs}" text="{BukrsDesc}"/>
+</Select>
+<Label design="Bold" text="Reconcilliation Account" required="{= ${request>/finance} === true }"/>
+<ComboBox id="reconAccId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}" items="{path:'/GLAccountHelpSet', length:630}" selectedKey="{create>/ReconAccount}" showSecondaryValues="true">
+<core:ListItem key="{ReconAccount}" text="{ReconAccount}" additionalText="{Txt50}"/>
+</ComboBox>
+<Label design="Bold" text="Previous Acct No."/>
+<Input enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" value="{ path : 'create>/PrevAccNo', type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"/>
+<Label design="Bold" text="House Bank"/>
+<Select id="houseBankId" enabled="{= ${request>/edit} === true &amp;&amp; ${create>/Bukrs} !== '' &amp;&amp; ${request>/finance} === true }" forceSelection="false" selectedKey="{create>/HouseBank}" items="{/HouseBankHelpSet}" showSecondaryValues="true">
+<core:ListItem key="{HouseBank}" text="{Text1}" additionalText="{HouseBank}"/>
+</Select>
+<Label design="Bold" text="External BP Number"/>
+<Input enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" value="{ path : 'create>/ExtBpNo', type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"/>
+<Label design="Bold" text="Purchase Organisation" required="true"/>
+<Select id="purOrgId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" forceSelection="false" selectedKey="{create>/PurOrg}" items="{/PurchOrgHelpSet}" showSecondaryValues="true">
+<core:ListItem key="{PurOrg}" text="{PurOrgDesc}" additionalText="{PurOrg}"/>
+</Select>
+<Label design="Bold" text="Purchase Group" required="true"/>
+<Select id="purGrpId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true }" forceSelection="false" selectedKey="{create>/PurGrp}" items="{/PurchGrpHelpSet}" showSecondaryValues="true">
+<core:ListItem key="{PurGrp}" text="{PurGrpDesc}" additionalText="{PurGrp}"/>
+</Select>
+<Label design="Bold" text="Schema Group" required="true"/>
+<Select id="schemaGrpId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" forceSelection="false" selectedKey="{create>/SchemaGrp}" items="{/SchemaGrpHelpSet}" showSecondaryValues="true">
+<core:ListItem key="{SchemaGrp}" text="{SchemaGrpDesc}" additionalText="{SchemaGrp}"/>
+</Select>
+<Label design="Bold" text="Order Currency" required="true"/>
+<ComboBox id="orderCurrId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" selectedKey="{create>/Currency}" items="{path:'/CurrencySet',length:250}" showSecondaryValues="true">
+<core:ListItem key="{Waers}" text="{Ktext}" additionalText="{Waers}"/>
+</ComboBox>
+<Label design="Bold" text="Check Double Invoice" required="true"/>
+<CheckBox id="chkInvId" name="doubleInv" select="onCheckSelect" enabled="false"/>
+<Label design="Bold" text="Clearing with Customer"/>
+<CheckBox id="clrCustId" name="clearCustomer" select="onCheckSelect" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"/>
+<Label design="Bold" text="Withholding Tax Type"/>
+<Select id="taxTypeId" visible="{= ${create>/VenSubType} === 'DM' || ${create>/VenSubType} === 'IP'}" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}" forceSelection="false" selectedKey="{create>/WitholdingTax}" items="{/TaxTypeHelpSet}" change="withHoldingTaxSelect" showSecondaryValues="true">
+<core:ListItem key="{WitholdingTax}" text="{WitholdingTaxDesc}" additionalText="{WitholdingTax}"/>
+</Select>
+<Label design="Bold" text="Subject to Withholding Tax"/>
+<CheckBox id="withTaxId" visible="{= ${create>/VenSubType} === 'DM' || ${create>/VenSubType} === 'IP'}" name="withTax" select="onCheckSelect" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"/>
+<Label design="Bold" text="Recipient Type"/>
+<Select id="recTypeId" visible="{= ${create>/VenSubType} === 'DM' || ${create>/VenSubType} === 'IP'}" enabled="{= ${request>/edit} === true &amp;&amp; ${create>/WitholdingTax} !== '' &amp;&amp; ${request>/finance} === true}" forceSelection="false" selectedKey="{create>/RecipientType}" items="{/RecipientTypeHelpSet}">
+<core:Item key="{RecipientType}" text="{RecipientTypeDesc}"/>
+</Select>
+<Label design="Bold" text="Withholding Tax Code"/>
+<Select id="taxCodeId" visible="{= ${create>/VenSubType} === 'DM' || ${create>/VenSubType} === 'IP'}" enabled="{= ${request>/edit} === true &amp;&amp; ${create>/WitholdingTax} !== '' &amp;&amp; ${request>/finance} === true }" forceSelection="false" selectedKey="{create>/WitholdTaxcode}" items="{/TaxCodeHelpSet}" showSecondaryValues="true">
+<core:ListItem key="{WitholdTaxcode}" text="{WitholdTaxcodeDesc}" additionalText="{WitholdTaxcode}"/>
+</Select>
+<Label design="Bold" text="Tax Number Category"/>
+<Input enabled="false" value="{ path : 'create>/TaxNumCat', type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"/>
+<Label design="Bold" text="GR Based IV"/>
+<CheckBox id="grbasedId" name="grbased" select="onCheckSelect" enabled="false"/>
+<Label design="Bold" text="Srv Based IV"/>
+<CheckBox id="srvbasedId" name="srvbased" select="onCheckSelect" enabled="false"/>
+</f:content>
+</f:SimpleForm>
+</Panel>
             <Panel
                 headerText="Attachments"
                 expandable="true"
