@@ -3,17 +3,16 @@ namespace db.VenOnboard;
 using {managed} from '@sap/cds/common';
 
 entity Country {
-  key code : String(3);
-      name : String;
-};
-
+  key code: String;
+}
 
 entity States {
-  key StateId   : Integer;
-      StateCode : String(10);
-      StateName : String(50);
-      Country   : Association to Country;
+  key name: String;
 };
+
+entity City {
+  key name: String;
+}
 
 entity AccessInfo {
   key email           : String;
@@ -41,7 +40,6 @@ entity VenOnboardHeader : managed {
       VenApprove         : String;
       ResetValidity      : String;
       BusinessPartnerNo    : String;
-
 }
 
 entity Attachments : managed {
@@ -71,8 +69,9 @@ entity VendorForm : managed {
       Address1                 : String;
       Address2                 : String;
       Address3                 : String;
-      City                     : String;
+      City                     : Association to City;
       Country                  : Association to Country;
+      State                    : Association to States;
       District                 : String;
       Pincode                  : String(6);
       ContactPerson            : String;

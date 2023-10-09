@@ -11,7 +11,9 @@ service CatalogService {
     entity Country as projection on db.Country;
 
     entity States as projection on db.States;
-    
+
+    entity City as projection on db.City;
+
     entity AccessInfo as projection on db.AccessInfo;
     
     function verfiyPANDetails(panNumber: String) returns String;
@@ -20,6 +22,6 @@ service CatalogService {
 
     function verifyBankAccount(beneficiaryAccount: String, beneficiaryIFSC: String) returns String;
 
-    function sendMail(to: String, subject: String, text: String) returns String;
+    function sendEMail() returns String;
   
 }
