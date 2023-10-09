@@ -40,6 +40,7 @@ entity VenOnboardHeader : managed {
       VenApprovalPending : String;
       VenApprove         : String;
       ResetValidity      : String;
+      BusinessPartnerNo    : String;
 
 }
 
