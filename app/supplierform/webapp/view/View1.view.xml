@@ -17,31 +17,28 @@
                 <ToolbarSpacer />
                 <Title text="Vendor Creation Form" />
                 <ToolbarSpacer />
-                <FlexBox>
+                <FlexBox alignItems="Center" justifyContent="SpaceBetween">
                     <core:Icon
                         src="sap-icon://fob-watch"
                         tooltip="watch"
                         color="red"
                         size="1.1rem"
-
+                        class="sapUiTinyMarginEnd" 
                     />
-                    <Label
-                        design="Bold"
-
-                        text="Remaining Time -"
-
-                        
-
-                    />
-                    
-                    <Label
-                        id="idRemTime"
-                        design="Bold"
-
-                        text="{request>/VenTimeLeft}"
-
-                        class="size5"
-                    />
+                    <FlexBox direction="Row" alignItems="Center">
+                        <Label
+                            design="Bold"
+                            text="Remaining Time - "
+                            visible="{= ${request>/Status} === 'INITIATED'}"
+                            class="sapUiTinyMarginEnd" 
+                        />
+                        <Label
+                            id="idRemTime"
+                            design="Bold"
+                            text="{request>/VenTimeLeft}"
+                            class="size5"
+                        />
+                    </FlexBox>
                 </FlexBox>
                 <ToolbarSpacer />
                 <Button
