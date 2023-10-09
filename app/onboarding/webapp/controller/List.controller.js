@@ -26,7 +26,7 @@ sap.ui.define([
                 if (evt.getParameter("name") !== "list") {
                     return;
                 }
-                // this.getView().setModel(new JSONModel([]), "DataModel");
+                 this.getView().setModel(new JSONModel([]), "FormData");
                 this.getData();
             },
 
@@ -69,12 +69,20 @@ sap.ui.define([
                             //res.email = "rajeshsehgal@impauto.com";
                             reqData.supplychain = accessdata.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                            reqData.supplychain = true;
+                            //reqData.supplychain = true;
+                            if(reqData.supplychain){
+                                reqData.appbtn = "supply";
+                            }else if(reqData.finance){
+                                reqData.appbtn = "finance";
+                            }
                             this.getView().getModel("request").setData(reqData);
                             this.getView().getModel("request").refresh(true);
                             this.getView().getModel("DataModel").setData(data.results);
                             this.getView().getModel("DataModel").setSizeLimit(data.results.length);
                             this.getView().getModel("DataModel").refresh(true);
+                            // for(var i = 0; i<data.results.length; i++){
+                            // this.changevalidity(data.results[i]);
+                            // }
                             BusyIndicator.hide();
                         },
                         error: () => BusyIndicator.hide()
@@ -188,6 +196,48 @@ sap.ui.define([
                 this.getView().addDependent(popOver);
                 popOver.openBy(evt.getSource());
             },
+            onResetValidityPress: function (evt) {
+                BusyIndicator.show();
+                var source = evt.getSource();
+               // this.id = sap.ui.getCore().byId("displayPopover").getModel("VenModel").getProperty("/Vendor");
+                var vendata = this.getView().getModel("DataModel").getData();
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.vendorId) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenFrom = new Date();;
+                        payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                        payload.VenTimeLeft = "";
+                        payload.Status = vendata[i].Status;
+                        payload.ResetValidity = "";
+                        break;
+                    }
+                }
+                setTimeout(() => {
+                    this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                        success: () => {
+                            BusyIndicator.hide();
+                            MessageBox.success("Form validity extended for next 7 days for vendor " + this.vendor, {
+                                onClose: () => {
+                                    source.getParent().getParent().destroy();
+                                    this.getData();
+                                }
+                            });
+                        },
+                        error: (error) => {
+                            BusyIndicator.hide();
+                            console.log(error);
+                        }
+                    });
+                }, 1000);
+            },
 
             onAttachmentPress: function (evt) {
                 BusyIndicator.show();
@@ -265,10 +315,8 @@ sap.ui.define([
                     }
                 });
             },
-            onApprPress: function (evt) {
+            getFormData: function () {
                 var vendata = this.getView().getModel("DataModel").getData();
-                var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
-                this.vendorId = vendata[sPath].VendorId;
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
                     if (vendata[i].VendorId === this.vendorId) {
@@ -284,6 +332,7 @@ sap.ui.define([
                         payload.VenFrom = vendata[i].VenFrom;
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
                         break;
                     }
                 }
@@ -291,13 +340,15 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "SBF" || venStatus === "RBF") {
+                if (venStatus === "SBF") {
                     stat = "SCA";
                     appr = "1"
                     level = "2";
                     pending = "Finance"
+                    this.msg = "Approved by Supply Chain";
                 } else if (venStatus === "SCA") {
                     stat = "ABF";
+                    this.msg = "Approved by Finance and BP created successfully";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;
@@ -305,8 +356,8 @@ sap.ui.define([
                 payload.VenApprove = appr;
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
                     success: () => {
-
-                        MessageBox.success("Form approved successfully", {
+                        BusyIndicator.hide();
+                        MessageBox.success(this.msg, {
                             onClose: () => this.getData()
                         });
                     },
@@ -315,6 +366,79 @@ sap.ui.define([
                         console.log(error);
                     }
                 });
+            },
+            onApprPress: function (evt) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
+                this.vendorId = vendata[sPath].VendorId;
+                setTimeout(() => {
+                    this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
+                        success: (data) => {
+                        this.getView().getModel("FormData").setData(data);
+                        var accessdata = this.getView().getModel("AccessDetails").getData();
+                            this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
+                            BusyIndicator.hide();
+                            if(this.compcodecheck){
+                                this.getFormData();
+                            }else{
+                                MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");  
+                            }
+                        },
+                        error: () => {
+                            BusyIndicator.hide();
+                        }
+                    });
+                }, 1000);
+                
+                // var payload = {};
+                // for (var i = 0; i < vendata.length; i++) {
+                //     if (vendata[i].VendorId === this.vendorId) {
+                //         payload.Vendor = vendata[i].Vendor;
+                //         payload.VendorId = vendata[i].VendorId;
+                //         payload.VendorName = vendata[i].VendorName;
+                //         payload.VendorType = vendata[i].VendorType;
+                //         payload.Department = vendata[i].Department;
+                //         payload.Telephone = vendata[i].Telephone;
+                //         payload.City = vendata[i].City;
+                //         payload.VendorMail = vendata[i].VendorMail;
+                //         payload.VenValidTo = vendata[i].VenValidTo;
+                //         payload.VenFrom = vendata[i].VenFrom;
+                //         payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                //         var venStatus = vendata[i].Status;
+                //         payload.ResetValidity = vendata[i].ResetValidity;
+                //         break;
+                //     }
+                // }
+                // var stat = "";
+                // var level = "";
+                // var pending = "";
+                // var appr = "0";
+                // if (venStatus === "SBF") {
+                //     stat = "SCA";
+                //     appr = "1"
+                //     level = "2";
+                //     pending = "Finance"
+                //     this.msg = "Approved by Supply Chain";
+                // } else if (venStatus === "SCA") {
+                //     stat = "ABF";
+                //     this.msg = "Approved by Finance and BP created successfully";
+                // }
+                // payload.Status = stat;
+                // payload.VenLevel = level;
+                // payload.VenApprovalPending = pending;
+                // payload.VenApprove = appr;
+                // this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                //     success: () => {
+                //         BusyIndicator.hide();
+                //         MessageBox.success(this.msg, {
+                //             onClose: () => this.getData()
+                //         });
+                //     },
+                //     error: (error) => {
+                //         BusyIndicator.hide();
+                //         console.log(error);
+                //     }
+                // });
             },
             onRejPress: function (evt) {
                 var vendata = this.getView().getModel("DataModel").getData();
@@ -335,6 +459,7 @@ sap.ui.define([
                         payload.VenFrom = vendata[i].VenFrom;
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
                         break;
                     }
                 }
@@ -344,11 +469,10 @@ sap.ui.define([
                 var appr = "0";
                 if (venStatus === "SBF") {
                     stat = "SCR";
+                    this.msg = "Rejected successfully by Supply Chain";
                 } else if (venStatus === "SCA") {
                     stat = "RBF";
-                    appr = "1"
-                    level = "1";
-                    pending = "Supply Chain";
+                    this.msg = "Rejected successfully by Finance";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;
@@ -356,8 +480,8 @@ sap.ui.define([
                 payload.VenApprove = appr;
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
                     success: () => {
-
-                        MessageBox.error("Form rejected successfully", {
+                        
+                        MessageBox.success(this.msg, {
                             onClose: () => this.getData()
                         });
                     },
@@ -367,51 +491,27 @@ sap.ui.define([
                     }
                 });
             },
-            onReroutePress: function (evt) {
-                var vendata = this.getView().getModel("DataModel").getData();
-                var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
-                this.vendorId = vendata[sPath].VendorId;
-                var payload = {};
-                for (var i = 0; i < vendata.length; i++) {
-                    if (vendata[i].VendorId === this.vendorId) {
-                        payload.Vendor = vendata[i].Vendor;
-                        payload.VendorId = vendata[i].VendorId;
-                        payload.VendorName = vendata[i].VendorName;
-                        payload.VendorType = vendata[i].VendorType;
-                        payload.Department = vendata[i].Department;
-                        payload.Telephone = vendata[i].Telephone;
-                        payload.City = vendata[i].City;
-                        payload.VendorMail = vendata[i].VendorMail;
-                        payload.VenValidTo = vendata[i].VenValidTo;
-                        payload.VenFrom = vendata[i].VenFrom;
-                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
-                        var venStatus = vendata[i].Status;
-                        break;
-                    }
-                }
-                var stat = "";
-                var level = "";
-                var pending = "";
-                var appr = "0";
-                if (venStatus === "RBF") {
-                    stat = "SRE-ROUTE";
-                }
-                payload.Status = stat;
-                payload.VenLevel = level;
-                payload.VenApprovalPending = pending;
-                payload.VenApprove = appr;
-                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
-                    success: () => {
+            // changevalidity: function (venItem) {
+            //     var payload = venItem;
+            //     var today = new Date();
+            //     var expirationDate = new Date(venItem.VenValidTo);
 
-                        MessageBox.error("Form rejected successfully", {
-                            onClose: () => this.getData()
-                        });
-                    },
-                    error: (error) => {
-                        BusyIndicator.hide();
-                        console.log(error);
-                    }
-                });
-            }
+            //     if (today >= expirationDate) {
+            //     payload.ResetValidity = "X";
+            //     this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + payload.VendorId + ")", payload, {
+            //         success: () => {
+            //              return;
+            //         },
+            //         error: (error) => {
+            //             BusyIndicator.hide();
+            //             console.log(error);
+            //         }
+            //     });
+            // }else{
+            //     return;
+            // }
+            
+            // }
+            
         });
     });

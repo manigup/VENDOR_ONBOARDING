@@ -99,6 +99,9 @@ formatter = {
                 case "REROUTE":
                     text = "Re Routed";
                     break;
+                case "SAD":
+                    text = "Saved as Draft";
+                    break;
             }
         }
         return text;
@@ -109,16 +112,20 @@ formatter = {
             switch (status) {
                 case "CREATED":
                 case "INITIATED":
+                case "SAD":    
                 case "SBS":
+                case "SBC":
+                case "SBF":
                 case "SAQ_SENT":
                     state = "Information";
                     break;
                 case "PAP":
                 case "SAQ_APROVE":
-                case "REROUTE":
+                case "SRE-ROUTE":
                     state = "Warning";
                     break;
-                case "REJECTED":
+                case "SCR":
+                case "RBF":
                     state = "Error";
                     break;
                 default: state = "Success";
@@ -174,31 +181,25 @@ formatter = {
         return vendor;
     },
     moreInfoBtnVisible: function (status, Access) {
-        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance") || (status === "RBF" && Access === "SCM") ||(status === "SBF" && Access === "SCM") || (status === "SCA" && Access === "Finance")) {
+        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance") || (status === "RBF" && Access === "SCM") || (status === "SBF" && Access === "SCM") || (status === "SCA" && Access === "Finance")) {
             return true;
         } else {
             return false;
         }
     },
     fillformBtnVisible: function (status) {
-        if (status === "INITIATED" || status === "SRE-ROUTE" || status === "SCR") {
+        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "SCR" ) {
             return true;
         } else {
             return false;
         }
     },
-    approveBtnVisible: function (approve) {
-        if (approve === "1" ) {
-            return true;
-        } else {
-            return false;
-        }
-    },
-    routeBtnVisible: function (approve,supply) {
-        if (approve === "1" && supply === true ) {
+    approveBtnVisible: function (approve, btn, status) {
+        if ((approve === "1" && btn === "supply" && status === "SBF") || (approve === "1" && btn === "finance" && status === "SCA")) {
             return true;
         } else {
             return false;
         }
     }
+
 };

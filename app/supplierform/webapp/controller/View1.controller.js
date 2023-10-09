@@ -42,6 +42,7 @@ sap.ui.define([
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
                 this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
+                //this.hardcodedURL = "";
                 this.initializeCountries();
 
             },
@@ -52,6 +53,18 @@ sap.ui.define([
         
                 this.id = jQuery.sap.getUriParameters().get("id");
                 var requestData = this.getView().getModel("request").getData();
+                var createdata = this.getView().getModel("create").getData();
+                createdata.VendorId = this.id;
+                if ( requestData.VendorType === "DM") {
+                    createdata.MsmeItilView = "MSME";
+                    this.byId("msmeItil").setSelectedIndex(0);
+                } 
+                if (requestData.VendorType === "DM") {
+                    createdata.GstApplicable = "YES";
+                }
+                this.createModel.setData(createdata);
+                this.createModel.refresh(true);
+             //   this._setRadioButtons(createdata);
               //  BusyIndicator.show();
                 this.vendorId = requestData.VendorId;
 
@@ -450,7 +463,7 @@ sap.ui.define([
                 data.VendorMail = requestData.VendorMail;
                 data.BeneficiaryName = requestData.VendorName;
                 var payloadStr = JSON.stringify(data);
-                
+                this.draft = true;
                 // var oDataModel = this.getOwnerComponent().getModel();
                 BusyIndicator.show();
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${this.vendorId}')`;
@@ -466,7 +479,8 @@ sap.ui.define([
 
                         MessageBox.success("Form data saved successfully", {
                             onClose: () => {
-                                window.location.reload();
+                                this.changeStatus();
+                                
                             }
                         });
                     }.bind(this),
@@ -727,13 +741,20 @@ sap.ui.define([
             changeStatus: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var stat = "";
-                if (requestData.Status === "INITIATED" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
+                if(this.draft){
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD"){
+                        this.draft = false;
+                        stat = "SAD";
+                    }
+                }else{
+                if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
                     stat = "SBS";
                 } else if (requestData.Status === "SBS") {
                     stat = "SBC";
                 } else if (requestData.Status === "SBF") {
                     stat = "SBF";
                 }
+            }
                 var payload = requestData;
                 payload.Status = stat;
                 var payloadStr = JSON.stringify(payload);
@@ -757,6 +778,7 @@ sap.ui.define([
                     }
                 });
             },
+            
 
             customPanType: SimpleType.extend("Pan", {
                 formatValue: function (oValue) {

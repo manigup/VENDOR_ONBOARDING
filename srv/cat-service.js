@@ -30,6 +30,17 @@ module.exports = cds.service.impl(async function () {
         // Creating dms folder
         await _createFolder(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId);
     });
+    this.after('READ', 'VenOnboard', async (req) => {
+
+        console.log(req.length)
+        const today = new Date();
+        const results=req.filter(item => today>= item.VenValidTo).map(item => item.ResetValidity = "X");
+        console.log(results)
+        console.log(results.length)
+
+
+        
+    });
 
     this.before("CREATE", 'Attachments', async (req) => {
 

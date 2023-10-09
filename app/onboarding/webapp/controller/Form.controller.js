@@ -8,6 +8,8 @@ sap.ui.define([
     "sap/m/Button",
     "sap/m/ButtonType",
     "sap/m/Input",
+    "sap/m/Label",
+    "sap/m/Text",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/SimpleType",
@@ -17,7 +19,7 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, MessageBox, BusyIndicator, JSONModel, Dialog, DialogType, Button, ButtonType, Input, Filter, FilterOperator, SimpleType, ValidateException, MessageToast) {
+    function (Controller, MessageBox, BusyIndicator, JSONModel, Dialog, DialogType, Button, ButtonType, Input, Label, Text, Filter, FilterOperator, SimpleType, ValidateException, MessageToast) {
         "use strict";
 
         return Controller.extend("sp.fiori.onboarding.controller.Form", {
@@ -62,20 +64,33 @@ sap.ui.define([
                 setTimeout(() => {
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
-
-                            if ((vendorStatus === "SBS" || vendorStatus === "RBF") && requestData.supplychain) {
-                                requestData.edit = false
+                        data.TaxNumCat = "IN3";
+                        data.ChkDoubleInv = "X";
+                        data.GrBasedInv = "X";
+                        data.SerBasedInv = "X";
+                            if (vendorStatus === "SBS"  && requestData.supplychain) {
+                                requestData.edit = false;
                             } 
                             else if (vendorStatus === "SBC" && requestData.finance) {
-                                requestData.edit = false
-                            } 
+                                requestData.edit = false;
+                            }else if ( vendorStatus === "RBF" && requestData.supplychain) {
+                                requestData.edit = false;
+                                requestData.route = true;
+                            }
                             else {
                                 requestData.edit = ""
                             }
                             this.getView().getModel("request").refresh(true);
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
+                            // if (data.WitholdingTax) {
+                            //     this.withHoldingTaxSelect();
+                            // }
+                            // if (data.Bukrs) {
+                            //     this.compCodeSelect();
+                            // }
                             this._setRadioButtons(data);
+                            this._setCheckBoxes(data);
                             // this.createModel.setData(data);
                             this.createModel.refresh(true);
                             BusyIndicator.hide();
@@ -89,6 +104,24 @@ sap.ui.define([
             onEdit: function () {
                 this.getView().getModel("request").getData().edit = true;
                 this.getView().getModel("request").refresh(true);
+            },
+            _setCheckBoxes: function (data) {
+                if (data.ChkDoubleInv === "X") {
+                    this.getView().byId("chkInvId").setSelected(true);
+                }
+                if (data.ClrWthCust === "X") {
+                    this.getView().byId("clrCustId").setSelected(true);
+                }
+                if (data.SubWitholdingTax === "X") {
+                    this.getView().byId("withTaxId").setSelected(true);
+                }
+                if (data.GrBasedInv === "X") {
+                    this.getView().byId("grbasedId").setSelected(true);
+                }
+                if (data.SerBasedInv === "X") {
+                    this.getView().byId("srvbasedId").setSelected(true);
+                }
+    
             },
 
             _setRadioButtons: function (data) { //Set Radio Buttons Index
@@ -155,6 +188,50 @@ sap.ui.define([
                         }
                         break;
                 }
+                this.createModel.refresh(true);
+            },
+            onCheckSelect: function (oEvent) {
+                var data = this.createModel.getData();
+                var name = oEvent.getSource().getName();
+    
+                if (oEvent.getParameter("selected")) {
+                    switch (name) {
+                        case "doubleInv":
+                            data.ChkDoubleInv = "X";
+                            break;
+                        case "clearCustomer":
+                            data.ClrWthCust = "X";
+                            break;
+                        case "withTax":
+                            data.SubWitholdingTax = "X";
+                            break;
+                        case "grbased":
+                            data.GrBasedInv = "X";
+                            break;
+                        case "srvbased":
+                            data.SerBasedInv = "X";
+                            break;
+                    }
+                } else {
+                    switch (name) {
+                        case "doubleInv":
+                            data.ChkDoubleInv = "";
+                            break;
+                        case "clearCustomer":
+                            data.ClrWthCust = "";
+                            break;
+                        case "withTax":
+                            data.SubWitholdingTax = "";
+                            break;
+                        case "grbased":
+                            data.GrBasedInv = "";
+                            break;
+                        case "srvbased":
+                            data.SerBasedInv = "";
+                            break;
+                    }
+                }
+    
                 this.createModel.refresh(true);
             },
             _mandatCheck: async function () {
@@ -284,6 +361,41 @@ sap.ui.define([
                 var key = this.getView().byId("countryId").getSelectedKey();
                 this.getView().byId("stateId").getBinding("items").filter([new Filter({
                     path: "Land1",
+                    operator: FilterOperator.EQ,
+                    value1: key
+                })]);
+            },
+            compCodeSelect: function (oEvent) {
+                var key = this.getView().byId("compCodeId").getSelectedKey();
+                this.getView().byId("houseBankId").getBinding("items").filter([new Filter({
+                    path: "Bukrs",
+                    operator: FilterOperator.EQ,
+                    value1: key
+                })]);
+            },
+    
+            withHoldingTaxSelect: function (oEvent) {
+                var data = this.createModel.getData();
+                var key = this.getView().byId("taxTypeId").getSelectedKey();
+    
+                this.getView().byId("recTypeId").getBinding("items").filter([new Filter({
+                    path: "Country",
+                    operator: FilterOperator.EQ,
+                    value1: data.Country
+                }),
+                new Filter({
+                    path: "WitholdingTax",
+                    operator: FilterOperator.EQ,
+                    value1: key
+                })]);
+    
+                this.getView().byId("taxCodeId").getBinding("items").filter([new Filter({
+                    path: "Country",
+                    operator: FilterOperator.EQ,
+                    value1: data.Country
+                }),
+                new Filter({
+                    path: "WitholdingTax",
                     operator: FilterOperator.EQ,
                     value1: key
                 })]);
@@ -439,11 +551,11 @@ sap.ui.define([
                 var oFileUploader = evt.getSource();
                 oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
                 BusyIndicator.show();
-                //var key = oFileUploader.getCustomData()[0].getKey();
+                var key = oFileUploader.getCustomData()[0].getKey();
                 // oFileUploader.removeAllHeaderParameters();
                 oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
                     name: "slug",
-                    value: this.id + "/" + oFileUploader.getValue()
+                    value: this.id + "/" + oFileUploader.getValue() + "/" + key
                 }));
                 //oFileUploader.upload();
 
@@ -460,7 +572,12 @@ sap.ui.define([
                     MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
                     // BusyIndicator.show();
                 } else {
-                    MessageToast.show("File " + evt.getParameters().fileName + " Attached successfully");
+                    var filename = evt.getParameters().fileName;
+                    var customDataKey = evt.getSource().getCustomData()[0].getKey();
+                    var data = this.createModel.getData();
+                    data[customDataKey] = filename;
+                    this.createModel.setData(data);
+                    MessageToast.show("File " + fileName + " Attached successfully");
 
                 }
             },
@@ -471,17 +588,23 @@ sap.ui.define([
             },
 
             onAttachmentGet: function (evt) { // display attachments
-                //var key = evt.getSource().getCustomData()[0].getKey();
-                //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
-                //  "')/$value", true);
+                var key = evt.getSource().getCustomData()[0].getKey(); // this should be the Venfiletype
                 BusyIndicator.show();
                 setTimeout(() => {
+                    var filters = [
+                        new sap.ui.model.Filter("VendorId", sap.ui.model.FilterOperator.EQ, this.id),
+                        new sap.ui.model.Filter("Venfiletype", sap.ui.model.FilterOperator.EQ, key)
+                    ];
+                    var combinedFilter = new sap.ui.model.Filter({
+                        filters: filters,
+                        and: true // using AND to combine filters
+                    });
                     this.getView().getModel().read("/Attachments", {
-                        filters: [new Filter("VendorId", "EQ", this.id)],
+                        filters: [combinedFilter],
                         success: (data) => {
-                            //data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
-                            sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.id + "',ObjectId='" + item.ObjectId + "')/$value", true);
-                            // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+                            var item = data.results[0];
+                            var fileUrl = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value";
+                            window.open(fileUrl, '_blank');
                             BusyIndicator.hide();
                         },
                         error: () => BusyIndicator.hide()
@@ -515,6 +638,7 @@ sap.ui.define([
                         payload.VenFrom = vendata[i].VenFrom;
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
                         break;
                     }
                 }
@@ -524,11 +648,13 @@ sap.ui.define([
                 var appr = "0";
                 if (venStatus === "SBS" || venStatus === "RBF") {
                     stat = "SBC";
+                    this.msg = "Form submitted successfully by Supply Chain";
                 } else if (venStatus === "SBC") {
                     stat = "SBF";
                     appr = "1"
                     level = "1";
                     pending = "Supply Chain";
+                    this.msg = "Form submitted successfully by Finance";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;
@@ -537,7 +663,7 @@ sap.ui.define([
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.id + ")", payload, {
                     success: () => {
 
-                        MessageBox.success("Form submitted successfully", {
+                        MessageBox.success(this.msg, {
                             onClose: () => formatter.onNavBack()
                         });
                     },
@@ -563,6 +689,51 @@ sap.ui.define([
                 //         console.log("Upsert failed: ", errorThrown);
                 //     }
                 // });
+            },
+            onReroutePress: function (evt) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.id) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "RBF") {
+                    stat = "SRE-ROUTE";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.id + ")", payload, {
+                    success: () => {
+
+                        MessageBox.success("Form re-routed successfully to supplier", {
+                            onClose: () => formatter.onNavBack()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
+                    }
+                });
             },
 
             customPanType: SimpleType.extend("Pan", {

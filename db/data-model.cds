@@ -15,42 +15,46 @@ entity States {
       Country   : Association to Country;
 };
 
-entity StatusCheck {
-  key email  : String;
-      Access : String;
+entity AccessInfo {
+  key email           : String;
+      Access          : String;
+      Application     : String;
+      ApplicationName : String;
+      CompCode        : String;
 };
 
 entity VenOnboardHeader : managed {
-  key Vendor          : String(10);
-  key VendorId        : UUID;
-      VendorName      : String;
-      VendorType      : String(5);
-      Department      : String;
-      Telephone       : String(10);
-      City            : String;
-      VendorMail      : String;
-      Status          : String;
-      VenValidTo      : DateTime;
-      VenFrom         : DateTime;
-      VenTimeLeft     : String;
+  key Vendor             : String(10);
+  key VendorId           : UUID;
+      VendorName         : String;
+      VendorType         : String(5);
+      Department         : String;
+      Telephone          : String(10);
+      City               : String;
+      VendorMail         : String;
+      Status             : String;
+      VenValidTo         : DateTime;
+      VenFrom            : DateTime;
+      VenTimeLeft        : String;
       VenLevel           : String;
       VenApprovalPending : String;
       VenApprove         : String;
+      ResetValidity      : String;
 
 }
 
 entity Attachments : managed {
-  key VendorId  : String;
-  key ObjectId  : String;
-  Venfiletype   : String;
+  key VendorId    : String;
+  key ObjectId    : String;
+      Venfiletype : String;
 
       @Core.MediaType                  : Mediatype
       @Core.ContentDisposition.Filename: Filename
-      Data      : LargeBinary;
+      Data        : LargeBinary;
 
       @Core.IsMediaType
-      Mediatype : String;
-      Filename  : String;
+      Mediatype   : String;
+      Filename    : String;
 }
 
 entity VendorForm : managed {
@@ -116,4 +120,22 @@ entity VendorForm : managed {
       DeductionCertificate     : String;
       OtherDocument            : String;
       Otp                      : String;
+      PrevAccNo                : String;
+      Bukrs                    : String;
+      ReconAccount             : String;
+      HouseBank                : String;
+      ExtBpNo                  : String;
+      PurOrg                   : String;
+      PurGrp                   : String;
+      SchemaGrp                : String;
+      Waers                    : String;
+      WitholdingTax            : String;
+      RecipientType            : String;
+      WitholdTaxcode           : String;
+      TaxNumCat                : String;
+      ChkDoubleInv             : String;
+      ClrWthCust               : String;
+      SubWitholdingTax         : String;
+      GrBasedInv               : String;
+      SerBasedInv              : String;
 }
