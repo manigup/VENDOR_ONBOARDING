@@ -41,8 +41,8 @@ sap.ui.define([
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
-                this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
-                //this.hardcodedURL = "";
+                //this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
+                this.hardcodedURL = "";
                 this.initializeCountries();
 
             },
@@ -120,9 +120,9 @@ sap.ui.define([
 
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
-                            // if (data.Country) {
-                            //     this.countryHelpSelect();
-                            // }
+                            if (data.Country ) {
+                                this.countryHelpSelect();
+                            }
                             this._setRadioButtons(data);
                             BusyIndicator.hide();
                         }.bind(this),
@@ -283,7 +283,7 @@ sap.ui.define([
                     // });
                 }
 
-                // oView.byId("stateId")
+                //oView.byId("stateId")
                 // oView.byId("constId")
                 var aSelects = [oView.byId("countryId"),
                 oView.byId("benAccTypeId")];
@@ -356,7 +356,7 @@ sap.ui.define([
                             path: "countries>/Countries",
                             template: new sap.ui.core.Item({
                                 key: "{countries>code}",
-                                text: "{countries>name}"
+                                text: "{countries>code}"
                             })
                         });
                     },
@@ -368,14 +368,88 @@ sap.ui.define([
             },
 
             countryHelpSelect: function (oEvent) {
-                var key = this.getView().byId("countryId").getSelectedKey();
-                this.getView().byId("stateId").getBinding("items").filter([new Filter({
-                    path: "Land1",
-                    operator: FilterOperator.EQ,
-                    value1: key
-                })]);
+                var oStateSelect = this.getView().byId("stateId");
+                var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                
+                if (sCountryKey) {
+                    oStateSelect.setEnabled(true);
+                    this.loadStates(sCountryKey);
+                } else {
+                    oStateSelect.setEnabled(false);
+                }
             },
 
+            loadStates: function (sCountryKey) {
+                var oStateSelect = this.getView().byId("stateId");
+                var oDataModel = this.getOwnerComponent().getModel();
+                var sPath = "/States";
+            
+                oDataModel.read(sPath, {
+                    urlParameters: {
+                        "country": sCountryKey
+                    },
+                    success: function (oData) {
+                        var oJsonModel = new sap.ui.model.json.JSONModel();
+                        oJsonModel.setData({ States: oData.results });
+                        
+                        oStateSelect.setModel(oJsonModel, "states");
+                        oStateSelect.bindItems({
+                            path: "states>/States",
+                            template: new sap.ui.core.Item({
+                                key: "{states>name}",
+                                text: "{states>name}"
+                            })
+                        });
+                    },
+                    error: function (oError) {
+                        console.log("Error", oError);
+                        sap.m.MessageToast.show("Failed to load states.");
+                    }
+                });
+            },
+            
+
+            handleStatePress: function () {
+                var oStateSelect = this.getView().byId("stateId");
+                if (oStateSelect.getSelectedKey()) {
+                    var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                    var sStateKey = oStateSelect.getSelectedKey();
+                    this.loadCities(sCountryKey, sStateKey);
+                } else {
+                    MessageToast.show("Please select a state first.");
+                }
+            },
+
+            loadCities: function (sCountryKey, sStateKey) {
+                var oCitySelect = this.getView().byId("cityId");
+                var oDataModel = this.getOwnerComponent().getModel();
+                var sPath = "/City";
+                
+                oDataModel.read(sPath, {
+                    urlParameters: {
+                        "country": sCountryKey,
+                        "state": sStateKey
+                    },
+                    success: function (oData) {
+                        var oJsonModel = new sap.ui.model.json.JSONModel();
+                        oJsonModel.setData({ Cities: oData.results });
+                        
+                        oCitySelect.setModel(oJsonModel, "cities");
+                        oCitySelect.bindItems({
+                            path: "cities>/Cities",
+                            template: new sap.ui.core.Item({
+                                key: "{cities>name}",
+                                text: "{cities>name}"
+                            })
+                        });
+                    },
+                    error: function (oError) {
+                        console.log("Error", oError);
+                        sap.m.MessageToast.show("Failed to load cities.");
+                    }
+                });
+            },
+        
             _validateSelect: function (oInput, bValidationError) {
                 var sValueState = "None";
                 var value = oInput.getSelectedKey();
