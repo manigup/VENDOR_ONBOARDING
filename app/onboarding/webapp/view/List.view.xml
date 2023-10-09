@@ -199,12 +199,17 @@
                                 id="_IDGenText1"
                                 text="{path:'DataModel>createdAt',formatter:'formatter.formatDate'}"
                             />
+                            <Text
+                                id="_IDGenTextBP"
+                                text="{DataModel>BusinessPartnerNo}"
+                            />
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
                                 text="{DataModel>Lifnr}"
                                 state="Indication03"
                                 class="objectStatus"
                             />
+                            
                             <Text
                                 id="_IDGenText2"
                                 text="{DataModel>Department}"
