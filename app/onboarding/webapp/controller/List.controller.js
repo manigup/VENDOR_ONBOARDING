@@ -371,74 +371,75 @@ sap.ui.define([
                 var vendata = this.getView().getModel("DataModel").getData();
                 var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
                 this.vendorId = vendata[sPath].VendorId;
-                setTimeout(() => {
-                    this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
-                        success: (data) => {
-                        this.getView().getModel("FormData").setData(data);
-                        var accessdata = this.getView().getModel("AccessDetails").getData();
-                            this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
-                            BusyIndicator.hide();
-                            if(this.compcodecheck){
-                                this.getFormData();
-                            }else{
-                                MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");  
-                            }
-                        },
-                        error: () => {
-                            BusyIndicator.hide();
-                        }
-                    });
-                }, 1000);
+                // setTimeout(() => {
+                //     this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
+                //         success: (data) => {
+                //         this.getView().getModel("FormData").setData(data);
+                //         var accessdata = this.getView().getModel("AccessDetails").getData();
+                //             this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
+                //             BusyIndicator.hide();
+                //             if(this.compcodecheck){
+                //                 this.getFormData();
+                //             }else{
+                //                 MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");  
+                //             }
+                //         },
+                //         error: () => {
+                //             BusyIndicator.hide();
+                //         }
+                //     });
+                // }, 1000);
                 
-                // var payload = {};
-                // for (var i = 0; i < vendata.length; i++) {
-                //     if (vendata[i].VendorId === this.vendorId) {
-                //         payload.Vendor = vendata[i].Vendor;
-                //         payload.VendorId = vendata[i].VendorId;
-                //         payload.VendorName = vendata[i].VendorName;
-                //         payload.VendorType = vendata[i].VendorType;
-                //         payload.Department = vendata[i].Department;
-                //         payload.Telephone = vendata[i].Telephone;
-                //         payload.City = vendata[i].City;
-                //         payload.VendorMail = vendata[i].VendorMail;
-                //         payload.VenValidTo = vendata[i].VenValidTo;
-                //         payload.VenFrom = vendata[i].VenFrom;
-                //         payload.VenTimeLeft = vendata[i].VenTimeLeft;
-                //         var venStatus = vendata[i].Status;
-                //         payload.ResetValidity = vendata[i].ResetValidity;
-                //         break;
-                //     }
-                // }
-                // var stat = "";
-                // var level = "";
-                // var pending = "";
-                // var appr = "0";
-                // if (venStatus === "SBF") {
-                //     stat = "SCA";
-                //     appr = "1"
-                //     level = "2";
-                //     pending = "Finance"
-                //     this.msg = "Approved by Supply Chain";
-                // } else if (venStatus === "SCA") {
-                //     stat = "ABF";
-                //     this.msg = "Approved by Finance and BP created successfully";
-                // }
-                // payload.Status = stat;
-                // payload.VenLevel = level;
-                // payload.VenApprovalPending = pending;
-                // payload.VenApprove = appr;
-                // this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
-                //     success: () => {
-                //         BusyIndicator.hide();
-                //         MessageBox.success(this.msg, {
-                //             onClose: () => this.getData()
-                //         });
-                //     },
-                //     error: (error) => {
-                //         BusyIndicator.hide();
-                //         console.log(error);
-                //     }
-                // });
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.vendorId) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "SBF") {
+                    stat = "SCA";
+                    appr = "1"
+                    level = "2";
+                    pending = "Finance"
+                    this.msg = "Approved by Supply Chain";
+                } else if (venStatus === "SCA") {
+                    stat = "ABF";
+                    this.msg = "Approved by Finance and BP created successfully";
+                    payload.BusinessPartnerNo = "90789S";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                    success: () => {
+                        BusyIndicator.hide();
+                        MessageBox.success(this.msg, {
+                            onClose: () => this.getData()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
+                    }
+                });
             },
             onRejPress: function (evt) {
                 var vendata = this.getView().getModel("DataModel").getData();
