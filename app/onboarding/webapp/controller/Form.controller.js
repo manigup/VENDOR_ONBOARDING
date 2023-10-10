@@ -299,19 +299,19 @@ sap.ui.define([
                 oView.byId("deliverymodeId"),oView.byId("customercatId"),oView.byId("benAccTypeId"),
                 oView.byId("typeofsupplierId"),oView.byId("doccodeId") ];
 
-                // if (data.MsmeItilView === 'MSME') {
-                //     aInputs.push(oView.byId("MsmeCertificateNo"));
-                //     aInputs.push(oView.byId("MsmeValidFrom"));
-                //     aInputs.push(oView.byId("MsmeRegistrationCity"));
-                //     aSelects.push(oView.byId("MsmeCertificateId"));
-                // }
+                if (data.MsmeItilView === 'MSME') {
+                    aInputs.push(oView.byId("MsmeCertificateNo"));
+                    aInputs.push(oView.byId("MsmeValidFrom"));
+                    aInputs.push(oView.byId("MsmeRegistrationCity"));
+                    aSelects.push(oView.byId("MsmeCertificateId"));
+                }
 
-                // if (data.VendorType === "IP") {
-                //     aSelects.push(oView.byId("currId"));
-                // }
-                // if (data.VendorType === "DM" || data.VendorType === "EM") {
-                //     aInputs.push(oView.byId("panId"));
-                // }
+                if (data.VendorType === "IP") {
+                    aSelects.push(oView.byId("currId"));
+                }
+                if (data.VendorType === "DM" || data.VendorType === "EM") {
+                    aInputs.push(oView.byId("panId"));
+                }
                 // Check that inputs are not empty.
                 // Validation does not happen during data binding as this is only triggered by user actions.
                 aInputs.forEach(function (oInput) {
@@ -322,12 +322,12 @@ sap.ui.define([
                     bValidationError = this._validateSelect(oInput, bValidationError) || bValidationError;
                 }, this);
 
-                //bValidationError = this._validateAttachments(bValidationError);
+                bValidationError = this._validateAttachments(bValidationError);
 
-                // if (data.MsmeItilView === 'MSME' && !oView.byId("msmeCert").getSelected()) {
-                //     oView.byId("msmeCert").setValueState("Error");
-                //     bValidationError = true;
-                // }
+                if (data.MsmeItilView === 'MSME' && !oView.byId("msmeCert").getSelected()) {
+                    oView.byId("msmeCert").setValueState("Error");
+                    bValidationError = true;
+                }
                 return bValidationError;
             },
 
