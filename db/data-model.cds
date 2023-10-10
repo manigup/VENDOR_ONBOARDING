@@ -4,7 +4,7 @@ using {managed} from '@sap/cds/common';
 
 entity Country {
   key code: String;
-  name: String
+  name: String;
 }
 
 entity States {
