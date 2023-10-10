@@ -21,36 +21,35 @@ entity StatusCheck {
 };
 
 entity VenOnboardHeader : managed {
-  key Vendor          : String(10);
-  key VendorId        : UUID;
-      VendorName      : String;
-      VendorType      : String(5);
-      Department      : String;
-      Telephone       : String(10);
-      City            : String;
-      VendorMail      : String;
-      Status          : String;
-      VenValidTo      : DateTime;
-      VenFrom         : DateTime;
-      VenTimeLeft     : String;
+  key Vendor             : String(10);
+  key VendorId           : UUID;
+      VendorName         : String;
+      VendorType         : String(5);
+      Department         : String;
+      Telephone          : String(10);
+      City               : String;
+      VendorMail         : String;
+      Status             : String;
+      VenValidTo         : DateTime;
+      VenFrom            : DateTime;
+      VenTimeLeft        : String;
       VenLevel           : String;
       VenApprovalPending : String;
       VenApprove         : String;
-
 }
 
 entity Attachments : managed {
-  key VendorId  : String;
-  key ObjectId  : String;
-  Venfiletype   : String;
+  key VendorId    : String;
+  key ObjectId    : String;
+      Venfiletype : String;
 
       @Core.MediaType                  : Mediatype
       @Core.ContentDisposition.Filename: Filename
-      Data      : LargeBinary;
+      Data        : LargeBinary;
 
       @Core.IsMediaType
-      Mediatype : String;
-      Filename  : String;
+      Mediatype   : String;
+      Filename    : String;
 }
 
 entity VendorForm : managed {
