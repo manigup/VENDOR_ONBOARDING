@@ -290,7 +290,7 @@ sap.ui.define([
                     //         }.bind(this)
                     //     });
                     // });
-                // }
+                 }
 
                 // oView.byId("stateId")
                 // oView.byId("constId")
@@ -388,32 +388,32 @@ sap.ui.define([
                 })]);
             },
     
-            // withHoldingTaxSelect: function (oEvent) {
-            //     var data = this.createModel.getData();
-            //     var key = this.getView().byId("taxTypeId").getSelectedKey();
+            withHoldingTaxSelect: function (oEvent) {
+                var data = this.createModel.getData();
+                var key = this.getView().byId("taxTypeId").getSelectedKey();
     
-            //     this.getView().byId("recTypeId").getBinding("items").filter([new Filter({
-            //         path: "Country",
-            //         operator: FilterOperator.EQ,
-            //         value1: data.Country
-            //     }),
-            //     new Filter({
-            //         path: "WitholdingTax",
-            //         operator: FilterOperator.EQ,
-            //         value1: key
-            //     })]);
+                this.getView().byId("recTypeId").getBinding("items").filter([new Filter({
+                    path: "Country",
+                    operator: FilterOperator.EQ,
+                    value1: data.Country
+                }),
+                new Filter({
+                    path: "WitholdingTax",
+                    operator: FilterOperator.EQ,
+                    value1: key
+                })]);
     
-            //     this.getView().byId("taxCodeId").getBinding("items").filter([new Filter({
-            //         path: "Country",
-            //         operator: FilterOperator.EQ,
-            //         value1: data.Country
-            //     }),
-            //     new Filter({
-            //         path: "WitholdingTax",
-            //         operator: FilterOperator.EQ,
-            //         value1: key
-            //     })]);
-            // },
+                this.getView().byId("taxCodeId").getBinding("items").filter([new Filter({
+                    path: "Country",
+                    operator: FilterOperator.EQ,
+                    value1: data.Country
+                }),
+                new Filter({
+                    path: "WitholdingTax",
+                    operator: FilterOperator.EQ,
+                    value1: key
+                })]);
+            },
 
             _validateSelect: function (oInput, bValidationError) {
                 var sValueState = "None";
