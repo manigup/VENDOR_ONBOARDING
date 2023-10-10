@@ -22,6 +22,6 @@ service CatalogService {
 
     function verifyBankAccount(beneficiaryAccount: String, beneficiaryIFSC: String) returns String;
 
-    function sendEMail() returns String;
+    function sendEmail(subject: String, content: String, toAddress: String) returns String;
   
 }

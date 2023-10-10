@@ -117,7 +117,8 @@ sap.ui.define([
                             data.BeneficiaryName = requestData.VendorName;
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
-                            if (data.Country ) {
+                            if (data.Country) {
+                                createdata.State_name = data.State_name;
                                 this.countryHelpSelect();
                             }
                             if (data.City) {
@@ -582,21 +583,32 @@ sap.ui.define([
 
             onSubmitPress: async function (oEvent) {
                 var that = this;
-                //BusyIndicator.show();
+                BusyIndicator.show();
                 var mandat = await this._mandatCheck(); // Mandatory Check
                 if (!mandat) {
-                    // var createData = this.createModel.getData();
-                    // var data = this.getView().getModel("request").getData();
-                    // var oDataModel = this.getView().getModel();
+                    var createData = this.createModel.getData();
+                    var data = this.getView().getModel("request").getData();
+                    var oDataModel = this.getView().getModel();
 
                     that.otp = that.getOTP();
                     that.otpTime = new Date().getTime();
-                    MessageBox.information("To submit the data, kindly enter the OTP received " + that.otp, {
-                        onClose: () => that._enterOTP()
-                    });
+                    var mParameters = {
+                        method: "GET",
+                        urlParameters: {
+                            subject: "OTP",
+                            content: `The OTP is ${that.otp}`,
+                            toAddress: data.VendorMail
+                        },
+                        success: function (oData, response) {
+                            that._enterOTP()
+                        },
+                        error: function (oError) {
+                            MessageBox.error("Failed to send OTP. Please try again.");
+                        }
+                    };
 
-
-
+                    // Call the sendEmail function
+                    oDataModel.callFunction("/sendEmail", mParameters);
                     // Prepare the function import parameters
                     // var sPath = "/verifyBankAccount";
                     // var mParameters = {

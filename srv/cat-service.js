@@ -124,19 +124,38 @@ module.exports = cds.service.impl(async function () {
         }
     });
 
+    //Email trigger
     this.on('sendEmail', async (req) => {
-        const mailOptions = {
-          to: 'mohsinahmad@kpmg.com',
-          subject: 'test subject',
-          text: 'test text'
+        const { subject, content, toAddress} =  req.data;
+
+        const payload = {
+            Subject: subject,
+            Content: `Hi, | ${content} | Thanks & Regards | Manikandan`,
+            Seperator: "|",
+            ToAddress: toAddress,
+            CCAddress: "",
+            BCCAddress: "",
+            CreatedBy: "Manikandan"
         };
-      
+
         try {
-          const info = await transporter.sendMail(mailOptions);
-          return `Email sent: ${info.response}`;
+            // Make the API request
+            const response = await axios.post('https://imperialauto.co/IAIAPI.asmx/SendMail', payload, {
+                headers: {
+                    'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (response.status === 200) {
+                return `Email sent successfully.`;
+            } else {
+                console.error('Error:', response.data);
+                throw new Error('Failed to send email');
+            }
         } catch (error) {
-          console.log('Error:', error);
-          throw new Error('Failed to send email');
+            console.error('Error:', error);
+            throw new Error('Failed to send email');
         }
       });
 
