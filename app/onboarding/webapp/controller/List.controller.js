@@ -148,12 +148,14 @@ sap.ui.define([
                         this.getView().getModel().create("/VenOnboard", payload, {
                             success: (sData) => {
                                 BusyIndicator.hide();
+                                console.log("VendorId", sData.VendorId)
                                 MessageBox.success("Vendor creation request " + sData.Vendor + " created successfully. \n\n Also, Supplier form generated please fill to procced.", {
                                     onClose: () => {
                                         sap.ui.getCore().byId("createDialog").destroy();
                                         this.getData();
                                     }
                                 });
+                                this.sendEmailNotification(sData.VendorId, sData.VendorMail);
                             },
                             error: () => BusyIndicator.hide()
                         });
@@ -163,7 +165,28 @@ sap.ui.define([
                 }
             },
 
+            sendEmailNotification: function (vendorId, vendorMail) {
+                var emailContent = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + vendorId;
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        subject: "Supplier Form",
+                        content: emailContent,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
+            },
+
             onFormPress: function () {
+                //const url = "http://localhost:4004/supplierform/webapp/index.html?id=" + this.vendorId
                 const href = window.location.href;
                 let url;
                 if (href.includes("impautosuppdev")) {

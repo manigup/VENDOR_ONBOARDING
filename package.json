@@ -15,7 +15,8 @@
     "express": "^4",
     "form-data": "^4.0.0",
     "hdb": "^0.19.6",
-    "passport": "^0"
+    "passport": "^0",
+    "sqlite": "^5.0.1"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
