@@ -246,7 +246,8 @@ sap.ui.define([
 
                 var oView = this.getView(),
                     bValidationError = false;
-                var aInputs = [oView.byId("venNameId"),oView.byId("address1Id"), oView.byId("accdescId"),
+                var aInputs = [oView.byId("venNameId"),oView.byId("address1Id"), 
+                //oView.byId("accdescId"),
                 oView.byId("mobileId"), oView.byId("purposeId"),
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
