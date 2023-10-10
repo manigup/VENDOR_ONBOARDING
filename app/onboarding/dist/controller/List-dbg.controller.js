@@ -26,14 +26,15 @@ sap.ui.define([
                 if (evt.getParameter("name") !== "list") {
                     return;
                 }
-                this.getView().setModel(new JSONModel([]), "DataModel");
+                 this.getView().setModel(new JSONModel([]), "FormData");
                 this.getData();
             },
 
             getData: function () {
                 BusyIndicator.show();
                 setTimeout(() => {
-                    // var requestData = this.getView().getModel("request").getData();
+                    //  var requestData = this.getView().getModel("request").getData();
+
                     // this.getView().getModel().read("/EmpRoleSet", {
                     //     success: (data) => {
                     //         var access;
@@ -61,9 +62,27 @@ sap.ui.define([
                                 parseInt(item.Score);
                                 return item;
                             });
+                            var reqData = { supplychain: false, finance: false };
+                            var accessdata = this.getView().getModel("AccessDetails").getData();
+                            var res = this.getView().getModel("UserApiDetails").getData();
+                            //var res = {};
+                            //res.email = "rajeshsehgal@impauto.com";
+                            reqData.supplychain = accessdata.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
+                            reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
+                            //reqData.supplychain = true;
+                            if(reqData.supplychain){
+                                reqData.appbtn = "supply";
+                            }else if(reqData.finance){
+                                reqData.appbtn = "finance";
+                            }
+                            this.getView().getModel("request").setData(reqData);
+                            this.getView().getModel("request").refresh(true);
                             this.getView().getModel("DataModel").setData(data.results);
                             this.getView().getModel("DataModel").setSizeLimit(data.results.length);
                             this.getView().getModel("DataModel").refresh(true);
+                            // for(var i = 0; i<data.results.length; i++){
+                            // this.changevalidity(data.results[i]);
+                            // }
                             BusyIndicator.hide();
                         },
                         error: () => BusyIndicator.hide()
@@ -82,7 +101,7 @@ sap.ui.define([
                         new Filter("Vendor", sap.ui.model.FilterOperator.Contains, sValue), // Supplier Code
                         new Filter("VendorName", sap.ui.model.FilterOperator.Contains, sValue), // Supplier Name
                         new Filter("Lifnr", sap.ui.model.FilterOperator.Contains, sValue), // Business Partner
-                        new Filter("ApprovalPending", sap.ui.model.FilterOperator.Contains, sValue), // Approval Pending
+                        new Filter("VenApprovalPending", sap.ui.model.FilterOperator.Contains, sValue), // Approval Pending
                         new Filter("StatusText", sap.ui.model.FilterOperator.Contains, sValue) // Status
                     ])]);
                 } else {
@@ -123,16 +142,20 @@ sap.ui.define([
                     BusyIndicator.show();
                     const payload = sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData();
                     payload.Vendor = this.generateVendorNo();
+                    payload.VenFrom = new Date();
+                    payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
                     setTimeout(() => {
                         this.getView().getModel().create("/VenOnboard", payload, {
                             success: (sData) => {
                                 BusyIndicator.hide();
+                                console.log("VendorId", sData.VendorId)
                                 MessageBox.success("Vendor creation request " + sData.Vendor + " created successfully. \n\n Also, Supplier form generated please fill to procced.", {
                                     onClose: () => {
                                         sap.ui.getCore().byId("createDialog").destroy();
                                         this.getData();
                                     }
                                 });
+                                this.sendEmailNotification(sData.VendorId, sData.VendorMail);
                             },
                             error: () => BusyIndicator.hide()
                         });
@@ -142,19 +165,101 @@ sap.ui.define([
                 }
             },
 
+            sendEmailNotification: function (vendorId, vendorMail) {
+                var emailContent = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + vendorId;
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        subject: "Supplier Form",
+                        content: emailContent,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
+            },
+
             onFormPress: function () {
-                const url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
+                //const url = "http://localhost:4004/supplierform/webapp/index.html?id=" + this.vendorId
+                const href = window.location.href;
+                let url;
+                if (href.includes("impautosuppdev")) {
+
+                    url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
+
+                } else {
+                    url = "/supplierform/webapp/index.html?id=" + this.vendorId;
+                }
                 window.open(url);
+            },
+
+            onMoreInfoPress: function (evt) {
+                evt.getSource().getParent().getParent().destroy();
+                this.getRouter().navTo("Form", { VendorId: this.vendorId });
             },
 
             onVendorPress: function (evt) {
                 var data = evt.getSource().getBindingContext("DataModel").getObject();
+                var requestData = this.getView().getModel("request").getData();
                 this.vendor = data.Vendor;
                 this.vendorId = data.VendorId;
+                if (requestData.supplychain === true) {
+                    data.Access = "SCM";
+                } else if (requestData.finance === true) {
+                    data.Access = "Finance";
+                }
                 var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
                 sap.ui.getCore().byId("displayPopover").setModel(new JSONModel(data), "VenModel");
                 this.getView().addDependent(popOver);
                 popOver.openBy(evt.getSource());
+            },
+            onResetValidityPress: function (evt) {
+                BusyIndicator.show();
+                var source = evt.getSource();
+               // this.id = sap.ui.getCore().byId("displayPopover").getModel("VenModel").getProperty("/Vendor");
+                var vendata = this.getView().getModel("DataModel").getData();
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.vendorId) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenFrom = new Date();;
+                        payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                        payload.VenTimeLeft = "";
+                        payload.Status = vendata[i].Status;
+                        payload.ResetValidity = "";
+                        break;
+                    }
+                }
+                setTimeout(() => {
+                    this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                        success: () => {
+                            BusyIndicator.hide();
+                            MessageBox.success("Form validity extended for next 7 days for vendor " + this.vendor, {
+                                onClose: () => {
+                                    source.getParent().getParent().destroy();
+                                    this.getData();
+                                }
+                            });
+                        },
+                        error: (error) => {
+                            BusyIndicator.hide();
+                            console.log(error);
+                        }
+                    });
+                }, 1000);
             },
 
             onAttachmentPress: function (evt) {
@@ -232,6 +337,273 @@ sap.ui.define([
                         }
                     }
                 });
+            },
+            changeStatus: function (BPNum) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.vendorId) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "SBF") {
+                    stat = "SCA";
+                    appr = "1"
+                    level = "2";
+                    pending = "Finance"
+                    this.msg = "Approved by Supply Chain";
+                } else if (venStatus === "SCA") {
+                    stat = "ABF";
+                    payload.BusinessPartnerNo = BPNum;
+                    this.msg = "Approved by Finance and BP " + payload.BusinessPartnerNo + " created successfully";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                    success: () => {
+                        BusyIndicator.hide();
+                        MessageBox.success(this.msg, {
+                            onClose: () => this.getData()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
+                    }
+                });
+            },
+            getFormData: function () {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var formdata = this.getView().getModel("FormData").getData();
+                if(formdata.ExciseDivision === ""){
+                    formdata.ExciseDivision = "-";
+                }
+                if(formdata.ExciseBankAcc === ""){
+                    formdata.ExciseBankAcc = "-";
+                }
+                if(formdata.STRatePerc === ""){
+                    formdata.STRatePerc = "0";
+                }
+                if(formdata.JWRWCost === ""){
+                    formdata.JWRWCost = "0";
+                }
+                if(formdata.ExciseRange === ""){
+                    formdata.ExciseRange = "0";
+                }
+                if(formdata.ExciseBankName === ""){
+                    formdata.ExciseBankName = "-";
+                }
+                if(formdata.STRateSurcharge === ""){
+                    formdata.STRateSurcharge = "0";
+                }
+                if(formdata.LSTNo === ""){
+                    formdata.LSTNo = "0";
+                }
+                formdata.TransMode = "";
+                var sPath = "https://imperialauto.co/IAIAPI.asmx/PostSupplierMaster";
+                $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: sPath,
+                        data: formdata,
+                        context: this,
+                        success: function (data, textStatus, jqXHR) {
+                           this.changeStatus(data[0].SuccessCode);
+                        }.bind(this),
+                        error: function (error) {
+                            MessageBox.success("BP creation failed");
+                        }
+                    });
+            },
+            onApprPress: function (evt) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
+                this.vendorId = vendata[sPath].VendorId;
+                var status = vendata[sPath].Status;
+                if(status === "SCA"){
+                setTimeout(() => {
+                    this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
+                        success: (data) => {
+                        this.getView().getModel("FormData").setData(data);
+                        var accessdata = this.getView().getModel("AccessDetails").getData();
+                            this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
+                            this.compcodecheck = true;
+                            BusyIndicator.hide();
+                            if(this.compcodecheck){
+                                this.getFormData();
+                            }else{
+                                MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");  
+                            }
+                        },
+                        error: () => {
+                            BusyIndicator.hide();
+                        }
+                    });
+                }, 1000);
+            }else if(status === "SBF"){
+                setTimeout(() => {
+                    this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
+                        success: (data) => {
+                        this.getView().getModel("FormData").setData(data);
+                        var accessdata = this.getView().getModel("AccessDetails").getData();
+                            this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
+                            this.compcodecheck = true;
+                            BusyIndicator.hide();
+                            if(this.compcodecheck){
+                                this.changeStatus();
+                            }else{
+                                MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");  
+                            }
+                        },
+                        error: () => {
+                            BusyIndicator.hide();
+                        }
+                    });
+                }, 1000);
             }
+                
+                // var payload = {};
+                // for (var i = 0; i < vendata.length; i++) {
+                //     if (vendata[i].VendorId === this.vendorId) {
+                //         payload.Vendor = vendata[i].Vendor;
+                //         payload.VendorId = vendata[i].VendorId;
+                //         payload.VendorName = vendata[i].VendorName;
+                //         payload.VendorType = vendata[i].VendorType;
+                //         payload.Department = vendata[i].Department;
+                //         payload.Telephone = vendata[i].Telephone;
+                //         payload.City = vendata[i].City;
+                //         payload.VendorMail = vendata[i].VendorMail;
+                //         payload.VenValidTo = vendata[i].VenValidTo;
+                //         payload.VenFrom = vendata[i].VenFrom;
+                //         payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                //         var venStatus = vendata[i].Status;
+                //         payload.ResetValidity = vendata[i].ResetValidity;
+                //         break;
+                //     }
+                // }
+                // var stat = "";
+                // var level = "";
+                // var pending = "";
+                // var appr = "0";
+                // if (venStatus === "SBF") {
+                //     stat = "SCA";
+                //     appr = "1"
+                //     level = "2";
+                //     pending = "Finance"
+                //     this.msg = "Approved by Supply Chain";
+                // } else if (venStatus === "SCA") {
+                //     stat = "ABF";
+                //     this.msg = "Approved by Finance and BP created successfully";
+                //     payload.BusinessPartnerNo = "90789S";
+                // }
+                // payload.Status = stat;
+                // payload.VenLevel = level;
+                // payload.VenApprovalPending = pending;
+                // payload.VenApprove = appr;
+                // this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                //     success: () => {
+                //         BusyIndicator.hide();
+                //         MessageBox.success(this.msg, {
+                //             onClose: () => this.getData()
+                //         });
+                //     },
+                //     error: (error) => {
+                //         BusyIndicator.hide();
+                //         console.log(error);
+                //     }
+                // });
+            },
+            onRejPress: function (evt) {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
+                this.vendorId = vendata[sPath].VendorId;
+                var payload = {};
+                for (var i = 0; i < vendata.length; i++) {
+                    if (vendata[i].VendorId === this.vendorId) {
+                        payload.Vendor = vendata[i].Vendor;
+                        payload.VendorId = vendata[i].VendorId;
+                        payload.VendorName = vendata[i].VendorName;
+                        payload.VendorType = vendata[i].VendorType;
+                        payload.Department = vendata[i].Department;
+                        payload.Telephone = vendata[i].Telephone;
+                        payload.City = vendata[i].City;
+                        payload.VendorMail = vendata[i].VendorMail;
+                        payload.VenValidTo = vendata[i].VenValidTo;
+                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        var venStatus = vendata[i].Status;
+                        payload.ResetValidity = vendata[i].ResetValidity;
+                        break;
+                    }
+                }
+                var stat = "";
+                var level = "";
+                var pending = "";
+                var appr = "0";
+                if (venStatus === "SBF") {
+                    stat = "SCR";
+                    this.msg = "Rejected successfully by Supply Chain";
+                } else if (venStatus === "SCA") {
+                    stat = "RBF";
+                    this.msg = "Rejected successfully by Finance";
+                }
+                payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
+                payload.VenApprove = appr;
+                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                    success: () => {
+                        
+                        MessageBox.success(this.msg, {
+                            onClose: () => this.getData()
+                        });
+                    },
+                    error: (error) => {
+                        BusyIndicator.hide();
+                        console.log(error);
+                    }
+                });
+            },
+            // changevalidity: function (venItem) {
+            //     var payload = venItem;
+            //     var today = new Date();
+            //     var expirationDate = new Date(venItem.VenValidTo);
+
+            //     if (today >= expirationDate) {
+            //     payload.ResetValidity = "X";
+            //     this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + payload.VendorId + ")", payload, {
+            //         success: () => {
+            //              return;
+            //         },
+            //         error: (error) => {
+            //             BusyIndicator.hide();
+            //             console.log(error);
+            //         }
+            //     });
+            // }else{
+            //     return;
+            // }
+            
+            // }
+            
         });
     });

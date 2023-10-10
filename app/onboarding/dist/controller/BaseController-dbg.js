@@ -134,6 +134,13 @@ sap.ui.define([
                 vendor = (parseInt(data[data.length - 1].Vendor) + 1).toString();
             }
             return vendor;
+        },
+        changeDate: function (date, days, operation) {
+            var dateOffset = (24 * 60 * 60 * 1000) * days;
+            var myDate = new Date();
+
+            myDate.setTime(date.getTime() + dateOffset);
+            return myDate;
         }
     });
 });

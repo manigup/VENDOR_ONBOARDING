@@ -11,38 +11,38 @@
         <customHeader>
             <OverflowToolbar id="_IDGenOverflowToolbar1">
                 <Image
+                    id="_IDGenImage1"
                     src="images/logo.png"
                     height="90%"
                 />
-                <ToolbarSpacer />
-                <Title text="Vendor Creation Form" />
-                <ToolbarSpacer />
-                <FlexBox>
+                <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                <Title
+                    id="_IDGenTitle1"
+                    text="Vendor Creation Form"
+                />
+                <ToolbarSpacer id="_IDGenToolbarSpacer2" />
+                <FlexBox id="_IDGenFlexBox1">
                     <core:Icon
                         id="_IDGenIcon1"
                         src="sap-icon://fob-watch"
                         tooltip="watch"
                         color="red"
                         size="1.1rem"
-
                     />
                     <Label
+                        id="_IDGenLabel"
                         design="Bold"
                         text="Remaining Time -"
-
-                        visible="{= ${request>/Status} === 'INITIATED'}"
+                        class="size5 sapUiTinyMarginEnd sapUiTinyMarginBegin"
                     />
-                    
                     <Label
                         id="idRemTime"
                         design="Bold"
-
                         text="{request>/VenTimeLeft}"
-
                         class="size5"
                     />
                 </FlexBox>
-                <ToolbarSpacer />
+                <ToolbarSpacer id="_IDGenToolbarSpacer3" />
                 <Button
                     id="saveBtnId"
                     text="Draft"
@@ -215,11 +215,13 @@
                             maxLength="40"
                         />
                         <Label
+                            id="_IDGenLabel62"
                             design="Bold"
                             text="City"
                             required="true"
                         />
                         <Input
+                            id="_IDGenInput11"
                             maxLength="20"
                             value="{create>/City}"
                         />
@@ -258,6 +260,7 @@
                             enabled="true"
                         >
                             <core:Item
+                                id="_IDGenItem8"
                                 key="{Region}"
                                 text="{Bezei}"
                             />
@@ -957,7 +960,9 @@
                             buttonText="Browse"
                         >
                             <u:customData>
-                                <core:CustomData key="ProjectAppropriationName" />
+                                <core:CustomData
+                                    key="ProjectAppropriationName"
+                                />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -967,7 +972,9 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="ProjectAppropriationName" />
+                                <core:CustomData
+                                    key="ProjectAppropriationName"
+                                />
                             </customData>
                         </Link>
                         <Label
@@ -1018,7 +1025,9 @@
                             visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
-                                <core:CustomData key="TaxResidencyCertificate" />
+                                <core:CustomData
+                                    key="TaxResidencyCertificate"
+                                />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -1028,7 +1037,9 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="TaxResidencyCertificate" />
+                                <core:CustomData
+                                    key="TaxResidencyCertificate"
+                                />
                             </customData>
                         </Link>
                         <Label
@@ -1080,7 +1091,9 @@
                             visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
-                                <core:CustomData key="EstablishmentCertificate" />
+                                <core:CustomData
+                                    key="EstablishmentCertificate"
+                                />
                             </u:customData>
                         </u:FileUploader>
                         <Link
@@ -1090,7 +1103,9 @@
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="EstablishmentCertificate" />
+                                <core:CustomData
+                                    key="EstablishmentCertificate"
+                                />
                             </customData>
                         </Link>
                         <Label

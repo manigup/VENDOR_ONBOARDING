@@ -6,7 +6,7 @@
       "source": "^/v2/(.*)$",
       "target": "/v2/$1",
       "destination": "VENDOR_ONBOARDING-srv-api",
-      "authenticationType": "xsuaa",
+      "authenticationType": "none",
       "csrfProtection": false
     },
     {

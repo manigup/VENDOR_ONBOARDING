@@ -6,9 +6,10 @@ sap.ui.define([
     "sap/ui/core/UIComponent",
     "sp/fiori/onboarding/formatter",
     "sap/ui/core/routing/HashChanger",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    'sap/ui/model/json/JSONModel',
 ],
-    function (UIComponent, formatter, HashChanger, MessageBox) {
+    function (UIComponent, formatter, HashChanger, MessageBox, JSONModel) {
         "use strict";
 
         return UIComponent.extend("sp.fiori.onboarding.Component", {
@@ -25,20 +26,71 @@ sap.ui.define([
                 // call the base component's init function
                 UIComponent.prototype.init.apply(this, arguments);
 
-                // metadata success
+                
+                this.setModel(new JSONModel([]), "DataModel");
+                this.setModel(new JSONModel([]), "AccessDetails");
+                this.setModel(new JSONModel([]), "UserApiDetails");
                 this.getModel().metadataLoaded(true).then(() => {
+                    // metadata success
+                    this.getStatus();
+                    // Hardcoded URL for the AJAX request
+                    var hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1/user-api/attributes";
 
+                    // Make the AJAX call
+                    $.ajax({
+                        url: hardcodedURL,
+                        type: "GET",
+                        success: res => {
+                            console.log("RESPONSE: ", res);
+                            this.getModel("UserApiDetails").setData(res);
+                            // Store the name and email in session storage
+                            sessionStorage.setItem('userName', res.name);
+                            sessionStorage.setItem('userEmail', res.email);
+                           
+                            console.log(`Name and Email stored in session storage`);
+                        },
+                        error: (jqXHR, textStatus, errorThrown) => {
+                            console.log("ERROR: ", textStatus, ", DETAILS: ", errorThrown);
+                        }
+                    });
+                    // $.ajax({
+                    //     url: 'http://103.237.175.233:84/IAIAPI.asmx/TestConnection',
+                    //     type: 'POST',
+                    //     contentType: 'application/json',
+                    //      data: JSON.stringify({}),
+
+                    //     success: function (response) {
+
+                    //         console.log(reponse);
+                    //     },
+                    //     error: function (error) {
+                    //         console.log(error);
+
+                    //     },
+                    //     });
                     // enable routing
                     HashChanger.getInstance().replaceHash("");
                     this.getRouter().initialize();
 
-                }).catch(err =>
+                }).catch(err => {
                     // metadata error
-                    this.handleError(err.responseText));
+                    this.handleError(err.responseText);
+                });
 
                 // odata request failed
-                this.getModel().attachRequestFailed(err =>
-                    this.handleError(err.getParameter("response").responseText));
+                this.getModel().attachRequestFailed(err => {
+                    this.handleError(err.getParameter("response").responseText);
+                });
+            },
+
+            getStatus: function () {
+                this.getModel().read("/AccessInfo", {
+                    success: data => {
+                        this.getModel("AccessDetails").setData(data.results);
+                    },
+                    error: () => {
+                    }
+                });
             },
 
             handleError: function (responseText) {

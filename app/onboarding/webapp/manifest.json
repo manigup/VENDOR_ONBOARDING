@@ -33,6 +33,7 @@
                     "action": "manage",
                     "title": "{{flpTitle}}",
                     "subTitle": "{{flpSubtitle}}",
+                    "icon": "sap-icon://add-employee",
                     "signature": {
                         "parameters": {},
                         "additionalParameters": "allowed"

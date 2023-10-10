@@ -33,18 +33,19 @@
                     id="_IDGenButton1"
                     text="Fill Supplier Form"
                     press="onFormPress"
+                    visible="{path:'VenModel>/Status',formatter:'formatter.fillformBtnVisible'}"
                 />
                 <Button
                     id="_IDGenButton2"
                     text="More Info"
-                    press="onMoreInfoBtnPress"
-                    visible="{= ${VenModel>/Status} !== 'INITIATED'}"
+                    press="onMoreInfoPress"
+                    visible="{parts:[{path:'VenModel>/Status'},{path:'VenModel>/Access'}],formatter:'formatter.moreInfoBtnVisible'}"
                 />
                 <Button
                     id="_IDGenButton3"
                     text="Reset Validity"
                     press="onResetValidityPress"
-                    visible="{= ${VenModel>/ResetValidity} === 'X' &amp;&amp; ${request>/reset} === true}"
+                    visible="{= ${VenModel>/ResetValidity} === 'X'}"
                 />
                 <ToolbarSpacer id="_IDGenToolbarSpacer1" />
                 <Button

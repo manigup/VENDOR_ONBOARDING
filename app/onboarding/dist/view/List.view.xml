@@ -22,7 +22,7 @@
         <content>
             <Table
                 id="vendorList"
-                class="sapUiContentPadding sapUiLargeMarginBottom"
+                class="sapUiContentPadding"
                 items="{path : 'DataModel>/',sorter : {path : 'Vendor' ,descending : 'true'}}"
                 alternateRowColors="true"
                 sticky="ColumnHeaders,HeaderToolbar"
@@ -71,7 +71,7 @@
                     <Column
                         id="_IDGenColumn2"
                         width="3rem"
-                        minScreenWidth="1300px"
+                        minScreenWidth="700px"
                         demandPopin="true"
                         popinDisplay="Inline"
                     >
@@ -98,7 +98,7 @@
                     </Column>
                     <Column
                         id="_IDGenColumn4"
-                        width="3rem"
+                        width="4rem"
                         minScreenWidth="1000px"
                         demandPopin="true"
                         popinDisplay="Inline"
@@ -113,7 +113,7 @@
                     <Column
                         id="_IDGenColumn5"
                         width="3rem"
-                        minScreenWidth="900px"
+                        minScreenWidth="700px"
                         demandPopin="true"
                         popinDisplay="Inline"
                     >
@@ -147,6 +147,7 @@
                             id="_IDGenLabel7"
                             design="Bold"
                             text="Approver Level"
+                            wrapping="true"
                         />
                     </Column>
                     <Column
@@ -199,9 +200,13 @@
                                 id="_IDGenText1"
                                 text="{path:'DataModel>createdAt',formatter:'formatter.formatDate'}"
                             />
+                            <!-- <Text
+                                id="_IDGenTextBP"
+                                text="{DataModel>BusinessPartnerNo}"
+                            /> -->
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
-                                text="{DataModel>Lifnr}"
+                                text="{DataModel>BusinessPartnerNo}"
                                 state="Indication03"
                                 class="objectStatus"
                             />
@@ -217,14 +222,12 @@
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus4"
-                                text="{DataModel>Level}"
+                                text="{DataModel>VenLevel}"
                                 inverted="true"
-                                state="{parts:[{path:'DataModel>Level'},{path:'DataModel>Lifnr'}],formatter:'formatter.levelState'}"
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus5"
-                                text="{DataModel>ApprovalPending}"
-                                state="{parts:[{path:'DataModel>Level'},{path:'DataModel>Lifnr'}],formatter:'formatter.levelState'}"
+                                text="{DataModel>VenApprovalPending}"
                                 class="objectStatus"
                             />
                             <FlexBox
@@ -232,15 +235,14 @@
                                 direction="Column"
                                 alignItems="Center"
                             >
-                                <!-- {= ${DataModel>Approve}} -->
                                 <Button
                                     id="_IDGenButton2"
                                     class="approveBtn"
                                     text="Approve"
                                     type="Accept"
-                                    press="onActionPress"
+                                    press="onApprPress"
                                     width="80px"
-                                    visible="false"
+                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
                                 >
                                     <customData>
                                         <core:CustomData
@@ -249,15 +251,14 @@
                                         />
                                     </customData>
                                 </Button>
-                                <!-- {= ${DataModel>Approve}} -->
                                 <Button
                                     id="_IDGenButton3"
                                     class="rejectBtn"
                                     text="Reject"
                                     type="Reject"
-                                    press="onActionPress"
+                                    press="onRejPress"
                                     width="80px"
-                                    visible="false"
+                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
                                 >
                                     <customData>
                                         <core:CustomData

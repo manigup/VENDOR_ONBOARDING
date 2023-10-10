@@ -200,17 +200,16 @@
                                 id="_IDGenText1"
                                 text="{path:'DataModel>createdAt',formatter:'formatter.formatDate'}"
                             />
-                            <Text
+                            <!-- <Text
                                 id="_IDGenTextBP"
                                 text="{DataModel>BusinessPartnerNo}"
-                            />
+                            /> -->
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
-                                text="{DataModel>Lifnr}"
+                                text="{DataModel>BusinessPartnerNo}"
                                 state="Indication03"
                                 class="objectStatus"
                             />
-                            
                             <Text
                                 id="_IDGenText2"
                                 text="{DataModel>Department}"
@@ -225,12 +224,10 @@
                                 id="_IDGenObjectStatus4"
                                 text="{DataModel>VenLevel}"
                                 inverted="true"
-                                
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus5"
                                 text="{DataModel>VenApprovalPending}"
-                                
                                 class="objectStatus"
                             />
                             <FlexBox
@@ -238,7 +235,6 @@
                                 direction="Column"
                                 alignItems="Center"
                             >
-                                <!-- {= ${DataModel>Approve}} -->
                                 <Button
                                     id="_IDGenButton2"
                                     class="approveBtn"
@@ -247,7 +243,6 @@
                                     press="onApprPress"
                                     width="80px"
                                     visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
-                                    
                                 >
                                     <customData>
                                         <core:CustomData
@@ -256,7 +251,6 @@
                                         />
                                     </customData>
                                 </Button>
-                                <!-- {= ${DataModel>Approve}} -->
                                 <Button
                                     id="_IDGenButton3"
                                     class="rejectBtn"
@@ -273,7 +267,6 @@
                                         />
                                     </customData>
                                 </Button>
-                                 
                             </FlexBox>
                             <core:Icon
                                 id="_IDGenIcon1"
