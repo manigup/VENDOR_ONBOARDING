@@ -251,12 +251,13 @@ sap.ui.define([
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
                 oView.byId("address2Id"),oView.byId("contactPersonId"), oView.byId("contactPersonMobileId"),
-                oView.byId("pincodeId"),  
-                oView.byId("stRateId"), oView.byId("excisedutyId"), oView.byId("panId"),
-                oView.byId("mrpId"), oView.byId("distId"),oView.byId("partyclassId"),
-                oView.byId("contactPersonnameId"), oView.byId("deptId"),oView.byId("desigId"),
-                oView.byId("contphoneId"), oView.byId("contmobileId"),oView.byId("contemailId"),
-                oView.byId("docdescId")];
+                oView.byId("pincodeId"),  oView.byId("panId"),
+                // oView.byId("stRateId"), oView.byId("excisedutyId"), 
+                // oView.byId("mrpId"), oView.byId("distId"),oView.byId("partyclassId"),
+                // oView.byId("contactPersonnameId"), oView.byId("deptId"),oView.byId("desigId"),
+                // oView.byId("contphoneId"), oView.byId("contmobileId"),oView.byId("contemailId"),
+                // oView.byId("docdescId")
+            ];
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -318,9 +319,9 @@ sap.ui.define([
                     bValidationError = this._validateInput(oInput) || bValidationError;
                 }, this);
 
-                aSelects.forEach(function (oInput) {
-                    bValidationError = this._validateSelect(oInput, bValidationError) || bValidationError;
-                }, this);
+                // aSelects.forEach(function (oInput) {
+                //     bValidationError = this._validateSelect(oInput, bValidationError) || bValidationError;
+                // }, this);
 
                 bValidationError = this._validateAttachments(bValidationError);
 
