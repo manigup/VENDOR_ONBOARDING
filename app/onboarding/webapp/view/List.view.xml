@@ -200,12 +200,17 @@
                                 id="_IDGenText1"
                                 text="{path:'DataModel>createdAt',formatter:'formatter.formatDate'}"
                             />
+                            <Text
+                                id="_IDGenTextBP"
+                                text="{DataModel>BusinessPartnerNo}"
+                            />
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
                                 text="{DataModel>Lifnr}"
                                 state="Indication03"
                                 class="objectStatus"
                             />
+                            
                             <Text
                                 id="_IDGenText2"
                                 text="{DataModel>Department}"
@@ -241,7 +246,7 @@
                                     type="Accept"
                                     press="onApprPress"
                                     width="80px"
-                                    visible="{path:'DataModel>VenApprove',formatter:'formatter.approveBtnVisible'}"
+                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
                                     
                                 >
                                     <customData>
@@ -259,7 +264,7 @@
                                     type="Reject"
                                     press="onRejPress"
                                     width="80px"
-                                    visible="{path:'DataModel>VenApprove',formatter:'formatter.approveBtnVisible'}"
+                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
                                 >
                                     <customData>
                                         <core:CustomData
@@ -268,23 +273,7 @@
                                         />
                                     </customData>
                                 </Button>
-                                 <Button
-                                    id="_IDGenButton4"
-                                    class="rerouteBtn"
-                                    text="Re-Route"
-                                    type="Reject"
-                                    press="onReroutePress"
-                                    width="80px"
-                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/supplychain'}],formatter:'formatter.routeBtnVisible'}"
-                                    
-                                >
-                                    <customData>
-                                        <core:CustomData
-                                            key="action"
-                                            value="A"
-                                        />
-                                    </customData>
-                                </Button>
+                                 
                             </FlexBox>
                             <core:Icon
                                 id="_IDGenIcon1"

@@ -2,6 +2,7 @@ const cds = require('@sap/cds');
 const axios = require('axios').default;
 const { panOptions, gstOptions, bankOptions } = require('./apiConfig');
 const FormData = require('form-data');
+const { on } = require('events');
 
 const sdmCredentials = {
     "clientid": "sb-af5ed0ac-6872-41a0-956e-ec2fea18c139!b26649|sdm-di-DocumentManagement-sdm_integration!b247",
@@ -28,6 +29,11 @@ module.exports = cds.service.impl(async function () {
 
         // Creating dms folder
         await _createFolder(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId);
+    });
+    this.after('READ', 'VenOnboard', async (req) => {
+
+        const today = new Date();
+        const results=req.filter(item => today>= item.VenValidTo).map(item => item.ResetValidity = "X");
     });
 
     this.before("CREATE", 'Attachments', async (req) => {
@@ -117,27 +123,58 @@ module.exports = cds.service.impl(async function () {
         }
     });
 
-    this.on('sendMail', async (req) => {
-        const { to, subject, text } = req.data;
-    
-        const mailOptions = {
-            to: to,
-            subject: subject,
-            text: text
+    //Email trigger
+    this.on('sendEmail', async (req) => {
+        const { subject, content, toAddress} =  req.data;
+
+        const payload = {
+            Subject: subject,
+            Content: `Hi, | ${content} | Thanks & Regards | Manikandan`,
+            Seperator: "|",
+            ToAddress: toAddress,
+            CCAddress: "",
+            BCCAddress: "",
+            CreatedBy: "Manikandan"
         };
 
-        return new Promise((resolve, reject) => {
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(`Email sent: ${info.response}`);
+        try {
+            // Make the API request
+            const response = await axios.post('https://imperialauto.co/IAIAPI.asmx/SendMail', payload, {
+                headers: {
+                    'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                    'Content-Type': 'application/json'
                 }
             });
-        });
-    });
     
+            if (response.status === 200) {
+                return `Email sent successfully.`;
+            } else {
+                console.error('Error:', response.data);
+                throw new Error('Failed to send email');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            throw new Error('Failed to send email');
+        }
+      });
 
+    //Country Data
+    this.on('READ', 'Country', async () => {
+        return getCountries();      
+    });
+
+    //State Data
+    this.on('READ', 'States', async (req) => {
+        const country = req._queryOptions.country; 
+        return getStates(country);
+    });
+
+    //City Data
+    this.on('READ', 'City', async (req) => {
+        const {country, state} = req._queryOptions
+        return getCities(country, state);
+    })
+    
 });
 
 const _fetchJwtToken = async function (oauthUrl, oauthClient, oauthSecret) {
@@ -243,4 +280,75 @@ const _deleteAttachment = async function (sdmUrl, jwtToken, repositoryId, folder
                 reject(error)
             })
     })
+}
+
+async function getCountries() {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: "https://imperialauto.co/IAIAPI.asmx/GetCountryList?RequestBy='Manikandan'",
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: {}
+        });
+        
+        const countries = JSON.parse(response.data.d);
+        countries.sort((a, b) => a.Country.localeCompare(b.Country));
+
+        return countries.map(country => ({
+            code: country.Country
+        }));
+
+    } catch (error) {
+        console.error("Error fetching country data:", error);
+        throw new Error("Failed to fetch country data");
+    }
+}
+
+async function getStates(country) {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `https://imperialauto.co/IAIAPI.asmx/GetStateList?RequestBy='Manikandan'&Country='${country}'`,
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: {}
+        });
+        
+        const states = JSON.parse(response.data.d);
+
+        return states.map(state => ({
+            name: state.State
+        }));
+    } catch (error) {
+        console.error("Error fetching state data:", error);
+        throw new Error("Failed to fetch state data");
+    }
+}
+
+async function getCities(country, state) {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `https://imperialauto.co/IAIAPI.asmx/GetCityList?RequestBy='Manikandan'&Country='${country}'&State='${state}'`,
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: {}
+        });
+        
+        const cities = JSON.parse(response.data.d);
+        
+        return cities.map(city => ({
+            name: city.City
+        }));
+    } catch (error) {
+        console.error("Error fetching city data:", error);
+        throw new Error("Failed to fetch city data");
+    }
 }

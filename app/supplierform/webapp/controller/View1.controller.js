@@ -42,7 +42,7 @@ sap.ui.define([
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
                 this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
-                //this.hardcodedURL = ""
+                //this.hardcodedURL = "";
                 this.initializeCountries();
 
             },
@@ -53,6 +53,18 @@ sap.ui.define([
         
                 this.id = jQuery.sap.getUriParameters().get("id");
                 var requestData = this.getView().getModel("request").getData();
+                var createdata = this.getView().getModel("create").getData();
+                createdata.VendorId = this.id;
+                if ( requestData.VendorType === "DM") {
+                    createdata.MsmeItilView = "MSME";
+                    this.byId("msmeItil").setSelectedIndex(0);
+                } 
+                if (requestData.VendorType === "DM") {
+                    createdata.GstApplicable = "YES";
+                }
+                this.createModel.setData(createdata);
+                this.createModel.refresh(true);
+             //   this._setRadioButtons(createdata);
               //  BusyIndicator.show();
                 this.vendorId = requestData.VendorId;
 
@@ -103,14 +115,17 @@ sap.ui.define([
                             }
 
                             data.BeneficiaryName = requestData.VendorName;
-
-
-
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
-                            // if (data.Country) {
-                            //     this.countryHelpSelect();
-                            // }
+                            if (data.Country) {
+                                createdata.State_name = data.State_name;
+                                this.countryHelpSelect();
+                            }
+                            if (data.City) {
+                                var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                                var sStateKey = this.getView().byId("stateId").getSelectedKey();
+                                this.loadCities(sCountryKey, sStateKey);
+                            }
                             this._setRadioButtons(data);
                             BusyIndicator.hide();
                         }.bind(this),
@@ -271,7 +286,7 @@ sap.ui.define([
                     // });
                 }
 
-                // oView.byId("stateId")
+                //oView.byId("stateId")
                 // oView.byId("constId")
                 var aSelects = [oView.byId("countryId"),
                 oView.byId("benAccTypeId")];
@@ -344,7 +359,7 @@ sap.ui.define([
                             path: "countries>/Countries",
                             template: new sap.ui.core.Item({
                                 key: "{countries>code}",
-                                text: "{countries>name}"
+                                text: "{countries>code}"
                             })
                         });
                     },
@@ -356,14 +371,87 @@ sap.ui.define([
             },
 
             countryHelpSelect: function (oEvent) {
-                var key = this.getView().byId("countryId").getSelectedKey();
-                this.getView().byId("stateId").getBinding("items").filter([new Filter({
-                    path: "Land1",
-                    operator: FilterOperator.EQ,
-                    value1: key
-                })]);
+                var oStateSelect = this.getView().byId("stateId");
+                var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                
+                if (sCountryKey) {
+                    oStateSelect.setEnabled(true);
+                    this.loadStates(sCountryKey);
+                } else {
+                    oStateSelect.setEnabled(false);
+                }
             },
 
+            loadStates: function (sCountryKey) {
+                var oStateSelect = this.getView().byId("stateId");
+                var oDataModel = this.getOwnerComponent().getModel();
+                var sPath = "/States";
+            
+                oDataModel.read(sPath, {
+                    urlParameters: {
+                        "country": sCountryKey
+                    },
+                    success: function (oData) {
+                        var oJsonModel = new sap.ui.model.json.JSONModel();
+                        oJsonModel.setData({ States: oData.results });
+                        
+                        oStateSelect.setModel(oJsonModel, "states");
+                        oStateSelect.bindItems({
+                            path: "states>/States",
+                            template: new sap.ui.core.Item({
+                                key: "{states>name}",
+                                text: "{states>name}"
+                            })
+                        });
+                    },
+                    error: function (oError) {
+                        console.log("Error", oError);
+                        sap.m.MessageToast.show("Failed to load states.");
+                    }
+                });
+            },
+
+            handleStatePress: function () {
+                var oStateSelect = this.getView().byId("stateId");
+                if (oStateSelect.getSelectedKey()) {
+                    var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                    var sStateKey = oStateSelect.getSelectedKey();
+                    this.loadCities(sCountryKey, sStateKey);
+                } else {
+                    MessageToast.show("Please select a state first.");
+                }
+            },
+
+            loadCities: function (sCountryKey, sStateKey) {
+                var oCitySelect = this.getView().byId("cityId");
+                var oDataModel = this.getOwnerComponent().getModel();
+                var sPath = "/City";
+                
+                oDataModel.read(sPath, {
+                    urlParameters: {
+                        "country": sCountryKey,
+                        "state": sStateKey
+                    },
+                    success: function (oData) {
+                        var oJsonModel = new sap.ui.model.json.JSONModel();
+                        oJsonModel.setData({ Cities: oData.results });
+                        
+                        oCitySelect.setModel(oJsonModel, "cities");
+                        oCitySelect.bindItems({
+                            path: "cities>/Cities",
+                            template: new sap.ui.core.Item({
+                                key: "{cities>name}",
+                                text: "{cities>name}"
+                            })
+                        });
+                    },
+                    error: function (oError) {
+                        console.log("Error", oError);
+                        sap.m.MessageToast.show("Failed to load cities.");
+                    }
+                });
+            },
+        
             _validateSelect: function (oInput, bValidationError) {
                 var sValueState = "None";
                 var value = oInput.getSelectedKey();
@@ -451,7 +539,7 @@ sap.ui.define([
                 data.VendorMail = requestData.VendorMail;
                 data.BeneficiaryName = requestData.VendorName;
                 var payloadStr = JSON.stringify(data);
-                
+                this.draft = true;
                 // var oDataModel = this.getOwnerComponent().getModel();
                 BusyIndicator.show();
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${this.vendorId}')`;
@@ -467,7 +555,8 @@ sap.ui.define([
 
                         MessageBox.success("Form data saved successfully", {
                             onClose: () => {
-                                window.location.reload();
+                                this.changeStatus();
+                                
                             }
                         });
                     }.bind(this),
@@ -494,21 +583,32 @@ sap.ui.define([
 
             onSubmitPress: async function (oEvent) {
                 var that = this;
-                //BusyIndicator.show();
+                BusyIndicator.show();
                 var mandat = await this._mandatCheck(); // Mandatory Check
                 if (!mandat) {
-                    // var createData = this.createModel.getData();
-                    // var data = this.getView().getModel("request").getData();
-                    // var oDataModel = this.getView().getModel();
+                    var createData = this.createModel.getData();
+                    var data = this.getView().getModel("request").getData();
+                    var oDataModel = this.getView().getModel();
 
                     that.otp = that.getOTP();
                     that.otpTime = new Date().getTime();
-                    MessageBox.information("To submit the data, kindly enter the OTP received " + that.otp, {
-                        onClose: () => that._enterOTP()
-                    });
+                    var mParameters = {
+                        method: "GET",
+                        urlParameters: {
+                            subject: "OTP",
+                            content: `The OTP is ${that.otp}`,
+                            toAddress: data.VendorMail
+                        },
+                        success: function (oData, response) {
+                            that._enterOTP()
+                        },
+                        error: function (oError) {
+                            MessageBox.error("Failed to send OTP. Please try again.");
+                        }
+                    };
 
-
-
+                    // Call the sendEmail function
+                    oDataModel.callFunction("/sendEmail", mParameters);
                     // Prepare the function import parameters
                     // var sPath = "/verifyBankAccount";
                     // var mParameters = {
@@ -560,6 +660,7 @@ sap.ui.define([
                 data.Telephone = requestData.Telephone;
                 data.VendorType = requestData.VendorType;
                 data.VendorMail = requestData.VendorMail;
+                data.vendorId = requestData.vendorId
                 data.BeneficiaryName = requestData.VendorName;
                 if (!this.oSubmitDialog) {
                     this.oSubmitDialog = new Dialog({
@@ -669,37 +770,47 @@ sap.ui.define([
                 BusyIndicator.hide();
                 if (evt.getParameters().status !== 201) {
                     MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
-                    // BusyIndicator.show();
                 } else {
-                    MessageToast.show("File " + evt.getParameters().fileName + " Attached successfully");
-
+                    var filename = evt.getParameters().fileName;
+                    var customDataKey = evt.getSource().getCustomData()[0].getKey();
+                    var data = this.createModel.getData();
+                    data[customDataKey] = filename;
+                    this.createModel.setData(data);
+            
+                    MessageToast.show("File " + filename + " Attached successfully");
                 }
             },
-
+            
             onFileSizeExceded: function (evt) {
                 MessageBox.error("File size exceeds the range of 5MB");
                 evt.getSource().setValueState("Error");
             },
 
-            onAttachmentGet: function (evt) { // display attachments
-                var key = evt.getSource().getCustomData()[0].getKey();
-                //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/VendorFormSet(Reqnr='" + this.id + "',PropertyName='" + key +
-                //  "')/$value", true);
+            onAttachmentGet: function (evt) { 
+                var key = evt.getSource().getCustomData()[0].getKey(); // this should be the Venfiletype
                 BusyIndicator.show();
                 setTimeout(() => {
+                    var filters = [
+                        new sap.ui.model.Filter("VendorId", sap.ui.model.FilterOperator.EQ, this.vendorId),
+                        new sap.ui.model.Filter("Venfiletype", sap.ui.model.FilterOperator.EQ, key)
+                    ];
+                    var combinedFilter = new sap.ui.model.Filter({
+                        filters: filters,
+                        and: true // using AND to combine filters
+                    });
                     this.getView().getModel().read("/Attachments", {
-                        filters: [new Filter("VendorId", "EQ", this.vendorId)],
+                        filters: [combinedFilter],
                         success: (data) => {
-                            data.results.map(item => item.Url = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value");
-                            //sap.m.URLHelper.redirect(this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + this.vendorId + "',ObjectId='" + item.ObjectId + "')/$value", true);
-                            // sap.ui.getCore().byId("attachPopover").setModel(new JSONModel(data), "AttachModel");
+                            var item = data.results[0];
+                            var fileUrl = this.getView().getModel().sServiceUrl + "/Attachments(VendorId='" + item.VendorId + "',ObjectId='" + item.ObjectId + "')/$value";
+                            window.open(fileUrl, '_blank');
                             BusyIndicator.hide();
                         },
                         error: () => BusyIndicator.hide()
                     });
                 }, 1000);
             },
-
+            
             onMainCertificateChange: function (evt) {
                 if (evt.getParameter("selected")) {
                     this.createModel.setProperty("/MsmeMainCertificate", "X");
@@ -717,13 +828,20 @@ sap.ui.define([
             changeStatus: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var stat = "";
-                if (requestData.Status === "INITIATED" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
+                if(this.draft){
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD"){
+                        this.draft = false;
+                        stat = "SAD";
+                    }
+                }else{
+                if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
                     stat = "SBS";
                 } else if (requestData.Status === "SBS") {
                     stat = "SBC";
                 } else if (requestData.Status === "SBF") {
                     stat = "SBF";
                 }
+            }
                 var payload = requestData;
                 payload.Status = stat;
                 var payloadStr = JSON.stringify(payload);
@@ -747,6 +865,7 @@ sap.ui.define([
                     }
                 });
             },
+            
 
             customPanType: SimpleType.extend("Pan", {
                 formatValue: function (oValue) {

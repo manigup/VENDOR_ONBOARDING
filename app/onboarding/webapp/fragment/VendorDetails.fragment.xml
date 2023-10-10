@@ -45,7 +45,7 @@
                     id="_IDGenButton3"
                     text="Reset Validity"
                     press="onResetValidityPress"
-                    visible="{= ${VenModel>/ResetValidity} === 'X' &amp;&amp; ${request>/reset} === true}"
+                    visible="{= ${VenModel>/ResetValidity} === 'X'}"
                 />
                 <ToolbarSpacer id="_IDGenToolbarSpacer1" />
                 <Button

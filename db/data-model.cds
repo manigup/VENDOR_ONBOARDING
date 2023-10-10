@@ -3,21 +3,26 @@ namespace db.VenOnboard;
 using {managed} from '@sap/cds/common';
 
 entity Country {
-  key code : String(3);
-      name : String;
-};
 
+  key code: String;
+  name: String;
+
+}
 
 entity States {
-  key StateId   : Integer;
-      StateCode : String(10);
-      StateName : String(50);
-      Country   : Association to Country;
+  key name : String;
 };
 
-entity StatusCheck {
-  key email  : String;
-      Access : String;
+entity City {
+  key name : String;
+}
+
+entity AccessInfo {
+  key email           : String;
+      Access          : String;
+      Application     : String;
+      ApplicationName : String;
+      CompCode        : String;
 };
 
 entity VenOnboardHeader : managed {
@@ -36,6 +41,7 @@ entity VenOnboardHeader : managed {
       VenLevel           : String;
       VenApprovalPending : String;
       VenApprove         : String;
+
 }
 
 entity Attachments : managed {
@@ -65,8 +71,9 @@ entity VendorForm : managed {
       Address1                 : String;
       Address2                 : String;
       Address3                 : String;
-      City                     : String;
+      City                     : Association to City;
       Country                  : Association to Country;
+      State                    : Association to States;
       District                 : String;
       Pincode                  : String(6);
       ContactPerson            : String;
@@ -103,6 +110,63 @@ entity VendorForm : managed {
       BranchName               : String;
       BeneficiaryLocation      : String;
       CancelledCheque          : String;
+      SupplierType             : String;
+      AccountCode              : String;
+      AccountDesc              : String;
+      LeadTime                 : String;
+      IAIvendorCode            : String;
+      Location                 : String;
+      Designation              : String;
+      DeliveryMode             : String;
+      CustomerCat              : String;
+      ExciseDivision           : String;
+      ExciseBankAcc            : String;
+      STRatePerc               : String;
+      Tin                      : String;
+      Composite                : String;
+      CreditRating             : String;
+      CreditRatingAgency       : String;
+      ServiceAccType           : String;
+      ECCNo                    : String;
+      CSTDate                  : String;
+      LSTDate                  : String;
+      ExciseNo                 : String;
+      JWRWCost                 : String;
+      CompanyType              : String;
+      ISOExpiryDate            : String;
+      AddressType              : String;
+      ExciseRange              : String;
+      ExciseBankName           : String;
+      ExciseDuty               : String;
+      CinNo                    : String;
+      GstRegistered            : String;
+      GSTDate                  : String;
+      ServiceAccCode           : String;
+      STRateSurcharge          : String;
+      CSTNo                    : String;
+      LSTNo                    : String;
+      ExciseDate               : String;
+      MRPPercentage            : String;
+      SalesPersonCode          : String;
+      Distance                 : String;
+      TypeOfSupplier           : String;
+      PartyClassification      : String;
+      GroupingLocation         : String;
+      GroupCode5               : String;
+      GroupCode7               : String;
+      Tax                      : String;
+      GroupCode4               : String;
+      Transporters             : String;
+      GroupCode8               : String;
+      ContactPersonName        : String;
+      ContactPersonDepartment  : String;
+      ContactPersonDesignation : String;
+      ContactPersonPhone       : String;
+      ContactPersonMobile      : String;
+      ContactPersonMail        : String;
+      DocCode                  : String;
+      DocDescription           : String;
+      BankAddress              : String;
       NewVendorQuotationName   : String;
       NdaName                  : String;
       CocName                  : String;
@@ -115,4 +179,22 @@ entity VendorForm : managed {
       DeductionCertificate     : String;
       OtherDocument            : String;
       Otp                      : String;
+      PrevAccNo                : String;
+      Bukrs                    : String;
+      ReconAccount             : String;
+      HouseBank                : String;
+      ExtBpNo                  : String;
+      PurOrg                   : String;
+      PurGrp                   : String;
+      SchemaGrp                : String;
+      Waers                    : String;
+      WitholdingTax            : String;
+      RecipientType            : String;
+      WitholdTaxcode           : String;
+      TaxNumCat                : String;
+      ChkDoubleInv             : String;
+      ClrWthCust               : String;
+      SubWitholdingTax         : String;
+      GrBasedInv               : String;
+      SerBasedInv              : String;
 }
