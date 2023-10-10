@@ -421,7 +421,7 @@
                             text="Excise Division"
                         />
                         <Input
-                            id="excisedivId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="excisedivId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ExciseDivision',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
                         />
                         <Label
@@ -429,7 +429,7 @@
                             text="Excise Bank Account"
                         />
                         <Input
-                            id="excisebankaccId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="excisebankaccId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ExciseBankAcc',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
                         />
                         <Label
@@ -438,7 +438,7 @@
                             required="true"
                         />
                         <Input
-                            id="stRateId"  type="Number" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="stRateId"  type="Number" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/STRatePerc',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
                         />
                         <Label
@@ -447,7 +447,7 @@
                         />
                         <Input
                             id="tinId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Tin',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -457,7 +457,7 @@
                         <CheckBox
                             id="compositeid"
                             select="onCompositeChange"
-                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selected="{= ${create>/Composite} === '1' ? true : false}"
                         />
                         
@@ -467,7 +467,7 @@
                         />
                         <Input
                             id="credratingId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/CreditRating',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -476,7 +476,7 @@
                         />
                         <Input
                             id="credratingagId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/CreditRatingAgency',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -485,7 +485,7 @@
                         />
                         <Input
                             id="servaccId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ServiceAccType',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -494,7 +494,7 @@
                         />
                         <Input
                             id="eccId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ECCNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -504,7 +504,7 @@
                         <DatePicker
                             id="cstdate"
                             value="{path:'create>/CSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         />
                          <Label
                             design="Bold"
@@ -513,7 +513,7 @@
                         <DatePicker
                             id="lstdate"
                             value="{path:'create>/LSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         />
                         <Label
                             design="Bold"
@@ -521,7 +521,7 @@
                         />
                         <Input
                             id="exciseId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ExciseNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -530,7 +530,7 @@
                         />
                         <Input
                             id="jwrwId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/JWRWCost',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -542,7 +542,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/CompanyType}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <core:Item
                                 key="Private Limited"
@@ -564,7 +564,7 @@
                         <DatePicker
                             id="isodate"
                             value="{path:'create>/ISOExpiryDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         />
                         <Label
                             design="Bold"
@@ -575,7 +575,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/AddressType}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <core:Item
                                 key="OEM"
@@ -592,7 +592,7 @@
                         />
                         <Input
                             id="exciserangeId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ExciseRange',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -601,7 +601,7 @@
                         />
                         <Input
                             id="excisebanknameId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ExciseBankName',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -611,7 +611,7 @@
                         />
                         <Input
                             id="excisedutyId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ExciseDuty',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -620,7 +620,7 @@
                         />
                         <Input
                             id="cinId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/CinNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -630,7 +630,7 @@
                         <CheckBox
                             id="gstRegRbId"
                             select="onGSTChange"
-                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selected="{= ${create>/GstRegistered} === '1' ? true : false}"
                         />
                          <Label
@@ -640,7 +640,7 @@
                         <DatePicker
                             id="gstdate"
                             value="{path:'create>/GSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         />
                         
                         <Label
@@ -649,7 +649,7 @@
                         />
                         <Input
                             id="serviceaccId" 
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ServiceAccCode',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -658,7 +658,7 @@
                         />
                         <Input
                             id="stratesurId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/STRateSurcharge',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -667,7 +667,7 @@
                         />
                         <Input
                             id="cstnoId" 
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/CSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -676,7 +676,7 @@
                         />
                         <Input
                             id="lstnoId" 
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/LSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         
@@ -687,7 +687,7 @@
                         <DatePicker
                             id="excisedate"
                             value="{path:'create>/ExciseDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         />
                         <Label
                             design="Bold"
@@ -695,7 +695,7 @@
                         />
                         <Input
                             id="mrpId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/MRPPercentage',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                          <Label
@@ -719,7 +719,7 @@
                         />
                         <Input
                             id="distId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Distance',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -731,7 +731,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/TypeOfSupplier}"
-                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         >
                             <core:Item
                                 key="INMED"
