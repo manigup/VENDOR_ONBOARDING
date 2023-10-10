@@ -584,7 +584,7 @@ sap.ui.define([
 
             onSubmitPress: async function (oEvent) {
                 var that = this;
-                BusyIndicator.show();
+               // BusyIndicator.show();
                 var mandat = await this._mandatCheck(); // Mandatory Check
                 if (!mandat) {
                     var createData = this.createModel.getData();
@@ -750,7 +750,7 @@ sap.ui.define([
             onFileUploaderChange: function (evt) {
                 var oFileUploader = evt.getSource();
                 oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
-                BusyIndicator.show();
+               // BusyIndicator.show();
                 var key = oFileUploader.getCustomData()[0].getKey();
                 // oFileUploader.removeAllHeaderParameters();
                 oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
@@ -768,7 +768,7 @@ sap.ui.define([
             },
 
             onUploadComplete: function (evt) {
-                BusyIndicator.hide();
+               // BusyIndicator.hide();
                 if (evt.getParameters().status !== 201) {
                     MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
                 } else {

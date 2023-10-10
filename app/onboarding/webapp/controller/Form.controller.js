@@ -251,7 +251,7 @@ sap.ui.define([
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
                 oView.byId("address2Id"),oView.byId("contactPersonId"), oView.byId("contactPersonMobileId"),
-                oView.byId("pincodeId"), oView.byId("emailId"), 
+                oView.byId("pincodeId"),  
                 oView.byId("stRateId"), oView.byId("excisedutyId"), oView.byId("panId"),
                 oView.byId("mrpId"), oView.byId("distId"),oView.byId("partyclassId"),
                 oView.byId("contactPersonnameId"), oView.byId("deptId"),oView.byId("desigId"),
