@@ -15,7 +15,7 @@
         </headerContent>
         <content>
             <Panel
-                headerText="General Data"
+                headerText="Address Master"
                 expandable="true"
                 expanded="true"
             >
@@ -321,7 +321,7 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                headerText="Finance Data"
+                headerText="Other Details"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -708,6 +708,21 @@
                                 text="Small"
                             />
                         </Select>
+                        </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                headerText="Grouping"
+                expandable="true"
+            >
+                <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
                         <Label
                             design="Bold"
                             text="Party Classification"
@@ -765,6 +780,21 @@
                             id="grpcode8Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/GroupCode8',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
+                        </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                headerText="Contact Information"
+                expandable="true"
+            >
+                <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
                         <Label
                             design="Bold"
                             text="Contact Person Name"
@@ -822,6 +852,21 @@
                             value="{path:'create>/ContactPersonMail'}"
                             type="Email"
                         />
+                        </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                headerText="Document Required"
+                expandable="true"
+            >
+                <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
                         <Label
                             design="Bold"
                             text="Doc Code"
@@ -848,6 +893,21 @@
                              enabled="false"
                             value="{path:'create>/DocDescription',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
+                        </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                headerText="Bank Details"
+                expandable="true"
+            >
+                <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
                         <Label
                             design="Bold"
                             text="Bank Account No."
@@ -893,68 +953,6 @@
                     </f:content>
                 </f:SimpleForm>
             </Panel>
-<Panel headerText="Company Code Data" expandable="true" >
-<f:SimpleForm editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
-<f:content>
-<Label design="Bold" text="Company Code" required="true"/>
-<Select id="compCodeId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" forceSelection="false" selectedKey="{create>/Bukrs}" items="{/CompanyCodeHelpSet}" change="compCodeSelect">
-<core:Item key="{Bukrs}" text="{BukrsDesc}"/>
-</Select>
-<Label design="Bold" text="Reconcilliation Account" required="{= ${request>/finance} === true }"/>
-<ComboBox id="reconAccId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}" items="{path:'/GLAccountHelpSet', length:630}" selectedKey="{create>/ReconAccount}" showSecondaryValues="true">
-<core:ListItem key="{ReconAccount}" text="{ReconAccount}" additionalText="{Txt50}"/>
-</ComboBox>
-<Label design="Bold" text="Previous Acct No."/>
-<Input enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" value="{ path : 'create>/PrevAccNo', type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"/>
-<Label design="Bold" text="House Bank"/>
-<Select id="houseBankId" enabled="{= ${request>/edit} === true &amp;&amp; ${create>/Bukrs} !== '' &amp;&amp; ${request>/finance} === true }" forceSelection="false" selectedKey="{create>/HouseBank}" items="{/HouseBankHelpSet}" showSecondaryValues="true">
-<core:ListItem key="{HouseBank}" text="{Text1}" additionalText="{HouseBank}"/>
-</Select>
-<Label design="Bold" text="External BP Number"/>
-<Input enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" value="{ path : 'create>/ExtBpNo', type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"/>
-<Label design="Bold" text="Purchase Organisation" required="true"/>
-<Select id="purOrgId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" forceSelection="false" selectedKey="{create>/PurOrg}" items="{/PurchOrgHelpSet}" showSecondaryValues="true">
-<core:ListItem key="{PurOrg}" text="{PurOrgDesc}" additionalText="{PurOrg}"/>
-</Select>
-<Label design="Bold" text="Purchase Group" required="true"/>
-<Select id="purGrpId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true }" forceSelection="false" selectedKey="{create>/PurGrp}" items="{/PurchGrpHelpSet}" showSecondaryValues="true">
-<core:ListItem key="{PurGrp}" text="{PurGrpDesc}" additionalText="{PurGrp}"/>
-</Select>
-<Label design="Bold" text="Schema Group" required="true"/>
-<Select id="schemaGrpId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" forceSelection="false" selectedKey="{create>/SchemaGrp}" items="{/SchemaGrpHelpSet}" showSecondaryValues="true">
-<core:ListItem key="{SchemaGrp}" text="{SchemaGrpDesc}" additionalText="{SchemaGrp}"/>
-</Select>
-<Label design="Bold" text="Order Currency" required="true"/>
-<ComboBox id="orderCurrId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}" selectedKey="{create>/Currency}" items="{path:'/CurrencySet',length:250}" showSecondaryValues="true">
-<core:ListItem key="{Waers}" text="{Ktext}" additionalText="{Waers}"/>
-</ComboBox>
-<Label design="Bold" text="Check Double Invoice" required="true"/>
-<CheckBox id="chkInvId" name="doubleInv" select="onCheckSelect" enabled="false"/>
-<Label design="Bold" text="Clearing with Customer"/>
-<CheckBox id="clrCustId" name="clearCustomer" select="onCheckSelect" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"/>
-<Label design="Bold" text="Withholding Tax Type"/>
-<Select id="taxTypeId" visible="{= ${create>/VenSubType} === 'DM' || ${create>/VenSubType} === 'IP'}" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}" forceSelection="false" selectedKey="{create>/WitholdingTax}" items="{/TaxTypeHelpSet}" change="withHoldingTaxSelect" showSecondaryValues="true">
-<core:ListItem key="{WitholdingTax}" text="{WitholdingTaxDesc}" additionalText="{WitholdingTax}"/>
-</Select>
-<Label design="Bold" text="Subject to Withholding Tax"/>
-<CheckBox id="withTaxId" visible="{= ${create>/VenSubType} === 'DM' || ${create>/VenSubType} === 'IP'}" name="withTax" select="onCheckSelect" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"/>
-<Label design="Bold" text="Recipient Type"/>
-<Select id="recTypeId" visible="{= ${create>/VenSubType} === 'DM' || ${create>/VenSubType} === 'IP'}" enabled="{= ${request>/edit} === true &amp;&amp; ${create>/WitholdingTax} !== '' &amp;&amp; ${request>/finance} === true}" forceSelection="false" selectedKey="{create>/RecipientType}" items="{/RecipientTypeHelpSet}">
-<core:Item key="{RecipientType}" text="{RecipientTypeDesc}"/>
-</Select>
-<Label design="Bold" text="Withholding Tax Code"/>
-<Select id="taxCodeId" visible="{= ${create>/VenSubType} === 'DM' || ${create>/VenSubType} === 'IP'}" enabled="{= ${request>/edit} === true &amp;&amp; ${create>/WitholdingTax} !== '' &amp;&amp; ${request>/finance} === true }" forceSelection="false" selectedKey="{create>/WitholdTaxcode}" items="{/TaxCodeHelpSet}" showSecondaryValues="true">
-<core:ListItem key="{WitholdTaxcode}" text="{WitholdTaxcodeDesc}" additionalText="{WitholdTaxcode}"/>
-</Select>
-<Label design="Bold" text="Tax Number Category"/>
-<Input enabled="false" value="{ path : 'create>/TaxNumCat', type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"/>
-<Label design="Bold" text="GR Based IV"/>
-<CheckBox id="grbasedId" name="grbased" select="onCheckSelect" enabled="false"/>
-<Label design="Bold" text="Srv Based IV"/>
-<CheckBox id="srvbasedId" name="srvbased" select="onCheckSelect" enabled="false"/>
-</f:content>
-</f:SimpleForm>
-</Panel>
             <Panel
                 headerText="Attachments"
                 expandable="true"
