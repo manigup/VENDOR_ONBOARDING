@@ -338,9 +338,8 @@ sap.ui.define([
                     }
                 });
             },
-            getFormData: function () {
+            changeStatus: function (BPNum) {
                 var vendata = this.getView().getModel("DataModel").getData();
-                var formdata = this.getView().getModel("FormData").getData();
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
                     if (vendata[i].VendorId === this.vendorId) {
@@ -372,8 +371,8 @@ sap.ui.define([
                     this.msg = "Approved by Supply Chain";
                 } else if (venStatus === "SCA") {
                     stat = "ABF";
-                    this.msg = "Approved by Finance and BP created successfully";
-                    payload.BusinessPartnerNo = "90789S";
+                    payload.BusinessPartnerNo = BPNum;
+                    this.msg = "Approved by Finance and BP " + payload.BusinessPartnerNo + " created successfully";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;
@@ -392,10 +391,55 @@ sap.ui.define([
                     }
                 });
             },
+            getFormData: function () {
+                var vendata = this.getView().getModel("DataModel").getData();
+                var formdata = this.getView().getModel("FormData").getData();
+                if(formdata.ExciseDivision === ""){
+                    formdata.ExciseDivision = "-";
+                }
+                if(formdata.ExciseBankAcc === ""){
+                    formdata.ExciseBankAcc = "-";
+                }
+                if(formdata.STRatePerc === ""){
+                    formdata.STRatePerc = "0";
+                }
+                if(formdata.JWRWCost === ""){
+                    formdata.JWRWCost = "0";
+                }
+                if(formdata.ExciseRange === ""){
+                    formdata.ExciseRange = "0";
+                }
+                if(formdata.ExciseBankName === ""){
+                    formdata.ExciseBankName = "-";
+                }
+                if(formdata.STRateSurcharge === ""){
+                    formdata.STRateSurcharge = "0";
+                }
+                if(formdata.LSTNo === ""){
+                    formdata.LSTNo = "0";
+                }
+                formdata.TransMode = "";
+                var sPath = "https://imperialauto.co/IAIAPI.asmx/PostSupplierMaster";
+                $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: sPath,
+                        data: formdata,
+                        context: this,
+                        success: function (data, textStatus, jqXHR) {
+                           this.changeStatus(data[0].SuccessCode);
+                        }.bind(this),
+                        error: function (error) {
+                            MessageBox.success("BP creation failed");
+                        }
+                    });
+            },
             onApprPress: function (evt) {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var sPath= evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
                 this.vendorId = vendata[sPath].VendorId;
+                var status = vendata[sPath].Status;
+                if(status === "SCA"){
                 setTimeout(() => {
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
                         success: (data) => {
@@ -415,6 +459,27 @@ sap.ui.define([
                         }
                     });
                 }, 1000);
+            }else if(status === "SBF"){
+                setTimeout(() => {
+                    this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
+                        success: (data) => {
+                        this.getView().getModel("FormData").setData(data);
+                        var accessdata = this.getView().getModel("AccessDetails").getData();
+                            this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
+                            this.compcodecheck = true;
+                            BusyIndicator.hide();
+                            if(this.compcodecheck){
+                                this.changeStatus();
+                            }else{
+                                MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");  
+                            }
+                        },
+                        error: () => {
+                            BusyIndicator.hide();
+                        }
+                    });
+                }, 1000);
+            }
                 
                 // var payload = {};
                 // for (var i = 0; i < vendata.length; i++) {

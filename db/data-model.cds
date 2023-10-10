@@ -3,16 +3,18 @@ namespace db.VenOnboard;
 using {managed} from '@sap/cds/common';
 
 entity Country {
+
   key code: String;
   name: String;
+
 }
 
 entity States {
-  key name: String;
+  key name : String;
 };
 
 entity City {
-  key name: String;
+  key name : String;
 }
 
 entity AccessInfo {
@@ -40,7 +42,7 @@ entity VenOnboardHeader : managed {
       VenApprovalPending : String;
       VenApprove         : String;
       ResetValidity      : String;
-      BusinessPartnerNo    : String;
+      BusinessPartnerNo  : String;
 }
 
 entity Attachments : managed {
@@ -62,53 +64,81 @@ entity VendorForm : managed {
       VendorName               : String;
       VendorType               : String(5);
       Type                     : String;
-      VendorName2              : String;
-      VendorName3              : String;
-      Purpose                  : String;
+      SupplierType             : String;
+      AccountCode              : String;
+      AccountDesc              : String;
+      LeadTime                 : String;
+      IAIvendorCode            : String;
       Telephone                : String(10);
-      Consitution              : String;
       Address1                 : String;
-      Address2                 : String;
-      Address3                 : String;
       City                     : Association to City;
       Country                  : Association to Country;
       State                    : Association to States;
-      District                 : String;
+      Location                 : String;
       Pincode                  : String(6);
       ContactPerson            : String;
-      AlternateMobile          : String(10);
       VendorMail               : String;
-      Landline                 : String;
-      Extension                : String;
       Fax                      : String;
-      Website                  : String;
+      Designation              : String;
       Remarks                  : String;
-      Comments                 : String;
-      MsmeItilView             : String;
-      MsmeValidTo              : String;
-      MsmeValidFrom            : String;
-      MsmeMainCertificate      : String;
+      DeliveryMode             : String;
+      CustomerCat              : String;
+      ExciseDivision           : String;
+      ExciseBankAcc            : String;
+      STRatePerc               : String;
+      Tin                      : String;
+      Composite                : String;
       MsmeMainCertificateId    : String;
-      MsmeCertificateNo        : String;
-      MsmeRegistrationCity     : String;
-      MsmeDeclarationName      : String;
+      CreditRating             : String;
+      CreditRatingAgency       : String;
+      ServiceAccType           : String;
+      ECCNo                    : String;
       Pan                      : String;
-      PanName                  : String;
-      Tan                      : String;
-      GstApplicable            : String;
+      CSTDate                  : String;
+      LSTDate                  : String;
+      ExciseNo                 : String;
+      JWRWCost                 : String;
+      CompanyType              : String;
+      ISOExpiryDate            : String;
+      AddressType              : String;
+      ExciseRange              : String;
+      ExciseBankName           : String;
+      ExciseDuty               : String;
+      CinNo                    : String;
+      GstRegistered            : String;
+      GSTDate                  : String;
+      ServiceAccCode           : String;
       GstNumber                : String;
-      GstFileName              : String;
-      Currency                 : String;
-      VAT                      : String;
-      ImportExportCode         : String;
+      STRateSurcharge          : String;
+      CSTNo                    : String;
+      LSTNo                    : String;
+      ExciseDate               : String;
+      MRPPercentage            : String;
+      SalesPersonCode          : String;
+      Distance                 : String;
+      TypeOfSupplier           : String;
+      PartyClassification      : String;
+      GroupingLocation         : String;
+      GroupCode5               : String;
+      GroupCode7               : String;
+      Tax                      : String;
+      GroupCode4               : String;
+      Transporters             : String;
+      GroupCode8               : String;
+      ContactPersonName        : String;
+      ContactPersonDepartment  : String;
+      ContactPersonDesignation : String;
+      ContactPersonPhone       : String;
+      ContactPersonMobile      : String;
+      ContactPersonMail        : String;
+      DocCode                  : String;
+      DocDescription           : String;
       BankName                 : String;
       AccountNo                : String(18);
       BeneficiaryName          : String;
       AccountType              : String;
       IFSCCode                 : String;
-      BranchName               : String;
-      BeneficiaryLocation      : String;
-      CancelledCheque          : String;
+      BankAddress              : String;
       NewVendorQuotationName   : String;
       NdaName                  : String;
       CocName                  : String;
