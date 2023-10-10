@@ -2,7 +2,6 @@ const cds = require('@sap/cds');
 const axios = require('axios').default;
 const { panOptions, gstOptions, bankOptions } = require('./apiConfig');
 const FormData = require('form-data');
-const transporter = require('./emailTransporter');
 const { on } = require('events');
 
 const sdmCredentials = {
