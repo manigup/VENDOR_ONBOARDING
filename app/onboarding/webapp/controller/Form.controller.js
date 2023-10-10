@@ -32,6 +32,14 @@ sap.ui.define([
                 this.getView().setModel(this.createModel, "create");
                 // this.isGSTValid = true
                 // this.isPANValid = true
+                var datePckerFrom = this.byId("MsmeValidFrom");
+                datePckerFrom.addEventDelegate({
+                    onAfterRendering: () => {
+                        datePckerFrom.$().find('INPUT').attr('disabled', true).css('color', '#ccc');
+                    }
+                }, datePckerFrom);
+
+                this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
                 this.loadCountries();
 
             },
@@ -55,6 +63,10 @@ sap.ui.define([
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
                             data.PartyClassification = "Sup";
+                            data.TaxNumCat = "IN3";
+                        data.ChkDoubleInv = "X";
+                        data.GrBasedInv = "X";
+                        data.SerBasedInv = "X";
                             if (vendorStatus === "SBS"  && requestData.supplychain) {
                                 requestData.edit = false;
                             } 
@@ -93,7 +105,21 @@ sap.ui.define([
                 this.getView().getModel("request").refresh(true);
             },
             _setCheckBoxes: function (data) {
-                
+                if (data.ChkDoubleInv === "X") {
+                    this.getView().byId("chkInvId").setSelected(true);
+                }
+                if (data.ClrWthCust === "X") {
+                    this.getView().byId("clrCustId").setSelected(true);
+                }
+                if (data.SubWitholdingTax === "X") {
+                    this.getView().byId("withTaxId").setSelected(true);
+                }
+                if (data.GrBasedInv === "X") {
+                    this.getView().byId("grbasedId").setSelected(true);
+                }
+                if (data.SerBasedInv === "X") {
+                    this.getView().byId("srvbasedId").setSelected(true);
+                }
                 if (data.Composite === "1") {
                     this.getView().byId("compositeid").setSelected(true);
                 }
@@ -111,6 +137,12 @@ sap.ui.define([
                 }
                 if (data.Type === "SERVICE") {
                     this.byId("typeRbId").setSelectedIndex(1);
+                }
+                if (data.Msme === "NO") {
+                    this.byId("msmeRbId").setSelectedIndex(1);
+                }
+                if (data.GstApplicable === "NO") {
+                    this.byId("gstRbId").setSelectedIndex(1);
                 }
             },
 
@@ -145,54 +177,68 @@ sap.ui.define([
                             data.Type = "MATERIAL";
                         }
                         break;
-                    
+                    case "gstRbId":
+                        if (index === 1) {
+                            data.GstApplicable = "NO";
+                            // this.isGSTValid = true;
+                        } else {
+                            data.GstApplicable = "YES";
+                        }
+                        break;
+                    case "msmeItil":
+                        if (index === 0) {
+                            data.MsmeItilView = "MSME";
+                        } else {
+                            data.MsmeItilView = "Non MSME";
+                        }
+                        break;
                 }
                 this.createModel.refresh(true);
             },
-            // onCheckSelect: function (oEvent) {
-            //     var data = this.createModel.getData();
-            //     var name = oEvent.getSource().getName();
+            onCheckSelect: function (oEvent) {
+                var data = this.createModel.getData();
+                var name = oEvent.getSource().getName();
     
-            //     if (oEvent.getParameter("selected")) {
-            //         switch (name) {
-            //             case "doubleInv":
-            //                 data.ChkDoubleInv = "X";
-            //                 break;
-            //             case "clearCustomer":
-            //                 data.ClrWthCust = "X";
-            //                 break;
-            //             case "withTax":
-            //                 data.SubWitholdingTax = "X";
-            //                 break;
-            //             case "grbased":
-            //                 data.GrBasedInv = "X";
-            //                 break;
-            //             case "srvbased":
-            //                 data.SerBasedInv = "X";
-            //                 break;
-            //         }
-            //     } else {
-            //         switch (name) {
-            //             case "doubleInv":
-            //                 data.ChkDoubleInv = "";
-            //                 break;
-            //             case "clearCustomer":
-            //                 data.ClrWthCust = "";
-            //                 break;
-            //             case "withTax":
-            //                 data.SubWitholdingTax = "";
-            //                 break;
-            //             case "grbased":
-            //                 data.GrBasedInv = "";
-            //                 break;
-            //             case "srvbased":
-            //                 data.SerBasedInv = "";
-            //                 break;
-            //         }
-            //     }
+                if (oEvent.getParameter("selected")) {
+                    switch (name) {
+                        case "doubleInv":
+                            data.ChkDoubleInv = "X";
+                            break;
+                        case "clearCustomer":
+                            data.ClrWthCust = "X";
+                            break;
+                        case "withTax":
+                            data.SubWitholdingTax = "X";
+                            break;
+                        case "grbased":
+                            data.GrBasedInv = "X";
+                            break;
+                        case "srvbased":
+                            data.SerBasedInv = "X";
+                            break;
+                    }
+                } else {
+                    switch (name) {
+                        case "doubleInv":
+                            data.ChkDoubleInv = "";
+                            break;
+                        case "clearCustomer":
+                            data.ClrWthCust = "";
+                            break;
+                        case "withTax":
+                            data.SubWitholdingTax = "";
+                            break;
+                        case "grbased":
+                            data.GrBasedInv = "";
+                            break;
+                        case "srvbased":
+                            data.SerBasedInv = "";
+                            break;
+                    }
+                }
     
-            //     this.createModel.refresh(true);
-            // },
+                this.createModel.refresh(true);
+            },
             _mandatCheck: async function () {
 
                 var data = this.createModel.getData();
@@ -201,6 +247,10 @@ sap.ui.define([
                 var oView = this.getView(),
                     bValidationError = false;
                 var aInputs = [oView.byId("venNameId"),oView.byId("address1Id"), oView.byId("accdescId"),
+                oView.byId("mobileId"), oView.byId("purposeId"),
+                oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
+                oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
+                oView.byId("address2Id"),oView.byId("contactPersonId"), oView.byId("contactPersonMobileId"),
                 oView.byId("pincodeId"), oView.byId("emailId"), 
                 oView.byId("stRateId"), oView.byId("excisedutyId"), oView.byId("panId"),
                 oView.byId("mrpId"), oView.byId("distId"),oView.byId("partyclassId"),
@@ -209,8 +259,8 @@ sap.ui.define([
                 oView.byId("docdescId")];
 
                 // Inside _mandatCheck function
-                // if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
-                    // aInputs.push(oView.byId("gstId"));
+                if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
+                    aInputs.push(oView.byId("gstId"));
                     var oDataModel = this.getView().getModel();
                     // Reset to true before verification
                     // this.isGSTValid = true;
@@ -246,7 +296,7 @@ sap.ui.define([
                 // oView.byId("constId")
                 var aSelects = [oView.byId("accountcodeId"), oView.byId("countryId"),
                 oView.byId("stateId"),oView.byId("cityId"),
-                oView.byId("deliverymodeId"),oView.byId("customercatId"),
+                oView.byId("deliverymodeId"),oView.byId("customercatId"),oView.byId("benAccTypeId"),
                 oView.byId("typeofsupplierId"),oView.byId("doccodeId") ];
 
                 // if (data.MsmeItilView === 'MSME') {
