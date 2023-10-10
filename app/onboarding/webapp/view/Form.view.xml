@@ -1289,7 +1289,7 @@
                     </f:content>
                 </f:SimpleForm>
             </Panel>
-<Panel headerText="Company Code Data" expandable="true" >
+<!-- <Panel headerText="Company Code Data" expandable="true" >
 <f:SimpleForm editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
 <f:content>
 <Label design="Bold" text="Company Code" required="true"/>
@@ -1350,7 +1350,7 @@
 <CheckBox id="srvbasedId" name="srvbased" select="onCheckSelect" enabled="false"/>
 </f:content>
 </f:SimpleForm>
-</Panel>
+</Panel> -->
             <Panel
                 headerText="Attachments"
                 expandable="true"

@@ -63,10 +63,10 @@ sap.ui.define([
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
                             data.PartyClassification = "Sup";
-                            data.TaxNumCat = "IN3";
-                        data.ChkDoubleInv = "X";
-                        data.GrBasedInv = "X";
-                        data.SerBasedInv = "X";
+                        //     data.TaxNumCat = "IN3";
+                        // data.ChkDoubleInv = "X";
+                        // data.GrBasedInv = "X";
+                        // data.SerBasedInv = "X";
                             if (vendorStatus === "SBS"  && requestData.supplychain) {
                                 requestData.edit = false;
                             } 
@@ -105,21 +105,21 @@ sap.ui.define([
                 this.getView().getModel("request").refresh(true);
             },
             _setCheckBoxes: function (data) {
-                if (data.ChkDoubleInv === "X") {
-                    this.getView().byId("chkInvId").setSelected(true);
-                }
-                if (data.ClrWthCust === "X") {
-                    this.getView().byId("clrCustId").setSelected(true);
-                }
-                if (data.SubWitholdingTax === "X") {
-                    this.getView().byId("withTaxId").setSelected(true);
-                }
-                if (data.GrBasedInv === "X") {
-                    this.getView().byId("grbasedId").setSelected(true);
-                }
-                if (data.SerBasedInv === "X") {
-                    this.getView().byId("srvbasedId").setSelected(true);
-                }
+                // if (data.ChkDoubleInv === "X") {
+                //     this.getView().byId("chkInvId").setSelected(true);
+                // }
+                // if (data.ClrWthCust === "X") {
+                //     this.getView().byId("clrCustId").setSelected(true);
+                // }
+                // if (data.SubWitholdingTax === "X") {
+                //     this.getView().byId("withTaxId").setSelected(true);
+                // }
+                // if (data.GrBasedInv === "X") {
+                //     this.getView().byId("grbasedId").setSelected(true);
+                // }
+                // if (data.SerBasedInv === "X") {
+                //     this.getView().byId("srvbasedId").setSelected(true);
+                // }
                 if (data.Composite === "1") {
                     this.getView().byId("compositeid").setSelected(true);
                 }

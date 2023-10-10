@@ -338,7 +338,7 @@ sap.ui.define([
                     }
                 });
             },
-            changeStatus: function (BPNum) {
+            changeStatus: function () {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
@@ -371,7 +371,7 @@ sap.ui.define([
                     this.msg = "Approved by Supply Chain";
                 } else if (venStatus === "SCA") {
                     stat = "ABF";
-                    payload.BusinessPartnerNo = BPNum;
+                    //payload.BusinessPartnerNo = BPNum;
                     this.msg = "Approved by Finance and BP " + payload.BusinessPartnerNo + " created successfully";
                 }
                 payload.Status = stat;
@@ -427,7 +427,7 @@ sap.ui.define([
                         data: formdata,
                         context: this,
                         success: function (data, textStatus, jqXHR) {
-                           this.changeStatus(data[0].SuccessCode);
+                           this.changeStatus();
                         }.bind(this),
                         error: function (error) {
                             MessageBox.success("BP creation failed");
