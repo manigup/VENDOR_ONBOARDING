@@ -110,7 +110,6 @@
                         <Label
                             design="Bold"
                             text="Constitution of Business"
-                            required="true"
                         />
                         <Input
                             id="constId"
