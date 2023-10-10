@@ -176,7 +176,6 @@
                             id="_IDGenLabel9"
                             design="Bold"
                             text="Constitution of Business"
-                            required="true"
                         />
                         <Input
                             id="constId"
@@ -324,7 +323,7 @@
                             required="true"
                         />
                         <Input
-                            id="_IDGenInput4"
+                            id="vendormailId"
                             enabled="false"
                             value="{path:'request>/VendorMail'}"
                             type="Email"

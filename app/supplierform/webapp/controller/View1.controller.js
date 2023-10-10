@@ -55,6 +55,7 @@ sap.ui.define([
                 var requestData = this.getView().getModel("request").getData();
                 var createdata = this.getView().getModel("create").getData();
                 createdata.VendorId = this.id;
+                createdata.Vendor = requestData.Vendor;
                 if ( requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
                     this.byId("msmeItil").setSelectedIndex(0);
@@ -288,7 +289,7 @@ sap.ui.define([
 
                 //oView.byId("stateId")
                 // oView.byId("constId")
-                var aSelects = [oView.byId("countryId"),
+                var aSelects = [oView.byId("countryId"),oView.byId("stateId"),oView.byId("cityId"),
                 oView.byId("benAccTypeId")];
 
                 if (data.MsmeItilView === 'MSME') {

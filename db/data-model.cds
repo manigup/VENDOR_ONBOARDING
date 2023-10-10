@@ -4,8 +4,8 @@ using {managed} from '@sap/cds/common';
 
 entity Country {
 
-  key code: String;
-  name: String;
+  key code : String;
+      name : String;
 
 }
 
@@ -60,6 +60,7 @@ entity Attachments : managed {
 
 entity VendorForm : managed {
   key VendorId                 : String;
+      Vendor                   : String(10);
       VendorName               : String;
       VendorType               : String(5);
       Type                     : String;
