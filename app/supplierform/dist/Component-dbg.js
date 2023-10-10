@@ -36,7 +36,7 @@ sap.ui.define([
                     // var modulePath = jQuery.sap.getModulePath("sp/fiori/supplierform");
                     // modulePath = modulePath === "." ? "" : modulePath;
 
-                    let hardcodedURL = "/";
+                    let hardcodedURL = "";
                     if (window.location.href.includes("launchpad")) {
                         hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
                     }

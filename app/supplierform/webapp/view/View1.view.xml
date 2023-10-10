@@ -215,18 +215,6 @@
                             maxLength="40"
                         />
                         <Label
-                            id="_IDGenLabel62"
-                            design="Bold"
-                            text="City"
-                            required="true"
-                        />
-                        <Input
-                            id="_IDGenInput11"
-                            maxLength="20"
-                            value="{create>/City}"
-                        />
-
-                        <Label
                             id="_IDGenLabel14"
                             design="Bold"
                             text="Country"
@@ -263,6 +251,30 @@
                                 id="_IDGenItem8"
                                 key="{Region}"
                                 text="{Bezei}"
+                            />
+                        </Select>
+                        <Label
+                            id="_IDGenLabel62"
+                            design="Bold"
+                            text="City"
+                            required="true"
+                        />
+                        <!-- <Input
+                            id="_IDGenInput11"
+                            maxLength="20"
+                            value="{create>/City}"
+                        /> -->
+                        <Select
+                            id="cityId"
+                            forceSelection="false"
+                            selectedKey="{create>/City_name}"
+                            items="{cities>/}"
+                            enabled="true"
+                        >
+                            <core:Item
+                                id="_IDGenItem9"
+                                key="{cities>name}"
+                                text="{cities>name}"
                             />
                         </Select>
                         <Label
