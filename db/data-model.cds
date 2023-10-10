@@ -3,7 +3,10 @@ namespace db.VenOnboard;
 using {managed} from '@sap/cds/common';
 
 entity Country {
-  key code : String;
+
+  key code: String;
+  name: String;
+
 }
 
 entity States {

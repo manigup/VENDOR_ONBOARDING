@@ -126,7 +126,6 @@ module.exports = cds.service.impl(async function () {
 
     this.on('sendEmail', async (req) => {
         const mailOptions = {
-          from: 'suppliersupport@impauto.com',
           to: 'mohsinahmad@kpmg.com',
           subject: 'test subject',
           text: 'test text'
@@ -269,7 +268,7 @@ async function getCountries() {
     try {
         const response = await axios({
             method: 'get',
-            url: "http://103.237.175.233:84/IAIAPI.asmx/GetCountryList?RequestBy='Manikandan'",
+            url: "https://imperialauto.co/IAIAPI.asmx/GetCountryList?RequestBy='Manikandan'",
             headers: {
                 'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                 'Content-Type': 'application/json'
@@ -294,7 +293,7 @@ async function getStates(country) {
     try {
         const response = await axios({
             method: 'get',
-            url: `http://103.237.175.233:84/IAIAPI.asmx/GetStateList?RequestBy='Manikandan'&Country='${country}'`,
+            url: `https://imperialauto.co/IAIAPI.asmx/GetStateList?RequestBy='Manikandan'&Country='${country}'`,
             headers: {
                 'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                 'Content-Type': 'application/json'
@@ -317,7 +316,7 @@ async function getCities(country, state) {
     try {
         const response = await axios({
             method: 'get',
-            url: `http://103.237.175.233:84/IAIAPI.asmx/GetCityList?RequestBy='Manikandan'&Country='${country}'&State='${state}'`,
+            url: `https://imperialauto.co/IAIAPI.asmx/GetCityList?RequestBy='Manikandan'&Country='${country}'&State='${state}'`,
             headers: {
                 'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                 'Content-Type': 'application/json'

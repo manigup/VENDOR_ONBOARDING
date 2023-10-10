@@ -41,8 +41,8 @@ sap.ui.define([
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
-                //this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
-                this.hardcodedURL = "";
+                this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1";
+                //this.hardcodedURL = "";
                 this.initializeCountries();
 
             },
@@ -115,13 +115,15 @@ sap.ui.define([
                             }
 
                             data.BeneficiaryName = requestData.VendorName;
-
-
-
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
                             if (data.Country ) {
                                 this.countryHelpSelect();
+                            }
+                            if (data.City) {
+                                var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                                var sStateKey = this.getView().byId("stateId").getSelectedKey();
+                                this.loadCities(sCountryKey, sStateKey);
                             }
                             this._setRadioButtons(data);
                             BusyIndicator.hide();
@@ -407,7 +409,6 @@ sap.ui.define([
                     }
                 });
             },
-            
 
             handleStatePress: function () {
                 var oStateSelect = this.getView().byId("stateId");
