@@ -1,6 +1,6 @@
 using db.VenOnboard as db from '../db/data-model';
 
-service CatalogService {
+service CatalogService @(requires: 'any') {
 
     entity VenOnboard  as projection on db.VenOnboardHeader;
 

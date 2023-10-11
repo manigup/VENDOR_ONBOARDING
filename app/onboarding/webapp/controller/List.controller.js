@@ -166,7 +166,7 @@ sap.ui.define([
             },
 
             sendEmailNotification: function (vendorId, vendorMail) {
-                var emailContent = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + vendorId;
+                var emailContent = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/4b096ed0-d915-45f3-90ae-a02f7e3baf96.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + vendorId;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
@@ -191,7 +191,7 @@ sap.ui.define([
                 let url;
                 if (href.includes("impautosuppdev")) {
 
-                    url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
+                    url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/4b096ed0-d915-45f3-90ae-a02f7e3baf96.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
 
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
