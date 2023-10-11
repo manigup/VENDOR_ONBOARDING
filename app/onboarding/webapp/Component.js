@@ -34,7 +34,7 @@ sap.ui.define([
                     // metadata success
                     this.getStatus();
                     // Hardcoded URL for the AJAX request
-                    var hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorionboarding-0.0.1/user-api/attributes";
+                    var hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/4b096ed0-d915-45f3-90ae-a02f7e3baf96.onboarding.spfiorionboarding-0.0.1/user-api/attributes";
 
                     // Make the AJAX call
                     $.ajax({
