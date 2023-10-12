@@ -41,7 +41,7 @@ entity VenOnboardHeader : managed {
       VenLevel           : String;
       VenApprovalPending : String;
       VenApprove         : String;
-
+      AddressCode        : String;
 }
 
 entity Attachments : managed {
@@ -61,6 +61,7 @@ entity Attachments : managed {
 entity VendorForm : managed {
   key VendorId                 : String;
       Vendor                   : String(10);
+      AddressCode              : String;
       VendorName               : String;
       VendorType               : String(5);
       Type                     : String;

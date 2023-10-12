@@ -527,6 +527,20 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
+                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
+                    this.byId("quotfileUploader").setValueState("None");
+                } else {
+                    bValidationError = true;
+                    this.byId("quotfileUploader").setValueState("Error");
+                }
+                if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
+                    this.byId("cocFileUploader").setValueState("None");
+                } else {
+                    bValidationError = true;
+                    this.byId("cocFileUploader").setValueState("Error");
+                }
+            }
                 return bValidationError;
             },
 

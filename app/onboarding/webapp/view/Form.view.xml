@@ -57,6 +57,18 @@
                         </RadioButtonGroup>
                         <Label
                             design="Bold"
+                            text="Address Code"
+                            required="true"
+                        />
+                        <Input
+                            id="addcodeId"
+                            change="onAddressCodChange"
+                            maxLength="9"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
+                            value="{path:'create>/AddressCode',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        />
+                        <Label
+                            design="Bold"
                             text="Vendor Name"
                             required="true"
                         />
@@ -283,7 +295,7 @@
                              enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{create>/Comments}"
                         />
-                                                <Label
+                        <Label
                             design="Bold"
                             text="Supplier Type"
                             required="true"
@@ -351,7 +363,7 @@
                             required="true"
                         />
                         <Input
-                            id="locationId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
+                            id="locationId"  enabled="false"
                             value="{path:'create>/Location',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         
@@ -713,21 +725,10 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/MRPPercentage',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
-                         <Label
+                         <!-- <Label
                             design="Bold"
                             text="Sales Person code"
-                        />
-                        <!-- <ComboBox
-                            id="salesId"
-                            items="{countries>/}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            selectedKey="{create>/Country_code}"
-                            change="countryHelpSelect"
-                        >
-                            <core:Item
-                                key="{countries>code}"
-                                text="{countries>name}"
-                            />
-                        </ComboBox> -->
+                        /> -->
                         <Label
                             design="Bold"
                             text="Distance (in KM.)" required="true"
@@ -737,32 +738,10 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/Distance',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Type Of Supplier" required="true"
-                        />
-                        <Select
-                            id="typeofsupplierId"
-                            showSecondaryValues="true"
-                            forceSelection="false"
-                            selectedKey="{create>/TypeOfSupplier}"
-                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                        >
-                            <core:Item
-                                key="INMED"
-                                text="Medium"
-                            />
-                            <core:Item
-                                key="INMIC"
-                                text="Micro"
-                            />
-                            <core:Item
-                                key="INSML"
-                                text="Small"
-                            />
-                        </Select>
-                        
-            
+                        /> -->
                         <Label
                             design="Bold"
                             text="Party Classification"

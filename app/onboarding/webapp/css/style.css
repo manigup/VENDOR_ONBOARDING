@@ -1,1 +1,4 @@
-/* Enter your custom styles here */
+.sapMPanel .sapMPanelHdr,
+.sapMPanelWrappingDiv {
+    background-color: #abe7b9e3;
+}
