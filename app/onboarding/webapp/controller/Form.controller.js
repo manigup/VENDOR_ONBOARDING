@@ -40,7 +40,8 @@ sap.ui.define([
                 }, datePckerFrom);
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
-                this.loadCountries();
+                //this.loadCountries();
+                this.initializeCountries();
 
             },
             handleRouteMatched: function (oEvent) {
@@ -103,7 +104,59 @@ sap.ui.define([
             onEdit: function () {
                 this.getView().getModel("request").getData().edit = true;
                 this.getView().getModel("request").refresh(true);
+                //this.GetSupplierAccountCodeList();
             },
+/*
+            GetSupplierAccountCodeList: function() {
+                $.ajax({
+                    url: "https://imperialauto.co/IAIAPI.asmx/GetSupplierAccountCodeList",
+                    type: "GET",
+                    data: {
+                        RequestBy: 'Manikandan',
+                        UnitCode: 'P01'
+                    },
+                    headers: {
+                        Authorization: 'Bearer IncMpsaotdlKHYyyfGiVDg=='
+                    },
+                    success: function(response) {
+                        var data = JSON.parse(response.d);
+                        var accountModel = new sap.ui.model.json.JSONModel();
+                        accountModel.setData(data);
+                        this.getView().setModel(accountModel, "account");
+                    }.bind(this),
+                    error: function(error) {
+                        console.log("Error:", error);
+                        // Handle error
+                    }
+                });
+            },
+
+            onAccountCodeChange: function(oEvent) {
+                var selectedKey = oEvent.getParameter("selectedItem").getKey();
+                var accountModel = this.getView().getModel("account");
+                var accountData = accountModel.getData();
+                var correspondingName = null;
+            
+                // Search for the corresponding name
+                for (var i = 0; i < accountData.length; i++) {
+                    if (accountData[i].AcctCode === selectedKey) {
+                        correspondingName = accountData[i].AcctName;
+                        break;
+                    }
+                }
+            
+                if (correspondingName) {
+                    var createModel = this.getView().getModel("create");
+                    var createData = createModel.getData();
+                    createData.AccountDesc = correspondingName;
+                    createModel.setData(createData);
+                } else {
+                    
+                    MessageBox.error("No corresponding account description found.");
+                }
+            },
+            */
+            
             _setCheckBoxes: function (data) {
                 // if (data.ChkDoubleInv === "X") {
                 //     this.getView().byId("chkInvId").setSelected(true);
@@ -346,41 +399,122 @@ sap.ui.define([
                 return bValidationError;
             },
 
+            initializeCountries: function() {
+                console.log("Country initialization")
+                var oComboBox = this.getView().byId("countryId");
+                if (!oComboBox.getModel("countries")) {
+                    this.loadCountries();
+                }
+            },
 
-
-            loadCountries: function () {
+            loadCountries: function() {
                 var oComboBox = this.getView().byId("countryId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/Country";
-
+            
                 oDataModel.read(sPath, {
-                    success: function (oData) {
+                    success: function(oData) {
                         var oJsonModel = new sap.ui.model.json.JSONModel();
                         oJsonModel.setData({ Countries: oData.results });
-
+                        
                         oComboBox.setModel(oJsonModel, "countries");
                         oComboBox.bindItems({
                             path: "countries>/Countries",
                             template: new sap.ui.core.Item({
                                 key: "{countries>code}",
-                                text: "{countries>name}"
+                                text: "{countries>code}"
                             })
                         });
                     },
-                    error: function (oError) {
+                    error: function(oError) {
                         console.log("Error", oError);
+                        sap.m.MessageToast.show("Failed to load countries.");
                     }
                 });
             },
 
             countryHelpSelect: function (oEvent) {
-                var key = this.getView().byId("countryId").getSelectedKey();
-                this.getView().byId("stateId").getBinding("items").filter([new Filter({
-                    path: "Land1",
-                    operator: FilterOperator.EQ,
-                    value1: key
-                })]);
+                var oStateSelect = this.getView().byId("stateId");
+                var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                
+                if (sCountryKey) {
+                    oStateSelect.setEnabled(true);
+                    this.loadStates(sCountryKey);
+                } else {
+                    oStateSelect.setEnabled(false);
+                }
             },
+
+            loadStates: function (sCountryKey) {
+                var oStateSelect = this.getView().byId("stateId");
+                var oDataModel = this.getOwnerComponent().getModel();
+                var sPath = "/States";
+            
+                oDataModel.read(sPath, {
+                    urlParameters: {
+                        "country": sCountryKey
+                    },
+                    success: function (oData) {
+                        var oJsonModel = new sap.ui.model.json.JSONModel();
+                        oJsonModel.setData({ States: oData.results });
+                        
+                        oStateSelect.setModel(oJsonModel, "states");
+                        oStateSelect.bindItems({
+                            path: "states>/States",
+                            template: new sap.ui.core.Item({
+                                key: "{states>name}",
+                                text: "{states>name}"
+                            })
+                        });
+                    },
+                    error: function (oError) {
+                        console.log("Error", oError);
+                        sap.m.MessageToast.show("Failed to load states.");
+                    }
+                });
+            },
+
+            handleStatePress: function () {
+                var oStateSelect = this.getView().byId("stateId");
+                if (oStateSelect.getSelectedKey()) {
+                    var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                    var sStateKey = oStateSelect.getSelectedKey();
+                    this.loadCities(sCountryKey, sStateKey);
+                } else {
+                    MessageToast.show("Please select a state first.");
+                }
+            },
+
+            loadCities: function (sCountryKey, sStateKey) {
+                var oCitySelect = this.getView().byId("cityId");
+                var oDataModel = this.getOwnerComponent().getModel();
+                var sPath = "/City";
+                
+                oDataModel.read(sPath, {
+                    urlParameters: {
+                        "country": sCountryKey,
+                        "state": sStateKey
+                    },
+                    success: function (oData) {
+                        var oJsonModel = new sap.ui.model.json.JSONModel();
+                        oJsonModel.setData({ Cities: oData.results });
+                        
+                        oCitySelect.setModel(oJsonModel, "cities");
+                        oCitySelect.bindItems({
+                            path: "cities>/Cities",
+                            template: new sap.ui.core.Item({
+                                key: "{cities>name}",
+                                text: "{cities>name}"
+                            })
+                        });
+                    },
+                    error: function (oError) {
+                        console.log("Error", oError);
+                        sap.m.MessageToast.show("Failed to load cities.");
+                    }
+                });
+            },
+
             compCodeSelect: function (oEvent) {
                 var key = this.getView().byId("compCodeId").getSelectedKey();
                 this.getView().byId("houseBankId").getBinding("items").filter([new Filter({

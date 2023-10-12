@@ -146,17 +146,9 @@
                             value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
                             maxLength="40"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         />
-                        <Label
-                            design="Bold"
-                            text="City"
-                        />
-                        <Input
-                            maxLength="20"
-                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            value="{create>/City}"
-                        />
 
                         <Label
+                            id="_IDGenLabel14"
                             design="Bold"
                             text="Country"
                             required="true"
@@ -168,10 +160,12 @@
                             change="countryHelpSelect"
                         >
                             <core:Item
+                                id="_IDGenItem1"
                                 key="{countries>code}"
-                                text="{countries>name}"
+                                text="{countries>code}"
                             />
                         </ComboBox>
+
                         <Label
                             design="Bold"
                             text="State"
@@ -181,12 +175,31 @@
                         <Select
                             id="stateId"
                             forceSelection="false"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            selectedKey="{create>/Region}"
-                            items="{/States}"
+                            selectedKey="{create>/State_name}"
+                            items="{states>/}"
+                            change="handleStatePress"
                         >
                             <core:Item
-                                key="{Region}"
-                                text="{Bezei}"
+                               key="{states>name}"
+                                text="{states>name}"
+                            />
+                        </Select>
+
+                         <Label
+                            design="Bold"
+                            text="City"
+                            required="true"
+                        />
+                        <Select
+                            id="cityId"
+                            forceSelection="false"
+                            selectedKey="{create>/City_name}"
+                            items="{cities>/}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
+                        >
+                            <core:Item
+                                key="{cities>name}"
+                                text="{cities>name}"
                             />
                         </Select>
                         <Label
@@ -291,6 +304,7 @@
                                 text="Temporary"
                             />
                         </Select>
+
                         
                         <Label
                             design="Bold"
@@ -301,11 +315,11 @@
                             id="accountcodeId"
                             items="{account>/}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selectedKey="{create>/AccountCode}"
-                            change="accountcodeHelpSelect"
+                            change="onAccountCodeChange"
                         >
                             <core:Item
-                                key="{account>code}"
-                                text="{account>name}"
+                                key="{account>AcctCode}"
+                                text="{account>AcctCode}"
                             />
                         </ComboBox>
                         <Label
@@ -318,6 +332,7 @@
                              enabled="false"
                             value="{path:'create>/AccountDesc',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
+
                         
                         <Label
                             design="Bold"
