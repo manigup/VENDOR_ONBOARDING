@@ -69,7 +69,7 @@ sap.ui.define([
                             //res.email = "rajeshsehgal@impauto.com";
                             reqData.supplychain = accessdata.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                            //reqData.supplychain = true;
+                            reqData.supplychain = true;
                             if(reqData.supplychain){
                                 reqData.appbtn = "supply";
                             }else if(reqData.finance){
@@ -155,7 +155,7 @@ sap.ui.define([
                                         this.getData();
                                     }
                                 });
-                                this.sendEmailNotification(sData.VendorId, sData.VendorMail);
+                                this.sendEmailNotification(sData.VendorName, sData.VendorId, sData.VendorMail, sData.VenValidTo);
                             },
                             error: () => BusyIndicator.hide()
                         });
@@ -165,14 +165,15 @@ sap.ui.define([
                 }
             },
 
-            sendEmailNotification: function (vendorId, vendorMail) {
-                var emailContent = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + vendorId;
+            sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
+                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
                     urlParameters: {
+                        vendorName: vendorName,
                         subject: "Supplier Form",
-                        content: emailContent,
+                        content: emailBody,
                         toAddress: vendorMail
                     },
                     success: function (oData, response) {
@@ -184,9 +185,9 @@ sap.ui.define([
                 };
                 oModel.callFunction("/sendEmail", mParameters);
             },
-
             onFormPress: function () {
-                //const url = "http://localhost:4004/supplierform/webapp/index.html?id=" + this.vendorId
+                let url = "http://localhost:4004/supplierform/webapp/index.html?id=" + this.vendorId
+                /*
                 const href = window.location.href;
                 let url;
                 if (href.includes("impautosuppdev")) {
@@ -196,6 +197,7 @@ sap.ui.define([
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
                 }
+                */
                 window.open(url);
             },
 
