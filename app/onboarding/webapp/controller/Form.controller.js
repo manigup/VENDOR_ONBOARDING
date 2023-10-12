@@ -208,6 +208,11 @@ sap.ui.define([
                 data.BeneficiaryName = oEvent.getSource().getValue();
                 this.createModel.refresh(true);
             },
+            onAddressCodChange: function (oEvent) {
+               var addcode = oEvent.getSource().getValue();
+            //    var addresscodedata = JSON.parse(sessionStorage.getItem("addrCode"));
+            //    this.isunitaddressexists = addresscodedata.find(item => item.AddressCode === addcode) ? true : false;
+            },
 
             onRadioButtonSelect: function (oEvent) {
                 var data = this.createModel.getData();
@@ -349,10 +354,11 @@ sap.ui.define([
 
                 // oView.byId("stateId")
                 // oView.byId("constId")
-                var aSelects = [oView.byId("accountcodeId"), oView.byId("countryId"),
+                var aSelects = [ oView.byId("countryId"),
                 oView.byId("stateId"),oView.byId("cityId"),
+                oView.byId("accountcodeId"),oView.byId("doccodeId"),
                 oView.byId("deliverymodeId"),oView.byId("customercatId"),oView.byId("benAccTypeId"),
-                oView.byId("typeofsupplierId"),oView.byId("doccodeId") ];
+                oView.byId("typeofsupplierId") ];
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -479,6 +485,15 @@ sap.ui.define([
                 if (oStateSelect.getSelectedKey()) {
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
                     var sStateKey = oStateSelect.getSelectedKey();
+                    if(sCountryKey === "India"){
+                        if(sStateKey === "Haryana"){
+                            this.getView().byId("locationId").setValue("Within State");
+                        }else{
+                            this.getView().byId("locationId").setValue("Outside State");
+                        }
+                    }else{
+                        this.getView().byId("locationId").setValue("Outside Country");
+                    }
                     this.loadCities(sCountryKey, sStateKey);
                 } else {
                     MessageToast.show("Please select a state first.");
@@ -620,6 +635,20 @@ sap.ui.define([
                 } else {
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
+                }
+                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                    if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
+                        this.byId("quotfileUploader").setValueState("None");
+                    } else {
+                        bValidationError = true;
+                        this.byId("quotfileUploader").setValueState("Error");
+                    }
+                    if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
+                        this.byId("cocFileUploader").setValueState("None");
+                    } else {
+                        bValidationError = true;
+                        this.byId("cocFileUploader").setValueState("Error");
+                    }
                 }
                 return bValidationError;
             },
@@ -797,6 +826,7 @@ sap.ui.define([
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
+                        payload.AddressCode = vendata[i].AddressCode;
                         break;
                     }
                 }
@@ -866,6 +896,7 @@ sap.ui.define([
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
+                        payload.AddressCode = vendata[i].AddressCode;
                         break;
                     }
                 }

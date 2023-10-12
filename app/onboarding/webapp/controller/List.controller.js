@@ -340,6 +340,7 @@ sap.ui.define([
             },
             changeStatus: function () {
                 var vendata = this.getView().getModel("DataModel").getData();
+                var formdata = this.getView().getModel("FormData").getData();
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
                     if (vendata[i].VendorId === this.vendorId) {
@@ -371,7 +372,7 @@ sap.ui.define([
                     this.msg = "Approved by Supply Chain";
                 } else if (venStatus === "SCA") {
                     stat = "ABF";
-                    //payload.BusinessPartnerNo = BPNum;
+                    payload.AddressCode = formdata.AddressCode;
                     this.msg = "Approved by Finance and BP " + payload.BusinessPartnerNo + " created successfully";
                 }
                 payload.Status = stat;
@@ -418,8 +419,8 @@ sap.ui.define([
                 if(formdata.LSTNo === ""){
                     formdata.LSTNo = "0";
                 }
-                formdata.TransMode = "";
-                var sPath = "https://imperialauto.co/IAIAPI.asmx/PostSupplierMaster";
+                formdata.TransMode = "ADD";
+                var sPath = "https://imperialauto.co:84/IAIAPI.asmx/PostSupplierMaster";
                 $.ajax({
                         type: "POST",
                         contentType: "application/json",
