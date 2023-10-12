@@ -46,7 +46,7 @@ sap.ui.define([
                 if (window.location.href.includes("launchpad")) {
                     this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
                 }
-                //this.hardcodedURL = "";
+                
                 this.initializeCountries();
 
             },
@@ -614,8 +614,9 @@ sap.ui.define([
                     var mParameters = {
                         method: "GET",
                         urlParameters: {
+                            vendorName: data.VendorName,
                             subject: "OTP",
-                            content: `The OTP is ${that.otp}`,
+                            content: `||OTP for submit vendor on-boarding form is ${that.otp}. | Do not share this with anyone. ImperialAuto will never telephone you to verify it.`,
                             toAddress: data.VendorMail
                         },
                         success: function (oData, response) {

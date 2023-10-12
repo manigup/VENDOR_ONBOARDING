@@ -125,11 +125,12 @@ module.exports = cds.service.impl(async function () {
 
     //Email trigger
     this.on('sendEmail', async (req) => {
-        const { subject, content, toAddress} =  req.data;
+        const { vendorName, subject, content, toAddress} =  req.data;
+        console.log(req.data)
 
         const payload = {
             Subject: subject,
-            Content: `Hi, | ${content} | Thanks & Regards | Manikandan`,
+            Content: `Dear ${vendorName}, ${content} | | Regards | ImperialAuto`,
             Seperator: "|",
             ToAddress: toAddress,
             CCAddress: "",
@@ -139,7 +140,7 @@ module.exports = cds.service.impl(async function () {
 
         try {
             // Make the API request
-            const response = await axios.post('https://imperialauto.co/IAIAPI.asmx/SendMail', payload, {
+            const response = await axios.post('https://imperialauto.co:84/IAIAPI.asmx/SendMail', payload, {
                 headers: {
                     'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                     'Content-Type': 'application/json'
@@ -286,7 +287,7 @@ async function getCountries() {
     try {
         const response = await axios({
             method: 'get',
-            url: "https://imperialauto.co/IAIAPI.asmx/GetCountryList?RequestBy='Manikandan'",
+            url: "https://imperialauto.co:84/IAIAPI.asmx/GetCountryList?RequestBy='Manikandan'",
             headers: {
                 'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                 'Content-Type': 'application/json'
@@ -311,7 +312,7 @@ async function getStates(country) {
     try {
         const response = await axios({
             method: 'get',
-            url: `https://imperialauto.co/IAIAPI.asmx/GetStateList?RequestBy='Manikandan'&Country='${country}'`,
+            url: `https://imperialauto.co:84/IAIAPI.asmx/GetStateList?RequestBy='Manikandan'&Country='${country}'`,
             headers: {
                 'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                 'Content-Type': 'application/json'
@@ -334,7 +335,7 @@ async function getCities(country, state) {
     try {
         const response = await axios({
             method: 'get',
-            url: `https://imperialauto.co/IAIAPI.asmx/GetCityList?RequestBy='Manikandan'&Country='${country}'&State='${state}'`,
+            url: `https://imperialauto.co:84/IAIAPI.asmx/GetCityList?RequestBy='Manikandan'&Country='${country}'&State='${state}'`,
             headers: {
                 'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                 'Content-Type': 'application/json'
