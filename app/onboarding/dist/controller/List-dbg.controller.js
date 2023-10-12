@@ -166,7 +166,7 @@ sap.ui.define([
             },
 
             sendEmailNotification: function (vendorId, vendorMail) {
-                var emailContent = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + vendorId;
+                var emailContent = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + vendorId;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
@@ -191,7 +191,7 @@ sap.ui.define([
                 let url;
                 if (href.includes("impautosuppdev")) {
 
-                    url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a1aa5e6e-4fe2-49a5-b95a-5cd7a2b05a51.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
+                    url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
 
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
@@ -338,7 +338,7 @@ sap.ui.define([
                     }
                 });
             },
-            changeStatus: function (BPNum) {
+            changeStatus: function () {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
@@ -371,7 +371,7 @@ sap.ui.define([
                     this.msg = "Approved by Supply Chain";
                 } else if (venStatus === "SCA") {
                     stat = "ABF";
-                    payload.BusinessPartnerNo = BPNum;
+                    //payload.BusinessPartnerNo = BPNum;
                     this.msg = "Approved by Finance and BP " + payload.BusinessPartnerNo + " created successfully";
                 }
                 payload.Status = stat;
@@ -427,7 +427,7 @@ sap.ui.define([
                         data: formdata,
                         context: this,
                         success: function (data, textStatus, jqXHR) {
-                           this.changeStatus(data[0].SuccessCode);
+                           this.changeStatus();
                         }.bind(this),
                         error: function (error) {
                             MessageBox.success("BP creation failed");
