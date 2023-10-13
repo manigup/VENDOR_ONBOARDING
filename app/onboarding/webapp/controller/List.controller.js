@@ -69,7 +69,7 @@ sap.ui.define([
                             //res.email = "rajeshsehgal@impauto.com";
                             reqData.supplychain = accessdata.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                            reqData.supplychain = true;
+                            //reqData.supplychain = true;
                             if (reqData.supplychain) {
                                 reqData.appbtn = "supply";
                             } else if (reqData.finance) {
