@@ -248,8 +248,8 @@
                         >
                             <core:Item
                                 id="_IDGenItem8"
-                                key="{Region}"
-                                text="{Bezei}"
+                                key="{states>name}"
+                                text="{states>name}"
                             />
                         </Select>
                         <Label

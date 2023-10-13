@@ -3,6 +3,7 @@ const axios = require('axios').default;
 const { panOptions, gstOptions, bankOptions } = require('./apiConfig');
 const FormData = require('form-data');
 const { on } = require('events');
+const { Console } = require('console');
 
 const sdmCredentials = {
     "clientid": "sb-af5ed0ac-6872-41a0-956e-ec2fea18c139!b26649|sdm-di-DocumentManagement-sdm_integration!b247",
@@ -180,6 +181,13 @@ module.exports = cds.service.impl(async function () {
     this.on('READ', 'UnitCodes', async () => {
         return getUnitCodes();
     });
+
+    //SupplierMaster
+    this.on('submitFormData', async (req) => {
+        const formData = req.data;
+        return await postFormData(formData);
+    });
+
     
 });
 
@@ -380,5 +388,29 @@ async function getUnitCodes() {
     } catch (error) {
         console.error("Error fetching unit code data:", error);
         throw new Error("Failed to fetch unit code data");
+    }
+}
+
+async function postFormData(formData) {
+    try {
+        const response = await axios({
+            method: 'POST',
+            url: "https://imperialauto.co:84/IAIAPI.asmx/PostSupplierMaster",
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: formData
+        });
+
+        if (response.status === 200) {
+            return 'Form data submitted successfully';
+        } else {
+            throw new Error(`Failed to submit form data: ${response.statusText}`);
+        }
+
+    } catch (error) {
+        console.error("Error submitting form data:", error);
+        throw new Error("Failed to submit form data");
     }
 }

@@ -25,5 +25,6 @@ service CatalogService @(requires: 'any') {
     function verifyBankAccount(beneficiaryAccount: String, beneficiaryIFSC: String) returns String;
 
     function sendEmail(vendorName: String, subject: String, content: String, toAddress: String) returns String;
-  
+
+    action submitFormData(data: String) returns String;
 }
