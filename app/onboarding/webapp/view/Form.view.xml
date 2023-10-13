@@ -936,7 +936,7 @@
                             id="MsmeCertificateId"
                             showSecondaryValues="true"
                             forceSelection="false"
-                            selectedKey="{create>/MsmeCertificateId}"
+                            selectedKey="{create>/MsmeMainCertificateId}"
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"
                              enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         >
