@@ -210,7 +210,7 @@ sap.ui.define([
             },
             onAddressCodChange: function (oEvent) {
                var addcode = oEvent.getSource().getValue();
-            //    var addresscodedata = JSON.parse(sessionStorage.getItem("addrCode"));
+            //    var addresscodedata = JSON.parse(sessionStorage.getItem("CodeDetails"));
             //    this.isunitaddressexists = addresscodedata.find(item => item.AddressCode === addcode) ? true : false;
             },
 

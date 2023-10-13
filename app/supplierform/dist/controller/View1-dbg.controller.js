@@ -21,6 +21,7 @@ sap.ui.define([
         "use strict";
 
         return Controller.extend("sp.fiori.supplierform.controller.View1", {
+
             onInit: function () {
                 sap.ui.getCore().getMessageManager().registerObject(this.getView(), true);
 
@@ -41,8 +42,11 @@ sap.ui.define([
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
-                this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorionboarding-0.0.1";
-                //this.hardcodedURL = "";
+                this.hardcodedURL = "";
+                if (window.location.href.includes("launchpad")) {
+                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
+                }
+                
                 this.initializeCountries();
 
             },
@@ -50,135 +54,135 @@ sap.ui.define([
                 if (oEvent.getParameter("name") !== "RouteView1") {
                     return;
                 }
-        
+
                 this.id = jQuery.sap.getUriParameters().get("id");
                 var requestData = this.getView().getModel("request").getData();
                 var createdata = this.getView().getModel("create").getData();
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
-                if ( requestData.VendorType === "DM") {
+                if (requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
                     this.byId("msmeItil").setSelectedIndex(0);
-                } 
+                }
                 if (requestData.VendorType === "DM") {
                     createdata.GstApplicable = "YES";
                 }
                 this.createModel.setData(createdata);
                 this.createModel.refresh(true);
-             //   this._setRadioButtons(createdata);
-              //  BusyIndicator.show();
+                //   this._setRadioButtons(createdata);
+                //  BusyIndicator.show();
                 this.vendorId = requestData.VendorId;
 
-                    var payload = {
-                        VendorId: requestData.VendorId,
-                        VendorType: requestData.VendorType,
-                        VendorName: requestData.VendorName,
-                        VendorMail: requestData.VendorMail,
-                        Telephone: requestData.Telephone
-                    };
-                    var payloadStr = JSON.stringify(payload);
+                var payload = {
+                    VendorId: requestData.VendorId,
+                    VendorType: requestData.VendorType,
+                    VendorName: requestData.VendorName,
+                    VendorMail: requestData.VendorMail,
+                    Telephone: requestData.Telephone
+                };
+                var payloadStr = JSON.stringify(payload);
 
-                    //var modulePath = jQuery.sap.getModulePath("sp/fiori/supplierform");
-                    //modulePath = modulePath === "." ? "" : modulePath;
-                    var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
-                    $.ajax({
-                        type: "GET",
-                        contentType: "application/json",
-                        url: sPath,
-                        context: this,
-                        
+                //var modulePath = jQuery.sap.getModulePath("sp/fiori/supplierform");
+                //modulePath = modulePath === "." ? "" : modulePath;
+                var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${payload.VendorId}')`;
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: sPath,
+                    context: this,
 
-                        success: function (sdata, textStatus, jqXHR) {
-                            let data = sdata.d;
-                            if (jqXHR.status === 200 || jqXHR.status === 204) {
-                                console.log("Data upserted successfully.");
-                            }
-                            if (requestData.VendorType === "DM") {
-                                if (!data.GstApplicable) {
-                                    data.GstApplicable = "YES";
-                                }
-                                if (!data.MsmeValidTo) {
-                                    data.MsmeValidTo = "99991231";
-                                }
-                            }
-                            if (!data.Type) {
-                                data.Type = "MATERIAL";
-                                // data.ScopeOfSupply = "PARTS";
-                            }
-                            if (!data.MsmeItilView && requestData.VendorType === "DM") {
-                                data.MsmeItilView = "MSME";
-                                this.byId("msmeItil").setSelectedIndex(0);
-                            } else if (data.MsmeItilView === "Non MSME") {
-                                this.byId("msmeItil").setSelectedIndex(1);
-                            }
-                            if (data.MsmeMainCertificate === "X") {
-                                this.byId("msmeCert").setSelected(true);
-                            }
 
-                            data.BeneficiaryName = requestData.VendorName;
-                            this.createModel.setData(data);
-                            this.createModel.refresh(true);
-                            if (data.Country) {
-                                createdata.State_name = data.State_name;
-                                this.countryHelpSelect();
-                            }
-                            if (data.City) {
-                                var sCountryKey = this.getView().byId("countryId").getSelectedKey();
-                                var sStateKey = this.getView().byId("stateId").getSelectedKey();
-                                this.loadCities(sCountryKey, sStateKey);
-                            }
-                            this._setRadioButtons(data);
-                            BusyIndicator.hide();
-                        }.bind(this),
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            BusyIndicator.hide();
-                            console.log("Upsert failed: ", errorThrown);
+                    success: function (sdata, textStatus, jqXHR) {
+                        let data = sdata.d;
+                        if (jqXHR.status === 200 || jqXHR.status === 204) {
+                            console.log("Data upserted successfully.");
                         }
-                    });
-
-                    this._showRemainingTime();
-
-                },
-            
-                _showRemainingTime: function () {
-                    var that = this;
-                    var data = this.getView().getModel("request").getData();
-                    
-                    try {
-                        // Extract the timestamp and convert it to integer
-                        var timestampExpiry = parseInt(data.VenValidTo.match(/\/Date\((\d+)\+\d+\)\//)[1]);
-                        var expiry = new Date(timestampExpiry);
-                        var current = new Date();
-                
-                        var countdown = setInterval(function () {
-                            current = new Date();
-                            that.distance = expiry - current;
-                
-                            // Time calculations for days, hours, minutes and seconds
-                            var days = Math.floor(that.distance / (1000 * 60 * 60 * 24));
-                            var hours = Math.floor((that.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            var minutes = Math.floor((that.distance % (1000 * 60 * 60)) / (1000 * 60));
-                            var seconds = Math.floor((that.distance % (1000 * 60)) / 1000);
-                
-                            data.VenTimeLeft = ` ${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
-                
-                            that.getView().getModel("request").refresh(true);
-                            that.getView().byId("idRemTime").setText(data.VenTimeLeft);
-                
-                            if (that.distance < 0) {
-                                clearInterval(countdown);
-                                data.VenTimeLeft = "EXPIRED";
-                                that.getView().getModel("request").refresh(true);
-                                MessageBox.error("Form expired");
-                                that.getView().byId("saveBtnId").setVisible(false);
-                                that.getView().byId("submitBtnId").setVisible(false);
+                        if (requestData.VendorType === "DM") {
+                            if (!data.GstApplicable) {
+                                data.GstApplicable = "YES";
                             }
-                        }, 1000);
-                    } catch (e) {
-                        console.error("Error in calculating remaining time: ", e);
+                            if (!data.MsmeValidTo) {
+                                data.MsmeValidTo = "99991231";
+                            }
+                        }
+                        if (!data.Type) {
+                            data.Type = "MATERIAL";
+                            // data.ScopeOfSupply = "PARTS";
+                        }
+                        if (!data.MsmeItilView && requestData.VendorType === "DM") {
+                            data.MsmeItilView = "MSME";
+                            this.byId("msmeItil").setSelectedIndex(0);
+                        } else if (data.MsmeItilView === "Non MSME") {
+                            this.byId("msmeItil").setSelectedIndex(1);
+                        }
+                        if (data.MsmeMainCertificate === "X") {
+                            this.byId("msmeCert").setSelected(true);
+                        }
+
+                        data.BeneficiaryName = requestData.VendorName;
+                        this.createModel.setData(data);
+                        this.createModel.refresh(true);
+                        if (data.Country) {
+                            // createdata.State_name = data.State_name;
+                            this.countryHelpSelect();
+                        }
+                        if (data.City) {
+                            // var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                            // var sStateKey = this.getView().byId("stateId").getSelectedKey();
+                            this.loadCities(data.Country_code, data.State_name);
+                        }
+                        this._setRadioButtons(data);
+                        BusyIndicator.hide();
+                    }.bind(this),
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        BusyIndicator.hide();
+                        console.log("Upsert failed: ", errorThrown);
                     }
-                },
-            
+                });
+
+                this._showRemainingTime();
+
+            },
+
+            _showRemainingTime: function () {
+                var that = this;
+                var data = this.getView().getModel("request").getData();
+
+                try {
+                    // Extract the timestamp and convert it to integer
+                    var timestampExpiry = parseInt(data.VenValidTo.match(/\/Date\((\d+)\+\d+\)\//)[1]);
+                    var expiry = new Date(timestampExpiry);
+                    var current = new Date();
+
+                    var countdown = setInterval(function () {
+                        current = new Date();
+                        that.distance = expiry - current;
+
+                        // Time calculations for days, hours, minutes and seconds
+                        var days = Math.floor(that.distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((that.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((that.distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((that.distance % (1000 * 60)) / 1000);
+
+                        data.VenTimeLeft = ` ${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+
+                        that.getView().getModel("request").refresh(true);
+                        that.getView().byId("idRemTime").setText(data.VenTimeLeft);
+
+                        if (that.distance < 0) {
+                            clearInterval(countdown);
+                            data.VenTimeLeft = "EXPIRED";
+                            that.getView().getModel("request").refresh(true);
+                            MessageBox.error("Form expired");
+                            that.getView().byId("saveBtnId").setVisible(false);
+                            that.getView().byId("submitBtnId").setVisible(false);
+                        }
+                    }, 1000);
+                } catch (e) {
+                    console.error("Error in calculating remaining time: ", e);
+                }
+            },
+
             _setRadioButtons: function (data) { //Set Radio Buttons Index
                 if (data.VendorType === "IP") {
                     this.byId("venTypeRbId").setSelectedIndex(1);
@@ -289,7 +293,7 @@ sap.ui.define([
 
                 //oView.byId("stateId")
                 // oView.byId("constId")
-                var aSelects = [oView.byId("countryId"),oView.byId("stateId"),oView.byId("cityId"),
+                var aSelects = [oView.byId("countryId"), oView.byId("stateId"), oView.byId("cityId"),
                 oView.byId("benAccTypeId")];
 
                 if (data.MsmeItilView === 'MSME') {
@@ -337,7 +341,7 @@ sap.ui.define([
                 return bValidationError;
             },
 
-            initializeCountries: function() {
+            initializeCountries: function () {
                 console.log("Country initialization")
                 var oComboBox = this.getView().byId("countryId");
                 if (!oComboBox.getModel("countries")) {
@@ -345,16 +349,16 @@ sap.ui.define([
                 }
             },
 
-            loadCountries: function() {
+            loadCountries: function () {
                 var oComboBox = this.getView().byId("countryId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/Country";
-            
+
                 oDataModel.read(sPath, {
-                    success: function(oData) {
+                    success: function (oData) {
                         var oJsonModel = new sap.ui.model.json.JSONModel();
                         oJsonModel.setData({ Countries: oData.results });
-                        
+
                         oComboBox.setModel(oJsonModel, "countries");
                         oComboBox.bindItems({
                             path: "countries>/Countries",
@@ -364,17 +368,17 @@ sap.ui.define([
                             })
                         });
                     },
-                    error: function(oError) {
+                    error: function (oError) {
                         console.log("Error", oError);
                         sap.m.MessageToast.show("Failed to load countries.");
                     }
                 });
             },
 
-            countryHelpSelect: function (oEvent) {
+            countryHelpSelect: function () {
                 var oStateSelect = this.getView().byId("stateId");
                 var sCountryKey = this.getView().byId("countryId").getSelectedKey();
-                
+
                 if (sCountryKey) {
                     oStateSelect.setEnabled(true);
                     this.loadStates(sCountryKey);
@@ -387,7 +391,7 @@ sap.ui.define([
                 var oStateSelect = this.getView().byId("stateId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/States";
-            
+
                 oDataModel.read(sPath, {
                     urlParameters: {
                         "country": sCountryKey
@@ -395,7 +399,7 @@ sap.ui.define([
                     success: function (oData) {
                         var oJsonModel = new sap.ui.model.json.JSONModel();
                         oJsonModel.setData({ States: oData.results });
-                        
+
                         oStateSelect.setModel(oJsonModel, "states");
                         oStateSelect.bindItems({
                             path: "states>/States",
@@ -427,7 +431,7 @@ sap.ui.define([
                 var oCitySelect = this.getView().byId("cityId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/City";
-                
+
                 oDataModel.read(sPath, {
                     urlParameters: {
                         "country": sCountryKey,
@@ -436,7 +440,7 @@ sap.ui.define([
                     success: function (oData) {
                         var oJsonModel = new sap.ui.model.json.JSONModel();
                         oJsonModel.setData({ Cities: oData.results });
-                        
+
                         oCitySelect.setModel(oJsonModel, "cities");
                         oCitySelect.bindItems({
                             path: "cities>/Cities",
@@ -452,7 +456,7 @@ sap.ui.define([
                     }
                 });
             },
-        
+
             _validateSelect: function (oInput, bValidationError) {
                 var sValueState = "None";
                 var value = oInput.getSelectedKey();
@@ -523,6 +527,20 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
+                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
+                    this.byId("quotfileUploader").setValueState("None");
+                } else {
+                    bValidationError = true;
+                    this.byId("quotfileUploader").setValueState("Error");
+                }
+                if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
+                    this.byId("cocFileUploader").setValueState("None");
+                } else {
+                    bValidationError = true;
+                    this.byId("cocFileUploader").setValueState("Error");
+                }
+            }
                 return bValidationError;
             },
 
@@ -557,7 +575,7 @@ sap.ui.define([
                         MessageBox.success("Form data saved successfully", {
                             onClose: () => {
                                 this.changeStatus();
-                                
+
                             }
                         });
                     }.bind(this),
@@ -584,7 +602,7 @@ sap.ui.define([
 
             onSubmitPress: async function (oEvent) {
                 var that = this;
-               // BusyIndicator.show();
+                // BusyIndicator.show();
                 var mandat = await this._mandatCheck(); // Mandatory Check
                 if (!mandat) {
                     var createData = this.createModel.getData();
@@ -596,8 +614,9 @@ sap.ui.define([
                     var mParameters = {
                         method: "GET",
                         urlParameters: {
+                            vendorName: data.VendorName,
                             subject: "OTP",
-                            content: `The OTP is ${that.otp}`,
+                            content: `||OTP for submit vendor on-boarding form is ${that.otp}. | Do not share this with anyone. ImperialAuto will never telephone you to verify it.`,
                             toAddress: data.VendorMail
                         },
                         success: function (oData, response) {
@@ -685,15 +704,15 @@ sap.ui.define([
                                 press: function () {
                                     var currentTime = new Date().getTime();
                                     var timeDifference = currentTime - this.otpTime;
-            
+
                                     var enterOtp = core.byId("submissionNote").getValue();
-            
+
                                     if (timeDifference <= 300000 && enterOtp === this.otp) {
                                         // Successful OTP validation and submission
                                         BusyIndicator.show();
                                         data.Otp = enterOtp;
                                         var payloadStr = JSON.stringify(data);
-                                        var sPath = this.hardcodedURL +  `/v2/odata/v4/catalog/VendorForm('${data.VendorId}')`;
+                                        var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${data.VendorId}')`;
                                         $.ajax({
                                             type: "PUT",
                                             contentType: "application/json",
@@ -750,13 +769,13 @@ sap.ui.define([
             onFileUploaderChange: function (evt) {
                 var oFileUploader = evt.getSource();
                 oFileUploader.setUploadUrl(this.getView().getModel().sServiceUrl + "/Attachments");
-               // BusyIndicator.show();
+                // BusyIndicator.show();
                 var key = oFileUploader.getCustomData()[0].getKey();
                 // oFileUploader.removeAllHeaderParameters();
                 oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
                     name: "slug",
-                    value: this.vendorId + "/" + oFileUploader.getValue() + "/" + key 
-                    
+                    value: this.vendorId + "/" + oFileUploader.getValue() + "/" + key
+
                 }));
                 //oFileUploader.upload();
 
@@ -768,7 +787,7 @@ sap.ui.define([
             },
 
             onUploadComplete: function (evt) {
-               // BusyIndicator.hide();
+                // BusyIndicator.hide();
                 if (evt.getParameters().status !== 201) {
                     MessageBox.error(JSON.parse(evt.getParameters().responseRaw).error.message.value);
                 } else {
@@ -777,17 +796,17 @@ sap.ui.define([
                     var data = this.createModel.getData();
                     data[customDataKey] = filename;
                     this.createModel.setData(data);
-            
+
                     MessageToast.show("File " + filename + " Attached successfully");
                 }
             },
-            
+
             onFileSizeExceded: function (evt) {
                 MessageBox.error("File size exceeds the range of 5MB");
                 evt.getSource().setValueState("Error");
             },
 
-            onAttachmentGet: function (evt) { 
+            onAttachmentGet: function (evt) {
                 var key = evt.getSource().getCustomData()[0].getKey(); // this should be the Venfiletype
                 BusyIndicator.show();
                 setTimeout(() => {
@@ -811,7 +830,7 @@ sap.ui.define([
                     });
                 }, 1000);
             },
-            
+
             onMainCertificateChange: function (evt) {
                 if (evt.getParameter("selected")) {
                     this.createModel.setProperty("/MsmeMainCertificate", "X");
@@ -829,20 +848,20 @@ sap.ui.define([
             changeStatus: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var stat = "";
-                if(this.draft){
-                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD"){
+                if (this.draft) {
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD") {
                         this.draft = false;
                         stat = "SAD";
                     }
-                }else{
-                if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
-                    stat = "SBS";
-                } else if (requestData.Status === "SBS") {
-                    stat = "SBC";
-                } else if (requestData.Status === "SBF") {
-                    stat = "SBF";
+                } else {
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
+                        stat = "SBS";
+                    } else if (requestData.Status === "SBS") {
+                        stat = "SBC";
+                    } else if (requestData.Status === "SBF") {
+                        stat = "SBF";
+                    }
                 }
-            }
                 var payload = requestData;
                 payload.Status = stat;
                 var payloadStr = JSON.stringify(payload);
@@ -857,7 +876,7 @@ sap.ui.define([
                         if (jqXHR.status === 200 || jqXHR.status === 204) {
                             console.log("Data upserted successfully.");
 
-                             window.location.reload();
+                            window.location.reload();
 
                         }
                     }.bind(this),
@@ -866,7 +885,7 @@ sap.ui.define([
                     }
                 });
             },
-            
+
 
             customPanType: SimpleType.extend("Pan", {
                 formatValue: function (oValue) {

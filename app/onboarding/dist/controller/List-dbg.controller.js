@@ -69,7 +69,7 @@ sap.ui.define([
                             //res.email = "rajeshsehgal@impauto.com";
                             reqData.supplychain = accessdata.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                            //reqData.supplychain = true;
+                            reqData.supplychain = true;
                             if(reqData.supplychain){
                                 reqData.appbtn = "supply";
                             }else if(reqData.finance){
@@ -155,7 +155,7 @@ sap.ui.define([
                                         this.getData();
                                     }
                                 });
-                                this.sendEmailNotification(sData.VendorId, sData.VendorMail);
+                                this.sendEmailNotification(sData.VendorName, sData.VendorId, sData.VendorMail, sData.VenValidTo);
                             },
                             error: () => BusyIndicator.hide()
                         });
@@ -165,14 +165,15 @@ sap.ui.define([
                 }
             },
 
-            sendEmailNotification: function (vendorId, vendorMail) {
-                var emailContent = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + vendorId;
+            sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
+                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
                     urlParameters: {
+                        vendorName: vendorName,
                         subject: "Supplier Form",
-                        content: emailContent,
+                        content: emailBody,
                         toAddress: vendorMail
                     },
                     success: function (oData, response) {
@@ -184,9 +185,9 @@ sap.ui.define([
                 };
                 oModel.callFunction("/sendEmail", mParameters);
             },
-
             onFormPress: function () {
-                //const url = "http://localhost:4004/supplierform/webapp/index.html?id=" + this.vendorId
+                let url = "http://localhost:4004/supplierform/webapp/index.html?id=" + this.vendorId
+                /*
                 const href = window.location.href;
                 let url;
                 if (href.includes("impautosuppdev")) {
@@ -196,6 +197,7 @@ sap.ui.define([
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
                 }
+                */
                 window.open(url);
             },
 
@@ -340,6 +342,7 @@ sap.ui.define([
             },
             changeStatus: function () {
                 var vendata = this.getView().getModel("DataModel").getData();
+                var formdata = this.getView().getModel("FormData").getData();
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
                     if (vendata[i].VendorId === this.vendorId) {
@@ -371,7 +374,7 @@ sap.ui.define([
                     this.msg = "Approved by Supply Chain";
                 } else if (venStatus === "SCA") {
                     stat = "ABF";
-                    //payload.BusinessPartnerNo = BPNum;
+                    payload.AddressCode = formdata.AddressCode;
                     this.msg = "Approved by Finance and BP " + payload.BusinessPartnerNo + " created successfully";
                 }
                 payload.Status = stat;
@@ -418,8 +421,74 @@ sap.ui.define([
                 if(formdata.LSTNo === ""){
                     formdata.LSTNo = "0";
                 }
-                formdata.TransMode = "";
-                var sPath = "https://imperialauto.co/IAIAPI.asmx/PostSupplierMaster";
+formdata.SupplierType = "Permanent";
+formdata.UnitCode = "P01";
+formdata.AddressCode = "SDC-00-01";
+formdata.AccountCode = "1201AOL002A";
+formdata.AccountDesc = "A-ONE LOGISTICS";
+formdata.LeadTime = "";
+formdata.IAIvendorCode = "";
+formdata.Location= "Within State";
+formdata.Designation = "General Manager";
+formdata.DeliveryMode = "Road";
+formdata.CustomerCat = "OEM";
+formdata.ExciseDivision = "-";
+formdata.ExciseBankAcc = "-";
+formdata.STRatePerc = "0";
+formdata.Tin = "";
+formdata.Composite = "0";
+formdata.CreditRating = "";
+formdata.CreditRatingAgency= "";
+formdata.ServiceAccType = "";
+formdata.ECCNo = "";
+formdata.LSTDate = "";
+formdata.CSTDate = "";
+formdata.ExciseNo = "";
+formdata.JWRWCost = "0";
+formdata.CompanyType = "";
+formdata.ISOExpiryDate = "";
+formdata.AddressType = "OEM";
+formdata.ExciseRange= "0";
+formdata.ExciseBankName = "-";
+formdata.ExciseDuty = "12";
+formdata.CinNo = "U29299TN2006TTC061090";
+formdata.GstRegistered = "1";
+formdata.GSTDate = "10/JAN/1989";
+formdata.ServiceAccCode = "";
+formdata.STRateSurcharge = "0";
+formdata.CSTNo = "822825";
+formdata.LSTNo = "0";
+formdata.ExciseDate= "";
+formdata.MRPPercentage = "100";
+formdata.SalesPersonCode = "";
+formdata.Distance = "10";
+formdata.TypeOfSupplier = "";
+formdata.GroupingLocation = "INNHRFBD";
+formdata.GroupCode5 = "";
+formdata.GroupCode7 = "";
+formdata.Tax = "CST00";
+formdata.GroupCode4 = "";
+formdata.ITransporters = "";
+formdata.GroupCode8 = "";
+formdata.BankAddress= "Nehru ground Faridabad";
+// formdata.ContantInformation = [{
+formdata.ContactPersonName = "Mr. Rajeev Khatri";
+formdata.ContactPersonDepartment = "PURCHASING";
+formdata.ContactPersonDesignation = "G.M.";
+formdata.ContactPersonPhone = "9956299740";
+formdata.ContactPersonMobile = "9956299740";
+formdata.ContactPersonMail = "rkhatri@impauto.com";
+formdata.SNo = "1";
+// }]
+// formdata.DocumentRequired = [{
+formdata.DocCode = "38";
+formdata.DocDescription= "FORM 38";
+// }]
+formdata.TransMode = "ADD";
+formdata.CreatedBy = "Manikandan";
+formdata.CreatedIP = "";
+formdata.UpdatedBy = "";
+                var sPath = "https://imperialauto.co:84/IAIAPI.asmx/PostSupplierMaster";
                 $.ajax({
                         type: "POST",
                         contentType: "application/json",
