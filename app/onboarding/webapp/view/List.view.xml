@@ -206,7 +206,7 @@
                             /> -->
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
-                                text="{DataModel>BusinessPartnerNo}"
+                                text="{DataModel>AddressCode}"
                                 state="Indication03"
                                 class="objectStatus"
                             />
