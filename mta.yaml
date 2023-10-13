@@ -67,6 +67,10 @@ modules:
       - spfiorisupplierform.zip
       name: spfiorisupplierform
       target-path: resources/
+    - artifacts:
+      - spfioriunitcodeshellplugin.zip
+      name: spfioriunitcodeshellplugin
+      target-path: resources/
 - name: spfiorionboarding
   type: html5
   path: app/onboarding
@@ -87,6 +91,16 @@ modules:
 - name: spfiorisupplierform
   type: html5
   path: app/supplierform
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: spfioriunitcodeshellplugin
+  type: html5
+  path: unitcodeshellplugin
   build-parameters:
     build-result: dist
     builder: custom

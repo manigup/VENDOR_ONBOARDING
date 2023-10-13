@@ -323,7 +323,7 @@
                             text="Account Code"
                             required="true"
                         />
-                        <ComboBox
+                        <!-- <ComboBox
                             id="accountcodeId"
                             items="{account>/}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selectedKey="{create>/AccountCode}"
@@ -333,7 +333,7 @@
                                 key="{account>AcctCode}"
                                 text="{account>AcctCode}"
                             />
-                        </ComboBox>
+                        </ComboBox> -->
                         <Label
                             design="Bold"
                             text="Account Description"
@@ -863,7 +863,7 @@
                             text="Doc Code"
                             required="true"
                         />
-                        <ComboBox
+                        <!-- <ComboBox
                             id="doccodeId"
                             items="{doc>/}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selectedKey="{create>/DocCode}"
@@ -873,7 +873,7 @@
                                 key="{doc>code}"
                                 text="{doc>name}"
                             />
-                        </ComboBox>
+                        </ComboBox> -->
                         <Label
                             design="Bold"
                             text="Doc Description"
