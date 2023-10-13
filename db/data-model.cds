@@ -3,10 +3,8 @@ namespace db.VenOnboard;
 using {managed} from '@sap/cds/common';
 
 entity Country {
-
   key code : String;
       name : String;
-
 }
 
 entity States {
@@ -16,6 +14,12 @@ entity States {
 entity City {
   key name : String;
 }
+
+entity UnitCode {
+  key code : String;
+  addressCode : String;
+};
+
 
 entity AccessInfo {
   key email           : String;

@@ -14,6 +14,8 @@ service CatalogService @(requires: 'any') {
 
     entity City as projection on db.City;
 
+    entity UnitCodes as projection on db.UnitCode;
+
     entity AccessInfo as projection on db.AccessInfo;
     
     function verfiyPANDetails(panNumber: String) returns String;

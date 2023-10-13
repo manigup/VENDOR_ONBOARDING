@@ -174,7 +174,12 @@ module.exports = cds.service.impl(async function () {
     this.on('READ', 'City', async (req) => {
         const {country, state} = req._queryOptions
         return getCities(country, state);
-    })
+    });
+
+    //UnitCode data
+    this.on('READ', 'UnitCodes', async () => {
+        return getUnitCodes();
+    });
     
 });
 
@@ -351,5 +356,29 @@ async function getCities(country, state) {
     } catch (error) {
         console.error("Error fetching city data:", error);
         throw new Error("Failed to fetch city data");
+    }
+}
+
+async function getUnitCodes() {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: "https://imperialauto.co:84/IAIAPI.asmx/GetUnitCodeList?RequestBy='UnitCode'",
+            headers: {
+                'Authorization': 'Bearer aum4c9qG+6+0GZmSd3co9Q==',
+                'Content-Type': 'application/json'
+            },
+            data: {}
+        });
+
+        const unitCodes = JSON.parse(response.data.d);
+        return unitCodes.map(unitCode => ({
+            code: unitCode.UnitCode,
+            addressCode: unitCode.AddressCode
+        }));
+
+    } catch (error) {
+        console.error("Error fetching unit code data:", error);
+        throw new Error("Failed to fetch unit code data");
     }
 }
