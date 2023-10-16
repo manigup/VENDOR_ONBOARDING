@@ -477,7 +477,7 @@ sap.ui.define([
                  oView.byId("stRateId"), oView.byId("excisedutyId"), 
                  oView.byId("mrpId"), oView.byId("distId"),
                  oView.byId("contactPersonnameId"), oView.byId("deptId"),oView.byId("desigId"),
-                 oView.byId("contphoneId"), oView.byId("contmobileId"),oView.byId("contemailId"),
+                 oView.byId("contphoneId"), oView.byId("contmobileId"),
                  oView.byId("docdescId")
             ];
 

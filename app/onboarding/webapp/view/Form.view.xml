@@ -886,7 +886,7 @@
                         <Input
                             id="contemailId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/ContactPersonMail'}"
-                            type="Email"
+                            
                         />
                        
                         <Label
