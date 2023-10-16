@@ -69,7 +69,7 @@ sap.ui.define([
                             //res.email = "rajeshsehgal@impauto.com";
                             reqData.supplychain = accessdata.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                            //reqData.supplychain = true;
+                           // reqData.finance = true;
                             if (reqData.supplychain) {
                                 reqData.appbtn = "supply";
                             } else if (reqData.finance) {
@@ -397,106 +397,277 @@ sap.ui.define([
             getFormData: function () {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
-                if (formdata.ExciseDivision === "") {
+                var res = this.getView().getModel("UserApiDetails").getData();
+                if (formdata.ExciseDivision === null) {
                     formdata.ExciseDivision = "-";
                 }
-                if (formdata.ExciseBankAcc === "") {
+                if (formdata.ExciseBankAcc === null) {
                     formdata.ExciseBankAcc = "-";
                 }
-                if (formdata.STRatePerc === "") {
+                if (formdata.STRatePerc === null) {
                     formdata.STRatePerc = "0";
                 }
-                if (formdata.JWRWCost === "") {
+                if (formdata.JWRWCost === null) {
                     formdata.JWRWCost = "0";
                 }
-                if (formdata.ExciseRange === "") {
+                if (formdata.ExciseRange === null) {
                     formdata.ExciseRange = "0";
                 }
-                if (formdata.ExciseBankName === "") {
+                if (formdata.ExciseBankName === null) {
                     formdata.ExciseBankName = "-";
                 }
-                if (formdata.STRateSurcharge === "") {
+                if (formdata.STRateSurcharge === null) {
                     formdata.STRateSurcharge = "0";
                 }
-                if (formdata.LSTNo === "") {
+                if (formdata.LSTNo === null) {
                     formdata.LSTNo = "0";
                 }
-                formdata.SupplierType = "Permanent";
-                formdata.UnitCode = "P01";
-                formdata.AddressCode = "SDC-00-01";
-                formdata.AccountCode = "1201AOL002A";
-                formdata.AccountDesc = "A-ONE LOGISTICS";
-                formdata.LeadTime = "";
-                formdata.IAIvendorCode = "";
-                formdata.Location = "Within State";
-                formdata.Designation = "General Manager";
-                formdata.DeliveryMode = "Road";
-                formdata.CustomerCat = "OEM";
-                formdata.ExciseDivision = "-";
-                formdata.ExciseBankAcc = "-";
-                formdata.STRatePerc = "0";
-                formdata.Tin = "";
-                formdata.Composite = "0";
-                formdata.CreditRating = "";
-                formdata.CreditRatingAgency = "";
-                formdata.ServiceAccType = "";
-                formdata.ECCNo = "";
-                formdata.LSTDate = "";
-                formdata.CSTDate = "";
-                formdata.ExciseNo = "";
-                formdata.JWRWCost = "0";
-                formdata.CompanyType = "";
-                formdata.ISOExpiryDate = "";
-                formdata.AddressType = "OEM";
-                formdata.ExciseRange = "0";
-                formdata.ExciseBankName = "-";
-                formdata.ExciseDuty = "12";
-                formdata.CinNo = "U29299TN2006TTC061090";
-                formdata.GstRegistered = "1";
-                formdata.GSTDate = "10/JAN/1989";
-                formdata.ServiceAccCode = "";
-                formdata.STRateSurcharge = "0";
-                formdata.CSTNo = "822825";
-                formdata.LSTNo = "0";
-                formdata.ExciseDate = "";
-                formdata.MRPPercentage = "100";
-                formdata.SalesPersonCode = "";
-                formdata.Distance = "10";
-                formdata.TypeOfSupplier = "";
-                formdata.GroupingLocation = "INNHRFBD";
-                formdata.GroupCode5 = "";
-                formdata.GroupCode7 = "";
-                formdata.Tax = "CST00";
-                formdata.GroupCode4 = "";
-                formdata.ITransporters = "";
-                formdata.GroupCode8 = "";
-                formdata.BankAddress = "Nehru ground Faridabad";
-                // formdata.ContantInformation = [{
-                formdata.ContactPersonName = "Mr. Rajeev Khatri";
-                formdata.ContactPersonDepartment = "PURCHASING";
-                formdata.ContactPersonDesignation = "G.M.";
-                formdata.ContactPersonPhone = "9956299740";
-                formdata.ContactPersonMobile = "9956299740";
-                formdata.ContactPersonMail = "rkhatri@impauto.com";
-                formdata.SNo = "1";
-                // }]
-                // formdata.DocumentRequired = [{
-                formdata.DocCode = "38";
-                formdata.DocDescription = "FORM 38";
-                // }]
-                formdata.TransMode = "ADD";
-                formdata.CreatedBy = "Manikandan";
-                formdata.CreatedIP = "";
-                formdata.UpdatedBy = "";
-                var sPath = "https://imperialauto.co:84/IAIAPI.asmx/PostSupplierMaster";
+                if (formdata.GroupCode7 === null) {
+                    formdata.GroupCode7 = "/ /";
+                }
+                if (formdata.Fax === null) {
+                    formdata.Fax = "";
+                }
+                if (formdata.LeadTime === null) {
+                    formdata.LeadTime = "";
+                }
+                if (formdata.Remarks === null) {
+                    formdata.Remarks = "";
+                }
+                if (formdata.Designation === null) {
+                    formdata.Designation = "";
+                }
+                if (formdata.DeliveryMode === null) {
+                    formdata.DeliveryMode = "";
+                }
+                if (formdata.CustomerCat === null) {
+                    formdata.CustomerCat = "";
+                }
+                if (formdata.ExciseDivision === null) {
+                    formdata.ExciseDivision = "";
+                }
+                if (formdata.ExciseBankAcc === null) {
+                    formdata.ExciseBankAcc = "";
+                }
+                if (formdata.Tin === null) {
+                    formdata.Tin = "";
+                }
+                if (formdata.Composite === null) {
+                    formdata.Composite = "";
+                }
+                if (formdata.GstNumber === null) {
+                    formdata.GstNumber = "";
+                }
+                if (formdata.CreditRating === null) {
+                    formdata.CreditRating = "";
+                }
+                if (formdata.CreditRatingAgency === null) {
+                    formdata.CreditRatingAgency = "";
+                }
+                if (formdata.ServiceAccType === null) {
+                    formdata.ServiceAccType = "";
+                }
+                if (formdata.ECCNo === null) {
+                    formdata.ECCNo = "";
+                }
+                if (formdata.CSTDate === null) {
+                    formdata.CSTDate = "";
+                }
+                if (formdata.LSTDate === null) {
+                    formdata.LSTDate = "";
+                }
+                
+                if (formdata.ExciseNo === null) {
+                    formdata.ExciseNo = "";
+                }
+                if (formdata.JWRWCost === null) {
+                    formdata.JWRWCost = "";
+                }
+                if (formdata.CompanyType === null) {
+                    formdata.CompanyType = "";
+                }
+                if (formdata.ISOExpiryDate === null) {
+                    formdata.ISOExpiryDate = "";
+                }
+                if (formdata.AddressType === null) {
+                    formdata.AddressType = "";
+                }
+                if (formdata.ExciseRange === null) {
+                    formdata.ExciseRange = "";
+                }
+                if (formdata.ExciseBankName === null) {
+                    formdata.ExciseBankName = "";
+                }
+                if (formdata.CinNo === null) {
+                    formdata.CinNo = "";
+                }
+                if (formdata.GstRegistered === null) {
+                    formdata.GstRegistered = "";
+                }
+                if (formdata.GSTDate === null) {
+                    formdata.GSTDate = "";
+                }
+                if (formdata.MsmeMainCertificateId === null) {
+                    formdata.MsmeMainCertificateId = "";
+                }
+                if (formdata.ServiceAccCode === null) {
+                    formdata.ServiceAccCode = "";
+                }
+                if (formdata.STRateSurcharge === null) {
+                    formdata.STRateSurcharge = "";
+                }
+                if (formdata.CSTNo === null) {
+                    formdata.CSTNo = "";
+                }
+                if (formdata.LSTNo === null) {
+                    formdata.LSTNo = "";
+                }
+                if (formdata.Pan === null) {
+                    formdata.Pan = "";
+                }
+                if (formdata.ExciseDate === null) {
+                    formdata.ExciseDate = "";
+                }
+                if (formdata.GroupingLocation === null) {
+                    formdata.GroupingLocation = "";
+                }
+                if (formdata.GroupCode5 === null) {
+                    formdata.GroupCode5 = "";
+                }
+                if (formdata.GroupCode4 === null) {
+                    formdata.GroupCode4 = "";
+                }
+                if (formdata.Transporters === null) {
+                    formdata.Transporters = "";
+                }
+                if (formdata.GroupCode8 === null) {
+                    formdata.GroupCode8 = "";
+                }
+                if (formdata.AccountNo === null) {
+                    formdata.AccountNo = "";
+                }
+                if (formdata.IFSCCode === null) {
+                    formdata.IFSCCode = "";
+                }
+                if (formdata.BeneficiaryName === null) {
+                    formdata.BeneficiaryName = "";
+                }
+                if (formdata.BankName === null) {
+                    formdata.BankName = "";
+                }
+                if (formdata.BankAddress === null) {
+                    formdata.BankAddress = "";
+                }
+                var form = {
+                    "SupplierType": formdata.SupplierType,
+                    "UnitCode": sessionStorage.getItem("unitCode"),
+                    "AddressCode": formdata.AddressCode,
+                    "AddressDesc": formdata.VendorName,
+                    "vendorAddress": formdata.Address1,
+                    "AccountCode": formdata.AccountCode,
+                    "AccountDesc": formdata.AccountDesc,
+                    "FaxNo": formdata.Fax,
+                    "ContactPerson": formdata.ContactPerson,
+                    "LeadTime": formdata.LeadTime,
+                    "Remark": formdata.Remarks,
+                    "IAIvendorCode": "",
+                    "Country": formdata.Country_code,
+                    "State": formdata.State_name,
+                    "City": formdata.City_name,
+                    "Location": formdata.Location,
+                    "PinNo": formdata.Pincode,
+                    "PhoneNumber": formdata.Telephone,
+                    "Email": formdata.VendorMail,
+                    "ContactPersonDesgn": formdata.Designation,
+                    "DeliveryMode": formdata.DeliveryMode,
+                    "CustomerCategory": formdata.CustomerCat,
+                    "ExciseDivision": formdata.ExciseDivision,
+                    "ExciseBankAccount": formdata.ExciseBankAcc,
+                    "StRatePercent": formdata.STRatePerc,
+                    "TinNo": formdata.Tin,
+                    "Composite": formdata.Composite,
+                    "GSTRegistartion": formdata.GstNumber,
+                    "CreditRating": formdata.CreditRating,
+                    "CreditRatingAgency": formdata.CreditRatingAgency,
+                    "ServiceAccounType": formdata.ServiceAccType,
+                    "ECCNo": formdata.ECCNo,
+                    "CSTDate": formdata.CSTDate,
+                    "LSTDate": formdata.LSTDate,
+                    "ExciseNo": formdata.ExciseNo,
+                    "JswCost": formdata.JWRWCost,
+                    "CompanyType": formdata.CompanyType,
+                    "ISOExpiryDate": formdata.ISOExpiryDate,
+                    "AddressType": formdata.AddressType,
+                    "ExciseRange": formdata.ExciseRange,
+                    "ExciseBankAccountName": formdata.ExciseBankName,
+                    "ExciseDuty": formdata.ExciseDuty,
+                    "CinNo": formdata.CinNo,
+                    "GstRegistered": formdata.GstRegistered,
+                    "GstDate": formdata.GSTDate,
+                    "MSMEType" : formdata.MsmeMainCertificateId,
+                    "ServiceAccountCode": formdata.ServiceAccCode,
+                    "STRateSurCharge": formdata.STRateSurcharge,
+                    "CSTNo": formdata.CSTNo,
+                    "LSTNo": formdata.LSTNo,
+                    "PANNo": formdata.Pan,
+                    "ExciseDate": formdata.ExciseDate,
+                    "MRPPercentage": formdata.MRPPercentage,
+                    "SalesPersonCode": "",
+                    "DistanceKm": formdata.Distance,
+                    "TypeOfSupplier": "",
+                    "PartyClassification": formdata.PartyClassification,
+                    "GroupingLocation": "INNHRFBD",
+                    "GroupCode5": formdata.GroupCode5,
+                    "GroupCode7": formdata.GroupCode7,
+                    "Tax": formdata.Tax,
+                    "GroupCode4": formdata.GroupCode4,
+                    "Transporters": "",
+                    "GroupCode8": formdata.GroupCode8,
+                    "BankAccountNo": formdata.AccountNo,
+                    "IFSCNo": formdata.IFSCCode,
+                    "PayeeName": formdata.BeneficiaryName,
+                    "BankName": formdata.BankName,
+                    "BankAddress": formdata.BankAddress,
+                    "ContantInformation": [
+                        {
+                            "ContactName": formdata.ContactPersonName,
+                            "ContactDepartment": formdata.ContactPersonDepartment,
+                            "ContactAddress": formdata.ContactPersonDesignation, 
+                            "ContactPhoneNo": formdata.ContactPersonPhone,
+                            "ContactMobiloNo": formdata.ContactPersonMobile,
+                            "ContactEmail": formdata.ContactPersonMail,
+                            "SNo": "1"
+                        }
+                    ],
+                    "DocumentRequired": [
+                     {
+                            "DocumentCode": formdata.DocCode,
+                            "DocumentDescription": formdata.DocDescription
+                    }
+                    ],
+                    "TransMode": "",
+                    "CreatedBy": "Manikandan",
+                    "CreatedIP": "",
+                    "UpdatedBy": ""
+                };
+                if(sessionStorage.getItem("isunitaddressexists") === true){
+                    form.TransMode = "EDIT";
+                    form.UpdatedBy = res.email;
+                }else{
+                    form.TransMode = "ADD";
+                }
+                var formdatastr = JSON.stringify(form);
+                this.hardcodedURL="";
+                var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/submitFormData`;
                 $.ajax({
                     type: "POST",
                     headers: {
-                        'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                         'Content-Type': 'application/json'
                     },
                     url: sPath,
-                    data: formdata,
+                    data: JSON.stringify({
+                        data: formdatastr
+                    }),
                     context: this,
                     success: function (data, textStatus, jqXHR) {
                         this.changeStatus();
@@ -516,15 +687,16 @@ sap.ui.define([
                         this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
                             success: (data) => {
                                 this.getView().getModel("FormData").setData(data);
-                                var accessdata = this.getView().getModel("AccessDetails").getData();
-                                this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
-                                this.compcodecheck = true;
+                                // var accessdata = this.getView().getModel("AccessDetails").getData();
+                                // this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
+                                // this.compcodecheck = true;
                                 BusyIndicator.hide();
-                                if (this.compcodecheck) {
-                                    this.getFormData();
-                                } else {
-                                    MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");
-                                }
+                                this.getFormData();
+                                // if (this.compcodecheck) {
+                                //     this.getFormData();
+                                // } else {
+                                //     MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");
+                                // }
                             },
                             error: () => {
                                 BusyIndicator.hide();
