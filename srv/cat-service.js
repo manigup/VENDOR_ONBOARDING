@@ -34,7 +34,7 @@ module.exports = cds.service.impl(async function () {
     this.after('READ', 'VenOnboard', async (req) => {
 
         const today = new Date();
-        const results=req.filter(item => today>= item.VenValidTo).map(item => item.ResetValidity = "X");
+        const results = req.filter(item => today >= item.VenValidTo).map(item => item.ResetValidity = "X");
     });
 
     this.before("CREATE", 'Attachments', async (req) => {
@@ -61,29 +61,29 @@ module.exports = cds.service.impl(async function () {
         const panNumber = req.data.panNumber;
         const apiReqConfig = { ...panOptions };
         apiReqConfig.data = {
-          task: 'fetch',
-          essentials: { number: panNumber }
+            task: 'fetch',
+            essentials: { number: panNumber }
         };
-    
+
         try {
-          const apiResponse = await axios.request(apiReqConfig);
-          return apiResponse.data;
+            const apiResponse = await axios.request(apiReqConfig);
+            return apiResponse.data;
         } catch (error) {
             const statusCode = error.response ? error.response.status : 'Unknown status code';
             const errorMessage = error.message ? error.message : 'Unknown error';
             return { isValid: false, statusCode: statusCode, errorMessage: errorMessage };
         }
     });
-    
+
     this.on('verifyGSTDetails', async (req) => {
         const gstin = req.data.gstin;
-    
+
         const apiReqConfig = { ...gstOptions };
         apiReqConfig.data = {
             task: 'gstinSearch',
             essentials: { gstin: gstin }
         };
-    
+
         try {
             const apiResponse = await axios.request(apiReqConfig);
             if (apiResponse.status === 200) {
@@ -100,7 +100,7 @@ module.exports = cds.service.impl(async function () {
 
     this.on('verifyBankAccount', async (req) => {
         const { beneficiaryAccount, beneficiaryIFSC } = req.data;
-    
+
         const apiReqConfig = { ...bankOptions };
         apiReqConfig.data = {
             task: 'bankTransfer',
@@ -109,7 +109,7 @@ module.exports = cds.service.impl(async function () {
                 beneficiaryIFSC: beneficiaryIFSC
             }
         };
-    
+
         try {
             const apiResponse = await axios.request(apiReqConfig);
             if (apiResponse.status === 200 && apiResponse.data.result.active === "yes") {
@@ -126,7 +126,7 @@ module.exports = cds.service.impl(async function () {
 
     //Email trigger
     this.on('sendEmail', async (req) => {
-        const { vendorName, subject, content, toAddress} =  req.data;
+        const { vendorName, subject, content, toAddress } = req.data;
         console.log(req.data)
 
         const payload = {
@@ -147,7 +147,7 @@ module.exports = cds.service.impl(async function () {
                     'Content-Type': 'application/json'
                 }
             });
-    
+
             if (response.status === 200) {
                 return `Email sent successfully.`;
             } else {
@@ -158,22 +158,22 @@ module.exports = cds.service.impl(async function () {
             console.error('Error:', error);
             throw new Error('Failed to send email');
         }
-      });
+    });
 
     //Country Data
     this.on('READ', 'Country', async () => {
-        return getCountries();      
+        return getCountries();
     });
 
     //State Data
     this.on('READ', 'States', async (req) => {
-        const country = req._queryOptions.country; 
+        const country = req._queryOptions.country;
         return getStates(country);
     });
 
     //City Data
     this.on('READ', 'City', async (req) => {
-        const {country, state} = req._queryOptions
+        const { country, state } = req._queryOptions
         return getCities(country, state);
     });
 
@@ -184,11 +184,15 @@ module.exports = cds.service.impl(async function () {
 
     //SupplierMaster
     this.on('submitFormData', async (req) => {
-        const formData = req.data;
+        const formDataString = req.data.data;
+        const formDatapar = JSON.parse(formDataString);
+        const formData = JSON.stringify(formDatapar,null,2)
+        console.log("Test");
+        console.log(formData);
         return await postFormData(formData);
     });
 
-    
+
 });
 
 const _fetchJwtToken = async function (oauthUrl, oauthClient, oauthSecret) {
@@ -307,7 +311,7 @@ async function getCountries() {
             },
             data: {}
         });
-        
+
         const countries = JSON.parse(response.data.d);
         countries.sort((a, b) => a.Country.localeCompare(b.Country));
 
@@ -332,7 +336,7 @@ async function getStates(country) {
             },
             data: {}
         });
-        
+
         const states = JSON.parse(response.data.d);
 
         return states.map(state => ({
@@ -355,9 +359,9 @@ async function getCities(country, state) {
             },
             data: {}
         });
-        
+
         const cities = JSON.parse(response.data.d);
-        
+
         return cities.map(city => ({
             name: city.City
         }));
