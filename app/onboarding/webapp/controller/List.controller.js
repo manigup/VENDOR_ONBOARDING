@@ -375,7 +375,7 @@ sap.ui.define([
                 } else if (venStatus === "SCA") {
                     stat = "ABF";
                     payload.AddressCode = formdata.AddressCode;
-                    this.msg = "Approved by Finance and BP " + payload.BusinessPartnerNo + " created successfully";
+                    this.msg = "Approved by Finance and BP " + payload.AddressCode + " created successfully";
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;
@@ -657,7 +657,10 @@ sap.ui.define([
                     form.TransMode = "ADD";
                 }
                 var formdatastr = JSON.stringify(form);
-                this.hardcodedURL="";
+                this.hardcodedURL = "";
+                if (window.location.href.includes("launchpad")) {
+                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorionboarding-0.0.1";
+                }
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/submitFormData`;
                 $.ajax({
                     type: "POST",
