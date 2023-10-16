@@ -323,9 +323,10 @@
                             text="Account Code"
                             required="true"
                         />
-                        <!-- <ComboBox
+                        <ComboBox
                             id="accountcodeId"
-                            items="{account>/}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
+                            items="{account>/items}"  
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selectedKey="{create>/AccountCode}"
                             change="onAccountCodeChange"
                         >
@@ -333,7 +334,7 @@
                                 key="{account>AcctCode}"
                                 text="{account>AcctCode}"
                             />
-                        </ComboBox> -->
+                        </ComboBox>
                         <Label
                             design="Bold"
                             text="Account Description"
@@ -793,19 +794,59 @@
                             id="grpcode4Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/GroupCode4',type:'sap.ui.model.type.String'}"
                         />
-                        <Label
-                            design="Bold"
-                            text="Transporters"
+
+
+                    <Label
+                        design="Bold"
+                        text="Transporters"
+                    />
+                    <ComboBox
+                        id="transportersId"
+                        items="{transporters>/items}"  
+                        enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
+                        selectedKey="{create>/Transporters}"
+                        change="onTransportersChange"
+                    >
+                        <core:Item
+                            key="{transporters>TransportersCode}"
+                            text="{transporters>TransportersName}"
                         />
+                    </ComboBox>
+                    <Label
+                        design="Bold"
+                        text="Group Code 8"
+                    />
+                    <Input
+                        id="grpcode8Id"
+                        enabled="false"
+                        value="{path:'create>/GroupCode8',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                    />
+
+                     <Label
+                            design="Bold"
+                            text="Location"
+                        />
+                        <ComboBox
+                            id="transportLocationId"
+                            items="{location>/items}"  
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
+                            selectedKey="{create>/GroupingLocation}"
+                            change="onLocationChange"
+                        >
+                            <core:Item
+                                key="{location>LocationCode}"
+                                text="{location>LocationName}"
+                            />
+                        </ComboBox>
                         <Label
                             design="Bold"
-                            text="Group Code 8"
+                            text="Group Code 5"
                         />
                         <Input
-                            id="grpcode8Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            value="{path:'create>/GroupCode8',type:'sap.ui.model.type.String'}"
+                            id="grpcode5Id"
+                            enabled="false"
+                            value="{path:'create>/GroupCode5',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
-                        
                         <Label
                             design="Bold"
                             text="Contact Person Name"
@@ -869,17 +910,18 @@
                             text="Doc Code"
                             required="true"
                         />
-                        <!-- <ComboBox
+                        <ComboBox
                             id="doccodeId"
-                            items="{doc>/}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
+                            items="{doc>/items}"  
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selectedKey="{create>/DocCode}"
                             change="doccodeHelpSelect"
                         >
                             <core:Item
-                                key="{doc>code}"
-                                text="{doc>name}"
+                                key="{doc>DocumentsCode}"
+                                text="{doc>DocumentsCode}"
                             />
-                        </ComboBox> -->
+                        </ComboBox>
                         <Label
                             design="Bold"
                             text="Doc Description"
