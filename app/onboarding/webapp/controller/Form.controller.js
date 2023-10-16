@@ -214,7 +214,56 @@ sap.ui.define([
                this.isunitaddressexists = addresscodedata.find(item => item.AddressCode === addcode) ? true : false;
                sessionStorage.setItem("isunitaddressexists", this.isunitaddressexists);
             },
-
+            onCalcTaxPress: function (oEvent) {
+                var data = this.createModel.getData();
+                var finalTax = "";
+                var tax = "";
+                var HdnTrnCode = "ADDP";
+                if(data.Location === "Within State" && this.isunitaddressexists === false){
+                    if(data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1"){
+                         tax = "0" + data.STRatePerc;
+                         finalTax = "LST" + tax;
+                    }else if(data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2"){
+                        tax = data.STRatePerc;
+                        finalTax = "LST" + tax;
+                    }else{
+                    tax = data.STRatePerc;
+                    finalTax = "LST" + tax;
+                    }
+                }else if(data.Location === "Outside State" && this.isunitaddressexists === false){
+                    if(data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1"){
+                        tax = "0" + data.STRatePerc;
+                        finalTax = "CST" + tax;
+                   }else if(data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2"){
+                       tax = data.STRatePerc;
+                       finalTax = "CST" + tax;
+                   }else{
+                   tax = data.STRatePerc;
+                   finalTax = "CST" + tax;
+                   }
+                }else if((data.Location === "Within State" || data.Location === "Outside State") && this.isunitaddressexists){
+                    if(data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1"){
+                        tax = "0" + data.STRatePerc;
+                        finalTax = "STB" + tax;
+                   }else{
+                   tax = data.STRatePerc;
+                   finalTax = "STB" + tax;
+                   }
+                }else if(data.Location === "Outside Country" && HdnTrnCode === "ADDP"){
+                    if(data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1"){
+                        tax = "0" + data.STRatePerc;
+                        finalTax = "IMP" + tax;
+                   }else if(data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2"){
+                       tax = data.STRatePerc;
+                       finalTax = "IMP" + tax;
+                   }else{
+                   tax = data.STRatePerc;
+                   finalTax = "IMP" + tax;
+                   }
+                }
+                data.Tax = finalTax;
+                this.createModel.refresh(true);
+             },
             onRadioButtonSelect: function (oEvent) {
                 var data = this.createModel.getData();
                 var id = oEvent.getParameter("id").substring(oEvent.getParameter("id").lastIndexOf('-') + 1);
