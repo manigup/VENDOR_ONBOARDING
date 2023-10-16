@@ -188,7 +188,31 @@ module.exports = cds.service.impl(async function () {
         return await postFormData(formData);
     });
 
-    
+    //GetSupplierCodeList
+    this.on('GetSupplierAccountCodeList', async (req) => {
+        const {unitCode} = req.data
+        return getSupplierAccountCodeList(unitCode)
+    })
+
+    //GetDocumentList
+    this.on('GetDocumentList', async (req) => {
+        const {unitCode} = req.data
+        return getDocumentList(unitCode);
+    })
+
+    //TransportersList
+    this.on('GetSupplierTransportersList', async (req) => {
+        const {unitCode} = req.data
+        return getSupplierTransportersList(unitCode);
+    })
+
+    //LocationList
+    this.on('GetSupplierLocationList', async (req) => {
+        const {unitCode} = req.data
+        return getSupplierLocationList(unitCode);
+    })
+
+        
 });
 
 const _fetchJwtToken = async function (oauthUrl, oauthClient, oauthSecret) {
@@ -414,3 +438,95 @@ async function postFormData(formData) {
         throw new Error("Failed to submit form data");
     }
 }
+
+async function getSupplierAccountCodeList(unitCode) {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `https://imperialauto.co:84/IAIAPI.asmx/GetSupplierAccountCodeList?RequestBy='Manikandan'&UnitCode='${unitCode}'`,
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: {}
+        });
+
+        const accountData = JSON.parse(response.data.d);
+        return accountData.map(item => ({
+            AcctCode: item.AcctCode,
+            AcctName: item.AcctName
+        }));
+
+    } catch (error) {
+        console.error("Error fetching account data:", error);
+        throw new Error("Failed to fetch account data");
+    }
+}
+
+async function getDocumentList(unitCode) {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `https://imperialauto.co:84/IAIAPI.asmx/GetDocumentList?RequestBy='Manikandan'&UnitCode='${unitCode}'`,
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: {}
+        });
+        const documentList = JSON.parse(response.data.d);
+        return documentList.map(document => ({
+            DocumentsCode: document.DocumentsCode,
+            DocumentsName: document.DocumentsName
+        }));
+    } catch (error) {
+        console.error("Error fetching document data:", error);
+        throw new Error("Failed to fetch document data");
+    }
+}
+
+async function getSupplierTransportersList(unitCode) {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `https://imperialauto.co:84/IAIAPI.asmx/GetSupplierTransportersList?RequestBy='Manikandan'&UnitCode='${unitCode}'`,
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: {}
+        });
+        const transportersList = JSON.parse(response.data.d);
+        return transportersList.map(transporter => ({
+            TransportersCode: transporter.TranportersCode,
+            TransportersName: transporter.TranportersName
+        }));
+    } catch (error) {
+        console.error("Error fetching transporters data:", error);
+        throw new Error("Failed to fetch transporters data");
+    }
+}
+
+async function getSupplierLocationList(unitCode) {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `https://imperialauto.co:84/IAIAPI.asmx/GetSupplierLocationList?RequestBy='Manikandan'&UnitCode='${unitCode}'`,
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: {}
+        });
+        const locationList = JSON.parse(response.data.d);
+        return locationList.map(location => ({
+            LocationCode: location.LocationCode,
+            LocationName: location.LocationName
+        }));
+    } catch (error) {
+        console.error("Error fetching location data:", error);
+        throw new Error("Failed to fetch location data");
+    }
+}
+
+

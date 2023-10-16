@@ -101,61 +101,174 @@ sap.ui.define([
                     });
                 }, 1000);
             },
+
             onEdit: function () {
                 this.getView().getModel("request").getData().edit = true;
                 this.getView().getModel("request").refresh(true);
-                //this.GetSupplierAccountCodeList();
+
+                //get unitCode from SessionStorage
+                var unitCode = sessionStorage.getItem("unitCode");
+                
+                this.GetSupplierAccountCodeList(unitCode)
+                    .then(function() {
+                        return this.GetDocumentList(unitCode);
+                    }.bind(this))
+                    .then(function() {
+                        return this.GetSupplierTransportersList(unitCode);
+                    }.bind(this))
+                    .then(function() {
+                        return this.GetSupplierLocationList(unitCode);
+                    }.bind(this))
+                    .catch(function(error) {
+                        MessageBox.error("Failed to fetch data: " + error.message);
+                    });
             },
-/*
-            GetSupplierAccountCodeList: function() {
-                $.ajax({
-                    url: "https://imperialauto.co/IAIAPI.asmx/GetSupplierAccountCodeList",
-                    type: "GET",
-                    data: {
-                        RequestBy: 'Manikandan',
-                        UnitCode: 'P01'
-                    },
-                    headers: {
-                        Authorization: 'Bearer IncMpsaotdlKHYyyfGiVDg=='
-                    },
-                    success: function(response) {
-                        var data = JSON.parse(response.d);
-                        var accountModel = new sap.ui.model.json.JSONModel();
-                        accountModel.setData(data);
-                        this.getView().setModel(accountModel, "account");
-                    }.bind(this),
-                    error: function(error) {
-                        console.log("Error:", error);
-                        // Handle error
+            
+           
+
+            GetSupplierAccountCodeList: function (unitCode) {
+                var oModel = this.getView().getModel();
+                return new Promise(function(resolve, reject) {
+                    oModel.callFunction("/GetSupplierAccountCodeList", {
+                        method: "GET",
+                        urlParameters: {
+                            unitCode: unitCode
+                        },
+                        success: function (oData, response) {
+                            var accountData = oData.results;
+                            var oAccountModel = new sap.ui.model.json.JSONModel();
+                            oAccountModel.setData({items: accountData});
+                            this.getView().setModel(oAccountModel, "account");
+                            resolve();
+                        }.bind(this),
+                        error: function (oError) {
+                            reject(new Error("Failed to fetch account data."));
+                        }
+                    });
+                }.bind(this));
+            },
+            
+            onAccountCodeChange: function (oEvent) {
+                var oComboBox = oEvent.getSource(); 
+                var oSelectedItem = oComboBox.getSelectedItem(); 
+                if (oSelectedItem) {
+                    var sSelectedKey = oSelectedItem.getKey(); 
+                    var oAccountModel = this.getView().getModel("account");
+                    var aItems = oAccountModel.getProperty("/items");
+                    var oSelectedItemData = aItems.find(function (item) {
+                        return item.AcctCode === sSelectedKey; 
+                    });
+                    if (oSelectedItemData) {
+                        var sAccountDesc = oSelectedItemData.AcctName;  
+                        var oCreateModel = this.getView().getModel("create");  
+                        oCreateModel.setProperty("/AccountDesc", sAccountDesc); 
                     }
-                });
+                }
             },
 
-            onAccountCodeChange: function(oEvent) {
-                var selectedKey = oEvent.getParameter("selectedItem").getKey();
-                var accountModel = this.getView().getModel("account");
-                var accountData = accountModel.getData();
-                var correspondingName = null;
-            
-                // Search for the corresponding name
-                for (var i = 0; i < accountData.length; i++) {
-                    if (accountData[i].AcctCode === selectedKey) {
-                        correspondingName = accountData[i].AcctName;
-                        break;
+            GetDocumentList: function (unitCode) {
+                var oModel = this.getView().getModel();
+                return new Promise(function(resolve, reject) {
+                    oModel.callFunction("/GetDocumentList", {
+                        method: "GET",
+                        urlParameters: {
+                            unitCode: unitCode
+                        },
+                        success: function (oData, response) {
+                            var docData = oData.results;
+                            var oDocModel = new sap.ui.model.json.JSONModel();
+                            oDocModel.setData({items: docData});
+                            this.getView().setModel(oDocModel, "doc");
+                            resolve();
+                        }.bind(this),
+                        error: function (oError) {
+                            reject(new Error("Failed to fetch document data."));
+                        }
+                    });
+                }.bind(this));
+            },
+
+            doccodeHelpSelect: function (oEvent) {
+                var oComboBox = oEvent.getSource();
+                var oSelectedItem = oComboBox.getSelectedItem();
+                if (oSelectedItem) {
+                    var sSelectedKey = oSelectedItem.getKey();
+                    var oDocModel = this.getView().getModel("doc");
+                    var aItems = oDocModel.getProperty("/items");
+                    var oSelectedItemData = aItems.find(function (item) {
+                        return item.DocumentsCode === sSelectedKey;
+                    });
+                    if (oSelectedItemData) {
+                        var sDocDescription = oSelectedItemData.DocumentsName;
+                        var oCreateModel = this.getView().getModel("create");
+                        oCreateModel.setProperty("/DocDescription", sDocDescription);
                     }
                 }
-            
-                if (correspondingName) {
-                    var createModel = this.getView().getModel("create");
-                    var createData = createModel.getData();
-                    createData.AccountDesc = correspondingName;
-                    createModel.setData(createData);
-                } else {
-                    
-                    MessageBox.error("No corresponding account description found.");
+            },
+
+            GetSupplierTransportersList: function (unitCode) {
+                var oModel = this.getView().getModel();
+                return new Promise(function(resolve, reject) {
+                    oModel.callFunction("/GetSupplierTransportersList", {
+                        method: "GET",
+                        urlParameters: {
+                            unitCode: unitCode
+                        },
+                        success: function (oData, response) {
+                            var transporterData = oData.results;
+                            var oTransporterModel = new sap.ui.model.json.JSONModel();
+                            oTransporterModel.setData({items: transporterData});
+                            this.getView().setModel(oTransporterModel, "transporters");
+                            resolve();
+                        }.bind(this),
+                        error: function (oError) {
+                            reject(new Error("Failed to fetch transporter data."));
+                        }
+                    });
+                }.bind(this));
+            },
+
+            onTransportersChange: function (oEvent) {
+                var oComboBox = oEvent.getSource();
+                var oSelectedItem = oComboBox.getSelectedItem();
+                if (oSelectedItem) {
+                    var sSelectedKey = oSelectedItem.getKey();
+                    var oCreateModel = this.getView().getModel("create");
+                    oCreateModel.setProperty("/GroupCode8", sSelectedKey);
                 }
             },
-            */
+
+            GetSupplierLocationList: function (unitCode) {
+                var oModel = this.getView().getModel();
+                return new Promise(function(resolve, reject) {
+                    oModel.callFunction("/GetSupplierLocationList", {
+                        method: "GET",
+                        urlParameters: {
+                            unitCode: unitCode
+                        },
+                        success: function (oData, response) {
+                            var locationData = oData.results;
+                            var oLocationModel = new sap.ui.model.json.JSONModel();
+                            oLocationModel.setData({items: locationData});
+                            this.getView().setModel(oLocationModel, "location");
+                            resolve();
+                        }.bind(this),
+                        error: function (oError) {
+                            reject(new Error("Failed to fetch location data."));
+                        }
+                    });
+                }.bind(this));
+            },
+
+            onLocationChange: function (oEvent) {
+                var oComboBox = oEvent.getSource();
+                var oSelectedItem = oComboBox.getSelectedItem();
+                if (oSelectedItem) {
+                    var sSelectedKey = oSelectedItem.getKey();
+                    var oCreateModel = this.getView().getModel("create");
+                    oCreateModel.setProperty("/GroupCode5", sSelectedKey);
+                }
+            },
             
             _setCheckBoxes: function (data) {
                 // if (data.ChkDoubleInv === "X") {
