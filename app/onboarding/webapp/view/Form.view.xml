@@ -449,7 +449,7 @@
                         />
                         <Input
                             id="excisedivId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            value="{path:'create>/ExciseDivision',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
+                            value="{path:'create>/ExciseDivision',type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
@@ -457,7 +457,7 @@
                         />
                         <Input
                             id="excisebankaccId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            value="{path:'create>/ExciseBankAcc',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
+                            value="{path:'create>/ExciseBankAcc',type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
@@ -761,7 +761,7 @@
                         />
                         <Input
                             id="grpcode5Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            value="{path:'create>/GroupCode5',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            value="{path:'create>/GroupCode5',type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
@@ -769,15 +769,21 @@
                         />
                         <Input
                             id="grpcode7Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            value="{path:'create>/GroupCode7',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            value="{path:'create>/GroupCode7',type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
                             text="Tax" 
+                            required="true"
                         />
                         <Input
                             id="taxId"  enabled="false"
                             value="{path:'create>/Tax',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Button
+                            id="taxcalbtnId"
+                            text="Calculate Tax"
+                            press="onCalcTaxPress"
                         />
                         <Label
                             design="Bold"
@@ -785,7 +791,7 @@
                         />
                         <Input
                             id="grpcode4Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            value="{path:'create>/GroupCode4',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            value="{path:'create>/GroupCode4',type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
@@ -797,7 +803,7 @@
                         />
                         <Input
                             id="grpcode8Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            value="{path:'create>/GroupCode8',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            value="{path:'create>/GroupCode8',type:'sap.ui.model.type.String'}"
                         />
                         
                         <Label
@@ -1248,7 +1254,7 @@
                         />
                         <Input
                             id="bankaddressId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            value="{path:'create>/BankAddress',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            value="{path:'create>/BankAddress',type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
