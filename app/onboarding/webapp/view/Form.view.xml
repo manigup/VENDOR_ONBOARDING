@@ -756,6 +756,18 @@
                             design="Bold"
                             text="Location"
                         />
+                        <ComboBox
+                            id="transportLocationId"
+                            items="{location>/items}"  
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
+                            selectedKey="{create>/GroupingLocation}"
+                            change="onLocationChange"
+                        >
+                            <core:Item
+                                key="{location>LocationCode}"
+                                text="{location>LocationName}"
+                            />
+                        </ComboBox>
                         <Label
                             design="Bold"
                             text="Group Code 5"
@@ -794,9 +806,7 @@
                             id="grpcode4Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             value="{path:'create>/GroupCode4',type:'sap.ui.model.type.String'}"
                         />
-
-
-                    <Label
+                        <Label
                         design="Bold"
                         text="Transporters"
                     />
@@ -821,32 +831,6 @@
                         enabled="false"
                         value="{path:'create>/GroupCode8',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                     />
-
-                     <Label
-                            design="Bold"
-                            text="Location"
-                        />
-                        <ComboBox
-                            id="transportLocationId"
-                            items="{location>/items}"  
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
-                            selectedKey="{create>/GroupingLocation}"
-                            change="onLocationChange"
-                        >
-                            <core:Item
-                                key="{location>LocationCode}"
-                                text="{location>LocationName}"
-                            />
-                        </ComboBox>
-                        <Label
-                            design="Bold"
-                            text="Group Code 5"
-                        />
-                        <Input
-                            id="grpcode5Id"
-                            enabled="false"
-                            value="{path:'create>/GroupCode5',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
                         <Label
                             design="Bold"
                             text="Contact Person Name"
