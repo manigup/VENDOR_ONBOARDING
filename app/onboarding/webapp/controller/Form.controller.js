@@ -210,8 +210,9 @@ sap.ui.define([
             },
             onAddressCodChange: function (oEvent) {
                var addcode = oEvent.getSource().getValue();
-            //    var addresscodedata = JSON.parse(sessionStorage.getItem("CodeDetails"));
-            //    this.isunitaddressexists = addresscodedata.find(item => item.AddressCode === addcode) ? true : false;
+               var addresscodedata = JSON.parse(sessionStorage.getItem("CodeDetails"));
+               this.isunitaddressexists = addresscodedata.find(item => item.AddressCode === addcode) ? true : false;
+               sessionStorage.setItem("isunitaddressexists", this.isunitaddressexists);
             },
 
             onRadioButtonSelect: function (oEvent) {
@@ -304,18 +305,18 @@ sap.ui.define([
 
                 var oView = this.getView(),
                     bValidationError = false;
-                var aInputs = [oView.byId("venNameId"),oView.byId("address1Id"), 
-                //oView.byId("accdescId"),
+                var aInputs = [oView.byId("addcodeId"),oView.byId("venNameId"),oView.byId("address1Id"), 
+                oView.byId("accdescId"),
                 oView.byId("mobileId"), oView.byId("purposeId"),
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
                 oView.byId("address2Id"),oView.byId("contactPersonId"), oView.byId("contactPersonMobileId"),
                 oView.byId("pincodeId"),  oView.byId("panId"),
-                // oView.byId("stRateId"), oView.byId("excisedutyId"), 
-                // oView.byId("mrpId"), oView.byId("distId"),oView.byId("partyclassId"),
-                // oView.byId("contactPersonnameId"), oView.byId("deptId"),oView.byId("desigId"),
-                // oView.byId("contphoneId"), oView.byId("contmobileId"),oView.byId("contemailId"),
-                // oView.byId("docdescId")
+                 oView.byId("stRateId"), oView.byId("excisedutyId"), 
+                 oView.byId("mrpId"), oView.byId("distId"),
+                 oView.byId("contactPersonnameId"), oView.byId("deptId"),oView.byId("desigId"),
+                 oView.byId("contphoneId"), oView.byId("contmobileId"),oView.byId("contemailId"),
+                 oView.byId("docdescId")
             ];
 
                 // Inside _mandatCheck function
@@ -357,8 +358,8 @@ sap.ui.define([
                 var aSelects = [ oView.byId("countryId"),
                 oView.byId("stateId"),oView.byId("cityId"),
                 oView.byId("accountcodeId"),oView.byId("doccodeId"),
-                oView.byId("deliverymodeId"),oView.byId("customercatId"),oView.byId("benAccTypeId"),
-                oView.byId("typeofsupplierId") ];
+                oView.byId("benAccTypeId"),
+                oView.byId("suppliertypeId") ];
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -379,9 +380,9 @@ sap.ui.define([
                     bValidationError = this._validateInput(oInput) || bValidationError;
                 }, this);
 
-                // aSelects.forEach(function (oInput) {
-                //     bValidationError = this._validateSelect(oInput, bValidationError) || bValidationError;
-                // }, this);
+                aSelects.forEach(function (oInput) {
+                    bValidationError = this._validateSelect(oInput, bValidationError) || bValidationError;
+                }, this);
 
                 bValidationError = this._validateAttachments(bValidationError);
 
@@ -482,22 +483,24 @@ sap.ui.define([
 
             handleStatePress: function () {
                 var oStateSelect = this.getView().byId("stateId");
+                var data = this.createModel.getData();
                 if (oStateSelect.getSelectedKey()) {
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
                     var sStateKey = oStateSelect.getSelectedKey();
                     if(sCountryKey === "India"){
                         if(sStateKey === "Haryana"){
-                            this.getView().byId("locationId").setValue("Within State");
+                            data.Location = "Within State";
                         }else{
-                            this.getView().byId("locationId").setValue("Outside State");
+                            data.Location = "Outside State";
                         }
                     }else{
-                        this.getView().byId("locationId").setValue("Outside Country");
+                        data.Location = "Outside Country";
                     }
                     this.loadCities(sCountryKey, sStateKey);
                 } else {
                     MessageToast.show("Please select a state first.");
                 }
+                this.createModel.refresh(true);
             },
 
             loadCities: function (sCountryKey, sStateKey) {
