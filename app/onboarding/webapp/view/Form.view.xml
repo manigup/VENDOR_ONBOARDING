@@ -761,7 +761,6 @@
                             items="{location>/items}"  
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                             selectedKey="{create>/GroupingLocation}"
-                            change="onLocationChange"
                         >
                             <core:Item
                                 key="{location>LocationCode}"
@@ -815,7 +814,6 @@
                         items="{transporters>/items}"  
                         enabled="{= ${request>/edit} === true &amp;&amp; ${request>/supplychain} === true}"
                         selectedKey="{create>/Transporters}"
-                        change="onTransportersChange"
                     >
                         <core:Item
                             key="{transporters>TransportersCode}"
