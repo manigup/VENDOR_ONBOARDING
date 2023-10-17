@@ -40,11 +40,11 @@ sap.ui.define([
                 }, datePckerFrom);
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
-                //this.loadCountries();
                 this.initializeCountries();
-
+                
             },
             handleRouteMatched: function (oEvent) {
+                this.initializeAPIS();
                 if (oEvent.getParameter("name") !== "Form") {
                     return;
                 }
@@ -105,8 +105,9 @@ sap.ui.define([
             onEdit: function () {
                 this.getView().getModel("request").getData().edit = true;
                 this.getView().getModel("request").refresh(true);
+            },
 
-                //get unitCode from SessionStorage
+            initializeAPIS: function(){
                 var unitCode = sessionStorage.getItem("unitCode");
                 
                 this.GetSupplierAccountCodeList(unitCode)
@@ -123,8 +124,6 @@ sap.ui.define([
                         MessageBox.error("Failed to fetch data: " + error.message);
                     });
             },
-            
-           
 
             GetSupplierAccountCodeList: function (unitCode) {
                 var oModel = this.getView().getModel();
@@ -227,7 +226,7 @@ sap.ui.define([
                     });
                 }.bind(this));
             },
-
+/*
             onTransportersChange: function (oEvent) {
                 var oComboBox = oEvent.getSource();
                 var oSelectedItem = oComboBox.getSelectedItem();
@@ -237,7 +236,7 @@ sap.ui.define([
                     oCreateModel.setProperty("/GroupCode8", sSelectedKey);
                 }
             },
-
+*/
             GetSupplierLocationList: function (unitCode) {
                 var oModel = this.getView().getModel();
                 return new Promise(function(resolve, reject) {
@@ -259,7 +258,7 @@ sap.ui.define([
                     });
                 }.bind(this));
             },
-
+/*
             onLocationChange: function (oEvent) {
                 var oComboBox = oEvent.getSource();
                 var oSelectedItem = oComboBox.getSelectedItem();
@@ -269,7 +268,7 @@ sap.ui.define([
                     oCreateModel.setProperty("/GroupCode5", sSelectedKey);
                 }
             },
-            
+ */           
             _setCheckBoxes: function (data) {
                 // if (data.ChkDoubleInv === "X") {
                 //     this.getView().byId("chkInvId").setSelected(true);
