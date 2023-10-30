@@ -5,6 +5,7 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.ui.layout.form"
     xmlns:u="sap.ui.unified"
+    xmlns:l="sap.ui.layout"
     class="sapUiSizeCompact"
 >
     <Page id="_IDGenPage1">
@@ -120,6 +121,75 @@
                                 text="Service"
                             />
                         </RadioButtonGroup>
+                        <Label
+                            id="natureOfIndustryLabel"
+                            design="Bold"
+                            text="Nature of Industry"
+                            required="true"
+                        />
+                        <RadioButtonGroup
+                            id="natureOfIndustryRbId"
+                            columns="3"
+                            enabled="true"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton
+                                id="_IDGenRadioButtonNatureSmall"
+                                text="Small"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButtonNatureMedium"
+                                text="Medium"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButtonNatureHeavy"
+                                text="Heavy"
+                            />
+                        </RadioButtonGroup>
+
+                        <Label id="certificationLabel" design="Bold" text="Does your company have any of these certifications" />
+                        <CheckBox id="ISO9001Certification" text="ISO9001" select="onCertificationChange"/>
+                        <CheckBox id="IATF16949Certification" text="IATF 16949" select="onCertificationChange"/>
+                        <CheckBox id="ISO14001Certification" text="ISO 14001" select="onCertificationChange"/>
+                        <Label text=""/>
+                        <CheckBox id="ISO45001Certification" text="ISO 45001" select="onCertificationChange"/>
+                        <CheckBox id="VDA63Certification" text="VDA 6.3" select="onCertificationChange"/>
+
+                        <Label id="workingTowardsCertQuestion" design="Bold" text="If not, are you working towards it?" />
+                        <RadioButtonGroup 
+                            id="workingTowardsCert" 
+                            columns="2"
+                            select="onRadioButtonSelect"
+                            >
+                            <buttons>
+                                <RadioButton text="Yes" key="Yes"/>
+                                <RadioButton text="No" key="No"/>
+                            </buttons>
+                        </RadioButtonGroup>
+
+                        <Label id="probableCertDateLabel" 
+                        design="Bold" 
+                        text="Probable date of ready for Certification"
+                        visible="{= ${create>/WorkingTowardsCertifications} === 'Yes' }"/>
+                        <DatePicker id="probableCertificationDate" 
+                            width="100%" 
+                            visible="{= ${create>/WorkingTowardsCertifications} === 'Yes' }"
+                            valueFormat="ddMMyyyy"
+                            value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
+                           />
+
+                        <Label design="Bold" text="Is Central Excise Duty Applicable?" />
+                        <RadioButtonGroup
+                            id="centralExciseDutyApplicableRbId"
+                            columns="2"
+                            select="onRadioButtonSelect"
+                        >
+                            <buttons>
+                                <RadioButton text="Yes" />
+                                <RadioButton text="No" />
+                            </buttons>
+                        </RadioButtonGroup>
+                        
                         <Label
                             id="_IDGenLabel4"
                             design="Bold"
@@ -361,6 +431,182 @@
                             id="_IDGenInput8"
                             value="{create>/Website}"
                         />
+                           <Label
+                            design="Bold"
+                            text="CST Date"
+                        />
+                        <DatePicker
+                            id="cstdate"
+                            value="{path:'create>/CSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="ddMMyyyy" enabled="true"
+                        />
+                         <Label
+                            design="Bold"
+                            text="CST No."
+                        />
+                        <Input
+                            id="cstnoId" 
+                            enabled="true"
+                            value="{path:'create>/CSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
+                        />
+                        <Label
+                            id="workingHoursLabel"
+                            design="Bold"
+                            text="Working Hours"
+                        />
+                        <Input
+                            id="workingHoursId"
+                            value="{path:'create>/WorkingHours',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            id="weeklyHolidaysLabel"
+                            design="Bold"
+                            text="Weekly Holidays"
+                        />
+                        <Input
+                            id="weeklyHolidaysId"
+                            value="{path:'create>/WeeklyHolidays',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <!-- Name of the Executive to be contacted -->
+                            <Label
+                            id="executiveNameLabel"
+                            design="Bold"
+                            text="Name of the Executive to be contacted"
+                            />
+                            <Input
+                            id="executiveNameId"
+                            value="{path:'create>/ExecutiveName', type:'sap.ui.model.type.String'}"
+                            />
+                        <!-- Telephone (During Working Hours) -->
+                            <Label
+                            id="contactDuringWorkLabel"
+                            design="Bold"
+                            text="Telephone (During Working Hours)"
+                            />
+                            <Input
+                            id="contactDuringWorkId"
+                            value="{path:'create>/ExecutiveContactDuringWork', type:'sap.ui.model.type.String', constraints:{maxLength:15}}"
+                            />
+                            <!-- Telephone (After Working Hours) -->
+                            <Label
+                            id="contactAfterWorkLabel"
+                            design="Bold"
+                            text="Telephone (After Working Hours)"
+                            />
+                            <Input
+                            id="contactAfterWorkId"
+                            value="{path:'create>/ExecutiveContactAfterWork', type:'sap.ui.model.type.String', constraints:{maxLength:15}}"
+                            />
+                            <!-- Year Of Establishment -->
+                            <Label
+                                design="Bold"
+                                text="Year Of Establishment"
+                            />
+                            <Input
+                                value="{path: 'create>/YearOfEstablishment', type:'sap.ui.model.type.String'}"
+                            />
+                            <!-- Covered Area Of Factory -->
+                            <Label
+                                design="Bold"
+                                text="Covered Area Of Factory"
+                            />
+                            <Input
+                                value="{path: 'create>/CoveredAreaOfFactory', type:'sap.ui.model.type.String'}"
+                            />
+                            <!-- Total Capital Investment -->
+                            <Label
+                                design="Bold"
+                                text="Total Capital Investment"
+                            />
+                            <Input
+                                value="{path: 'create>/TotalCapitalInvestment', type:'sap.ui.model.type.String'}"
+                            />
+                            <!-- Working Capital -->
+                            <Label
+                                design="Bold"
+                                text="Working Capital"
+                            />
+                            <Input
+                                value="{path: 'create>/WorkingCapital', type:'sap.ui.model.type.String'}"
+                            />
+                            <!-- Last Three Years Turn Over -->
+                            <Label
+                                design="Bold"
+                                text="Last Three Year Turn Over (Year 1)"
+                            />
+                            <Input
+                                value="{path: 'create>/TurnOverYear1', type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Last Three Year Turn Over (Year 2)"
+                            />
+                            <Input
+                                value="{path: 'create>/TurnOverYear2', type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Last Three Year Turn Over (Year 3)"
+                            />
+                            <Input
+                                value="{path: 'create>/TurnOverYear3', type:'sap.ui.model.type.String'}"
+                            />
+
+                            <!-- SSINo -->
+                            <Label
+                                design="Bold"
+                                text="SSI No."
+                            />
+                            <Input
+                                id="ssinoId"
+                                enabled="true"
+                                value="{path:'create>/SSINo', type: 'sap.ui.model.type.String', constraints: { minLength: 1 }}"
+                            />
+
+                            <!-- SSIDate -->
+                            <Label
+                                design="Bold"
+                                text="SSI Date"
+                            />
+                            <DatePicker
+                                id="ssidate"
+                                value="{path:'create>/SSIDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
+                                valueFormat="ddMMyyyy"
+                                enabled="true"
+                            />
+
+                            <Label
+                                design="Bold"
+                                text="Associate Company Name"
+                            />
+                            <Input
+                                value="{path: 'create>/AssociateCompanyName', type:'sap.ui.model.type.String'}"
+                            />
+
+                            <Label
+                                design="Bold"
+                                text="Associate Company Address"
+                            />
+                            <Input
+                                value="{path: 'create>/AssociateCompanyAddr', type:'sap.ui.model.type.String'}"
+                            />
+
+                            <Label
+                                design="Bold"
+                                text="Banker Name"
+                            />
+                            <Input
+                                value="{path: 'create>/BankerName', type:'sap.ui.model.type.String'}"
+                            />
+
+                            <Label
+                                design="Bold"
+                                text="Banker Address"
+                            />
+                            <Input
+                                value="{path: 'create>/BankerAddress', type:'sap.ui.model.type.String'}"
+                            />
+
                         <Label
                             id="_IDGenLabel24"
                             design="Bold"

@@ -80,6 +80,21 @@ sap.ui.define([
                             else {
                                 requestData.edit = ""
                             }
+                            if (data.ISO9001Certification === "X") {
+                                this.byId("ISO9001Certification").setSelected(true);
+                            }
+                            if (data.IATF16949Certification === "X") {
+                                this.byId("IATF16949Certification").setSelected(true);
+                            }
+                            if (data.ISO14001Certification === "X") {
+                                this.byId("ISO14001Certification").setSelected(true);
+                            }
+                            if (data.ISO45001Certification === "X") {
+                                this.byId("ISO45001Certification").setSelected(true);
+                            }
+                            if (data.VDA63Certification === "X") {
+                                this.byId("VDA63Certification").setSelected(true);
+                            }                        
                             this.getView().getModel("request").refresh(true);
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
@@ -108,7 +123,8 @@ sap.ui.define([
             },
 
             initializeAPIS: function(){
-                var unitCode = sessionStorage.getItem("unitCode");
+                var unitCode = 'P01'
+                //var unitCode = sessionStorage.getItem("unitCode");
                 
                 this.GetSupplierAccountCodeList(unitCode)
                     .then(function() {
@@ -226,17 +242,7 @@ sap.ui.define([
                     });
                 }.bind(this));
             },
-/*
-            onTransportersChange: function (oEvent) {
-                var oComboBox = oEvent.getSource();
-                var oSelectedItem = oComboBox.getSelectedItem();
-                if (oSelectedItem) {
-                    var sSelectedKey = oSelectedItem.getKey();
-                    var oCreateModel = this.getView().getModel("create");
-                    oCreateModel.setProperty("/GroupCode8", sSelectedKey);
-                }
-            },
-*/
+
             GetSupplierLocationList: function (unitCode) {
                 var oModel = this.getView().getModel();
                 return new Promise(function(resolve, reject) {
@@ -258,17 +264,7 @@ sap.ui.define([
                     });
                 }.bind(this));
             },
-/*
-            onLocationChange: function (oEvent) {
-                var oComboBox = oEvent.getSource();
-                var oSelectedItem = oComboBox.getSelectedItem();
-                if (oSelectedItem) {
-                    var sSelectedKey = oSelectedItem.getKey();
-                    var oCreateModel = this.getView().getModel("create");
-                    oCreateModel.setProperty("/GroupCode5", sSelectedKey);
-                }
-            },
- */           
+        
             _setCheckBoxes: function (data) {
                 // if (data.ChkDoubleInv === "X") {
                 //     this.getView().byId("chkInvId").setSelected(true);
@@ -308,6 +304,23 @@ sap.ui.define([
                 }
                 if (data.GstApplicable === "NO") {
                     this.byId("gstRbId").setSelectedIndex(1);
+                }
+                if (data.NatureOfIndustry === "SMALL") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(0);
+                } else if (data.NatureOfIndustry === "MEDIUM") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(1);
+                } else if (data.NatureOfIndustry === "HEAVY") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(2);
+                }
+                if (data.WorkingTowardsCertifications === "Yes") {
+                    this.byId("workingTowardsCert").setSelectedIndex(0);
+                } else if (data.WorkingTowardsCertifications === "No") {
+                    this.byId("workingTowardsCert").setSelectedIndex(1);
+                }
+                if (data.CentralExciseDutyApplicable === "YES") {
+                    this.byId("centralExciseDutyApplicableRbId").setSelectedIndex(0);
+                } else if (data.CentralExciseDutyApplicable === "NO") {
+                    this.byId("centralExciseDutyApplicableRbId").setSelectedIndex(1);
                 }
             },
 
@@ -412,6 +425,29 @@ sap.ui.define([
                             data.MsmeItilView = "Non MSME";
                         }
                         break;
+                    case "natureOfIndustryRbId":
+                            if (index === 0) {
+                                 data.NatureOfIndustry = "SMALL";
+                            } else if (index === 1) {
+                                data.NatureOfIndustry = "MEDIUM";
+                            } else {
+                                data.NatureOfIndustry = "HEAVY";
+                            }
+                            break;
+                    case "workingTowardsCert": // Make sure this matches the RadioButtonGroup id in your View.xml
+                            if (index === 0) {
+                                data.WorkingTowardsCertifications = "Yes";
+                            } else {
+                                data.WorkingTowardsCertifications = "No";
+                            }
+                            break;
+                    case "centralExciseDutyApplicableRbId":
+                            if (index === 0) {
+                                 this.createModel.setProperty("/CentralExciseDutyApplicable", "YES");
+                            } else {
+                                this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
+                            }
+                            break;
                 }
                 this.createModel.refresh(true);
             },
@@ -693,6 +729,20 @@ sap.ui.define([
                     }
                 });
             },
+
+            onCertificationChange: function (evt) {
+                var selected = evt.getParameter("selected");
+                var id = evt.getSource().getId();
+                var idSplit = id.split("--");
+                var fieldName = idSplit[idSplit.length - 1];
+            
+                if (selected) {
+                    this.createModel.setProperty("/" + fieldName, "X");
+                } else {
+                    this.createModel.setProperty("/" + fieldName, "");
+                }
+                this.createModel.refresh(true);
+            },    
 
             compCodeSelect: function (oEvent) {
                 var key = this.getView().byId("compCodeId").getSelectedKey();
