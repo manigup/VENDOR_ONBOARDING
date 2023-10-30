@@ -62,16 +62,22 @@ sap.ui.define([
                                 parseInt(item.Score);
                                 return item;
                             });
-                            var reqData = { supplychain: false, finance: false };
+                            var reqData = { purchase: false, quality: false, coo: false, finance: false };
                             var accessdata = this.getView().getModel("AccessDetails").getData();
                             var res = this.getView().getModel("UserApiDetails").getData();
                             //var res = {};
                             //res.email = "rajeshsehgal@impauto.com";
-                            reqData.supplychain = accessdata.find(item => item.email === res.email && item.Access === "SCM") ? true : false;
+                            reqData.purchase = accessdata.find(item => item.email === res.email && item.Access === "Purchase") ? true : false;
+                            reqData.quality = accessdata.find(item => item.email === res.email && item.Access === "Quality") ? true : false;
+                            reqData.coo = accessdata.find(item => item.email === res.email && item.Access === "COO") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
                            // reqData.finance = true;
-                            if (reqData.supplychain) {
-                                reqData.appbtn = "supply";
+                            if (reqData.purchase) {
+                                reqData.appbtn = "purchase";
+                            } else if (reqData.quality) {
+                                reqData.appbtn = "quality";
+                            } else if (reqData.coo) {
+                                reqData.appbtn = "coo";
                             } else if (reqData.finance) {
                                 reqData.appbtn = "finance";
                             }
@@ -211,9 +217,13 @@ sap.ui.define([
                 var requestData = this.getView().getModel("request").getData();
                 this.vendor = data.Vendor;
                 this.vendorId = data.VendorId;
-                if (requestData.supplychain === true) {
-                    data.Access = "SCM";
-                } else if (requestData.finance === true) {
+                if (requestData.purchase === true) {
+                    data.Access = "Purchase";
+                } else if (requestData.quality === true) {
+                    data.Access = "Quality";
+                }else if (requestData.coo === true) {
+                    data.Access = "COO";
+                }else if (requestData.finance === true) {
                     data.Access = "Finance";
                 }
                 var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
@@ -711,15 +721,16 @@ sap.ui.define([
                         this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
                             success: (data) => {
                                 this.getView().getModel("FormData").setData(data);
-                                var accessdata = this.getView().getModel("AccessDetails").getData();
-                                this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
-                                this.compcodecheck = true;
-                                BusyIndicator.hide();
-                                if (this.compcodecheck) {
-                                    this.changeStatus();
-                                } else {
-                                    MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");
-                                }
+                                this.changeStatus();
+                                // var accessdata = this.getView().getModel("AccessDetails").getData();
+                                // this.compcodecheck = accessdata.find(item => item.CompCode === data.Bukrs) ? true : false;
+                                // this.compcodecheck = true;
+                                // BusyIndicator.hide();
+                                // if (this.compcodecheck) {
+                                //     this.changeStatus();
+                                // } else {
+                                //     MessageBox.error("User does not belong to company code " + data.Bukrs + " and hence cannot approve");
+                                // }
                             },
                             error: () => {
                                 BusyIndicator.hide();
