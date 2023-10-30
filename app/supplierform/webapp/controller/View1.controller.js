@@ -119,6 +119,21 @@ sap.ui.define([
                         if (data.MsmeMainCertificate === "X") {
                             this.byId("msmeCert").setSelected(true);
                         }
+                        if (data.ISO9001Certification === "X") {
+                            this.byId("ISO9001Certification").setSelected(true);
+                        }
+                        if (data.IATF16949Certification === "X") {
+                            this.byId("IATF16949Certification").setSelected(true);
+                        }
+                        if (data.ISO14001Certification === "X") {
+                            this.byId("ISO14001Certification").setSelected(true);
+                        }
+                        if (data.ISO45001Certification === "X") {
+                            this.byId("ISO45001Certification").setSelected(true);
+                        }
+                        if (data.VDA63Certification === "X") {
+                            this.byId("VDA63Certification").setSelected(true);
+                        }                        
 
                         data.BeneficiaryName = requestData.VendorName;
                         this.createModel.setData(data);
@@ -199,6 +214,23 @@ sap.ui.define([
                 if (data.GstApplicable === "NO") {
                     this.byId("gstRbId").setSelectedIndex(1);
                 }
+                if (data.NatureOfIndustry === "SMALL") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(0);
+                } else if (data.NatureOfIndustry === "MEDIUM") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(1);
+                } else if (data.NatureOfIndustry === "HEAVY") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(2);
+                }
+                if (data.WorkingTowardsCertifications === "Yes") {
+                    this.byId("workingTowardsCert").setSelectedIndex(0);
+                } else if (data.WorkingTowardsCertifications === "No") {
+                    this.byId("workingTowardsCert").setSelectedIndex(1);
+                }
+                if (data.CentralExciseDutyApplicable === "YES") {
+                    this.byId("centralExciseDutyApplicableRbId").setSelectedIndex(0);
+                } else if (data.CentralExciseDutyApplicable === "NO") {
+                    this.byId("centralExciseDutyApplicableRbId").setSelectedIndex(1);
+                }
             },
 
             onVenNameChange: function (oEvent) { //When vendor name is selected auto populate Beneficiary Name
@@ -243,6 +275,30 @@ sap.ui.define([
                             data.MsmeItilView = "Non MSME";
                         }
                         break;
+                    case "natureOfIndustryRbId":
+                        if (index === 0) {
+                             data.NatureOfIndustry = "SMALL";
+                        } else if (index === 1) {
+                            data.NatureOfIndustry = "MEDIUM";
+                        } else {
+                            data.NatureOfIndustry = "HEAVY";
+                        }
+                        break;
+                    case "workingTowardsCert": // Make sure this matches the RadioButtonGroup id in your View.xml
+                        if (index === 0) {
+                            data.WorkingTowardsCertifications = "Yes";
+                        } else {
+                            data.WorkingTowardsCertifications = "No";
+                        }
+                        break;
+                    case "centralExciseDutyApplicableRbId":
+                        if (index === 0) {
+                             this.createModel.setProperty("/CentralExciseDutyApplicable", "YES");
+                        } else {
+                            this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
+                        }
+                        break;
+                    
                     case "registrationtypeRbId":
                         if (index === 0) {
                             data.RegistrationType = "Customer Approved / Non BOM";
@@ -847,6 +903,20 @@ sap.ui.define([
                 }
                 this.createModel.refresh(true);
             },
+
+            onCertificationChange: function (evt) {
+                var selected = evt.getParameter("selected");
+                var id = evt.getSource().getId();
+                var idSplit = id.split("--");
+                var fieldName = idSplit[idSplit.length - 1];
+            
+                if (selected) {
+                    this.createModel.setProperty("/" + fieldName, "X");
+                } else {
+                    this.createModel.setProperty("/" + fieldName, "");
+                }
+                this.createModel.refresh(true);
+            },            
 
             getOTP: function () {
                 var otpgen = Math.floor(100000 + Math.random() * 900000).toString();
