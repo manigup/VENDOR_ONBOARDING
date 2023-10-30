@@ -16,8 +16,8 @@ entity City {
 }
 
 entity UnitCode {
-  key code : String;
-  addressCode : String;
+  key code        : String;
+      addressCode : String;
 };
 
 
@@ -34,7 +34,8 @@ entity VenOnboardHeader : managed {
   key VendorId           : UUID;
       VendorName         : String;
       VendorType         : String(5);
-      Department         : String;
+      Companycode        : String;
+      RegistrationType   : String;
       Telephone          : String(10);
       City               : String;
       VendorMail         : String;
@@ -69,6 +70,7 @@ entity VendorForm : managed {
       VendorName               : String;
       VendorType               : String(5);
       Type                     : String;
+      RegistrationType         : String;
       VendorName2              : String;
       VendorName3              : String;
       Purpose                  : String;
@@ -230,4 +232,24 @@ entity VendorForm : managed {
       AssociateCompanyAddr   : String;
       BankerName        : String;
       BankerAddress    : String;
+      MachineDetails           : String;
+      MachineName              : String;
+      EquipmentDetails         : String;
+      EquipmentName            : String;
+      CaptivePower             : String;
+      CaptivePowerFileName     : String;
+      CaptivePowerDetails      : String;
+      InstalledCapacity        : String;
+      SpareCapacity            : String;
+      ProductCustomerName      : String;
+      Total                    : String;
+      Permanent                : String;
+      DailyWages               : String;
+      QualityControl           : String;
+      ProductsManufactured     : String;
+      OverallRating            : String;
+      AdditionalInformation    : String;
+      Date                     : String;
+      Name                     : String;
+      VendorDesignation        : String;
 }

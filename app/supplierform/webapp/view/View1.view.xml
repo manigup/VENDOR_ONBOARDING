@@ -190,6 +190,19 @@
                             </buttons>
                         </RadioButtonGroup>
                         
+                            design="Bold"
+                            text="Registration Type"
+                        />
+                        <RadioButtonGroup
+                            id="registrationtypeRbId"
+                            columns="2"
+                            enabled="false"
+                            selectedIndex="{= ${create>/RegistrationType} === 'Customer Approved / Non BOM' ? 0 : 1}"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton id="_IDGenRadioButton10" text="Customer Approved / Non BOM" />
+                            <RadioButton id="_IDGenRadioButton11" text="BOM parts" />
+                        </RadioButtonGroup>
                         <Label
                             id="_IDGenLabel4"
                             design="Bold"
@@ -1064,6 +1077,263 @@
                     </f:content>
                 </f:SimpleForm>
             </Panel>
+            <Panel headerText="Manufacturing and Quality Control Facilities" expandable="true" >
+<f:SimpleForm editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
+<f:content>
+                        <Label
+                            design="Bold"
+                            text="Machinery details with year & make"
+                        />
+                        <Input
+                            id="machineId"
+                            value="{path:'create>/MachineDetails',type: 'sap.ui.model.type.String'}"  
+                        />
+                        <Label
+                            design="Bold"
+                            text="Upload Machine Details"
+                        />
+                         <u:FileUploader
+                            id="machinefileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            maximumFileSize="5MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="MachineName" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="machinefileUploadLink"
+                            text="{create>/MachineName}"
+                            visible="{= ${create>/MachineName} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="MachineName" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="Equipment details with year & make"
+                        />
+                        <Input
+                            id="equipmentId"
+                            value="{path:'create>/EquipmentDetails',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Upload Equipment Details"
+                        />
+                        <u:FileUploader
+                            id="equipmentfileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            maximumFileSize="5MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="EquipmentName" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="equipmentfileUploadLink"
+                            text="{create>/EquipmentName}"
+                            visible="{= ${create>/EquipmentName} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="EquipmentName" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="Captive Power Generation"
+                        />
+                        <RadioButtonGroup
+                            id="captiveRbId"
+                            columns="2"
+                            selectedIndex="{= ${create>/CaptivePower} === 'YES' ? 0 : 1}"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton text="Yes" />
+                            <RadioButton text="No" />
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
+                            text="Upload Captive Power Generation"
+                        />
+                        <u:FileUploader
+                            id="captivefileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            maximumFileSize="5MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="CaptivePowerFileName" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="captivefileUploadLink"
+                            text="{create>/CaptivePowerFileName}"
+                            visible="{= ${create>/CaptivePowerFileName} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="CaptivePowerFileName" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="Captive Power Generation Details"
+                        />
+                        <Input
+                            id="captiveId"
+                            value="{path:'create>/CaptivePowerDetails',type: 'sap.ui.model.type.String'}"
+                            visible="{= ${create>/CaptivePower} === 'YES'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Installed Capacity"
+                        />
+                        <Input
+                            id="capacityId"
+                            value="{path:'create>/InstalledCapacity',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Spare capacity available"
+                        />
+                        <Input
+                            id="spareCapacityId"
+                            value="{path:'create>/SpareCapacity',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Product & Customers"
+                        />
+                        <u:FileUploader
+                            id="prodCustfileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            maximumFileSize="5MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="ProductCustomerName" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="prodCustfileUploadLink"
+                            text="{create>/ProductCustomerName}"
+                            visible="{= ${create>/ProductCustomerName} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="ProductCustomerName" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="Total No. of Employees"
+                        />
+                        <Input
+                            id="totalId"
+                            value="{path:'create>/Total',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Permanent Employees"
+                        />
+                        <Input
+                            id="permanentId"
+                            value="{path:'create>/Permanent',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Daily Wages Employees"
+                        />
+                        <Input
+                            id="dailyWagesId"
+                            value="{path:'create>/DailyWages',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Quality Control Employees"
+                        />
+                        <Input
+                            id="qualityControlId"
+                            value="{path:'create>/QualityControl',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Products Manufactured"
+                        />
+                        <Input
+                            id="productsManufacturedId"
+                            value="{path:'create>/ProductsManufactured',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Overall Rating"
+                        />
+                        <Input
+                            id="overallRatingId"
+                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Additional Information, if any"
+                        />
+                        <Input
+                            id="addinfoId"
+                            value="{path:'create>/AdditionalInformation',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Date"
+                        />
+                        <DatePicker
+                            id="dateId"
+                            value="{path:'create>/Date',type:'sap.ui.model.type.String'}"
+                            valueFormat="ddMMyyyy"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Name"
+                        />
+                        <Input
+                            id="nameId"
+                            value="{path:'create>/Name',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            id="designationId"
+                            value="{path:'create>/VendorDesignation',type: 'sap.ui.model.type.String'}"
+                        />
+</f:content>
+</f:SimpleForm>
+</Panel>
             <Panel
                 id="_IDGenPanel3"
                 headerText="Attachments"

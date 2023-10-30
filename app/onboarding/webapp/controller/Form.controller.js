@@ -68,12 +68,12 @@ sap.ui.define([
                         // data.ChkDoubleInv = "X";
                         // data.GrBasedInv = "X";
                         // data.SerBasedInv = "X";
-                            if (vendorStatus === "SBS"  && requestData.supplychain) {
+                            if (vendorStatus === "SBS"  && requestData.purchase) {
                                 requestData.edit = false;
                             } 
                             else if (vendorStatus === "SBC" && requestData.finance) {
                                 requestData.edit = false;
-                            }else if ( vendorStatus === "RBF" && requestData.supplychain) {
+                            }else if ( vendorStatus === "RBF" && requestData.purchase) {
                                 requestData.edit = false;
                                 requestData.route = true;
                             }
@@ -448,6 +448,13 @@ sap.ui.define([
                                 this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
                             }
                             break;
+                    case "registrationtypeRbId":
+                        if (index === 0) {
+                            data.RegistrationType = "Customer Approved / Non BOM";
+                        } else {
+                            data.RegistrationType = "BOM parts";
+                        }
+                        break;
                 }
                 this.createModel.refresh(true);
             },

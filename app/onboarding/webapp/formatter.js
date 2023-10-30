@@ -195,7 +195,7 @@ formatter = {
         }
     },
     approveBtnVisible: function (approve, btn, status) {
-        if ((approve === "1" && btn === "supply" && status === "SBF") || (approve === "1" && btn === "finance" && status === "SCA")) {
+        if ((approve === "1" && btn === "purchase" && status === "SBF") || (approve === "1" && btn === "quality" && status === "SCA") || (approve === "1" && btn === "coo" && status === "SCA") || (approve === "1" && btn === "finance" && status === "SCA")) {
             return true;
         } else {
             return false;
