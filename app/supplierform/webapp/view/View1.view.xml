@@ -189,7 +189,7 @@
                                 <RadioButton text="No" />
                             </buttons>
                         </RadioButtonGroup>
-                        
+                        <Label
                             design="Bold"
                             text="Registration Type"
                         />
