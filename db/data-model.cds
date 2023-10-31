@@ -47,6 +47,7 @@ entity VenOnboardHeader : managed {
       VenApprovalPending : String;
       VenApprove         : String;
       AddressCode        : String;
+      ResetValidity      : String;
 }
 
 entity Attachments : managed {

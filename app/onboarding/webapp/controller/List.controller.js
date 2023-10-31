@@ -376,13 +376,22 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "SBF") {
-                    stat = "SCA";
-                    appr = "1"
+                if (venStatus === "SBP") {
+                    stat = "ABP";
                     level = "2";
+                    pending = "Quality"
+                    this.msg = "Approved by Purchase Head";
+                }else if (venStatus === "SBQ") {
+                    stat = "ABQ";
+                    level = "3";
+                    pending = "COO"
+                    this.msg = "Approved by Quality";
+                }else if (venStatus === "SBC") {
+                    stat = "ABC";
+                    level = "4";
                     pending = "Finance"
-                    this.msg = "Approved by Supply Chain";
-                } else if (venStatus === "SCA") {
+                    this.msg = "Approved by COO";
+                }else if (venStatus === "SBF") {
                     stat = "ABF";
                     payload.AddressCode = formdata.AddressCode;
                     this.msg = "Approved by Finance and BP " + payload.AddressCode + " created successfully";
@@ -695,7 +704,7 @@ sap.ui.define([
                 var sPath = evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
                 this.vendorId = vendata[sPath].VendorId;
                 var status = vendata[sPath].Status;
-                if (status === "SCA") {
+                if (status === "SBF") {
                     setTimeout(() => {
                         this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
                             success: (data) => {
@@ -716,7 +725,7 @@ sap.ui.define([
                             }
                         });
                     }, 1000);
-                } else if (status === "SBF") {
+                } else {
                     setTimeout(() => {
                         this.getView().getModel().read("/VendorForm(VendorId='" + this.vendorId + "')", {
                             success: (data) => {
@@ -817,11 +826,23 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "SBF") {
-                    stat = "SCR";
-                    this.msg = "Rejected successfully by Supply Chain";
-                } else if (venStatus === "SCA") {
+                if (venStatus === "SBP") {
+                    stat = "RBP";
+                    this.msg = "Rejected successfully by Purchase Head";
+                }else if (venStatus === "SBQ") {
+                    stat = "RBQ";
+                    level = "1";
+                    pending = "Purchase Head";
+                    this.msg = "Rejected successfully by Quality";
+                }else if (venStatus === "SBC") {
+                    stat = "RBC";
+                    level = "1";
+                    pending = "Purchase Head";
+                    this.msg = "Rejected successfully by COO";
+                } else if (venStatus === "SBF") {
                     stat = "RBF";
+                    level = "1";
+                    pending = "Purchase Head";
                     this.msg = "Rejected successfully by Finance";
                 }
                 payload.Status = stat;

@@ -70,10 +70,14 @@ sap.ui.define([
                         // data.SerBasedInv = "X";
                             if (vendorStatus === "SBS"  && requestData.purchase) {
                                 requestData.edit = false;
-                            } 
-                            else if (vendorStatus === "SBC" && requestData.finance) {
+                            }else if (vendorStatus === "ABP" && requestData.quality) {
                                 requestData.edit = false;
-                            }else if ( vendorStatus === "RBF" && requestData.purchase) {
+                            }else if (vendorStatus === "ABQ" && requestData.coo) {
+                                requestData.edit = false;
+                            } 
+                            else if (vendorStatus === "ABC" && requestData.finance) {
+                                requestData.edit = false;
+                            }else if ((vendorStatus === "RBQ" || vendorStatus === "RBC" || vendorStatus === "RBF") && requestData.purchase) {
                                 requestData.edit = false;
                                 requestData.route = true;
                             }
@@ -1056,13 +1060,28 @@ sap.ui.define([
                 var pending = "";
                 var appr = "0";
                 if (venStatus === "SBS" || venStatus === "RBF") {
-                    stat = "SBC";
-                    this.msg = "Form submitted successfully by Supply Chain";
-                } else if (venStatus === "SBC") {
-                    stat = "SBF";
+                    stat = "SBP";
                     appr = "1"
                     level = "1";
-                    pending = "Supply Chain";
+                    pending = "Purchase Head";
+                    this.msg = "Form submitted successfully by Purchase Head";
+                } else if (venStatus === "ABP") {
+                    stat = "SBQ";
+                    appr = "1"
+                    level = "2";
+                    pending = "Quality";
+                    this.msg = "Form submitted successfully by Quality";
+                }else if (venStatus === "ABQ") {
+                    stat = "SBC";
+                    appr = "1"
+                    level = "3";
+                    pending = "COO";
+                    this.msg = "Form submitted successfully by COO";
+                }else if (venStatus === "ABC") {
+                    stat = "SBF";
+                    appr = "1"
+                    level = "4";
+                    pending = "Finance";
                     this.msg = "Form submitted successfully by Finance";
                 }
                 payload.Status = stat;
@@ -1125,7 +1144,7 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "RBF") {
+                if (venStatus === "RBQ" || venStatus === "RBC" || venStatus === "RBF") {
                     stat = "SRE-ROUTE";
                 }
                 payload.Status = stat;
