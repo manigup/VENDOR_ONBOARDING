@@ -71,7 +71,7 @@ sap.ui.define([
                             reqData.quality = accessdata.find(item => item.email === res.email && item.Access === "Quality") ? true : false;
                             reqData.coo = accessdata.find(item => item.email === res.email && item.Access === "COO") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                           // reqData.finance = true;
+                            // reqData.finance = true;
                             if (reqData.purchase) {
                                 reqData.appbtn = "purchase";
                             } else if (reqData.quality) {
@@ -192,8 +192,8 @@ sap.ui.define([
                 oModel.callFunction("/sendEmail", mParameters);
             },
             onFormPress: function () {
-               // let url = "http://localhost:4004/supplierform/webapp/index.html?id=" + this.vendorId
-                
+                // let url = "http://localhost:4004/supplierform/webapp/index.html?id=" + this.vendorId
+
                 const href = window.location.href;
                 let url;
                 if (href.includes("impautosuppdev")) {
@@ -203,7 +203,7 @@ sap.ui.define([
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
                 }
-                
+
                 window.open(url);
             },
 
@@ -221,9 +221,9 @@ sap.ui.define([
                     data.Access = "Purchase";
                 } else if (requestData.quality === true) {
                     data.Access = "Quality";
-                }else if (requestData.coo === true) {
+                } else if (requestData.coo === true) {
                     data.Access = "COO";
-                }else if (requestData.finance === true) {
+                } else if (requestData.finance === true) {
                     data.Access = "Finance";
                 }
                 var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
@@ -381,17 +381,17 @@ sap.ui.define([
                     level = "2";
                     pending = "Quality"
                     this.msg = "Approved by Purchase Head";
-                }else if (venStatus === "SBQ") {
+                } else if (venStatus === "SBQ") {
                     stat = "ABQ";
                     level = "3";
                     pending = "COO"
                     this.msg = "Approved by Quality";
-                }else if (venStatus === "SBC") {
+                } else if (venStatus === "SBC") {
                     stat = "ABC";
                     level = "4";
                     pending = "Finance"
                     this.msg = "Approved by COO";
-                }else if (venStatus === "SBF") {
+                } else if (venStatus === "SBF") {
                     stat = "ABF";
                     payload.AddressCode = formdata.AddressCode;
                     this.msg = "Approved by Finance and BP " + payload.AddressCode + " created successfully";
@@ -495,7 +495,7 @@ sap.ui.define([
                 if (formdata.LSTDate === null) {
                     formdata.LSTDate = "";
                 }
-                
+
                 if (formdata.ExciseNo === null) {
                     formdata.ExciseNo = "";
                 }
@@ -623,7 +623,7 @@ sap.ui.define([
                     "CinNo": formdata.CinNo,
                     "GstRegistered": formdata.GstRegistered,
                     "GstDate": formdata.GSTDate,
-                    "MSMEType" : formdata.MsmeMainCertificateId,
+                    "MSMEType": formdata.MsmeMainCertificateId,
                     "ServiceAccountCode": formdata.ServiceAccCode,
                     "STRateSurCharge": formdata.STRateSurcharge,
                     "CSTNo": formdata.CSTNo,
@@ -651,7 +651,7 @@ sap.ui.define([
                         {
                             "ContactName": formdata.ContactPersonName,
                             "ContactDepartment": formdata.ContactPersonDepartment,
-                            "ContactAddress": formdata.ContactPersonDesignation, 
+                            "ContactAddress": formdata.ContactPersonDesignation,
                             "ContactPhoneNo": formdata.ContactPersonPhone,
                             "ContactMobiloNo": formdata.ContactPersonMobile,
                             "ContactEmail": formdata.ContactPersonMail,
@@ -659,20 +659,20 @@ sap.ui.define([
                         }
                     ],
                     "DocumentRequired": [
-                     {
+                        {
                             "DocumentCode": formdata.DocCode,
                             "DocumentDescription": formdata.DocDescription
-                    }
+                        }
                     ],
                     "TransMode": "",
                     "CreatedBy": "Manikandan",
                     "CreatedIP": "",
                     "UpdatedBy": ""
                 };
-                if(sessionStorage.getItem("isunitaddressexists") === true){
+                if (sessionStorage.getItem("isunitaddressexists") === true) {
                     form.TransMode = "EDIT";
                     form.UpdatedBy = res.email;
-                }else{
+                } else {
                     form.TransMode = "ADD";
                 }
                 var formdatastr = JSON.stringify(form);
@@ -829,12 +829,12 @@ sap.ui.define([
                 if (venStatus === "SBP") {
                     stat = "RBP";
                     this.msg = "Rejected successfully by Purchase Head";
-                }else if (venStatus === "SBQ") {
+                } else if (venStatus === "SBQ") {
                     stat = "RBQ";
                     level = "1";
                     pending = "Purchase Head";
                     this.msg = "Rejected successfully by Quality";
-                }else if (venStatus === "SBC") {
+                } else if (venStatus === "SBC") {
                     stat = "RBC";
                     level = "1";
                     pending = "Purchase Head";
@@ -849,19 +849,26 @@ sap.ui.define([
                 payload.VenLevel = level;
                 payload.VenApprovalPending = pending;
                 payload.VenApprove = appr;
+                this.VendorName = payload.VendorName;
+                this.VendorMail = payload.VendorMail;
+                this.VenValidTo = payload.VenValidTo;
+                this.venstatus = stat;
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
                     success: () => {
 
                         MessageBox.success(this.msg, {
                             onClose: () => this.getData()
                         });
-                    },
+                        if (this.venstatus === "RBP") { 
+                        this.sendEmailNotification(this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
+                    }
+                },
                     error: (error) => {
                         BusyIndicator.hide();
                         console.log(error);
                     }
                 });
-            },
+    },
             // changevalidity: function (venItem) {
             //     var payload = venItem;
             //     var today = new Date();

@@ -306,6 +306,13 @@ sap.ui.define([
                             data.RegistrationType = "BOM parts";
                         }
                         break;
+                    case "captiveRbId":
+                        if (index === 0) {
+                            data.RegistrationType = "Yes";
+                        } else {
+                            data.RegistrationType = "No";
+                        }
+                        break;        
                 }
                 this.createModel.refresh(true);
             },
@@ -542,23 +549,23 @@ sap.ui.define([
             _validateAttachments: function (bValidationError) {
                 var data = this.createModel.getData();
 
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                    if (this.byId("quotfileUploader").getValue() || data.NewVendorQuotationName) {
-                        this.byId("quotfileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("quotfileUploader").setValueState("Error");
-                    }
-                }
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("quotfileUploader").getValue() || data.NewVendorQuotationName) {
+                //         this.byId("quotfileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("quotfileUploader").setValueState("Error");
+                //     }
+                // }
 
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                    if (this.byId("cocFileUploader").getValue() || data.CocName) {
-                        this.byId("cocFileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("cocFileUploader").setValueState("Error");
-                    }
-                }
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("cocFileUploader").getValue() || data.CocName) {
+                //         this.byId("cocFileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("cocFileUploader").setValueState("Error");
+                //     }
+                // }
 
                 if (data.VendorType === "IP" || data.VendorType === "EM" || data.MsmeItilView === 'Non MSME' || this.byId("msmefileUploader").getValue() || data.MsmeDeclarationName) {
                     this.byId("msmefileUploader").setValueState("None");
@@ -591,20 +598,20 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                    if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
-                        this.byId("quotfileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("quotfileUploader").setValueState("Error");
-                    }
-                    if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
-                        this.byId("cocFileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("cocFileUploader").setValueState("Error");
-                    }
-                }
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
+                //         this.byId("quotfileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("quotfileUploader").setValueState("Error");
+                //     }
+                //     if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
+                //         this.byId("cocFileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("cocFileUploader").setValueState("Error");
+                //     }
+                // }
                 return bValidationError;
             },
 
