@@ -20,5 +20,16 @@ formatter = {
 			return true;
 		}
 		return false;
-	}
+	},
+	ratingState: function (rating) {
+        var state = "None";
+        if (rating >= "0" && rating <= "2") {
+            state = "Success";
+        }else if (rating >= "2.1" && rating <= "3") {
+            state = "Warning";
+        }else if (rating > "3") {
+            state = "Error";
+        }
+        return state;
+    }
 }

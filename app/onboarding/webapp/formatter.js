@@ -217,11 +217,22 @@ formatter = {
         }
     },
     approveBtnVisible: function (approve, btn, status) {
-        if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SCA") || (approve === "1" && btn === "coo" && status === "SCA") || (approve === "1" && btn === "finance" && status === "SCA")) {
+        if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "finance" && status === "SBF")) {
             return true;
         } else {
             return false;
         }
+    },
+    ratingState: function (rating) {
+        var state = "None";
+        if (rating >= "0" && rating <= "2") {
+            state = "Success";
+        }else if (rating >= "2.1" && rating <= "3") {
+            state = "Warning";
+        }else if (rating > "3") {
+            state = "Error";
+        }
+        return state;
     }
 
 };
