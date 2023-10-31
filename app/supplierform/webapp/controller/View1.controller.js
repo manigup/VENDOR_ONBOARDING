@@ -932,7 +932,7 @@ sap.ui.define([
                         stat = "SAD";
                     }
                 } else {
-                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "RBP") {
                         stat = "SBS";
                     } else if (requestData.Status === "SBS") {
                         stat = "SBC";

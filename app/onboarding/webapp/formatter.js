@@ -36,21 +36,39 @@ formatter = {
                 case "SBS":
                     text = "Submited by Supplier";
                     break;
-                case "SBC":
-                    text = "Submited by Supply Chain";
+                case "SBP":
+                    text = "Submited by Purchase Head";
                     break;
+                case "SBQ":
+                    text = "Submited by Quality";
+                    break; 
+                case "SBC":
+                    text = "Submited by COO";
+                    break;       
                 case "SBF":
                     text = "Submited by Finance";
                     break;
-                case "SCA":
-                    text = "Approved by Supply Chain";
+                case "ABP":
+                    text = "Approved by Purchase Head";
                     break;
+                case "ABQ":
+                    text = "Approved by Quality";
+                    break;
+                case "ABC":
+                    text = "Approved by COO";
+                    break;    
                 case "ABF":
                     text = "Approved by Finance";
                     break;
-                case "SCR":
-                    text = "Rejected by Supply Chain";
+                case "RBP":
+                    text = "Rejected by Purchase Head";
                     break;
+                case "RBF":
+                    text = "Rejected by Quality";
+                    break; 
+                case "RBF":
+                    text = "Rejected by COO";
+                    break;       
                 case "RBF":
                     text = "Rejected by Finance";
                     break;
@@ -114,6 +132,8 @@ formatter = {
                 case "INITIATED":
                 case "SAD":    
                 case "SBS":
+                case "SBP":
+                case "SBQ":    
                 case "SBC":
                 case "SBF":
                 case "SAQ_SENT":
@@ -124,7 +144,9 @@ formatter = {
                 case "SRE-ROUTE":
                     state = "Warning";
                     break;
-                case "SCR":
+                case "RBP":
+                case "RBQ":
+                case "RBC":    
                 case "RBF":
                     state = "Error";
                     break;
@@ -181,21 +203,21 @@ formatter = {
         return vendor;
     },
     moreInfoBtnVisible: function (status, Access) {
-        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance") || (status === "RBF" && Access === "SCM") || (status === "SBF" && Access === "SCM") || (status === "SCA" && Access === "Finance")) {
+        if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBQ" || status === "RBC" || status === "RBF") && Access === "Purchase")) {
             return true;
         } else {
             return false;
         }
     },
     fillformBtnVisible: function (status) {
-        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "SCR" ) {
+        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "RBP" ) {
             return true;
         } else {
             return false;
         }
     },
     approveBtnVisible: function (approve, btn, status) {
-        if ((approve === "1" && btn === "purchase" && status === "SBF") || (approve === "1" && btn === "quality" && status === "SCA") || (approve === "1" && btn === "coo" && status === "SCA") || (approve === "1" && btn === "finance" && status === "SCA")) {
+        if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SCA") || (approve === "1" && btn === "coo" && status === "SCA") || (approve === "1" && btn === "finance" && status === "SCA")) {
             return true;
         } else {
             return false;
