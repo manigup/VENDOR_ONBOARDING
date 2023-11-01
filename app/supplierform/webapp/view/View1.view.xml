@@ -1296,6 +1296,7 @@
                         <Input
                             id="overallRatingId"
                             value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String'}"
+                            valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
                         />
                         <Label
                             design="Bold"
@@ -1381,7 +1382,71 @@
                     columnsXL="3"
                 >
                     <f:content>
+                       <Label
+                            design="Bold"
+                            text="Attachment 1"
+                        />
+                        <Input
+                            id="attach1Id"
+                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
+                        />
+                        <u:FileUploader
+                            id="attach1fileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="5MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="Attachment1" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/Attachment1}"
+                            visible="{= ${create>/Attachment1} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="Attachment1" />
+                            </customData>
+                        </Link>
                         <Label
+                            design="Bold"
+                            text="Attachment 2"
+                        />
+                        <Input
+                            id="attach2Id"
+                            value="{path:'create>/Attachment2Name',type:'sap.ui.model.type.String'}"
+                        />
+                        <u:FileUploader
+                            id="attach2fileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="5MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="Attachment2" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/Attachment2}"
+                            visible="{= ${create>/Attachment2} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="Attachment2" />
+                            </customData>
+                        </Link>
+                        <!-- <Label
                             id="_IDGenLabel51"
                             design="Bold"
                             text="New Vendor Quotation"
@@ -1730,7 +1795,7 @@
                             <customData>
                                 <core:CustomData key="OtherDocument" />
                             </customData>
-                        </Link>
+                        </Link> -->
                     </f:content>
                 </f:SimpleForm>
             </Panel>

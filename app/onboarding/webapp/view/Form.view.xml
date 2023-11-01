@@ -124,10 +124,6 @@
                                 <RadioButton text="No" />
                             </buttons>
                         </RadioButtonGroup>
-
-
-
-
                         <Label
                             design="Bold"
                             text="Registration Type"
@@ -1726,6 +1722,7 @@
                             id="overallRatingId"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String'}"
+                            valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
                         />
                         <Label
                             design="Bold"
@@ -1814,87 +1811,101 @@
                     <f:content>
                         <Label
                             design="Bold"
-                            text="New Vendor Quotation"
-                            required="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'IP'}"
+                            text="Attachment 1"
                         />
-                        <u:FileUploader
-                            id="quotfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="NewVendorQuotationName" />
-                            </u:customData>
-                        </u:FileUploader>
+                        <Input
+                            id="attach1Id"
+                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
+                            enabled="false"
+                        />
                         <Link
-                            text="{create>/NewVendorQuotationName}"
+                            text="{create>/Attachment1}"
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="NewVendorQuotationName" />
+                                <core:CustomData key="Attachment1" />
                             </customData>
                         </Link>
                         <Label
                             design="Bold"
-                            text="NDA Attachment"
+                            text="Attachment 2"
                         />
-                        <u:FileUploader
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="NdaName" />
-                            </u:customData>
-                        </u:FileUploader>
+                        <Input
+                            id="attach2Id"
+                            value="{path:'create>/Attachment2Name',type:'sap.ui.model.type.String'}"
+                            enabled="false"
+                        />
                         <Link
-                            text="{create>/NdaName}"
+                            text="{create>/Attachment2}"
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="NdaName" />
+                                <core:CustomData key="Attachment2" />
                             </customData>
                         </Link>
                         <Label
                             design="Bold"
-                            text="Code of Conduct"
-                            required="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'IP'}"
+                            text="Risk Assessment"
+                            visible="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            required="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
                         />
                         <u:FileUploader
-                            id="cocFileUploader"
+                            id="riskFileUploader"
                             sendXHR="true"
                             useMultipart="false"
                             fileSizeExceed="onFileSizeExceded"
                             uploadComplete="onUploadComplete"
                             change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="CocName" />
+                                <core:CustomData key="RiskAssessment" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
-                            text="{create>/CocName}"
+                            text="{create>/RiskAssessment}"
+                            visible="{= ${create>/RiskAssessment} !== '' &amp;&amp; ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="CocName" />
+                                <core:CustomData key="RiskAssessment" />
                             </customData>
                         </Link>
                         <Label
+                            design="Bold"
+                            text="System Audit Check"
+                            visible="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            required="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                        />
+                        <u:FileUploader
+                            id="systemAuditCheckFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="5MB"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                        >
+                            <u:customData>
+                                <core:CustomData key="SystemAuditCheck" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/SystemAuditCheck}"
+                            visible="{= ${create>/SystemAuditCheck} !== '' &amp;&amp; ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="SystemAuditCheck" />
+                            </customData>
+                        </Link>
+                        <!-- <Label
                             design="Bold"
                             text="Agreement Copy"
                         />
@@ -2106,7 +2117,7 @@
                             <customData>
                                 <core:CustomData key="OtherDocument" />
                             </customData>
-                        </Link>
+                        </Link> -->
                     </f:content>
                 </f:SimpleForm>
             </Panel>

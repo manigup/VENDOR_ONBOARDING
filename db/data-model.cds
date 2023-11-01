@@ -254,6 +254,12 @@ entity VendorForm : managed {
       Date                         : String;
       Name                         : String;
       VendorDesignation            : String;
+      Attachment1                  : String;
+      Attachment1Name              : String;
+      Attachment2                  : String;
+      Attachment2Name              : String;
+      RiskAssessment               : String;
+      SystemAuditCheck             : String;
       Products                     : Composition of many ProductInfo on Products.Vendor = $self;
 }
 

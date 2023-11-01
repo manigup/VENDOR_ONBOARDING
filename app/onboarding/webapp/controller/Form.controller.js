@@ -492,6 +492,13 @@ sap.ui.define([
                             data.RegistrationType = "BOM parts";
                         }
                         break;
+                    case "captiveRbId":
+                        if (index === 0) {
+                            data.RegistrationType = "Yes";
+                        } else {
+                            data.RegistrationType = "No";
+                        }
+                        break;
                 }
                 this.createModel.refresh(true);
             },
@@ -844,24 +851,24 @@ sap.ui.define([
 
             _validateAttachments: function (bValidationError) {
                 var data = this.createModel.getData();
+                var requestData = this.getView().getModel("request").getData();
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("quotfileUploader").getValue() || data.NewVendorQuotationName) {
+                //         this.byId("quotfileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("quotfileUploader").setValueState("Error");
+                //     }
+                // }
 
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                    if (this.byId("quotfileUploader").getValue() || data.NewVendorQuotationName) {
-                        this.byId("quotfileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("quotfileUploader").setValueState("Error");
-                    }
-                }
-
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                    if (this.byId("cocFileUploader").getValue() || data.CocName) {
-                        this.byId("cocFileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("cocFileUploader").setValueState("Error");
-                    }
-                }
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("cocFileUploader").getValue() || data.CocName) {
+                //         this.byId("cocFileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("cocFileUploader").setValueState("Error");
+                //     }
+                // }
 
                 if (data.VendorType === "IP" || data.VendorType === "EM" || data.MsmeItilView === 'Non MSME' || this.byId("msmefileUploader").getValue() || data.MsmeDeclarationName) {
                     this.byId("msmefileUploader").setValueState("None");
@@ -894,20 +901,34 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                    if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
-                        this.byId("quotfileUploader").setValueState("None");
+                if (data.RegistrationType === "BOM parts" && requestData.quality === true) {
+                    if (this.byId("riskFileUploader").getValue() || data.RiskAssessment) {
+                        this.byId("riskFileUploader").setValueState("None");
                     } else {
                         bValidationError = true;
-                        this.byId("quotfileUploader").setValueState("Error");
+                        this.byId("riskFileUploader").setValueState("Error");
                     }
-                    if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
-                        this.byId("cocFileUploader").setValueState("None");
+                    if (this.byId("systemAuditCheckFileUploader").getValue() || data.SystemAuditCheck) {
+                        this.byId("systemAuditCheckFileUploader").setValueState("None");
                     } else {
                         bValidationError = true;
-                        this.byId("cocFileUploader").setValueState("Error");
+                        this.byId("systemAuditCheckFileUploader").setValueState("Error");
                     }
                 }
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
+                //         this.byId("quotfileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("quotfileUploader").setValueState("Error");
+                //     }
+                //     if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
+                //         this.byId("cocFileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("cocFileUploader").setValueState("Error");
+                //     }
+                // }
                 return bValidationError;
             },
 
@@ -1209,18 +1230,42 @@ sap.ui.define([
                 payload.VenLevel = level;
                 payload.VenApprovalPending = pending;
                 payload.VenApprove = appr;
+                this.VendorName = payload.VendorName;
+                this.VendorMail = payload.VendorMail;
+                this.VenValidTo = payload.VenValidTo;
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.id + ")", payload, {
                     success: () => {
 
                         MessageBox.success("Form re-routed successfully to supplier", {
                             onClose: () => formatter.onNavBack()
                         });
+                        this.sendEmailNotification(this.VendorName, this.id, this.VendorMail, this.VenValidTo);
                     },
                     error: (error) => {
                         BusyIndicator.hide();
                         console.log(error);
                     }
                 });
+            },
+            sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
+                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        vendorName: vendorName,
+                        subject: "Supplier Form",
+                        content: emailBody,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
             },
 
             customPanType: SimpleType.extend("Pan", {
