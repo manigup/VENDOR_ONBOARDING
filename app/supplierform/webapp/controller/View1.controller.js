@@ -27,6 +27,17 @@ sap.ui.define([
 
                 this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
                 this.router.attachRouteMatched(this.handleRouteMatched, this);
+
+                this.productInfoTableModel = new JSONModel({
+                    rows: [
+                        {'SrNo': 1},
+                        {'SrNo': 2},
+                        {'SrNo': 3}
+                    ]
+                });
+                this.getView().setModel(this.productInfoTableModel, "productInfoTable");
+
+
                 this.createModel = new JSONModel();
 
                 this.getView().setModel(this.createModel, "create");
@@ -91,8 +102,6 @@ sap.ui.define([
                     contentType: "application/json",
                     url: sPath,
                     context: this,
-
-
                     success: function (sdata, textStatus, jqXHR) {
                         let data = sdata.d;
                         if (jqXHR.status === 200 || jqXHR.status === 204) {
@@ -155,11 +164,27 @@ sap.ui.define([
                         console.log("Upsert failed: ", errorThrown);
                     }
                 });
-
+                this.fetchProductInfo();
                 this._showRemainingTime();
-
             },
 
+            fetchProductInfo: function() {
+                var requestData = this.getView().getModel("request").getData();
+                var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
+            
+                this.getView().getModel().read(sProductInfoPath, {
+                    success: (oData, oResponse) => {
+                        if (oData.results && oData.results.length > 0) {
+                            this.productInfoTableModel.setData({ rows: oData.results });
+                            this.productInfoTableModel.refresh(true);
+                        }
+                    },
+                    error: (oError) => {
+                        console.log("Failed to fetch ProductInfo: ", oError);
+                    }
+                });
+            },
+            
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
@@ -634,12 +659,12 @@ sap.ui.define([
 
                     context: this,
                     success: function (data, textStatus, jqXHR) {
+                        this.updateProductInfo(this.vendorId);
                         BusyIndicator.hide();
 
                         MessageBox.success("Form data saved successfully", {
                             onClose: () => {
                                 this.changeStatus();
-
                             }
                         });
                     }.bind(this),
@@ -663,7 +688,7 @@ sap.ui.define([
                 //     });
                 // }, 1000);
             },
-
+        
             onSubmitPress: async function (oEvent) {
                 var that = this;
                 // BusyIndicator.show();
@@ -784,6 +809,7 @@ sap.ui.define([
                                             data: payloadStr,
                                             context: this,
                                             success: function (data, textStatus, jqXHR) {
+                                                this.updateProductInfo(data.d.VendorId)
                                                 BusyIndicator.hide();
                                                 if (jqXHR.status === 200 || jqXHR.status === 204) {
                                                     MessageBox.success("Form submitted successfully", {
@@ -828,6 +854,30 @@ sap.ui.define([
                     });
                 }
                 this.oSubmitDialog.open();
+            },
+
+            updateProductInfo: function (vendorId) {
+                var productInfoData = this.productInfoTableModel.getData().rows;
+            
+                for (let i = 0; i < productInfoData.length; i++) {
+                    let row = productInfoData[i];
+                    let sPathProduct = this.hardcodedURL + `/v2/odata/v4/catalog/ProductInfo(Vendor_VendorId='${vendorId}',SrNo=${row.SrNo})`;
+                    let productPayloadStr = JSON.stringify(row);
+            
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json",
+                        url: sPathProduct,
+                        data: productPayloadStr,
+                        context: this,
+                        success: (data, textStatus, jqXHR) => {
+                            BusyIndicator.hide();
+                        },
+                        error: (jqXHR, textStatus, errorThrown) => {
+                            BusyIndicator.hide();
+                        }
+                    });
+                }
             },
 
             onFileUploaderChange: function (evt) {
