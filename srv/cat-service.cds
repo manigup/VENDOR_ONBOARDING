@@ -29,6 +29,8 @@ service CatalogService @(requires: 'any') {
     
     entity VendorForm  as projection on db.VendorForm;
 
+    entity ProductInfo  as projection on db.ProductInfo;
+
     entity Country as projection on db.Country;
 
     entity States as projection on db.States;

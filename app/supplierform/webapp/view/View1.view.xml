@@ -170,10 +170,9 @@
                         <Label id="probableCertDateLabel" 
                         design="Bold" 
                         text="Probable date of ready for Certification"
-                        visible="{= ${create>/WorkingTowardsCertifications} === 'Yes' }"/>
+                        />
                         <DatePicker id="probableCertificationDate" 
                             width="100%" 
-                            visible="{= ${create>/WorkingTowardsCertifications} === 'Yes' }"
                             valueFormat="ddMMyyyy"
                             value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
                            />
@@ -498,7 +497,7 @@
                             />
                             <Input
                             id="contactDuringWorkId"
-                            value="{path:'create>/ExecutiveContactDuringWork', type:'sap.ui.model.type.String', constraints:{maxLength:15}}"
+                            value="{path:'create>/ExecutiveContactDuringWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
                             />
                             <!-- Telephone (After Working Hours) -->
                             <Label
@@ -508,7 +507,7 @@
                             />
                             <Input
                             id="contactAfterWorkId"
-                            value="{path:'create>/ExecutiveContactAfterWork', type:'sap.ui.model.type.String', constraints:{maxLength:15}}"
+                            value="{path:'create>/ExecutiveContactAfterWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
                             />
                             <!-- Year Of Establishment -->
                             <Label
@@ -1332,9 +1331,43 @@
                             id="designationId"
                             value="{path:'create>/VendorDesignation',type: 'sap.ui.model.type.String'}"
                         />
-</f:content>
-</f:SimpleForm>
-</Panel>
+            </f:content>
+            </f:SimpleForm>
+               <!-- The Table section starts here -->
+                        <Label design="Bold" text="Furnish details of product and three of your Reputed Customers(Attach sheet if requried)" />
+                        <Table id="productTable" items="{productInfoTable>/rows}" fixedLayout="false">
+                            <columns>
+                                <Column>
+                                    <Text text="Sr. No." />
+                                </Column>
+                                <Column>
+                                    <Text text="Product/Part/Assy. Name" />
+                                </Column>
+                                <Column>
+                                    <Text text="Customer Name" />
+                                </Column>
+                                <Column>
+                                    <Text text="Qty. (Average last 1 year)" />
+                                </Column>
+                                <Column>
+                                    <Text text="Rejection ppm (Average last 1 year)" />
+                                </Column>
+                            </columns>
+
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Input value="{productInfoTable>SrNo}" editable="false" />
+                                        <Input value="{productInfoTable>ProductName}" />
+                                        <Input value="{productInfoTable>CustomerName}" />
+                                        <Input value="{productInfoTable>QtyAvgLastYear}" />
+                                        <Input value="{productInfoTable>RejectionPPMLastYear}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        <!-- The Table section ends here -->
+            </Panel>
             <Panel
                 id="_IDGenPanel3"
                 headerText="Attachments"

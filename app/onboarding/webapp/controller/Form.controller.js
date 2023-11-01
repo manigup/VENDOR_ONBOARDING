@@ -28,6 +28,16 @@ sap.ui.define([
 
                 this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
                 this.router.attachRouteMatched(this.handleRouteMatched, this);
+
+                this.productInfoTableModel = new JSONModel({
+                    rows: [
+                        {'SrNo': 1},
+                        {'SrNo': 2},
+                        {'SrNo': 3}
+                    ]
+                });
+                this.getView().setModel(this.productInfoTableModel, "productInfoTable");
+
                 this.createModel = new JSONModel();
                 this.getView().setModel(this.createModel, "create");
                 // this.isGSTValid = true
@@ -40,6 +50,12 @@ sap.ui.define([
                 }, datePckerFrom);
 
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
+
+                this.hardcodedURL = "";
+                if (window.location.href.includes("launchpad")) {
+                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorionboarding-0.0.1";
+                }
+
                 this.initializeCountries();
                 
             },
@@ -119,6 +135,24 @@ sap.ui.define([
                         }
                     });
                 }, 1000);
+                this.fetchProductInfo();
+            },
+
+            fetchProductInfo: function() {
+                var requestData = this.getView().getModel("request").getData();
+                var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
+            
+                this.getView().getModel().read(sProductInfoPath, {
+                    success: (oData, oResponse) => {
+                        if (oData.results && oData.results.length > 0) {
+                            this.productInfoTableModel.setData({ rows: oData.results });
+                            this.productInfoTableModel.refresh(true);
+                        }
+                    },
+                    error: (oError) => {
+                        console.log("Failed to fetch ProductInfo: ", oError);
+                    }
+                });
             },
 
             onEdit: function () {
@@ -127,8 +161,7 @@ sap.ui.define([
             },
 
             initializeAPIS: function(){
-                var unitCode = 'P01'
-                //var unitCode = sessionStorage.getItem("unitCode");
+                var unitCode = sessionStorage.getItem("unitCode");
                 
                 this.GetSupplierAccountCodeList(unitCode)
                     .then(function() {
@@ -955,6 +988,7 @@ sap.ui.define([
             },
 
             saveData: function (createData) {
+                this.updateProductInfo(this.id)
                 BusyIndicator.show();
                 setTimeout(() => {
                     this.getView().getModel().update("/VendorForm(VendorId='" + this.id + "')", createData, {
@@ -970,6 +1004,30 @@ sap.ui.define([
                         }
                     });
                 }, 1000);
+            },
+
+            updateProductInfo: function (vendorId) {
+                var productInfoData = this.productInfoTableModel.getData().rows;
+            
+                for (let i = 0; i < productInfoData.length; i++) {
+                    let row = productInfoData[i];
+                    let sPathProduct = this.hardcodedURL + `/v2/odata/v4/catalog/ProductInfo(Vendor_VendorId='${vendorId}',SrNo=${row.SrNo})`;
+                    let productPayloadStr = JSON.stringify(row);
+            
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json",
+                        url: sPathProduct,
+                        data: productPayloadStr,
+                        context: this,
+                        success: (data, textStatus, jqXHR) => {
+                            BusyIndicator.hide();
+                        },
+                        error: (jqXHR, textStatus, errorThrown) => {
+                            BusyIndicator.hide();
+                        }
+                    });
+                }
             },
 
             onFileUploaderChange: function (evt) {
