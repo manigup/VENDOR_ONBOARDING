@@ -724,20 +724,8 @@ sap.ui.define([
                     };
 
                     // Call the sendEmail function
-                    await oDataModel.callFunction("/sendEmail", mParameters);
-                    // send email initiated to initiatedBy
-                    this.sendEmailNotification(data.VendorName, data.initiatedBy)
+                    oDataModel.callFunction("/sendEmail", mParameters);
 
-                    // Fetch emails with 'Purchase' access
-                    try {
-                        var purchaseEmails = await this.getPurchaseEmails();
-                        purchaseEmails.forEach(email => {
-                            this.sendEmailNotification(data.VendorName, email);
-                        });
-                    } catch (error) {
-                        console.error("Error fetching Purchase emails: ", error);
-                    }
-                   
                 }
                 else {
                     BusyIndicator.hide();
@@ -834,7 +822,7 @@ sap.ui.define([
                                             url: sPath,
                                             data: payloadStr,
                                             context: this,
-                                            success: function (data, textStatus, jqXHR) {
+                                            success: async function (data, textStatus, jqXHR) {
                                                 this.updateProductInfo(data.d.VendorId)
                                                 BusyIndicator.hide();
                                                 if (jqXHR.status === 200 || jqXHR.status === 204) {
@@ -843,6 +831,17 @@ sap.ui.define([
                                                             this.changeStatus();
                                                         }
                                                     });
+                                                    // Send email to initiatedBy
+                                                    this.sendEmailNotification(requestData.VendorName, requestData.initiatedBy);
+                                                    // Fetch and send emails to 'Purchase' heads
+                                                    try {
+                                                        var purchaseEmails = await this.getPurchaseEmails();
+                                                        purchaseEmails.forEach(email => {
+                                                            this.sendEmailNotification(requestData.VendorName, email);
+                                                        });
+                                                    } catch (error) {
+                                                        console.error("Error fetching Purchase emails: ", error);
+                                                    }
                                                 }
                                             }.bind(this),
                                             error: function (jqXHR, textStatus, errorThrown) {
