@@ -150,6 +150,7 @@ sap.ui.define([
                     payload.Vendor = this.generateVendorNo();
                     payload.VenFrom = new Date();
                     payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                    payload.initiatedBy = sessionStorage.getItem('userEmail');
                     setTimeout(() => {
                         this.getView().getModel().create("/VenOnboard", payload, {
                             success: (sData) => {
