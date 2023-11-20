@@ -3,13 +3,15 @@ sap.ui.define([
     "sap/m/MessageBox",
     "sap/m/MessageToast",
     "sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator",
+	"sap/ui/model/FilterType",
     "sap/ui/core/BusyIndicator",
     "sap/ui/model/json/JSONModel"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (BaseController, MessageBox, MessageToast, Filter, BusyIndicator, JSONModel) {
+    function (BaseController, MessageBox, MessageToast, Filter, FilterOperator, FilterType, BusyIndicator, JSONModel) {
 
         "use strict";
 

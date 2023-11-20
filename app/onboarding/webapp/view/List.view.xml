@@ -31,6 +31,7 @@
             >
                 <headerToolbar>
                     <OverflowToolbar id="_IDGenOverflowToolbar1">
+                    <!-- <CheckBox id="viewAllId" text="View All" select="onViewAll" /> -->
                         <ToolbarSpacer id="_IDGenToolbarSpacer2" />
                         <SearchField
                             id="search"
