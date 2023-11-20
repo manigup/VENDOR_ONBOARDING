@@ -1806,11 +1806,11 @@
                             <items>
                                 <ColumnListItem>
                                     <cells>
-                                        <Input value="{productInfoTable>SrNo}" editable="false" />
-                                        <Input value="{productInfoTable>ProductName}" />
-                                        <Input value="{productInfoTable>CustomerName}" />
-                                        <Input value="{productInfoTable>QtyAvgLastYear}" />
-                                        <Input value="{productInfoTable>RejectionPPMLastYear}" />
+                                        <Input id="_IDGenInput2" value="{productInfoTable>SrNo}" editable="false" />
+                                        <Input id="_IDGenInput3" value="{productInfoTable>ProductName}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                                        <Input id="_IDGenInput1" value="{productInfoTable>CustomerName}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                                        <Input id="_IDGenInput4" value="{productInfoTable>QtyAvgLastYear}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                                        <Input id="_IDGenInput5" value="{productInfoTable>RejectionPPMLastYear}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
                                     </cells>
                                 </ColumnListItem>
                             </items>
