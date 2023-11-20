@@ -29,12 +29,12 @@
         />
         <footer>
             <OverflowToolbar id="_IDGenOverflowToolbar1">
-                <!-- <Button
+                <Button
                     id="_IDGenButton1"
                     text="Fill Supplier Form"
                     press="onFormPress"
                     visible="{path:'VenModel>/Status',formatter:'formatter.fillformBtnVisible'}"
-                /> -->
+                />
                 <Button
                     id="_IDGenButton2"
                     text="More Info"

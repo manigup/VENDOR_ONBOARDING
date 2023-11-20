@@ -724,48 +724,67 @@ sap.ui.define([
                     };
 
                     // Call the sendEmail function
-                    oDataModel.callFunction("/sendEmail", mParameters);
-                    // Prepare the function import parameters
-                    // var sPath = "/verifyBankAccount";
-                    // var mParameters = {
-                    //     urlParameters: {
-                    //         beneficiaryAccount: createData.AccountNo,
-                    //         beneficiaryIFSC: createData.IFSCCode
-                    //     },
-                    //     success: function (oData, response) {
-                    //         var result = oData.verifyBankAccount; // or response.data.verifyBankAccount;
-                    //         BusyIndicator.hide();
+                    await oDataModel.callFunction("/sendEmail", mParameters);
+                    // send email initiated to initiatedBy
+                    this.sendEmailNotification(data.VendorName, data.initiatedBy)
 
-                    //         if (result.isValid) {
-                    //             // Generate OTP and proceed
-                    //             that.otp = that.getOTP();
-                    //             MessageBox.information("To submit the data, kindly enter the OTP received " + that.otp, {
-                    //                 onClose: () => that._enterOTP()
-                    //             });
-                    //         } else {
-                    //             MessageBox.error(result.errorMessage);
-                    //         }
-                    //     },
-                    //     error: function (oError) {
-                    //         BusyIndicator.hide();
-                    //         MessageBox.error("An error occurred while verifying the bank account.");
-                    //     }
-                    // };
-
-                    // Execute the function import
-                    // oDataModel.callFunction(sPath, mParameters);
+                    // Fetch emails with 'Purchase' access
+                    try {
+                        var purchaseEmails = await this.getPurchaseEmails();
+                        purchaseEmails.forEach(email => {
+                            this.sendEmailNotification(data.VendorName, email);
+                        });
+                    } catch (error) {
+                        console.error("Error fetching Purchase emails: ", error);
+                    }
+                   
                 }
                 else {
                     BusyIndicator.hide();
                     if (mandat) {
                         MessageBox.information("Kindly fill all the required details");
                     }
-                    // else if (!this.isGSTValid) {
-                    //     MessageBox.error("Invalid GST Number");
-                    // }
                 }
 
             },
+
+            sendEmailNotification: function (vendorName, vendorMail) {
+                let emailBody = `||Form is submitted by the supplier. Approval pending at Purchase Head`;
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        vendorName: vendorName,
+                        subject: "Supplier Form",
+                        content: emailBody,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
+            },
+
+            getPurchaseEmails: async function() {
+                var oModel = this.getView().getModel();
+                return new Promise((resolve, reject) => {
+                    oModel.read("/AccessInfo", {
+                        filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, "Purchase")],
+                        success: function(oData) {
+                            var emails = oData.results.map(item => item.email);
+                            resolve(emails);
+                        },
+                        error: function(oError) {
+                            reject(oError);
+                        }
+                    });
+                });
+            },
+            
 
             _enterOTP: function () {
                 var that = this;
