@@ -1047,7 +1047,7 @@
                         <Label
                             design="Bold"
                             text="Tax" 
-                            required="true"
+                            required="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         />
                         <Input
                             id="taxId"  enabled="false"
@@ -1057,6 +1057,7 @@
                             id="taxcalbtnId"
                             text="Calculate Tax"
                             press="onCalcTaxPress"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         />
                         <Label
                             design="Bold"
