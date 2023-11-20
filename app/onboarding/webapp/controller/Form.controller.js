@@ -617,6 +617,12 @@ sap.ui.define([
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId") ];
 
+                if (requestData.finance) {
+                    aInputs.push(oView.byId("addcodeId"));
+                    aInputs.push(oView.byId("accdescId"));
+                    aSelects.push(oView.byId("accountcodeId"));
+                }
+
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
                     aInputs.push(oView.byId("MsmeValidFrom"));
