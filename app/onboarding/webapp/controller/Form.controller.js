@@ -553,8 +553,7 @@ sap.ui.define([
 
                 var oView = this.getView(),
                     bValidationError = false;
-                var aInputs = [oView.byId("addcodeId"),oView.byId("venNameId"),oView.byId("address1Id"), 
-                oView.byId("accdescId"),
+                var aInputs = [oView.byId("venNameId"),oView.byId("address1Id"), 
                 oView.byId("mobileId"), oView.byId("purposeId"),
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
@@ -566,6 +565,12 @@ sap.ui.define([
                  oView.byId("contphoneId"), oView.byId("contmobileId"),
                  oView.byId("docdescId")
             ];
+
+            if (requestData.finance) {
+                aInputs.push(oView.byId("addcodeId"));
+                aInputs.push(oView.byId("accdescId"));
+                aSelects.push(oView.byId("accountcodeId"));
+            }
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -605,7 +610,7 @@ sap.ui.define([
                 // oView.byId("constId")
                 var aSelects = [ oView.byId("countryId"),
                 oView.byId("stateId"),oView.byId("cityId"),
-                oView.byId("accountcodeId"),oView.byId("doccodeId"),
+                oView.byId("doccodeId"),
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId") ];
 
