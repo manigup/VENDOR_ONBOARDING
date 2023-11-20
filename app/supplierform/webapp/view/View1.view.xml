@@ -1289,7 +1289,7 @@
                             id="productsManufacturedId"
                             value="{path:'create>/ProductsManufactured',type: 'sap.ui.model.type.String'}"
                         />
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Overall Rating"
                         />
@@ -1297,7 +1297,7 @@
                             id="overallRatingId"
                             value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String'}"
                             valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="Additional Information, if any"
