@@ -49,6 +49,7 @@ entity VenOnboardHeader : managed {
       AddressCode        : String;
       ResetValidity      : String;
       Department         : String;
+      initiatedBy        : String;
 }
 
 entity Attachments : managed {
