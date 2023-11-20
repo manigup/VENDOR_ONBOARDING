@@ -1736,10 +1736,11 @@
                         <Label
                             design="Bold"
                             text="Overall Rating"
+                            required = "{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <Input
                             id="overallRatingId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String'}"
                             valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
                         />

@@ -571,6 +571,9 @@ sap.ui.define([
                 aInputs.push(oView.byId("accdescId"));
                 aSelects.push(oView.byId("accountcodeId"));
             }
+            if (requestData.quality) {
+                aInputs.push(oView.byId("overallRatingId"));
+            }
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
