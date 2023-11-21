@@ -14,6 +14,7 @@ const sdmCredentials = {
 }
 
 module.exports = cds.service.impl(async function () {
+    const { AccessInfo } = cds.entities;
 
     this.before('CREATE', 'VenOnboard', async (req) => {
 
@@ -31,11 +32,18 @@ module.exports = cds.service.impl(async function () {
         // Creating dms folder
         await _createFolder(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId);
     });
-    this.after('READ', 'VenOnboard', async (req) => {
 
+    this.after('READ', 'VenOnboard', async (req) => {
         const today = new Date();
         const results = req.filter(item => today >= item.VenValidTo).map(item => item.ResetValidity = "X");
     });
+
+    this.before('READ', 'VenOnboard', async (req) => {
+        const userID = req.user.id;
+        const {Access} = await SELECT.one.from(AccessInfo).where({ email: userID }).columns('Access');
+        req.query.where(`VenApprovalPending = '${Access}' or initiatedBy = '${userID}'`)
+    })
+
 
     this.before("CREATE", 'Attachments', async (req) => {
 
