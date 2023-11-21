@@ -226,6 +226,8 @@ formatter = {
             } else {
                 return false;
             }
+        }else{
+            return false;
         }
     },
     fillformBtnVisible: function (status) {
@@ -242,12 +244,14 @@ formatter = {
             } else {
                 return false;
             }
-        } if (related === "Yes") {
+        }else if (related === "Yes") {
             if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
                 return true;
             } else {
                 return false;
             }
+        }else{
+            return false;
         }
     },
     ratingState: function (rating) {
