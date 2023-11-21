@@ -57,26 +57,31 @@
                 valueStateText="Required"
                 fieldGroupIds="required"
             />
-            <Label id="_IDGenLabel7"
+            <Label
+                id="_IDGenLabel7"
                 design="Bold"
                 required="true"
                 text="Registration Type"
             />
-            <Select id="_IDGenSelect2"
+            <Select
+                id="_IDGenSelect2"
                 forceSelection="false"
                 selectedKey="{path:'CreateModel>/RegistrationType',type:'sap.ui.model.type.String'}"
                 valueStateText="Required"
                 fieldGroupIds="required"
             >
-                <core:Item id="_IDGenItem6"
+                <core:Item
+                    id="_IDGenItem6"
                     key=""
                     text=""
                 />
-                <core:Item id="_IDGenItem5"
+                <core:Item
+                    id="_IDGenItem5"
                     key="Customer Approved / Non BOM"
                     text="Customer Approved / Non BOM"
                 />
-                <core:Item id="_IDGenItem4"
+                <core:Item
+                    id="_IDGenItem4"
                     key="BOM parts"
                     text="BOM parts"
                 />
@@ -130,6 +135,35 @@
                 valueStateText="Required"
                 fieldGroupIds="required"
             />
+            <Label
+                id="_IDGenLabel8"
+                design="Bold"
+                required="true"
+                text="Related Part"
+            />
+            <Select
+                id="_IDGenSelect3"
+                forceSelection="false"
+                selectedKey="{path:'CreateModel>/RelatedPart',type:'sap.ui.model.type.String'}"
+                valueStateText="Required"
+                fieldGroupIds="required"
+            >
+                <core:Item
+                    id="_IDGenItem7"
+                    key=""
+                    text=""
+                />
+                <core:Item
+                    id="_IDGenItem8"
+                    key="Yes"
+                    text="Yes"
+                />
+                <core:Item
+                    id="_IDGenItem9"
+                    key="No"
+                    text="No"
+                />
+            </Select>
         </f:SimpleForm>
     </content>
     <beginButton>

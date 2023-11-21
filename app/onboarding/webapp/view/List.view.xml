@@ -243,7 +243,7 @@
                                     type="Accept"
                                     press="onApprPress"
                                     width="80px"
-                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
+                                    visible="{parts:[{path:'DataModel>RelatedPart'},{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
                                 >
                                     <customData>
                                         <core:CustomData
@@ -259,7 +259,7 @@
                                     type="Reject"
                                     press="onRejPress"
                                     width="80px"
-                                    visible="{parts:[{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
+                                    visible="{parts:[{path:'DataModel>RelatedPart'},{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
                                 >
                                     <customData>
                                         <core:CustomData
