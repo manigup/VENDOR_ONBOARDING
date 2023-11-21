@@ -71,6 +71,7 @@ sap.ui.define([
                 for (var i = 0; i < vendordata.length; i++) {
                     if (vendordata[i].VendorId === this.id) {
                         var vendorStatus = vendordata[i].Status;
+                        var vendorrelated = vendordata[i].RelatedPart;
                         break;
                     }
                 }
@@ -84,22 +85,42 @@ sap.ui.define([
                         // data.ChkDoubleInv = "X";
                         // data.GrBasedInv = "X";
                         // data.SerBasedInv = "X";
-                            if (vendorStatus === "SBS"  && requestData.purchase) {
+                        if(vendorrelated === "No"){
+                            if (vendorStatus === "SBS"  && requestData.quality) {
                                 requestData.edit = false;
-                            }else if (vendorStatus === "ABP" && requestData.quality) {
+                            }else if (vendorStatus === "ABQ" && requestData.purchase) {
                                 requestData.edit = false;
-                            }else if (vendorStatus === "ABQ" && requestData.coo) {
+                            }else if (vendorStatus === "ABP" && requestData.coo) {
                                 requestData.edit = false;
                             } 
                             else if (vendorStatus === "ABC" && requestData.finance) {
                                 requestData.edit = false;
-                            }else if ((vendorStatus === "RBQ" || vendorStatus === "RBC" || vendorStatus === "RBF") && requestData.purchase) {
+                            }else if ((vendorStatus === "RBP" || vendorStatus === "RBC" || vendorStatus === "RBF") && requestData.quality) {
                                 requestData.edit = false;
                                 requestData.route = true;
                             }
                             else {
                                 requestData.edit = ""
                             }
+                        }else if(vendorrelated === "Yes"){
+                            if (vendorStatus === "SBS"  && requestData.quality) {
+                                requestData.edit = false;
+                            }else if (vendorStatus === "ABQ" && requestData.purchase) {
+                                requestData.edit = false;
+                            }else if (vendorStatus === "ABP" && requestData.coo) {
+                                requestData.edit = false;
+                            }else if (vendorStatus === "ABC" && requestData.ceo) {
+                                requestData.edit = false;
+                            }else if (vendorStatus === "ABE" && requestData.finance) {
+                                requestData.edit = false;
+                            }else if ((vendorStatus === "RBP" || vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.quality) {
+                                requestData.edit = false;
+                                requestData.route = true;
+                            }
+                            else {
+                                requestData.edit = ""
+                            }
+                        }
                             if (data.ISO9001Certification === "X") {
                                 this.byId("ISO9001Certification").setSelected(true);
                             }
@@ -553,8 +574,10 @@ sap.ui.define([
 
                 var oView = this.getView(),
                     bValidationError = false;
-                var aInputs = [oView.byId("venNameId"),oView.byId("address1Id"), 
+                var aInputs = [oView.byId("venNameId"),oView.byId("address1Id"),
+                oView.byId("addcodeId"), 
                 oView.byId("mobileId"), oView.byId("purposeId"),
+                oView.byId("accdescId"),
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
                 oView.byId("address2Id"),oView.byId("contactPersonId"), oView.byId("contactPersonMobileId"),
@@ -566,11 +589,6 @@ sap.ui.define([
                  oView.byId("docdescId")
             ];
 
-            if (requestData.finance) {
-                aInputs.push(oView.byId("addcodeId"));
-                aInputs.push(oView.byId("accdescId"));
-                aSelects.push(oView.byId("accountcodeId"));
-            }
             if (requestData.quality) {
                 aInputs.push(oView.byId("overallRatingId"));
             }
@@ -613,15 +631,10 @@ sap.ui.define([
                 // oView.byId("constId")
                 var aSelects = [ oView.byId("countryId"),
                 oView.byId("stateId"),oView.byId("cityId"),
+                oView.byId("accountcodeId"),
                 oView.byId("doccodeId"),
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId") ];
-
-                if (requestData.finance) {
-                    aInputs.push(oView.byId("addcodeId"));
-                    aInputs.push(oView.byId("accdescId"));
-                    aSelects.push(oView.byId("accountcodeId"));
-                }
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -1145,6 +1158,7 @@ sap.ui.define([
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.AddressCode = vendata[i].AddressCode;
+                        var venRelated = vendata[i].RelatedPart;
                         break;
                     }
                 }
@@ -1153,27 +1167,39 @@ sap.ui.define([
                 var pending = "";
                 var appr = "0";
                 if (venStatus === "SBS" || venStatus === "RBF") {
-                    stat = "SBP";
-                    appr = "1"
-                    level = "1";
-                    pending = "Purchase Head";
-                    this.msg = "Form submitted successfully by Purchase Head";
-                } else if (venStatus === "ABP") {
                     stat = "SBQ";
                     appr = "1"
-                    level = "2";
+                    level = "1";
                     pending = "Quality";
                     this.msg = "Form submitted successfully by Quality";
-                }else if (venStatus === "ABQ") {
+                } else if (venStatus === "ABQ") {
+                    stat = "SBP";
+                    appr = "1"
+                    level = "2";
+                    pending = "Purchase";
+                    this.msg = "Form submitted successfully by Purchase";
+                }else if (venStatus === "ABP") {
                     stat = "SBC";
                     appr = "1"
                     level = "3";
                     pending = "COO";
                     this.msg = "Form submitted successfully by COO";
-                }else if (venStatus === "ABC") {
+                }else if (venStatus === "ABC" && venRelated === "No") {
                     stat = "SBF";
                     appr = "1"
                     level = "4";
+                    pending = "Finance";
+                    this.msg = "Form submitted successfully by Finance";
+                }else if (venStatus === "ABC" && venRelated === "Yes") {
+                    stat = "SBE";
+                    appr = "1"
+                    level = "4";
+                    pending = "CEO";
+                    this.msg = "Form submitted successfully by CEO";
+                }else if (venStatus === "ABE" && venRelated === "Yes") {
+                    stat = "SBF";
+                    appr = "1"
+                    level = "5";
                     pending = "Finance";
                     this.msg = "Form submitted successfully by Finance";
                 }
@@ -1237,7 +1263,7 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "RBQ" || venStatus === "RBC" || venStatus === "RBF") {
+                if (venStatus === "RBP" || venStatus === "RBC" || venStatus === "RBF") {
                     stat = "SRE-ROUTE";
                 }
                 payload.Status = stat;

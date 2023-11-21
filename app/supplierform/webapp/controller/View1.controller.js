@@ -1001,14 +1001,18 @@ sap.ui.define([
             changeStatus: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var stat = "";
+                var level = "";
+                var pending = "";
                 if (this.draft) {
                     if (requestData.Status === "INITIATED" || requestData.Status === "SAD") {
                         this.draft = false;
                         stat = "SAD";
                     }
                 } else {
-                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "RBP") {
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "RBQ") {
                         stat = "SBS";
+                        level = "1";
+                        pending = "Quality";
                     } else if (requestData.Status === "SBS") {
                         stat = "SBC";
                     } else if (requestData.Status === "SBF") {
@@ -1017,6 +1021,8 @@ sap.ui.define([
                 }
                 var payload = requestData;
                 payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
                 var payloadStr = JSON.stringify(payload);
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VenOnboard(Vendor='${requestData.Vendor}',VendorId=${requestData.VendorId})`;
                 $.ajax({

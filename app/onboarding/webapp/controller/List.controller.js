@@ -64,7 +64,7 @@ sap.ui.define([
                                 parseInt(item.Score);
                                 return item;
                             });
-                            var reqData = { purchase: false, quality: false, coo: false, finance: false };
+                            var reqData = { purchase: false, quality: false, coo: false, ceo: false, finance: false };
                             var accessdata = this.getView().getModel("AccessDetails").getData();
                             var res = this.getView().getModel("UserApiDetails").getData();
                             //var res = {};
@@ -72,14 +72,15 @@ sap.ui.define([
                             reqData.purchase = accessdata.find(item => item.email === res.email && item.Access === "Purchase") ? true : false;
                             reqData.quality = accessdata.find(item => item.email === res.email && item.Access === "Quality") ? true : false;
                             reqData.coo = accessdata.find(item => item.email === res.email && item.Access === "COO") ? true : false;
+                            reqData.ceo = accessdata.find(item => item.email === res.email && item.Access === "CEO") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
                             // reqData.finance = true;
                             if (reqData.purchase) {
                                 reqData.appbtn = "purchase";
                             } else if (reqData.quality) {
                                 reqData.appbtn = "quality";
-                            } else if (reqData.coo) {
-                                reqData.appbtn = "coo";
+                            } else if (reqData.ceo) {
+                                reqData.appbtn = "ceo";
                             } else if (reqData.finance) {
                                 reqData.appbtn = "finance";
                             }
@@ -226,7 +227,9 @@ sap.ui.define([
                     data.Access = "Quality";
                 } else if (requestData.coo === true) {
                     data.Access = "COO";
-                } else if (requestData.finance === true) {
+                } else if (requestData.ceo === true) {
+                    data.Access = "CEO";
+                }else if (requestData.finance === true) {
                     data.Access = "Finance";
                 }
                 var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
@@ -372,6 +375,7 @@ sap.ui.define([
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
+                        var venRelated = vendata[i].RelatedPart;
                         break;
                     }
                 }
@@ -379,22 +383,32 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "SBP") {
-                    stat = "ABP";
-                    level = "2";
-                    pending = "Quality"
-                    this.msg = "Approved by Purchase Head";
-                } else if (venStatus === "SBQ") {
+                if (venStatus === "SBQ") {
                     stat = "ABQ";
+                    level = "2";
+                    pending = "Purchase"
+                    this.msg = "Approved by Quality";
+                } else if (venStatus === "SBP") {
+                    stat = "ABP";
                     level = "3";
                     pending = "COO"
-                    this.msg = "Approved by Quality";
-                } else if (venStatus === "SBC") {
+                    this.msg = "Approved by Purchase";
+                } else if (venStatus === "SBC" && venRelated === "No") {
                     stat = "ABC";
                     level = "4";
                     pending = "Finance"
                     this.msg = "Approved by COO";
-                } else if (venStatus === "SBF") {
+                } else if (venStatus === "SBC" && venRelated === "Yes") {
+                    stat = "ABC";
+                    level = "4";
+                    pending = "CEO"
+                    this.msg = "Approved by COO";
+                }else if (venStatus === "SBE" && venRelated === "Yes") {
+                    stat = "ABE";
+                    level = "5";
+                    pending = "Finance"
+                    this.msg = "Approved by CEO";
+                }  else if (venStatus === "SBF") {
                     stat = "ABF";
                     payload.AddressCode = formdata.AddressCode;
                     this.msg = "Approved by Finance and BP " + payload.AddressCode + " created successfully";
@@ -829,23 +843,28 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "SBP") {
-                    stat = "RBP";
-                    this.msg = "Rejected successfully by Purchase Head";
-                } else if (venStatus === "SBQ") {
+                if (venStatus === "SBQ") {
                     stat = "RBQ";
-                    level = "1";
-                    pending = "Purchase Head";
                     this.msg = "Rejected successfully by Quality";
+                } else if (venStatus === "SBP") {
+                    stat = "RBP";
+                    level = "1";
+                    pending = "Quality";
+                    this.msg = "Rejected successfully by Purchase Head";
                 } else if (venStatus === "SBC") {
                     stat = "RBC";
                     level = "1";
-                    pending = "Purchase Head";
+                    pending = "Quality";
                     this.msg = "Rejected successfully by COO";
+                }else if (venStatus === "SBE") {
+                    stat = "RBE";
+                    level = "1";
+                    pending = "Quality";
+                    this.msg = "Rejected successfully by CEO";
                 } else if (venStatus === "SBF") {
                     stat = "RBF";
                     level = "1";
-                    pending = "Purchase Head";
+                    pending = "Quality";
                     this.msg = "Rejected successfully by Finance";
                 }
                 payload.Status = stat;
@@ -862,7 +881,7 @@ sap.ui.define([
                         MessageBox.success(this.msg, {
                             onClose: () => this.getData()
                         });
-                        if (this.venstatus === "RBP") { 
+                        if (this.venstatus === "RBQ") { 
                         this.sendEmailNotification(this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
                     }
                 },

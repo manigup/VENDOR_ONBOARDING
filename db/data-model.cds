@@ -1,6 +1,9 @@
 namespace db.VenOnboard;
 
-using {managed, cuid} from '@sap/cds/common';
+using {
+  managed,
+  cuid
+} from '@sap/cds/common';
 
 entity Country {
   key code : String;
@@ -50,6 +53,7 @@ entity VenOnboardHeader : managed {
       ResetValidity      : String;
       Department         : String;
       initiatedBy        : String;
+      RelatedPart        : String;
 }
 
 entity Attachments : managed {
@@ -261,14 +265,15 @@ entity VendorForm : managed {
       Attachment2Name              : String;
       RiskAssessment               : String;
       SystemAuditCheck             : String;
-      Products                     : Composition of many ProductInfo on Products.Vendor = $self;
+      Products                     : Composition of many ProductInfo
+                                       on Products.Vendor = $self;
 }
 
 entity ProductInfo {
-  key Vendor                 : Association to VendorForm;
-  key SrNo                   : Integer;
-  ProductName                : String;
-  CustomerName               : String;
-  QtyAvgLastYear             : String;
-  RejectionPPMLastYear       : String;
+  key Vendor               : Association to VendorForm;
+  key SrNo                 : Integer;
+      ProductName          : String;
+      CustomerName         : String;
+      QtyAvgLastYear       : String;
+      RejectionPPMLastYear : String;
 }

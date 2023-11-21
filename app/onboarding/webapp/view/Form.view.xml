@@ -144,13 +144,13 @@
                         <Label
                             design="Bold"
                             text="Address Code"
-                            required="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            required="true"
                         />
                         <Input
                             id="addcodeId"
                             change="onAddressCodChange"
                             maxLength="9"
-                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                             value="{path:'create>/AddressCode',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
@@ -407,12 +407,12 @@
                         <Label
                             design="Bold"
                             text="Account Code"
-                            required="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            required="true"
                         />
                         <ComboBox
                             id="accountcodeId"
                             items="{account>/items}"  
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                             selectedKey="{create>/AccountCode}"
                             change="onAccountCodeChange"
                         >
@@ -424,7 +424,7 @@
                         <Label
                             design="Bold"
                             text="Account Description"
-                            required="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            required="true"
                         />
                         <Input
                             id="accdescId"
@@ -1047,7 +1047,7 @@
                         <Label
                             design="Bold"
                             text="Tax" 
-                            required="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            required="true"
                         />
                         <Input
                             id="taxId"  enabled="false"
@@ -1057,7 +1057,7 @@
                             id="taxcalbtnId"
                             text="Calculate Tax"
                             press="onCalcTaxPress"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                         />
                         <Label
                             design="Bold"
@@ -1196,12 +1196,12 @@
                             text="MSME ITIL View"
                         />
                         <RadioButtonGroup
-                        selectedIndex="{= ${create>/MsmeItilView} === 'MSME' ? 0 : 1}"
+                            selectedIndex="{= ${create>/MsmeItilView} === 'MSME' ? 0 : 1}"
                             columns="2"
                             id="msmeItil"
                             visible="{= ${create>/VendorType} === 'DM'}"
                             select="onRadioButtonSelect"
-                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             
                         >
                             <RadioButton text="MSME" />
