@@ -79,6 +79,8 @@ sap.ui.define([
                                 reqData.appbtn = "purchase";
                             } else if (reqData.quality) {
                                 reqData.appbtn = "quality";
+                            }else if (reqData.coo) {
+                                reqData.appbtn = "coo";
                             } else if (reqData.ceo) {
                                 reqData.appbtn = "ceo";
                             } else if (reqData.finance) {
