@@ -378,6 +378,15 @@
                             type="Number"
                             value="{path:'create>/Pincode',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:7}}"
                         />
+                         <Label id="_IDGenLabel51"
+                            design="Bold"
+                            text="Location"
+                            required="true"
+                        />
+                        <Input
+                            id="locationId"  enabled="false"
+                            value="{path:'create>/Location',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
                         <Label
                             id="_IDGenLabel18"
                             design="Bold"

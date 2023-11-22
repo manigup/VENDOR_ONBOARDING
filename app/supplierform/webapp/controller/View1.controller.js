@@ -514,13 +514,24 @@ sap.ui.define([
 
             handleStatePress: function () {
                 var oStateSelect = this.getView().byId("stateId");
+                var data = this.createModel.getData();
                 if (oStateSelect.getSelectedKey()) {
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
                     var sStateKey = oStateSelect.getSelectedKey();
+                    if(sCountryKey === "India"){
+                        if(sStateKey === "Haryana"){
+                            data.Location = "Within State";
+                        }else{
+                            data.Location = "Outside State";
+                        }
+                    }else{
+                        data.Location = "Outside Country";
+                    }
                     this.loadCities(sCountryKey, sStateKey);
                 } else {
                     MessageToast.show("Please select a state first.");
                 }
+                this.createModel.refresh(true);
             },
 
             loadCities: function (sCountryKey, sStateKey) {
@@ -737,7 +748,7 @@ sap.ui.define([
             },
 
             sendEmailNotification: function (vendorName, vendorMail) {
-                let emailBody = `||Form is submitted by the supplier. Approval pending at Purchase Head`;
+                let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
@@ -757,11 +768,11 @@ sap.ui.define([
                 oModel.callFunction("/sendEmail", mParameters);
             },
 
-            getPurchaseEmails: async function() {
+            getQualityEmails: async function() {
                 var oModel = this.getView().getModel();
                 return new Promise((resolve, reject) => {
                     oModel.read("/AccessInfo", {
-                        filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, "Purchase")],
+                        filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, "Quality")],
                         success: function(oData) {
                             var emails = oData.results.map(item => item.email);
                             resolve(emails);
@@ -814,6 +825,8 @@ sap.ui.define([
                                         // Successful OTP validation and submission
                                         BusyIndicator.show();
                                         data.Otp = enterOtp;
+                                        this.name = "Quality Team";
+                                        this.initiateName = "Initiator";
                                         var payloadStr = JSON.stringify(data);
                                         var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${data.VendorId}')`;
                                         $.ajax({
@@ -832,15 +845,15 @@ sap.ui.define([
                                                         }
                                                     });
                                                     // Send email to initiatedBy
-                                                    this.sendEmailNotification(requestData.VendorName, requestData.initiatedBy);
-                                                    // Fetch and send emails to 'Purchase' heads
+                                                    this.sendEmailNotification(this.initiateName, requestData.initiatedBy);
+                                                    // Fetch and send emails to 'Quality' 
                                                     try {
-                                                        var purchaseEmails = await this.getPurchaseEmails();
-                                                        purchaseEmails.forEach(email => {
-                                                            this.sendEmailNotification(requestData.VendorName, email);
+                                                        var qualityEmails = await this.getQualityEmails();
+                                                        qualityEmails.forEach(email => {
+                                                            this.sendEmailNotification(this.name, email);
                                                         });
                                                     } catch (error) {
-                                                        console.error("Error fetching Purchase emails: ", error);
+                                                        console.error("Error fetching Quality emails: ", error);
                                                     }
                                                 }
                                             }.bind(this),

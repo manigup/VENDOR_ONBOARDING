@@ -139,6 +139,16 @@ sap.ui.define([
                             this.getView().getModel("request").refresh(true);
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
+                            if (data.State) {
+                                // createdata.State_name = data.State_name;
+                                this.loadStates(data.Country_code);
+                                //this.countryHelpSelect();
+                            }
+                            if (data.City) {
+                                // var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                                // var sStateKey = this.getView().byId("stateId").getSelectedKey();
+                                this.loadCities(data.Country_code, data.State_name);
+                            }
                             // if (data.WitholdingTax) {
                             //     this.withHoldingTaxSelect();
                             // }
@@ -1148,6 +1158,8 @@ sap.ui.define([
                         payload.VendorId = vendata[i].VendorId;
                         payload.VendorName = vendata[i].VendorName;
                         payload.VendorType = vendata[i].VendorType;
+                        payload.Companycode = vendata[i].Companycode;
+                        payload.RegistrationType = vendata[i].RegistrationType;
                         payload.Department = vendata[i].Department;
                         payload.Telephone = vendata[i].Telephone;
                         payload.City = vendata[i].City;
@@ -1155,9 +1167,11 @@ sap.ui.define([
                         payload.VenValidTo = vendata[i].VenValidTo;
                         payload.VenFrom = vendata[i].VenFrom;
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        payload.initiatedBy = vendata[i].initiatedBy;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.AddressCode = vendata[i].AddressCode;
+                        payload.RelatedPart = vendata[i].RelatedPart;
                         var venRelated = vendata[i].RelatedPart;
                         break;
                     }
@@ -1246,6 +1260,8 @@ sap.ui.define([
                         payload.VendorId = vendata[i].VendorId;
                         payload.VendorName = vendata[i].VendorName;
                         payload.VendorType = vendata[i].VendorType;
+                        payload.Companycode = vendata[i].Companycode;
+                        payload.RegistrationType = vendata[i].RegistrationType;
                         payload.Department = vendata[i].Department;
                         payload.Telephone = vendata[i].Telephone;
                         payload.City = vendata[i].City;
@@ -1253,9 +1269,11 @@ sap.ui.define([
                         payload.VenValidTo = vendata[i].VenValidTo;
                         payload.VenFrom = vendata[i].VenFrom;
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        payload.initiatedBy = vendata[i].initiatedBy;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.AddressCode = vendata[i].AddressCode;
+                        payload.RelatedPart = vendata[i].RelatedPart;
                         break;
                     }
                 }

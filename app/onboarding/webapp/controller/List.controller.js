@@ -251,6 +251,8 @@ sap.ui.define([
                         payload.VendorId = vendata[i].VendorId;
                         payload.VendorName = vendata[i].VendorName;
                         payload.VendorType = vendata[i].VendorType;
+                        payload.Companycode = vendata[i].Companycode;
+                        payload.RegistrationType = vendata[i].RegistrationType;
                         payload.Department = vendata[i].Department;
                         payload.Telephone = vendata[i].Telephone;
                         payload.City = vendata[i].City;
@@ -260,6 +262,8 @@ sap.ui.define([
                         payload.VenTimeLeft = "";
                         payload.Status = vendata[i].Status;
                         payload.ResetValidity = "";
+                        payload.initiatedBy = vendata[i].initiatedBy;
+                        payload.RelatedPart = vendata[i].RelatedPart;
                         break;
                     }
                 }
@@ -368,15 +372,21 @@ sap.ui.define([
                         payload.VendorId = vendata[i].VendorId;
                         payload.VendorName = vendata[i].VendorName;
                         payload.VendorType = vendata[i].VendorType;
+                        payload.Companycode = vendata[i].Companycode;
+                        payload.RegistrationType = vendata[i].RegistrationType;
                         payload.Department = vendata[i].Department;
                         payload.Telephone = vendata[i].Telephone;
                         payload.City = vendata[i].City;
                         payload.VendorMail = vendata[i].VendorMail;
+                        this.VendorMail = vendata[i].VendorMail;
                         payload.VenValidTo = vendata[i].VenValidTo;
                         payload.VenFrom = vendata[i].VenFrom;
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        payload.initiatedBy = vendata[i].initiatedBy;
+                        this.initiatedBy = vendata[i].initiatedBy;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
+                        payload.RelatedPart = vendata[i].RelatedPart;
                         var venRelated = vendata[i].RelatedPart;
                         break;
                     }
@@ -386,31 +396,49 @@ sap.ui.define([
                 var pending = "";
                 var appr = "0";
                 if (venStatus === "SBQ") {
+                    this.access = "Purchase";
+                    this.emailbody = `||Form is approved by the Quality. Approval pending at Purchase `;
+                    this.VendorName = "Purchase Team";
                     stat = "ABQ";
                     level = "2";
                     pending = "Purchase"
                     this.msg = "Approved by Quality";
                 } else if (venStatus === "SBP") {
+                    this.access = "COO";
+                    this.emailbody = `||Form is approved by the Purchase. Approval pending at COO `;
+                    this.VendorName = "COO Team";
                     stat = "ABP";
                     level = "3";
                     pending = "COO"
                     this.msg = "Approved by Purchase";
                 } else if (venStatus === "SBC" && venRelated === "No") {
+                    this.access = "Finance";
+                    this.emailbody = `||Form is approved by the COO. Approval pending at Finance `;
+                    this.VendorName = "Finance Team";
                     stat = "ABC";
                     level = "4";
                     pending = "Finance"
                     this.msg = "Approved by COO";
                 } else if (venStatus === "SBC" && venRelated === "Yes") {
+                    this.access = "CEO";
+                    this.emailbody = `||Form is approved by the COO. Approval pending at CEO `;
+                    this.VendorName = "CEO Team";
                     stat = "ABC";
                     level = "4";
                     pending = "CEO"
                     this.msg = "Approved by COO";
                 }else if (venStatus === "SBE" && venRelated === "Yes") {
+                    this.access = "Finance";
+                    this.emailbody = `||Form is approved by the CEO. Approval pending at Finance `;
+                    this.VendorName = "Finance Team";
                     stat = "ABE";
                     level = "5";
                     pending = "Finance"
                     this.msg = "Approved by CEO";
                 }  else if (venStatus === "SBF") {
+                    this.access = "Supplier";
+                    this.emailbody = `||Form is approved by the Finance and BP created successfully. `;
+                    this.VendorName = payload.VendorName;
                     stat = "ABF";
                     payload.AddressCode = formdata.AddressCode;
                     this.msg = "Approved by Finance and BP " + payload.AddressCode + " created successfully";
@@ -419,17 +447,69 @@ sap.ui.define([
                 payload.VenLevel = level;
                 payload.VenApprovalPending = pending;
                 payload.VenApprove = appr;
+                this.initiateName = "Initiator";
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
-                    success: () => {
+                    success: async () => {
                         BusyIndicator.hide();
                         MessageBox.success(this.msg, {
                             onClose: () => this.getData()
                         });
+                        // Send email to initiatedBy
+                        this.sendApprovalEmailNotification(this.emailbody, this.initiateName, this.initiatedBy);
+                        // Fetch and send emails  
+                        if(this.access !== "Supplier"){
+                        try {
+                            var deptEmails = await this.getEmails(this.access);
+                            deptEmails.forEach(email => {
+                                this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
+                            });
+                        } catch (error) {
+                            console.error("Error fetching emails: ", error);
+                        }
+                    }else if(this.access === "Supplier"){
+                        this.sendApprovalEmailNotification(this.emailbody, this.VendorName, this.VendorMail);
+                    }
                     },
                     error: (error) => {
                         BusyIndicator.hide();
                         console.log(error);
                     }
+                });
+            },
+            sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
+               // let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        vendorName: vendorName,
+                        subject: "Supplier Form",
+                        content: emailbody,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
+            },
+
+            getEmails: async function(access) {
+                var oModel = this.getView().getModel();
+                return new Promise((resolve, reject) => {
+                    oModel.read("/AccessInfo", {
+                        filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, access)],
+                        success: function(oData) {
+                            var emails = oData.results.map(item => item.email);
+                            resolve(emails);
+                        },
+                        error: function(oError) {
+                            reject(oError);
+                        }
+                    });
                 });
             },
             getFormData: function () {
@@ -829,6 +909,8 @@ sap.ui.define([
                         payload.VendorId = vendata[i].VendorId;
                         payload.VendorName = vendata[i].VendorName;
                         payload.VendorType = vendata[i].VendorType;
+                        payload.Companycode = vendata[i].Companycode;
+                        payload.RegistrationType = vendata[i].RegistrationType;
                         payload.Department = vendata[i].Department;
                         payload.Telephone = vendata[i].Telephone;
                         payload.City = vendata[i].City;
@@ -836,8 +918,10 @@ sap.ui.define([
                         payload.VenValidTo = vendata[i].VenValidTo;
                         payload.VenFrom = vendata[i].VenFrom;
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                        payload.initiatedBy = vendata[i].initiatedBy;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
+                        payload.RelatedPart = vendata[i].RelatedPart;
                         break;
                     }
                 }
