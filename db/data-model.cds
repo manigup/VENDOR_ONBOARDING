@@ -179,6 +179,12 @@ entity VendorForm : managed {
       ContactPersonPhone           : String;
       ContactPersonMobile          : String;
       ContactPersonMail            : String;
+      ContactPersonName2           : String;
+      ContactPersonDepartment2     : String;
+      ContactPersonDesignation2    : String;
+      ContactPersonPhone2          : String;
+      ContactPersonMobile2         : String;
+      ContactPersonMail2           : String;
       DocCode                      : String;
       DocDescription               : String;
       BankAddress                  : String;
@@ -265,6 +271,31 @@ entity VendorForm : managed {
       Attachment2Name              : String;
       RiskAssessment               : String;
       SystemAuditCheck             : String;
+      ISO9001Attachment            : String;
+      IATF16949Attachment          : String;
+      ISO14001Attachment           : String;
+      ISO45001Attachment           : String;
+      VDA63Attachment              : String;
+      GroupType                    : String;
+      BalanceSheet                 : String;
+      ProductSafety                : String;
+      MineralSurvey                : String;
+      LegalRequirement             : String;
+      Union                        : String;
+      ProdDesign                   : String;
+      SoftwareCapabilities         : String;
+      BusinessContinuity           : String;
+      LogisticCustomer             : String;
+      ISO9001ValidFrom             : String;
+      ISO9001ValidTo               : String;
+      IATF16949ValidFrom           : String;
+      IATF16949ValidTo             : String;
+      ISO14001ValidFrom            : String;
+      ISO14001ValidTo              : String;
+      ISO45001ValidFrom            : String;
+      ISO45001ValidTo              : String;
+      VDA63ValidFrom               : String;
+      VDA63ValidTo                 : String;
       Products                     : Composition of many ProductInfo
                                        on Products.Vendor = $self;
 }
@@ -276,4 +307,6 @@ entity ProductInfo {
       CustomerName         : String;
       QtyAvgLastYear       : String;
       RejectionPPMLastYear : String;
+      AutomotiveBusiness   : String;
+      DeliveryPerformance  : String;
 }

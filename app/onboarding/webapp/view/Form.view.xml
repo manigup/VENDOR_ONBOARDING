@@ -48,15 +48,107 @@
                         />
                         <RadioButtonGroup
                             id="typeRbId"
-                            columns="2"
+                            columns="3"
                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton text="Material" />
                             <RadioButton text="Service" />
+                            <RadioButton text="Both" />
                         </RadioButtonGroup>
-
-
+                        <Label
+                            design="Bold"
+                            text="Group Type"
+                            required="true"
+                        />
+                        <Select
+                            id="grouptypeId"
+                            showSecondaryValues="true"
+                            forceSelection="false"
+                            selectedKey="{create>/GroupType}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                        >
+                            <core:ListItem
+                                key="A01"
+                                text="Casting"
+                                additionalText="A01"
+                            />
+                            <core:ListItem
+                                key="B01"
+                                text="Forging"
+                                additionalText="B01"
+                            />
+                            <core:ListItem
+                                key="C01"
+                                text="Bulk Hose"
+                                additionalText="C01"
+                            />
+                            <core:ListItem
+                                key="D01"
+                                text="Formed Hose"
+                                additionalText="D01"
+                            />
+                            <core:ListItem
+                                key="E01"
+                                text="Ind Material - Prod"
+                                additionalText="E01"
+                            />
+                            <core:ListItem
+                                key="F01"
+                                text="Ind Material - Other"
+                                additionalText="F01"
+                            />
+                            <core:ListItem
+                                key="G01"
+                                text="Molding"
+                                additionalText="G01"
+                            />
+                            <core:ListItem
+                                key="H01"
+                                text="Job-work"
+                                additionalText="H01"
+                            />
+                            <core:ListItem
+                                key="I01"
+                                text="Machining"
+                                additionalText="I01"
+                            />
+                            <core:ListItem
+                                key="J01"
+                                text="RM - Polymer"
+                                additionalText="J01"
+                            />
+                            <core:ListItem
+                                key="K01"
+                                text="Proprietory"
+                                additionalText="K01"
+                            />
+                            <core:ListItem
+                                key="L01"
+                                text="Sheet Metal"
+                                additionalText="L01"
+                            />
+                            <core:ListItem
+                                key="M01"
+                                text="Capex"
+                                additionalText="M01"
+                            />
+                            <core:ListItem
+                                key="N01"
+                                text="Tubes"
+                                additionalText="N01"
+                            />
+                            <core:ListItem
+                                key="O01"
+                                text="Sleeves"
+                                additionalText="O01"
+                            />
+                            <core:ListItem
+                                key="P01"
+                                text="Springs"
+                                additionalText="P01"
+                            />
+                        </Select>
                         <Label
                             id="natureOfIndustryLabel"
                             design="Bold"
@@ -135,22 +227,22 @@
                             id="registrationtypeRbId"
                             columns="2"
                             enabled="false"
-                            selectedIndex="{= ${create>/RegistrationType} === 'Customer Approved / Non BOM' ? 0 : 1}"
+                            selectedIndex="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' ? 0 : 1}"
                             select="onRadioButtonSelect"
                         >
-                            <RadioButton text="Customer Approved / Non BOM" />
-                            <RadioButton text="BOM parts" />
+                            <RadioButton text="Customer Approved / BOM Parts" />
+                            <RadioButton text="Non BOM parts" />
                         </RadioButtonGroup>
                         <Label
                             design="Bold"
                             text="Address Code"
-                            required="true"
+                            required="{= ${request>/purchase} === true}"
                         />
                         <Input
                             id="addcodeId"
                             change="onAddressCodChange"
                             maxLength="9"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/AddressCode',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
@@ -197,7 +289,7 @@
                         />
                         <Label
                             design="Bold"
-                            text="Program/Purpose"
+                            text="Reasons for the development of new vendor"
                             required="true"
                         />
                         <Input
@@ -209,11 +301,30 @@
                             design="Bold"
                             text="Constitution of Business"
                         />
-                        <Input
-                            id="constId"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/Consitution',type:'sap.ui.model.type.String'}"
-                        />
+                        <Select
+                            id="companytypeId"
+                            showSecondaryValues="true"
+                            forceSelection="false"
+                            selectedKey="{create>/CompanyType}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                        >
+                            <core:Item
+                                key="Partnership"
+                                text="Partnership"
+                            />
+                            <core:Item
+                                key="Proprietorship"
+                                text="Proprietorship"
+                            />
+                            <core:Item
+                                key="Private Limited"
+                                text="Private Limited"
+                            />
+                            <core:Item
+                                key="Limited"
+                                text="Limited"
+                            />
+                        </Select>
                         <Label
                             design="Bold"
                             text="Address 1"
@@ -321,17 +432,105 @@
                             required="true"
                         />
                         <Input
-                            id="contactPersonId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/ContactPerson',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            id="contactPersonnameId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
                             design="Bold"
-                            text="Contact Person Mobile Number"
+                            text="Department"
                             required="true"
                         />
                         <Input
-                            id="contactPersonMobileId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/AlternateMobile',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                            id="deptId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonDepartment',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                            required="true"
+                        />
+                        <Input
+                            id="desigId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonDesignation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Phone Number"
+                            required="true"
+                        />
+                        <Input
+                            id="contphoneId"
+                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonPhone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                            required="true"
+                        />
+                        <Input
+                            id="contmobileId"
+                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonMobile',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                            required="true"
+                        />
+                        <Input
+                            id="contemailId" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonMail'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Contact Person Name"
+                        />
+                        <Input
+                            id="contactPersonname2Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            id="dept2Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            id="desig2Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Phone Number"
+                        />
+                        <Input
+                            id="contphone2Id"
+                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            id="contmobile2Id"
+                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            id="contemail2Id" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ContactPersonMail2'}"
                         />
                         <Label
                             design="Bold"
@@ -383,7 +582,7 @@
                         />
                         <Label
                             design="Bold"
-                            text="Supplier Type"
+                            text="Transaction Type"
                             required="true"
                         />
                         <Select
@@ -400,6 +599,10 @@
                             <core:Item
                                 key="Temporary"
                                 text="Temporary"
+                            />
+                            <core:Item
+                                key="One Time"
+                                text="One Time"
                             />
                         </Select>
 
@@ -453,13 +656,6 @@
                             id="locationId"  enabled="false"
                             value="{path:'create>/Location',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
-                        
-                        
-                        <Label
-                            design="Bold"
-                            text="Contact Person Designation"
-                        />
-                        <Input value="{create>/Designation}"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
                         <Label
                             design="Bold"
                             text="Delivery Mode"
@@ -736,29 +932,6 @@
                                 value="{path: 'create>/TurnOverYear3', type:'sap.ui.model.type.String'}"
                             />
 
-                            <!-- SSINo -->
-                            <Label
-                                design="Bold"
-                                text="SSI No."
-                            />
-                            <Input
-                                id="ssinoId"
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                                value="{path:'create>/SSINo', type: 'sap.ui.model.type.String', constraints: { minLength: 1 }}"
-                            />
-
-                            <!-- SSIDate -->
-                            <Label
-                                design="Bold"
-                                text="SSI Date"
-                            />
-                            <DatePicker
-                                id="ssidate"
-                                value="{path:'create>/SSIDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
-                                valueFormat="ddMMyyyy"
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            />
-
                             <Label
                                 design="Bold"
                                 text="Associate Company Name"
@@ -822,30 +995,6 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                             value="{path:'create>/JWRWCost',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
-                        <Label
-                            design="Bold"
-                            text="Company Type"
-                        />
-                        <Select
-                            id="companytypeId"
-                            showSecondaryValues="true"
-                            forceSelection="false"
-                            selectedKey="{create>/CompanyType}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                        >
-                            <core:Item
-                                key="Private Limited"
-                                text="Private Limited"
-                            />
-                            <core:Item
-                                key="Public Limited"
-                                text="Public Limited"
-                            />
-                            <core:Item
-                                key="Proprietorship"
-                                text="Proprietorship"
-                            />
-                        </Select>
                         <Label
                             design="Bold"
                             text="ISO Expiry Date"
@@ -1047,7 +1196,7 @@
                         <Label
                             design="Bold"
                             text="Tax" 
-                            required="true"
+                            required="{= ${request>/purchase} === true}"
                         />
                         <Input
                             id="taxId"  enabled="false"
@@ -1057,7 +1206,7 @@
                             id="taxcalbtnId"
                             text="Calculate Tax"
                             press="onCalcTaxPress"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <Label
                             design="Bold"
@@ -1091,64 +1240,6 @@
                         enabled="false"
                         value="{path:'create>/GroupCode8',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                     />
-                        <Label
-                            design="Bold"
-                            text="Contact Person Name"
-                            required="true"
-                        />
-                        <Input
-                            id="contactPersonnameId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/ContactPersonName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                            required="true"
-                        />
-                        <Input
-                            id="deptId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/ContactPersonDepartment',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                            required="true"
-                        />
-                        <Input
-                            id="desigId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/ContactPersonDesignation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Phone Number"
-                            required="true"
-                        />
-                        <Input
-                            id="contphoneId"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/ContactPersonPhone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                            required="true"
-                        />
-                        <Input
-                            id="contmobileId"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/ContactPersonMobile',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                            required="true"
-                        />
-                        <Input
-                            id="contemailId" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/ContactPersonMail'}"
-                            
-                        />
-                       
                         <Label
                             design="Bold"
                             text="Doc Code"
@@ -1571,6 +1662,35 @@
                                 <core:CustomData key="CancelledCheque" />
                             </customData>
                         </Link>
+                        <Label
+                            design="Bold"
+                            text="Financial Status (Balance Sheet)"
+                        />
+                        <u:FileUploader
+                            id="balanceSheetfileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            buttonText="Browse"
+                        >
+                            <u:customData>
+                                <core:CustomData key="BalanceSheet" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="balanceSheetfileUploadLink"
+                            text="{create>/BalanceSheet}"
+                            visible="{= ${create>/BalanceSheet} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="BalanceSheet" />
+                            </customData>
+                        </Link>
                     </f:content>
                 </f:SimpleForm>
             </Panel>
@@ -1678,6 +1798,15 @@
                         />
                         <Label
                             design="Bold"
+                            text="Any product safety required"
+                        />
+                        <Input
+                            id="productSafetyId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/ProductSafety',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
                             text="Product and Customers"
                         />
                         <Link
@@ -1716,6 +1845,17 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                             value="{path:'create>/DailyWages',type: 'sap.ui.model.type.String'}"
                         />
+                        <Label id="unionLabel" design="Bold" text="Does organization have any union" />
+                        <RadioButtonGroup
+                            id="unionRbId"
+                            columns="2"
+                            selectedIndex="{= ${create>/Union} === 'YES' ? 0 : 1}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton text="Yes" />
+                            <RadioButton text="No" />
+                        </RadioButtonGroup>
                         <Label
                             design="Bold"
                             text="Quality Control Employees"
@@ -1733,6 +1873,24 @@
                             id="productsManufacturedId"
                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                             value="{path:'create>/ProductsManufactured',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Applicable legal requirement (ELV/ROHS)"
+                        />
+                        <Input
+                            id="legalRequirementId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/LegalRequirement',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Conflict Mineral Survey (3TG)"
+                        />
+                        <Input
+                            id="mineralSurveyId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/MineralSurvey',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
@@ -1803,6 +1961,12 @@
                                 <Column>
                                     <Text text="Rejection ppm (Average last 1 year)" />
                                 </Column>
+                                <Column>
+                                    <Text text="% of Automotive Business" />
+                                </Column>
+                                <Column>
+                                    <Text text="Delivery Performance %" />
+                                </Column>
                             </columns>
 
                             <items>
@@ -1813,10 +1977,78 @@
                                         <Input id="_IDGenInput1" value="{productInfoTable>CustomerName}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
                                         <Input id="_IDGenInput4" value="{productInfoTable>QtyAvgLastYear}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
                                         <Input id="_IDGenInput5" value="{productInfoTable>RejectionPPMLastYear}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                                        <Input id="_IDGenInput6" value="{productInfoTable>AutomotiveBusiness}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                                        <Input id="_IDGenInput7" value="{productInfoTable>DeliveryPerformance}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
                                     </cells>
                                 </ColumnListItem>
                             </items>
                         </Table>
+                        <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
+                        <Label
+                            design="Bold"
+                            text="Does the organization have capability of product design"
+                        />
+                        <RadioButtonGroup
+                            id="prodDesignRbId"
+                            columns="2"
+                            selectedIndex="{= ${create>/ProdDesign} === 'YES' ? 0 : 1}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton text="Yes" />
+                            <RadioButton text="No" />
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
+                            text="Does have software development capabilities (if applicable)"
+                        />
+                        <RadioButtonGroup
+                            id="softwareCapRbId"
+                            columns="3"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton text="Yes" />
+                            <RadioButton text="No" />
+                            <RadioButton text="N/A" />
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
+                            text="Do you have business continuity planning"
+                        />
+                        <RadioButtonGroup
+                            id="businessContinuityRbId"
+                            columns="2"
+                            selectedIndex="{= ${create>/BusinessContinuity} === 'YES' ? 0 : 1}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton text="Yes" />
+                            <RadioButton text="No" />
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
+                            text="Logistics and customer service"
+                        />
+                        <RadioButtonGroup
+                            id="logCustRbId"
+                            columns="2"
+                            selectedIndex="{= ${create>/LogisticCustomer} === 'YES' ? 0 : 1}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton text="Yes" />
+                            <RadioButton text="No" />
+                        </RadioButtonGroup>
+                    </f:content>
+                </f:SimpleForm>
             </Panel>
             <Panel
                 headerText="Attachments"
@@ -1867,8 +2099,8 @@
                         <Label
                             design="Bold"
                             text="Risk Assessment"
-                            visible="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
-                            required="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
+                            required="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
                         />
                         <u:FileUploader
                             id="riskFileUploader"
@@ -1880,7 +2112,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="5MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            visible="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="RiskAssessment" />
@@ -1888,7 +2120,7 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/RiskAssessment}"
-                            visible="{= ${create>/RiskAssessment} !== '' &amp;&amp; ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RiskAssessment} !== '' &amp;&amp; ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -1898,8 +2130,8 @@
                         <Label
                             design="Bold"
                             text="System Audit Check"
-                            visible="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
-                            required="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
+                            required="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
                         />
                         <u:FileUploader
                             id="systemAuditCheckFileUploader"
@@ -1911,7 +2143,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="5MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            visible="{= ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="SystemAuditCheck" />
@@ -1924,6 +2156,141 @@
                         >
                             <customData>
                                 <core:CustomData key="SystemAuditCheck" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="ISO9001 Certificate"
+                            required="{= ${create>/ISO9001Certification} === 'X'}"
+                        />
+                        <DatePicker
+                            id="ISO9001ValidFrom"
+                            placeholder="Enter ISO9001 Valid From"
+                            value="{path:'create>/ISO9001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <DatePicker
+                            id="ISO9001ValidTo"
+                            placeholder="Enter ISO9001 Valid To"
+                            value="{path:'create>/ISO9001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <Link
+                            text="{create>/ISO9001Attachment}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="ISO9001Attachment" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="IATF 16949 Certificate"
+                            required="{= ${create>/IATF16949Certification} === 'X'}"
+                        />
+                        <DatePicker
+                            id="IATF16949ValidFrom"
+                            placeholder="Enter IATF16949 Valid From"
+                            value="{path:'create>/IATF16949ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <DatePicker
+                            id="IATF16949ValidTo"
+                            placeholder="Enter IATF16949 Valid To"
+                            value="{path:'create>/IATF16949ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <Link
+                            text="{create>/IATF16949Attachment}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="IATF16949Attachment" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="ISO 14001 Certificate"
+                            required="{= ${create>/ISO14001Certification} === 'X'}"
+                        />
+                        <DatePicker
+                            id="ISO14001ValidFrom"
+                            placeholder="Enter ISO14001 Valid From"
+                            value="{path:'create>/ISO14001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <DatePicker
+                            id="ISO14001ValidTo"
+                            placeholder="Enter ISO14001 Valid To"
+                            value="{path:'create>/ISO14001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <Link
+                            text="{create>/ISO14001Attachment}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="ISO14001Attachment" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="ISO 45001 Certificate"
+                            required="{= ${create>/ISO45001Certification} === 'X'}"
+                        />
+                        <DatePicker
+                            id="ISO45001ValidFrom"
+                            placeholder="Enter ISO45001 Valid From"
+                            value="{path:'create>/ISO45001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <DatePicker
+                            id="ISO45001ValidTo"
+                            placeholder="Enter ISO45001 Valid To"
+                            value="{path:'create>/ISO45001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <Link
+                            text="{create>/ISO45001Attachment}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="ISO45001Attachment" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="VDA 6.3 Certificate"
+                            required="{= ${create>/VDA63Certification} === 'X'}"
+                        />
+                        <DatePicker
+                            id="VDA63ValidFrom"
+                            placeholder="Enter VDA63 Valid From"
+                            value="{path:'create>/VDA63ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <DatePicker
+                            id="VDA63ValidTo"
+                            placeholder="Enter VDA63 Valid To"
+                            value="{path:'create>/VDA63ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="false"
+                        />
+                        <Link
+                            text="{create>/VDA63Attachment}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="VDA63Attachment" />
                             </customData>
                         </Link>
                         <!-- <Label

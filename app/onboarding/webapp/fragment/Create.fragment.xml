@@ -77,13 +77,13 @@
                 />
                 <core:Item
                     id="_IDGenItem5"
-                    key="Customer Approved / Non BOM"
-                    text="Customer Approved / Non BOM"
+                    key="Customer Approved / BOM Parts"
+                    text="Customer Approved / BOM Parts"
                 />
                 <core:Item
                     id="_IDGenItem4"
-                    key="BOM parts"
-                    text="BOM parts"
+                    key="Non BOM parts"
+                    text="Non BOM parts"
                 />
             </Select>
             <!-- <Label
