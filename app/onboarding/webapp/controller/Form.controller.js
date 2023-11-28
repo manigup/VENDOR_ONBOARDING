@@ -31,9 +31,9 @@ sap.ui.define([
 
                 this.productInfoTableModel = new JSONModel({
                     rows: [
-                        {'SrNo': 1},
-                        {'SrNo': 2},
-                        {'SrNo': 3}
+                        { 'SrNo': 1 },
+                        { 'SrNo': 2 },
+                        { 'SrNo': 3 }
                     ]
                 });
                 this.getView().setModel(this.productInfoTableModel, "productInfoTable");
@@ -57,7 +57,7 @@ sap.ui.define([
                 }
 
                 this.initializeCountries();
-                
+
             },
             handleRouteMatched: function (oEvent) {
                 this.initializeAPIS();
@@ -75,52 +75,52 @@ sap.ui.define([
                         break;
                     }
                 }
-                
+
                 BusyIndicator.show();
                 setTimeout(() => {
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
                             data.PartyClassification = "Sup";
-                        //     data.TaxNumCat = "IN3";
-                        // data.ChkDoubleInv = "X";
-                        // data.GrBasedInv = "X";
-                        // data.SerBasedInv = "X";
-                        if(vendorrelated === "No"){
-                            if (vendorStatus === "SBS"  && requestData.quality) {
-                                requestData.edit = false;
-                            }else if (vendorStatus === "ABQ" && requestData.purchase) {
-                                requestData.edit = false;
-                            }else if (vendorStatus === "ABP" && requestData.coo) {
-                                requestData.edit = false;
-                            } 
-                            else if (vendorStatus === "ABC" && requestData.finance) {
-                                requestData.edit = false;
-                            }else if ((vendorStatus === "RBP" || vendorStatus === "RBC" || vendorStatus === "RBF") && requestData.quality) {
-                                requestData.edit = false;
-                                requestData.route = true;
+                            //     data.TaxNumCat = "IN3";
+                            // data.ChkDoubleInv = "X";
+                            // data.GrBasedInv = "X";
+                            // data.SerBasedInv = "X";
+                            if (vendorrelated === "No") {
+                                if (vendorStatus === "SBS" && requestData.quality) {
+                                    requestData.edit = false;
+                                } else if (vendorStatus === "ABQ" && requestData.purchase) {
+                                    requestData.edit = false;
+                                } else if (vendorStatus === "ABP" && requestData.coo) {
+                                    requestData.edit = false;
+                                }
+                                else if (vendorStatus === "ABC" && requestData.finance) {
+                                    requestData.edit = false;
+                                } else if ((vendorStatus === "RBP" || vendorStatus === "RBC" || vendorStatus === "RBF") && requestData.quality) {
+                                    requestData.edit = false;
+                                    requestData.route = true;
+                                }
+                                else {
+                                    requestData.edit = ""
+                                }
+                            } else if (vendorrelated === "Yes") {
+                                if (vendorStatus === "SBS" && requestData.quality) {
+                                    requestData.edit = false;
+                                } else if (vendorStatus === "ABQ" && requestData.purchase) {
+                                    requestData.edit = false;
+                                } else if (vendorStatus === "ABP" && requestData.coo) {
+                                    requestData.edit = false;
+                                } else if (vendorStatus === "ABC" && requestData.ceo) {
+                                    requestData.edit = false;
+                                } else if (vendorStatus === "ABE" && requestData.finance) {
+                                    requestData.edit = false;
+                                } else if ((vendorStatus === "RBP" || vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.quality) {
+                                    requestData.edit = false;
+                                    requestData.route = true;
+                                }
+                                else {
+                                    requestData.edit = ""
+                                }
                             }
-                            else {
-                                requestData.edit = ""
-                            }
-                        }else if(vendorrelated === "Yes"){
-                            if (vendorStatus === "SBS"  && requestData.quality) {
-                                requestData.edit = false;
-                            }else if (vendorStatus === "ABQ" && requestData.purchase) {
-                                requestData.edit = false;
-                            }else if (vendorStatus === "ABP" && requestData.coo) {
-                                requestData.edit = false;
-                            }else if (vendorStatus === "ABC" && requestData.ceo) {
-                                requestData.edit = false;
-                            }else if (vendorStatus === "ABE" && requestData.finance) {
-                                requestData.edit = false;
-                            }else if ((vendorStatus === "RBP" || vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.quality) {
-                                requestData.edit = false;
-                                requestData.route = true;
-                            }
-                            else {
-                                requestData.edit = ""
-                            }
-                        }
                             if (data.ISO9001Certification === "X") {
                                 this.byId("ISO9001Certification").setSelected(true);
                             }
@@ -135,7 +135,7 @@ sap.ui.define([
                             }
                             if (data.VDA63Certification === "X") {
                                 this.byId("VDA63Certification").setSelected(true);
-                            }                        
+                            }
                             this.getView().getModel("request").refresh(true);
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
@@ -169,10 +169,10 @@ sap.ui.define([
                 this.fetchProductInfo();
             },
 
-            fetchProductInfo: function() {
+            fetchProductInfo: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
-            
+
                 this.getView().getModel().read(sProductInfoPath, {
                     success: (oData, oResponse) => {
                         if (oData.results && oData.results.length > 0) {
@@ -191,27 +191,27 @@ sap.ui.define([
                 this.getView().getModel("request").refresh(true);
             },
 
-            initializeAPIS: function(){
+            initializeAPIS: function () {
                 var unitCode = sessionStorage.getItem("unitCode");
-                
+
                 this.GetSupplierAccountCodeList(unitCode)
-                    .then(function() {
+                    .then(function () {
                         return this.GetDocumentList(unitCode);
                     }.bind(this))
-                    .then(function() {
+                    .then(function () {
                         return this.GetSupplierTransportersList(unitCode);
                     }.bind(this))
-                    .then(function() {
+                    .then(function () {
                         return this.GetSupplierLocationList(unitCode);
                     }.bind(this))
-                    .catch(function(error) {
+                    .catch(function (error) {
                         MessageBox.error("Failed to fetch data: " + error.message);
                     });
             },
 
             GetSupplierAccountCodeList: function (unitCode) {
                 var oModel = this.getView().getModel();
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     oModel.callFunction("/GetSupplierAccountCodeList", {
                         method: "GET",
                         urlParameters: {
@@ -220,7 +220,7 @@ sap.ui.define([
                         success: function (oData, response) {
                             var accountData = oData.results;
                             var oAccountModel = new sap.ui.model.json.JSONModel();
-                            oAccountModel.setData({items: accountData});
+                            oAccountModel.setData({ items: accountData });
                             this.getView().setModel(oAccountModel, "account");
                             resolve();
                         }.bind(this),
@@ -230,28 +230,28 @@ sap.ui.define([
                     });
                 }.bind(this));
             },
-            
+
             onAccountCodeChange: function (oEvent) {
-                var oComboBox = oEvent.getSource(); 
-                var oSelectedItem = oComboBox.getSelectedItem(); 
+                var oComboBox = oEvent.getSource();
+                var oSelectedItem = oComboBox.getSelectedItem();
                 if (oSelectedItem) {
-                    var sSelectedKey = oSelectedItem.getKey(); 
+                    var sSelectedKey = oSelectedItem.getKey();
                     var oAccountModel = this.getView().getModel("account");
                     var aItems = oAccountModel.getProperty("/items");
                     var oSelectedItemData = aItems.find(function (item) {
-                        return item.AcctCode === sSelectedKey; 
+                        return item.AcctCode === sSelectedKey;
                     });
                     if (oSelectedItemData) {
-                        var sAccountDesc = oSelectedItemData.AcctName;  
-                        var oCreateModel = this.getView().getModel("create");  
-                        oCreateModel.setProperty("/AccountDesc", sAccountDesc); 
+                        var sAccountDesc = oSelectedItemData.AcctName;
+                        var oCreateModel = this.getView().getModel("create");
+                        oCreateModel.setProperty("/AccountDesc", sAccountDesc);
                     }
                 }
             },
 
             GetDocumentList: function (unitCode) {
                 var oModel = this.getView().getModel();
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     oModel.callFunction("/GetDocumentList", {
                         method: "GET",
                         urlParameters: {
@@ -260,7 +260,7 @@ sap.ui.define([
                         success: function (oData, response) {
                             var docData = oData.results;
                             var oDocModel = new sap.ui.model.json.JSONModel();
-                            oDocModel.setData({items: docData});
+                            oDocModel.setData({ items: docData });
                             this.getView().setModel(oDocModel, "doc");
                             resolve();
                         }.bind(this),
@@ -291,7 +291,7 @@ sap.ui.define([
 
             GetSupplierTransportersList: function (unitCode) {
                 var oModel = this.getView().getModel();
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     oModel.callFunction("/GetSupplierTransportersList", {
                         method: "GET",
                         urlParameters: {
@@ -300,7 +300,7 @@ sap.ui.define([
                         success: function (oData, response) {
                             var transporterData = oData.results;
                             var oTransporterModel = new sap.ui.model.json.JSONModel();
-                            oTransporterModel.setData({items: transporterData});
+                            oTransporterModel.setData({ items: transporterData });
                             this.getView().setModel(oTransporterModel, "transporters");
                             resolve();
                         }.bind(this),
@@ -313,7 +313,7 @@ sap.ui.define([
 
             GetSupplierLocationList: function (unitCode) {
                 var oModel = this.getView().getModel();
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     oModel.callFunction("/GetSupplierLocationList", {
                         method: "GET",
                         urlParameters: {
@@ -322,7 +322,7 @@ sap.ui.define([
                         success: function (oData, response) {
                             var locationData = oData.results;
                             var oLocationModel = new sap.ui.model.json.JSONModel();
-                            oLocationModel.setData({items: locationData});
+                            oLocationModel.setData({ items: locationData });
                             this.getView().setModel(oLocationModel, "location");
                             resolve();
                         }.bind(this),
@@ -332,7 +332,7 @@ sap.ui.define([
                     });
                 }.bind(this));
             },
-        
+
             _setCheckBoxes: function (data) {
                 // if (data.ChkDoubleInv === "X") {
                 //     this.getView().byId("chkInvId").setSelected(true);
@@ -355,7 +355,7 @@ sap.ui.define([
                 if (data.GstRegistered === "1") {
                     this.getView().byId("gstRbId").setSelected(true);
                 }
-    
+
             },
 
             _setRadioButtons: function (data) { //Set Radio Buttons Index
@@ -366,12 +366,31 @@ sap.ui.define([
                 }
                 if (data.Type === "SERVICE") {
                     this.byId("typeRbId").setSelectedIndex(1);
+                } else if (data.Type === "BOTH") {
+                    this.byId("typeRbId").setSelectedIndex(2);
                 }
                 if (data.Msme === "NO") {
                     this.byId("msmeRbId").setSelectedIndex(1);
                 }
                 if (data.GstApplicable === "NO") {
                     this.byId("gstRbId").setSelectedIndex(1);
+                }
+                if (data.Union === "NO") {
+                    this.byId("unionRbId").setSelectedIndex(1);
+                }
+                if (data.ProdDesign === "NO") {
+                    this.byId("prodDesignRbId").setSelectedIndex(1);
+                }
+                if (data.SoftwareCapabilities === "NO") {
+                    this.byId("softwareCapRbId").setSelectedIndex(1);
+                } else if (data.SoftwareCapabilities === "N/A") {
+                    this.byId("softwareCapRbId").setSelectedIndex(2);
+                }
+                if (data.BusinessContinuity === "NO") {
+                    this.byId("businessContinuityRbId").setSelectedIndex(1);
+                }
+                if (data.LogisticCustomer === "NO") {
+                    this.byId("logCustRbId").setSelectedIndex(1);
                 }
                 if (data.NatureOfIndustry === "SMALL") {
                     this.byId("natureOfIndustryRbId").setSelectedIndex(0);
@@ -402,61 +421,61 @@ sap.ui.define([
                 this.createModel.refresh(true);
             },
             onAddressCodChange: function (oEvent) {
-               var addcode = oEvent.getSource().getValue();
-               var addresscodedata = JSON.parse(sessionStorage.getItem("CodeDetails"));
-               this.isunitaddressexists = addresscodedata.find(item => item.AddressCode === addcode) ? true : false;
-               sessionStorage.setItem("isunitaddressexists", this.isunitaddressexists);
+                var addcode = oEvent.getSource().getValue();
+                var addresscodedata = JSON.parse(sessionStorage.getItem("CodeDetails"));
+                this.isunitaddressexists = addresscodedata.find(item => item.AddressCode === addcode) ? true : false;
+                sessionStorage.setItem("isunitaddressexists", this.isunitaddressexists);
             },
             onCalcTaxPress: function (oEvent) {
                 var data = this.createModel.getData();
                 var finalTax = "";
                 var tax = "";
                 var HdnTrnCode = "ADDP";
-                if(data.Location === "Within State" && this.isunitaddressexists === false){
-                    if(data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1"){
-                         tax = "0" + data.STRatePerc;
-                         finalTax = "LST" + tax;
-                    }else if(data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2"){
+                if (data.Location === "Within State" && this.isunitaddressexists === false) {
+                    if (data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1") {
+                        tax = "0" + data.STRatePerc;
+                        finalTax = "LST" + tax;
+                    } else if (data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2") {
                         tax = data.STRatePerc;
                         finalTax = "LST" + tax;
-                    }else{
-                    tax = data.STRatePerc;
-                    finalTax = "LST" + tax;
+                    } else {
+                        tax = data.STRatePerc;
+                        finalTax = "LST" + tax;
                     }
-                }else if(data.Location === "Outside State" && this.isunitaddressexists === false){
-                    if(data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1"){
+                } else if (data.Location === "Outside State" && this.isunitaddressexists === false) {
+                    if (data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1") {
                         tax = "0" + data.STRatePerc;
                         finalTax = "CST" + tax;
-                   }else if(data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2"){
-                       tax = data.STRatePerc;
-                       finalTax = "CST" + tax;
-                   }else{
-                   tax = data.STRatePerc;
-                   finalTax = "CST" + tax;
-                   }
-                }else if((data.Location === "Within State" || data.Location === "Outside State") && this.isunitaddressexists){
-                    if(data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1"){
+                    } else if (data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2") {
+                        tax = data.STRatePerc;
+                        finalTax = "CST" + tax;
+                    } else {
+                        tax = data.STRatePerc;
+                        finalTax = "CST" + tax;
+                    }
+                } else if ((data.Location === "Within State" || data.Location === "Outside State") && this.isunitaddressexists) {
+                    if (data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1") {
                         tax = "0" + data.STRatePerc;
                         finalTax = "STB" + tax;
-                   }else{
-                   tax = data.STRatePerc;
-                   finalTax = "STB" + tax;
-                   }
-                }else if(data.Location === "Outside Country" && HdnTrnCode === "ADDP"){
-                    if(data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1"){
+                    } else {
+                        tax = data.STRatePerc;
+                        finalTax = "STB" + tax;
+                    }
+                } else if (data.Location === "Outside Country" && HdnTrnCode === "ADDP") {
+                    if (data.STRatePerc >= "0" && data.STRatePerc <= "9" && data.STRatePerc.length === "1") {
                         tax = "0" + data.STRatePerc;
                         finalTax = "IMP" + tax;
-                   }else if(data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2"){
-                       tax = data.STRatePerc;
-                       finalTax = "IMP" + tax;
-                   }else{
-                   tax = data.STRatePerc;
-                   finalTax = "IMP" + tax;
-                   }
+                    } else if (data.STRatePerc >= "10" && data.STRatePerc <= "99" && data.STRatePerc.length === "2") {
+                        tax = data.STRatePerc;
+                        finalTax = "IMP" + tax;
+                    } else {
+                        tax = data.STRatePerc;
+                        finalTax = "IMP" + tax;
+                    }
                 }
                 data.Tax = finalTax;
                 this.createModel.refresh(true);
-             },
+            },
             onRadioButtonSelect: function (oEvent) {
                 var data = this.createModel.getData();
                 var id = oEvent.getParameter("id").substring(oEvent.getParameter("id").lastIndexOf('-') + 1);
@@ -474,8 +493,17 @@ sap.ui.define([
                     case "typeRbId":
                         if (index === 1) {
                             data.Type = "SERVICE";
+                        } else if (index === 2) {
+                            data.Type = "BOTH";
                         } else {
                             data.Type = "MATERIAL";
+                        }
+                        break;
+                    case "unionRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
                         }
                         break;
                     case "gstRbId":
@@ -494,33 +522,33 @@ sap.ui.define([
                         }
                         break;
                     case "natureOfIndustryRbId":
-                            if (index === 0) {
-                                 data.NatureOfIndustry = "SMALL";
-                            } else if (index === 1) {
-                                data.NatureOfIndustry = "MEDIUM";
-                            } else {
-                                data.NatureOfIndustry = "HEAVY";
-                            }
-                            break;
+                        if (index === 0) {
+                            data.NatureOfIndustry = "SMALL";
+                        } else if (index === 1) {
+                            data.NatureOfIndustry = "MEDIUM";
+                        } else {
+                            data.NatureOfIndustry = "HEAVY";
+                        }
+                        break;
                     case "workingTowardsCert": // Make sure this matches the RadioButtonGroup id in your View.xml
-                            if (index === 0) {
-                                data.WorkingTowardsCertifications = "Yes";
-                            } else {
-                                data.WorkingTowardsCertifications = "No";
-                            }
-                            break;
+                        if (index === 0) {
+                            data.WorkingTowardsCertifications = "Yes";
+                        } else {
+                            data.WorkingTowardsCertifications = "No";
+                        }
+                        break;
                     case "centralExciseDutyApplicableRbId":
-                            if (index === 0) {
-                                 this.createModel.setProperty("/CentralExciseDutyApplicable", "YES");
-                            } else {
-                                this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
-                            }
-                            break;
+                        if (index === 0) {
+                            this.createModel.setProperty("/CentralExciseDutyApplicable", "YES");
+                        } else {
+                            this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
+                        }
+                        break;
                     case "registrationtypeRbId":
                         if (index === 0) {
-                            data.RegistrationType = "Customer Approved / Non BOM";
+                            data.RegistrationType = "Customer Approved / BOM Parts";
                         } else {
-                            data.RegistrationType = "BOM parts";
+                            data.RegistrationType = "Non BOM parts";
                         }
                         break;
                     case "captiveRbId":
@@ -530,13 +558,43 @@ sap.ui.define([
                             data.RegistrationType = "No";
                         }
                         break;
+                    case "prodDesignRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "softwareCapRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else if (index === 2) {
+                            data.Union = "N/A";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "businessContinuityRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "logCustRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
                 }
                 this.createModel.refresh(true);
             },
             onCheckSelect: function (oEvent) {
                 var data = this.createModel.getData();
                 var name = oEvent.getSource().getName();
-    
+
                 if (oEvent.getParameter("selected")) {
                     switch (name) {
                         case "doubleInv":
@@ -574,7 +632,7 @@ sap.ui.define([
                             break;
                     }
                 }
-    
+
                 this.createModel.refresh(true);
             },
             _mandatCheck: async function () {
@@ -584,24 +642,28 @@ sap.ui.define([
 
                 var oView = this.getView(),
                     bValidationError = false;
-                var aInputs = [oView.byId("venNameId"),oView.byId("address1Id"),
-                oView.byId("addcodeId"), 
+                var aInputs = [oView.byId("venNameId"), oView.byId("address1Id"),
                 oView.byId("mobileId"), oView.byId("purposeId"),
                 oView.byId("accdescId"),
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
-                oView.byId("address2Id"),oView.byId("contactPersonId"), oView.byId("contactPersonMobileId"),
-                oView.byId("pincodeId"),  oView.byId("panId"),
-                 oView.byId("stRateId"), oView.byId("excisedutyId"), 
-                 oView.byId("mrpId"), oView.byId("distId"),
-                 oView.byId("contactPersonnameId"), oView.byId("deptId"),oView.byId("desigId"),
-                 oView.byId("contphoneId"), oView.byId("contmobileId"),
-                 oView.byId("docdescId")
-            ];
+                oView.byId("address2Id"), 
+                oView.byId("pincodeId"), oView.byId("panId"),
+                oView.byId("stRateId"), oView.byId("excisedutyId"),
+                oView.byId("mrpId"), oView.byId("distId"),
+                oView.byId("contactPersonnameId"), oView.byId("deptId"), oView.byId("desigId"),
+                oView.byId("contphoneId"), oView.byId("contmobileId"),
+                oView.byId("docdescId")
+                ];
 
-            if (requestData.quality) {
-                aInputs.push(oView.byId("overallRatingId"));
-            }
+                if (requestData.quality) {
+                    aInputs.push(oView.byId("overallRatingId"));
+                }
+                if (requestData.purchase) {
+                    aInputs.push(oView.byId("addcodeId"));
+                    aInputs.push(oView.byId("taxId"));
+                }
+
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -635,16 +697,17 @@ sap.ui.define([
                     //         }.bind(this)
                     //     });
                     // });
-                 }
+                }
 
                 // oView.byId("stateId")
                 // oView.byId("constId")
-                var aSelects = [ oView.byId("countryId"),
-                oView.byId("stateId"),oView.byId("cityId"),
+                var aSelects = [oView.byId("countryId"),
+                oView.byId("stateId"), oView.byId("cityId"),
                 oView.byId("accountcodeId"),
                 oView.byId("doccodeId"),
                 oView.byId("benAccTypeId"),
-                oView.byId("suppliertypeId") ];
+                oView.byId("suppliertypeId"),
+                oView.byId("grouptypeId")];
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -691,7 +754,7 @@ sap.ui.define([
                 return bValidationError;
             },
 
-            initializeCountries: function() {
+            initializeCountries: function () {
                 console.log("Country initialization")
                 var oComboBox = this.getView().byId("countryId");
                 if (!oComboBox.getModel("countries")) {
@@ -699,16 +762,16 @@ sap.ui.define([
                 }
             },
 
-            loadCountries: function() {
+            loadCountries: function () {
                 var oComboBox = this.getView().byId("countryId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/Country";
-            
+
                 oDataModel.read(sPath, {
-                    success: function(oData) {
+                    success: function (oData) {
                         var oJsonModel = new sap.ui.model.json.JSONModel();
                         oJsonModel.setData({ Countries: oData.results });
-                        
+
                         oComboBox.setModel(oJsonModel, "countries");
                         oComboBox.bindItems({
                             path: "countries>/Countries",
@@ -718,7 +781,7 @@ sap.ui.define([
                             })
                         });
                     },
-                    error: function(oError) {
+                    error: function (oError) {
                         console.log("Error", oError);
                         sap.m.MessageToast.show("Failed to load countries.");
                     }
@@ -728,7 +791,7 @@ sap.ui.define([
             countryHelpSelect: function (oEvent) {
                 var oStateSelect = this.getView().byId("stateId");
                 var sCountryKey = this.getView().byId("countryId").getSelectedKey();
-                
+
                 if (sCountryKey) {
                     oStateSelect.setEnabled(true);
                     this.loadStates(sCountryKey);
@@ -741,7 +804,7 @@ sap.ui.define([
                 var oStateSelect = this.getView().byId("stateId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/States";
-            
+
                 oDataModel.read(sPath, {
                     urlParameters: {
                         "country": sCountryKey
@@ -749,7 +812,7 @@ sap.ui.define([
                     success: function (oData) {
                         var oJsonModel = new sap.ui.model.json.JSONModel();
                         oJsonModel.setData({ States: oData.results });
-                        
+
                         oStateSelect.setModel(oJsonModel, "states");
                         oStateSelect.bindItems({
                             path: "states>/States",
@@ -772,13 +835,13 @@ sap.ui.define([
                 if (oStateSelect.getSelectedKey()) {
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
                     var sStateKey = oStateSelect.getSelectedKey();
-                    if(sCountryKey === "India"){
-                        if(sStateKey === "Haryana"){
+                    if (sCountryKey === "India") {
+                        if (sStateKey === "Haryana") {
                             data.Location = "Within State";
-                        }else{
+                        } else {
                             data.Location = "Outside State";
                         }
-                    }else{
+                    } else {
                         data.Location = "Outside Country";
                     }
                     this.loadCities(sCountryKey, sStateKey);
@@ -792,7 +855,7 @@ sap.ui.define([
                 var oCitySelect = this.getView().byId("cityId");
                 var oDataModel = this.getOwnerComponent().getModel();
                 var sPath = "/City";
-                
+
                 oDataModel.read(sPath, {
                     urlParameters: {
                         "country": sCountryKey,
@@ -801,7 +864,7 @@ sap.ui.define([
                     success: function (oData) {
                         var oJsonModel = new sap.ui.model.json.JSONModel();
                         oJsonModel.setData({ Cities: oData.results });
-                        
+
                         oCitySelect.setModel(oJsonModel, "cities");
                         oCitySelect.bindItems({
                             path: "cities>/Cities",
@@ -823,14 +886,14 @@ sap.ui.define([
                 var id = evt.getSource().getId();
                 var idSplit = id.split("--");
                 var fieldName = idSplit[idSplit.length - 1];
-            
+
                 if (selected) {
                     this.createModel.setProperty("/" + fieldName, "X");
                 } else {
                     this.createModel.setProperty("/" + fieldName, "");
                 }
                 this.createModel.refresh(true);
-            },    
+            },
 
             compCodeSelect: function (oEvent) {
                 var key = this.getView().byId("compCodeId").getSelectedKey();
@@ -840,11 +903,11 @@ sap.ui.define([
                     value1: key
                 })]);
             },
-    
+
             withHoldingTaxSelect: function (oEvent) {
                 var data = this.createModel.getData();
                 var key = this.getView().byId("taxTypeId").getSelectedKey();
-    
+
                 this.getView().byId("recTypeId").getBinding("items").filter([new Filter({
                     path: "Country",
                     operator: FilterOperator.EQ,
@@ -855,7 +918,7 @@ sap.ui.define([
                     operator: FilterOperator.EQ,
                     value1: key
                 })]);
-    
+
                 this.getView().byId("taxCodeId").getBinding("items").filter([new Filter({
                     path: "Country",
                     operator: FilterOperator.EQ,
@@ -1045,12 +1108,12 @@ sap.ui.define([
 
             updateProductInfo: function (vendorId) {
                 var productInfoData = this.productInfoTableModel.getData().rows;
-            
+
                 for (let i = 0; i < productInfoData.length; i++) {
                     let row = productInfoData[i];
                     let sPathProduct = this.hardcodedURL + `/v2/odata/v4/catalog/ProductInfo(Vendor_VendorId='${vendorId}',SrNo=${row.SrNo})`;
                     let productPayloadStr = JSON.stringify(row);
-            
+
                     $.ajax({
                         type: "PUT",
                         contentType: "application/json",
@@ -1192,25 +1255,25 @@ sap.ui.define([
                     level = "2";
                     pending = "Purchase";
                     this.msg = "Form submitted successfully by Purchase";
-                }else if (venStatus === "ABP") {
+                } else if (venStatus === "ABP") {
                     stat = "SBC";
                     appr = "1"
                     level = "3";
                     pending = "COO";
                     this.msg = "Form submitted successfully by COO";
-                }else if (venStatus === "ABC" && venRelated === "No") {
+                } else if (venStatus === "ABC" && venRelated === "No") {
                     stat = "SBF";
                     appr = "1"
                     level = "4";
                     pending = "Finance";
                     this.msg = "Form submitted successfully by Finance";
-                }else if (venStatus === "ABC" && venRelated === "Yes") {
+                } else if (venStatus === "ABC" && venRelated === "Yes") {
                     stat = "SBE";
                     appr = "1"
                     level = "4";
                     pending = "CEO";
                     this.msg = "Form submitted successfully by CEO";
-                }else if (venStatus === "ABE" && venRelated === "Yes") {
+                } else if (venStatus === "ABE" && venRelated === "Yes") {
                     stat = "SBF";
                     appr = "1"
                     level = "5";

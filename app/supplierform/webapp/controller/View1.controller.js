@@ -30,9 +30,9 @@ sap.ui.define([
 
                 this.productInfoTableModel = new JSONModel({
                     rows: [
-                        {'SrNo': 1},
-                        {'SrNo': 2},
-                        {'SrNo': 3}
+                        { 'SrNo': 1 },
+                        { 'SrNo': 2 },
+                        { 'SrNo': 3 }
                     ]
                 });
                 this.getView().setModel(this.productInfoTableModel, "productInfoTable");
@@ -142,7 +142,7 @@ sap.ui.define([
                         }
                         if (data.VDA63Certification === "X") {
                             this.byId("VDA63Certification").setSelected(true);
-                        }                        
+                        }
 
                         data.BeneficiaryName = requestData.VendorName;
                         this.createModel.setData(data);
@@ -168,10 +168,10 @@ sap.ui.define([
                 this._showRemainingTime();
             },
 
-            fetchProductInfo: function() {
+            fetchProductInfo: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
-            
+
                 this.getView().getModel().read(sProductInfoPath, {
                     success: (oData, oResponse) => {
                         if (oData.results && oData.results.length > 0) {
@@ -184,7 +184,7 @@ sap.ui.define([
                     }
                 });
             },
-            
+
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
@@ -232,9 +232,28 @@ sap.ui.define([
                 }
                 if (data.Type === "SERVICE") {
                     this.byId("typeRbId").setSelectedIndex(1);
+                } else if (data.Type === "BOTH") {
+                    this.byId("typeRbId").setSelectedIndex(2);
                 }
                 if (data.Msme === "NO") {
                     this.byId("msmeRbId").setSelectedIndex(1);
+                }
+                if (data.Union === "NO") {
+                    this.byId("unionRbId").setSelectedIndex(1);
+                }
+                if (data.ProdDesign === "NO") {
+                    this.byId("prodDesignRbId").setSelectedIndex(1);
+                }
+                if (data.SoftwareCapabilities === "NO") {
+                    this.byId("softwareCapRbId").setSelectedIndex(1);
+                } else if (data.SoftwareCapabilities === "N/A") {
+                    this.byId("softwareCapRbId").setSelectedIndex(2);
+                }
+                if (data.BusinessContinuity === "NO") {
+                    this.byId("businessContinuityRbId").setSelectedIndex(1);
+                }
+                if (data.LogisticCustomer === "NO") {
+                    this.byId("logCustRbId").setSelectedIndex(1);
                 }
                 if (data.GstApplicable === "NO") {
                     this.byId("gstRbId").setSelectedIndex(1);
@@ -281,8 +300,17 @@ sap.ui.define([
                     case "typeRbId":
                         if (index === 1) {
                             data.Type = "SERVICE";
+                        } else if (index === 2) {
+                            data.Type = "BOTH";
                         } else {
                             data.Type = "MATERIAL";
+                        }
+                        break;
+                    case "unionRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
                         }
                         break;
                     case "gstRbId":
@@ -302,7 +330,7 @@ sap.ui.define([
                         break;
                     case "natureOfIndustryRbId":
                         if (index === 0) {
-                             data.NatureOfIndustry = "SMALL";
+                            data.NatureOfIndustry = "SMALL";
                         } else if (index === 1) {
                             data.NatureOfIndustry = "MEDIUM";
                         } else {
@@ -318,17 +346,17 @@ sap.ui.define([
                         break;
                     case "centralExciseDutyApplicableRbId":
                         if (index === 0) {
-                             this.createModel.setProperty("/CentralExciseDutyApplicable", "YES");
+                            this.createModel.setProperty("/CentralExciseDutyApplicable", "YES");
                         } else {
                             this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
                         }
                         break;
-                    
+
                     case "registrationtypeRbId":
                         if (index === 0) {
-                            data.RegistrationType = "Customer Approved / Non BOM";
+                            data.RegistrationType = "Customer Approved / BOM Parts";
                         } else {
-                            data.RegistrationType = "BOM parts";
+                            data.RegistrationType = "Non BOM parts";
                         }
                         break;
                     case "captiveRbId":
@@ -337,7 +365,37 @@ sap.ui.define([
                         } else {
                             data.RegistrationType = "No";
                         }
-                        break;        
+                        break;
+                    case "prodDesignRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "softwareCapRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else if (index === 2) {
+                            data.Union = "N/A";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "businessContinuityRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "logCustRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
                 }
                 this.createModel.refresh(true);
             },
@@ -351,7 +409,7 @@ sap.ui.define([
                 var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"), oView.byId("purposeId"),
                 oView.byId("address1Id"), oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
-                oView.byId("address2Id"), oView.byId("pincodeId"), oView.byId("contactPersonId"), oView.byId("contactPersonMobileId")];
+                oView.byId("address2Id"), oView.byId("pincodeId")];
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -389,8 +447,11 @@ sap.ui.define([
 
                 //oView.byId("stateId")
                 // oView.byId("constId")
-                var aSelects = [oView.byId("countryId"), oView.byId("stateId"), oView.byId("cityId"),
-                oView.byId("benAccTypeId")];
+                var aSelects = [oView.byId("countryId"),
+                oView.byId("stateId"), oView.byId("cityId"),
+                oView.byId("benAccTypeId"),
+                oView.byId("suppliertypeId"),
+                oView.byId("grouptypeId")];
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -518,13 +579,13 @@ sap.ui.define([
                 if (oStateSelect.getSelectedKey()) {
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
                     var sStateKey = oStateSelect.getSelectedKey();
-                    if(sCountryKey === "India"){
-                        if(sStateKey === "Haryana"){
+                    if (sCountryKey === "India") {
+                        if (sStateKey === "Haryana") {
                             data.Location = "Within State";
-                        }else{
+                        } else {
                             data.Location = "Outside State";
                         }
-                    }else{
+                    } else {
                         data.Location = "Outside Country";
                     }
                     this.loadCities(sCountryKey, sStateKey);
@@ -706,7 +767,7 @@ sap.ui.define([
                 //     });
                 // }, 1000);
             },
-        
+
             onSubmitPress: async function (oEvent) {
                 var that = this;
                 // BusyIndicator.show();
@@ -768,22 +829,22 @@ sap.ui.define([
                 oModel.callFunction("/sendEmail", mParameters);
             },
 
-            getQualityEmails: async function() {
+            getQualityEmails: async function () {
                 var oModel = this.getView().getModel();
                 return new Promise((resolve, reject) => {
                     oModel.read("/AccessInfo", {
                         filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, "Quality")],
-                        success: function(oData) {
+                        success: function (oData) {
                             var emails = oData.results.map(item => item.email);
                             resolve(emails);
                         },
-                        error: function(oError) {
+                        error: function (oError) {
                             reject(oError);
                         }
                     });
                 });
             },
-            
+
 
             _enterOTP: function () {
                 var that = this;
@@ -896,12 +957,12 @@ sap.ui.define([
 
             updateProductInfo: function (vendorId) {
                 var productInfoData = this.productInfoTableModel.getData().rows;
-            
+
                 for (let i = 0; i < productInfoData.length; i++) {
                     let row = productInfoData[i];
                     let sPathProduct = this.hardcodedURL + `/v2/odata/v4/catalog/ProductInfo(Vendor_VendorId='${vendorId}',SrNo=${row.SrNo})`;
                     let productPayloadStr = JSON.stringify(row);
-            
+
                     $.ajax({
                         type: "PUT",
                         contentType: "application/json",
@@ -997,14 +1058,14 @@ sap.ui.define([
                 var id = evt.getSource().getId();
                 var idSplit = id.split("--");
                 var fieldName = idSplit[idSplit.length - 1];
-            
+
                 if (selected) {
                     this.createModel.setProperty("/" + fieldName, "X");
                 } else {
                     this.createModel.setProperty("/" + fieldName, "");
                 }
                 this.createModel.refresh(true);
-            },            
+            },
 
             getOTP: function () {
                 var otpgen = Math.floor(100000 + Math.random() * 900000).toString();

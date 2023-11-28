@@ -685,7 +685,7 @@ sap.ui.define([
                     "AccountCode": formdata.AccountCode,
                     "AccountDesc": formdata.AccountDesc,
                     "FaxNo": formdata.Fax,
-                    "ContactPerson": formdata.ContactPerson,
+                    "ContactPerson": formdata.ContactPersonName,
                     "LeadTime": formdata.LeadTime,
                     "Remark": formdata.Remarks,
                     "IAIvendorCode": "",
@@ -696,7 +696,7 @@ sap.ui.define([
                     "PinNo": formdata.Pincode,
                     "PhoneNumber": formdata.Telephone,
                     "Email": formdata.VendorMail,
-                    "ContactPersonDesgn": formdata.Designation,
+                    "ContactPersonDesgn": formdata.ContactPersonDesignation,
                     "DeliveryMode": formdata.DeliveryMode,
                     "CustomerCategory": formdata.CustomerCat,
                     "ExciseDivision": formdata.ExciseDivision,
@@ -755,6 +755,15 @@ sap.ui.define([
                             "ContactMobiloNo": formdata.ContactPersonMobile,
                             "ContactEmail": formdata.ContactPersonMail,
                             "SNo": "1"
+                        },
+                        {
+                            "ContactName": formdata.ContactPersonName2,
+                            "ContactDepartment": formdata.ContactPersonDepartment2,
+                            "ContactAddress": formdata.ContactPersonDesignation2,
+                            "ContactPhoneNo": formdata.ContactPersonPhone2,
+                            "ContactMobiloNo": formdata.ContactPersonMobile2,
+                            "ContactEmail": formdata.ContactPersonMail2,
+                            "SNo": "2"
                         }
                     ],
                     "DocumentRequired": [
