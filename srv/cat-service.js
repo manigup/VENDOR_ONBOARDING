@@ -39,8 +39,11 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.before('READ', 'VenOnboard', async (req) => {
-        const userID = req.user.id;
-        const {Access} = await SELECT.one.from(AccessInfo).where({ email: userID }).columns('Access');
+        let userID = req.user.id;
+        if (req.user.id === "anonymous") {
+            userID = "swetamohanty1@kpmg.com";
+        }
+        const { Access } = await SELECT.one.from(AccessInfo).where({ email: userID }).columns('Access');
         req.query.where(`VenApprovalPending = '${Access}' or initiatedBy = '${userID}'`)
     })
 
@@ -194,7 +197,7 @@ module.exports = cds.service.impl(async function () {
     this.on('submitFormData', async (req) => {
         const formDataString = req.data.data;
         const formDatapar = JSON.parse(formDataString);
-        const formData = JSON.stringify(formDatapar,null,2)
+        const formData = JSON.stringify(formDatapar, null, 2)
         console.log("Test");
         console.log(formData);
         return await postFormData(formData);
@@ -202,25 +205,25 @@ module.exports = cds.service.impl(async function () {
 
     //GetSupplierCodeList
     this.on('GetSupplierAccountCodeList', async (req) => {
-        const {unitCode} = req.data
+        const { unitCode } = req.data
         return getSupplierAccountCodeList(unitCode)
     })
 
     //GetDocumentList
     this.on('GetDocumentList', async (req) => {
-        const {unitCode} = req.data
+        const { unitCode } = req.data
         return getDocumentList(unitCode);
     })
 
     //TransportersList
     this.on('GetSupplierTransportersList', async (req) => {
-        const {unitCode} = req.data
+        const { unitCode } = req.data
         return getSupplierTransportersList(unitCode);
     })
 
     //LocationList
     this.on('GetSupplierLocationList', async (req) => {
-        const {unitCode} = req.data
+        const { unitCode } = req.data
         return getSupplierLocationList(unitCode);
     })
 });
