@@ -167,10 +167,47 @@ sap.ui.define([
                 this.fetchProductInfo();
                 this._showRemainingTime();
             },
-
             fetchProductInfo: function () {
                 var requestData = this.getView().getModel("request").getData();
-                var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
+                var vendorId = requestData.VendorId; // Store the VendorId for filtering
+            
+                this.getView().getModel().read("/ProductInfo", {
+                    success: (oData) => {
+                        var filteredData = oData.results.filter(function (item) {
+                            return item.Vendor_VendorId === vendorId;
+                        });
+            
+                        // Get the default rows from the model
+                        var defaultRows = this.productInfoTableModel.getData().rows;
+            
+                        // Reset the rows to default before updating
+                        this.productInfoTableModel.setData({ rows: defaultRows });
+            
+                        // Update the default rows with filtered data, if any
+                        for (var i = 0; i < filteredData.length && i < defaultRows.length; i++) {
+                            for (var key in filteredData[i]) {
+                                if (Object.prototype.hasOwnProperty.call(filteredData[i], key)) {
+                                    defaultRows[i][key] = filteredData[i][key];
+                                }
+                            }
+                        }
+            
+                        this.productInfoTableModel.refresh(true);
+                    },
+                    error: (oError) => {
+                        console.log("Failed to fetch ProductInfo: ", oError);
+                    }
+                });
+            },
+            
+/*
+            fetchProductInfo: function () {
+                var requestData = this.getView().getModel("request").getData();
+                //var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
+                var sProductInfoPath = "/ProductInfo?$filter=Vendor_VendorId eq '" + requestData.VendorId + "'";
+                console.log("sProductInfoPath", sProductInfoPath)
+                console.log("requestData.VendorId", requestData.VendorId)
+
 
                 this.getView().getModel().read(sProductInfoPath, {
                     success: (oData, oResponse) => {
@@ -184,7 +221,7 @@ sap.ui.define([
                     }
                 });
             },
-
+*/
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
