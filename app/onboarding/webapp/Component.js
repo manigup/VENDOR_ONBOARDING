@@ -34,8 +34,8 @@ sap.ui.define([
                     // metadata success
                     this.getStatus();
                     // Hardcoded URL for the AJAX request
-                    var hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorionboarding-0.0.1/user-api/attributes";
-
+                   // var hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorionboarding-0.0.1/user-api/attributes";
+                   var hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorionboarding-0.0.1/user-api/attributes";
                     // Make the AJAX call
                     $.ajax({
                         url: hardcodedURL,
