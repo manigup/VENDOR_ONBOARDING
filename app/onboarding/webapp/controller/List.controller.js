@@ -57,6 +57,9 @@ sap.ui.define([
                     //     error: () => BusyIndicator.hide()
                     // });
                     this.getView().getModel().read("/VenOnboard", {
+                        urlParameters: {
+                                venfilter: true
+                           },
                         success: (data) => {
                             data.results.map(item => {
                                 item.StatusText = formatter.formatStatus(item.Status);
