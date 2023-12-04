@@ -38,7 +38,8 @@ sap.ui.define([
 
                     let hardcodedURL = "";
                     if (window.location.href.includes("launchpad")) {
-                        hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
+                       // hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
+                       hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
                     }
                     const sPath = hardcodedURL + `/v2/odata/v4/catalog/VenOnboard?$filter=VendorId eq ${id}`;
 
