@@ -330,14 +330,17 @@
                         />
                         <RadioButtonGroup
                             id="registrationtypeRbId"
-                            columns="2"
+                            columns="3"
                             enabled="false"
-                            selectedIndex="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' ? 0 : 1}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton
                                 id="_IDGenRadioButton10"
-                                text="Customer Approved / BOM Parts"
+                                text="Customer Approved"
+                            />
+                            <RadioButton 
+                                id="_IDGenRadioButton21"
+                                text="BOM Parts"
                             />
                             <RadioButton
                                 id="_IDGenRadioButton11"
@@ -481,6 +484,15 @@
                             id="_IDGenInput1"
                             value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
                             maxLength="40"
+                        />
+                        <Label
+                            id="_IDGenLabel22"
+                            design="Bold"
+                            text="Fax"
+                        />
+                        <Input
+                            id="_IDGenInput7"
+                            value="{create>/Fax}"
                         />
                         <Label
                             id="_IDGenLabel14"
@@ -704,15 +716,6 @@
                             id="_IDGenInput6"
                             placeholder="Extension"
                             value="{create>/Extension}"
-                        />
-                        <Label
-                            id="_IDGenLabel22"
-                            design="Bold"
-                            text="Fax"
-                        />
-                        <Input
-                            id="_IDGenInput7"
-                            value="{create>/Fax}"
                         />
                         <Label
                             id="_IDGenLabel23"
@@ -1874,7 +1877,7 @@
                         <DatePicker
                             id="ISO9001ValidFrom"
                             placeholder="Enter ISO9001 Valid From"
-                            width="7rem"
+                            width="5rem"
                             value="{path:'create>/ISO9001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             tooltip="{create>/ISO9001ValidFrom}"
                             valueFormat="yyyyMMdd"
@@ -1883,7 +1886,7 @@
                         <DatePicker
                             id="ISO9001ValidTo"
                             placeholder="Enter ISO9001 Valid To"
-                            width="7rem"
+                            width="5rem"
                             value="{path:'create>/ISO9001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             tooltip="{create>/ISO9001ValidTo}"
                             valueFormat="yyyyMMdd"

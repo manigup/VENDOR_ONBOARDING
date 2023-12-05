@@ -273,6 +273,11 @@ sap.ui.define([
                 } else if (data.Type === "BOTH") {
                     this.byId("typeRbId").setSelectedIndex(2);
                 }
+                if (data.Type === "BOM Parts") {
+                    this.byId("registrationtypeRbId").setSelectedIndex(1);
+                } else if (data.Type === "Non BOM parts") {
+                    this.byId("registrationtypeRbId").setSelectedIndex(2);
+                }
                 if (data.Msme === "NO") {
                     this.byId("msmeRbId").setSelectedIndex(1);
                 }
@@ -392,8 +397,10 @@ sap.ui.define([
 
                     case "registrationtypeRbId":
                         if (index === 0) {
-                            data.RegistrationType = "Customer Approved / BOM Parts";
-                        } else {
+                            data.RegistrationType = "Customer Approved";
+                        }else if(index === 1){
+                            data.RegistrationType = "BOM Parts";
+                        }else {
                             data.RegistrationType = "Non BOM parts";
                         }
                         break;
