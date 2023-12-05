@@ -77,8 +77,13 @@
                 />
                 <core:Item
                     id="_IDGenItem5"
-                    key="Customer Approved / BOM Parts"
-                    text="Customer Approved / BOM Parts"
+                    key="Customer Approved"
+                    text="Customer Approved"
+                />
+                <core:Item
+                    id="_IDGenItem10"
+                    key="BOM Parts"
+                    text="BOM Parts"
                 />
                 <core:Item
                     id="_IDGenItem4"
@@ -139,7 +144,7 @@
                 id="_IDGenLabel8"
                 design="Bold"
                 required="true"
-                text="Related Part"
+                text="Related Party"
             />
             <Select
                 id="_IDGenSelect3"

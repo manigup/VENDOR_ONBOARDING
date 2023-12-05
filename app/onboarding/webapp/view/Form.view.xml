@@ -225,12 +225,12 @@
                         />
                         <RadioButtonGroup
                             id="registrationtypeRbId"
-                            columns="2"
+                            columns="3"
                             enabled="false"
-                            selectedIndex="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' ? 0 : 1}"
                             select="onRadioButtonSelect"
                         >
-                            <RadioButton text="Customer Approved / BOM Parts" />
+                            <RadioButton text="Customer Approved" />
+                            <RadioButton text="BOM Parts" />
                             <RadioButton text="Non BOM parts" />
                         </RadioButtonGroup>
                         <Label
@@ -355,7 +355,12 @@
                             value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
                             maxLength="40"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                         />
-
+                        <Label
+                            design="Bold"
+                            text="Fax"
+                        />
+                        <Input value="{create>/Fax}"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                        
                         <Label
                             id="_IDGenLabel14"
                             design="Bold"
@@ -554,11 +559,6 @@
                             placeholder="Extension"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                             value="{create>/Extension}"
                         />
-                        <Label
-                            design="Bold"
-                            text="Fax"
-                        />
-                        <Input value="{create>/Fax}"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
                         <Label
                             design="Bold"
                             text="Website"
@@ -2099,8 +2099,8 @@
                         <Label
                             design="Bold"
                             text="Risk Assessment"
-                            visible="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
-                            required="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
                         />
                         <u:FileUploader
                             id="riskFileUploader"
@@ -2112,7 +2112,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="5MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            visible="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts')}"
                         >
                             <u:customData>
                                 <core:CustomData key="RiskAssessment" />
@@ -2120,7 +2120,7 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/RiskAssessment}"
-                            visible="{= ${create>/RiskAssessment} !== '' &amp;&amp; ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RiskAssessment} !== '' &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') &amp;&amp; ${request>/quality} === true}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -2130,8 +2130,8 @@
                         <Label
                             design="Bold"
                             text="System Audit Check"
-                            visible="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
-                            required="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts')}"
                         />
                         <u:FileUploader
                             id="systemAuditCheckFileUploader"
@@ -2143,7 +2143,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="5MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            visible="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
                         >
                             <u:customData>
                                 <core:CustomData key="SystemAuditCheck" />
@@ -2151,7 +2151,7 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/SystemAuditCheck}"
-                            visible="{= ${create>/SystemAuditCheck} !== '' &amp;&amp; ${create>/RegistrationType} === 'BOM parts' &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/SystemAuditCheck} !== '' &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') &amp;&amp; ${request>/quality} === true}"
                             press="onAttachmentGet"
                         >
                             <customData>
