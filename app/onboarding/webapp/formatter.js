@@ -139,7 +139,6 @@ formatter = {
             switch (status) {
                 case "CREATED":
                 case "INITIATED":
-                case "SAD":
                 case "SBS":
                 case "SBP":
                 case "SBQ":
@@ -149,6 +148,9 @@ formatter = {
                 case "SAQ_SENT":
                     state = "Information";
                     break;
+                case "SAD":  
+                    state = "None";
+                    break;  
                 case "PAP":
                 case "SAQ_APROVE":
                 case "SRE-ROUTE":

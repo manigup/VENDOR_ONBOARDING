@@ -34,15 +34,15 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.after('READ', 'VenOnboard', async (req) => {
-        const today = new Date();
-        const results = req.filter(item => today >= item.VenValidTo).map(item => item.ResetValidity = "X");
+        let today = new Date();
+        req.filter(item => today.toISOString() >= item.VenValidTo).map(item => item.ResetValidity = "X");
     });
 
     this.before('READ', 'VenOnboard', async (req) => {
         if(req._queryOptions && req._queryOptions.venfilter == 'true'){
         let userID = req.user.id;
         if (req.user.id === "anonymous") {
-            userID = "swetamohanty1@kpmg.com";
+            userID = "manishgupta8@kpmg.com";
         }
         const { Access } = await SELECT.one.from(AccessInfo).where({ email: userID }).columns('Access');
         req.query.where(`VenApprovalPending = '${Access}' or initiatedBy = '${userID}'`)
