@@ -2,3 +2,7 @@
 .sapMPanelWrappingDiv {
     background-color: #abe7b9e3;
 }
+
+.resetValidity .sapMObjectIdentifierTitle .sapMLnk {
+    color: red !important;
+}

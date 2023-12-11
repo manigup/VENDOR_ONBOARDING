@@ -1392,7 +1392,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             visible="{= ${create>/MsmeItilView} === 'MSME'}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                         >
                             <u:customData>
@@ -1436,7 +1436,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            maximumFileSize="10MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             visible="{= ${create>/VendorType} === 'DM' || ${create>/VendorType} === 'EM'}"
                         >
                             <u:customData>
@@ -1506,7 +1506,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            maximumFileSize="10MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             visible="{= ${create>/GstApplicable} === 'YES'}"
                         >
                             <u:customData>
@@ -1646,7 +1646,7 @@
                             change="onFileUploaderChange"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            maximumFileSize="10MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             buttonText="Browse"
                         >
                             <u:customData>
@@ -1674,7 +1674,7 @@
                             change="onFileUploaderChange"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            maximumFileSize="10MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             buttonText="Browse"
                         >
                             <u:customData>
@@ -2110,7 +2110,7 @@
                             uploadComplete="onUploadComplete"
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts')}"
                         >
@@ -2141,7 +2141,7 @@
                             uploadComplete="onUploadComplete"
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
                         >
@@ -2304,7 +2304,7 @@
                             uploadComplete="onUploadComplete"
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
                         >
                             <u:customData>

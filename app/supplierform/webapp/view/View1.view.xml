@@ -1037,7 +1037,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
                         >
                             <u:customData>
@@ -1083,7 +1083,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             visible="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'EM'}"
                         >
                             <u:customData>
@@ -1161,7 +1161,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             visible="{= ${create>/GstApplicable} === 'YES'}"
                         >
                             <u:customData>
@@ -1317,7 +1317,7 @@
                             change="onFileUploaderChange"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             buttonText="Browse"
                         >
                             <u:customData>
@@ -1346,7 +1346,7 @@
                             change="onFileUploaderChange"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             buttonText="Browse"
                         >
                             <u:customData>
@@ -1399,7 +1399,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="MachineName" />
@@ -1436,7 +1436,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="EquipmentName" />
@@ -1478,7 +1478,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="CaptivePowerFileName" />
@@ -1540,7 +1540,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="ProductCustomerName" />
@@ -1822,7 +1822,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="Attachment1" />
@@ -1854,7 +1854,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="Attachment2" />
@@ -1901,7 +1901,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO9001Attachment" />
@@ -1948,7 +1948,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="IATF16949Attachment" />
@@ -1995,7 +1995,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO14001Attachment" />
@@ -2042,7 +2042,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO45001Attachment" />
@@ -2089,7 +2089,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="VDA63Attachment" />
@@ -2119,7 +2119,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="NewVendorQuotationName" />
