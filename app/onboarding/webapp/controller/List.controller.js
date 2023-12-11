@@ -3,8 +3,8 @@ sap.ui.define([
     "sap/m/MessageBox",
     "sap/m/MessageToast",
     "sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator",
-	"sap/ui/model/FilterType",
+    "sap/ui/model/FilterOperator",
+    "sap/ui/model/FilterType",
     "sap/ui/core/BusyIndicator",
     "sap/ui/model/json/JSONModel"
 ],
@@ -58,8 +58,8 @@ sap.ui.define([
                     // });
                     this.getView().getModel().read("/VenOnboard", {
                         urlParameters: {
-                                venfilter: true
-                           },
+                            venfilter: true
+                        },
                         success: (data) => {
                             data.results.map(item => {
                                 item.StatusText = formatter.formatStatus(item.Status);
@@ -82,7 +82,7 @@ sap.ui.define([
                                 reqData.appbtn = "purchase";
                             } else if (reqData.quality) {
                                 reqData.appbtn = "quality";
-                            }else if (reqData.coo) {
+                            } else if (reqData.coo) {
                                 reqData.appbtn = "coo";
                             } else if (reqData.ceo) {
                                 reqData.appbtn = "ceo";
@@ -122,22 +122,34 @@ sap.ui.define([
                     this.byId("vendorList").getBinding("items").filter([]);
                 }
             },
+            convertFilterDate: function (dateString) {
+                let year = dateString.substring(0, 4)
 
+                let month = dateString.substring(4, 6)
+
+                let day = dateString.substring(6, 8)
+
+                let date = new Date(year, month - 1, day)
+
+                return date.toISOString() + '\\';
+            },
             onCreationDateFilter: function () {
                 var fromValue = this.byId("createFromDateId").getValue(),
                     toValue = this.byId("createToDateId").getValue();
+                    if (fromValue){
+                        fromValue = this.convertFilterDate(fromValue);
+                    }
+                    if (toValue){
+                        toValue = this.convertFilterDate(toValue);
+                    }
                 if (fromValue && toValue) {
                     this.byId("vendorList").getBinding("items").filter([new Filter([
                         new Filter("createdAt", sap.ui.model.FilterOperator.BT, fromValue, toValue)
                     ])]);
                 } else if (fromValue) {
-                    this.byId("vendorList").getBinding("items").filter([new Filter([
-                        new Filter("createdAt", sap.ui.model.FilterOperator.EQ, fromValue)
-                    ])]);
+                    this.byId("vendorList").getBinding("items").filter([new Filter("createdAt", sap.ui.model.FilterOperator.EQ, fromValue)]);
                 } else if (toValue) {
-                    this.byId("vendorList").getBinding("items").filter([new Filter([
-                        new Filter("createdAt", sap.ui.model.FilterOperator.LE, toValue)
-                    ])]);
+                    this.byId("vendorList").getBinding("items").filter([new Filter("createdAt", sap.ui.model.FilterOperator.LE, toValue)]);
                 } else {
                     this.byId("vendorList").getBinding("items").filter([]);
                 }
@@ -207,7 +219,7 @@ sap.ui.define([
                 let url;
                 if (href.includes("impautosuppdev")) {
 
-                  //  url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
+                    //  url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
                     url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
@@ -234,7 +246,7 @@ sap.ui.define([
                     data.Access = "COO";
                 } else if (requestData.ceo === true) {
                     data.Access = "CEO";
-                }else if (requestData.finance === true) {
+                } else if (requestData.finance === true) {
                     data.Access = "Finance";
                 }
                 var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
@@ -267,6 +279,9 @@ sap.ui.define([
                         payload.ResetValidity = "";
                         payload.initiatedBy = vendata[i].initiatedBy;
                         payload.RelatedPart = vendata[i].RelatedPart;
+                        this.RVendorName = vendata[i].VendorName;
+                        this.RVendorMail = vendata[i].VendorMail;
+                        this.RVenValidTo = payload.VenValidTo;
                         break;
                     }
                 }
@@ -280,6 +295,7 @@ sap.ui.define([
                                     this.getData();
                                 }
                             });
+                            this.sendResetEmailNotification(this.RVendorName, this.vendorId, this.RVendorMail, this.RVenValidTo);
                         },
                         error: (error) => {
                             BusyIndicator.hide();
@@ -288,7 +304,26 @@ sap.ui.define([
                     });
                 }, 1000);
             },
-
+            sendResetEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
+                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Validity of the form is extended for next 7 days. Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        vendorName: vendorName,
+                        subject: "Supplier Form",
+                        content: emailBody,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
+            },
             onAttachmentPress: function (evt) {
                 BusyIndicator.show();
                 var source = evt.getSource();
@@ -430,7 +465,7 @@ sap.ui.define([
                     level = "4";
                     pending = "CEO"
                     this.msg = "Approved by COO";
-                }else if (venStatus === "SBE" && venRelated === "Yes") {
+                } else if (venStatus === "SBE" && venRelated === "Yes") {
                     this.access = "Finance";
                     this.emailbody = `||Form is approved by the CEO. Approval pending at Finance `;
                     this.VendorName = "Finance Team";
@@ -438,7 +473,7 @@ sap.ui.define([
                     level = "5";
                     pending = "Finance"
                     this.msg = "Approved by CEO";
-                }  else if (venStatus === "SBF") {
+                } else if (venStatus === "SBF") {
                     this.access = "Supplier";
                     this.emailbody = `||Form is approved by the Finance and BP created successfully. `;
                     this.VendorName = payload.VendorName;
@@ -460,18 +495,18 @@ sap.ui.define([
                         // Send email to initiatedBy
                         this.sendApprovalEmailNotification(this.emailbody, this.initiateName, this.initiatedBy);
                         // Fetch and send emails  
-                        if(this.access !== "Supplier"){
-                        try {
-                            var deptEmails = await this.getEmails(this.access);
-                            deptEmails.forEach(email => {
-                                this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
-                            });
-                        } catch (error) {
-                            console.error("Error fetching emails: ", error);
+                        if (this.access !== "Supplier") {
+                            try {
+                                var deptEmails = await this.getEmails(this.access);
+                                deptEmails.forEach(email => {
+                                    this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
+                                });
+                            } catch (error) {
+                                console.error("Error fetching emails: ", error);
+                            }
+                        } else if (this.access === "Supplier") {
+                            this.sendApprovalEmailNotification(this.emailbody, this.VendorName, this.VendorMail);
                         }
-                    }else if(this.access === "Supplier"){
-                        this.sendApprovalEmailNotification(this.emailbody, this.VendorName, this.VendorMail);
-                    }
                     },
                     error: (error) => {
                         BusyIndicator.hide();
@@ -480,7 +515,7 @@ sap.ui.define([
                 });
             },
             sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
-               // let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
+                // let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
@@ -500,16 +535,16 @@ sap.ui.define([
                 oModel.callFunction("/sendEmail", mParameters);
             },
 
-            getEmails: async function(access) {
+            getEmails: async function (access) {
                 var oModel = this.getView().getModel();
                 return new Promise((resolve, reject) => {
                     oModel.read("/AccessInfo", {
                         filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, access)],
-                        success: function(oData) {
+                        success: function (oData) {
                             var emails = oData.results.map(item => item.email);
                             resolve(emails);
                         },
-                        error: function(oError) {
+                        error: function (oError) {
                             reject(oError);
                         }
                     });
@@ -955,7 +990,7 @@ sap.ui.define([
                     level = "1";
                     pending = "Quality";
                     this.msg = "Rejected successfully by COO";
-                }else if (venStatus === "SBE") {
+                } else if (venStatus === "SBE") {
                     stat = "RBE";
                     level = "1";
                     pending = "Quality";
@@ -980,16 +1015,16 @@ sap.ui.define([
                         MessageBox.success(this.msg, {
                             onClose: () => this.getData()
                         });
-                        if (this.venstatus === "RBQ") { 
-                        this.sendEmailNotification(this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
-                    }
-                },
+                        if (this.venstatus === "RBQ") {
+                            this.sendEmailNotification(this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
+                        }
+                    },
                     error: (error) => {
                         BusyIndicator.hide();
                         console.log(error);
                     }
                 });
-    },
+            },
             // changevalidity: function (venItem) {
             //     var payload = venItem;
             //     var today = new Date();
