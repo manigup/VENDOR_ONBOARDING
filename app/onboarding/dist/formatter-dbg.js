@@ -36,20 +36,47 @@ formatter = {
                 case "SBS":
                     text = "Submited by Supplier";
                     break;
+                case "SBP":
+                    text = "Submited by Purchase Head";
+                    break;
+                case "SBQ":
+                    text = "Submited by Quality";
+                    break;
                 case "SBC":
-                    text = "Submited by Supply Chain";
+                    text = "Submited by COO";
+                    break;
+                case "SBE":
+                    text = "Submited by CEO";
                     break;
                 case "SBF":
                     text = "Submited by Finance";
                     break;
-                case "SCA":
-                    text = "Approved by Supply Chain";
+                case "ABP":
+                    text = "Approved by Purchase Head";
+                    break;
+                case "ABQ":
+                    text = "Approved by Quality";
+                    break;
+                case "ABC":
+                    text = "Approved by COO";
+                    break;
+                case "ABE":
+                    text = "Approved by CEO";
                     break;
                 case "ABF":
                     text = "Approved by Finance";
                     break;
-                case "SCR":
-                    text = "Rejected by Supply Chain";
+                case "RBP":
+                    text = "Rejected by Purchase Head";
+                    break;
+                case "RBF":
+                    text = "Rejected by Quality";
+                    break;
+                case "RBF":
+                    text = "Rejected by COO";
+                    break;
+                case "RBE":
+                    text = "Rejected by CEO";
                     break;
                 case "RBF":
                     text = "Rejected by Finance";
@@ -112,9 +139,12 @@ formatter = {
             switch (status) {
                 case "CREATED":
                 case "INITIATED":
-                case "SAD":    
+                case "SAD":
                 case "SBS":
+                case "SBP":
+                case "SBQ":
                 case "SBC":
+                case "SBE":
                 case "SBF":
                 case "SAQ_SENT":
                     state = "Information";
@@ -124,7 +154,10 @@ formatter = {
                 case "SRE-ROUTE":
                     state = "Warning";
                     break;
-                case "SCR":
+                case "RBP":
+                case "RBQ":
+                case "RBC":
+                case "RBE":
                 case "RBF":
                     state = "Error";
                     break;
@@ -180,26 +213,57 @@ formatter = {
         resetValidity === "X" ? this.addStyleClass("resetValidity") : this.removeStyleClass("resetValidity");
         return vendor;
     },
-    moreInfoBtnVisible: function (status, Access) {
-        if ((status === "SBS" && Access === "SCM") || (status === "SBC" && Access === "Finance") || (status === "RBF" && Access === "SCM") || (status === "SBF" && Access === "SCM") || (status === "SCA" && Access === "Finance")) {
-            return true;
-        } else {
+    moreInfoBtnVisible: function (related, status, Access) {
+        if (related === "No") {
+            if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (related === "Yes") {
+            if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Quality")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
             return false;
         }
     },
     fillformBtnVisible: function (status) {
-        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "SCR" ) {
+        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "RBQ") {
             return true;
         } else {
             return false;
         }
     },
-    approveBtnVisible: function (approve, btn, status) {
-        if ((approve === "1" && btn === "supply" && status === "SBF") || (approve === "1" && btn === "finance" && status === "SCA")) {
-            return true;
-        } else {
+    approveBtnVisible: function (related, approve, btn, status) {
+        if (related === "No") {
+            if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else if (related === "Yes") {
+            if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
             return false;
         }
+    },
+    ratingState: function (rating) {
+        var state = "None";
+        if (rating >= "0" && rating <= "2") {
+            state = "Success";
+        } else if (rating >= "2.1" && rating <= "3") {
+            state = "Warning";
+        } else if (rating > "3") {
+            state = "Error";
+        }
+        return state;
     }
 
 };

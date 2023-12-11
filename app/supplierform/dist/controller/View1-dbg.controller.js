@@ -27,6 +27,17 @@ sap.ui.define([
 
                 this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
                 this.router.attachRouteMatched(this.handleRouteMatched, this);
+
+                this.productInfoTableModel = new JSONModel({
+                    rows: [
+                        { 'SrNo': 1 },
+                        { 'SrNo': 2 },
+                        { 'SrNo': 3 }
+                    ]
+                });
+                this.getView().setModel(this.productInfoTableModel, "productInfoTable");
+
+
                 this.createModel = new JSONModel();
 
                 this.getView().setModel(this.createModel, "create");
@@ -46,7 +57,7 @@ sap.ui.define([
                 if (window.location.href.includes("launchpad")) {
                     this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
                 }
-                
+
                 this.initializeCountries();
 
             },
@@ -60,6 +71,7 @@ sap.ui.define([
                 var createdata = this.getView().getModel("create").getData();
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
+                createdata.RegistrationType = requestData.RegistrationType;
                 if (requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
                     this.byId("msmeItil").setSelectedIndex(0);
@@ -90,8 +102,6 @@ sap.ui.define([
                     contentType: "application/json",
                     url: sPath,
                     context: this,
-
-
                     success: function (sdata, textStatus, jqXHR) {
                         let data = sdata.d;
                         if (jqXHR.status === 200 || jqXHR.status === 204) {
@@ -118,6 +128,21 @@ sap.ui.define([
                         if (data.MsmeMainCertificate === "X") {
                             this.byId("msmeCert").setSelected(true);
                         }
+                        if (data.ISO9001Certification === "X") {
+                            this.byId("ISO9001Certification").setSelected(true);
+                        }
+                        if (data.IATF16949Certification === "X") {
+                            this.byId("IATF16949Certification").setSelected(true);
+                        }
+                        if (data.ISO14001Certification === "X") {
+                            this.byId("ISO14001Certification").setSelected(true);
+                        }
+                        if (data.ISO45001Certification === "X") {
+                            this.byId("ISO45001Certification").setSelected(true);
+                        }
+                        if (data.VDA63Certification === "X") {
+                            this.byId("VDA63Certification").setSelected(true);
+                        }
 
                         data.BeneficiaryName = requestData.VendorName;
                         this.createModel.setData(data);
@@ -139,11 +164,64 @@ sap.ui.define([
                         console.log("Upsert failed: ", errorThrown);
                     }
                 });
-
+                this.fetchProductInfo();
                 this._showRemainingTime();
-
             },
+            fetchProductInfo: function () {
+                var requestData = this.getView().getModel("request").getData();
+                var vendorId = requestData.VendorId; // Store the VendorId for filtering
+            
+                this.getView().getModel().read("/ProductInfo", {
+                    success: (oData) => {
+                        var filteredData = oData.results.filter(function (item) {
+                            return item.Vendor_VendorId === vendorId;
+                        });
+            
+                        // Get the default rows from the model
+                        var defaultRows = this.productInfoTableModel.getData().rows;
+            
+                        // Reset the rows to default before updating
+                        this.productInfoTableModel.setData({ rows: defaultRows });
+            
+                        // Update the default rows with filtered data, if any
+                        for (var i = 0; i < filteredData.length && i < defaultRows.length; i++) {
+                            for (var key in filteredData[i]) {
+                                if (Object.prototype.hasOwnProperty.call(filteredData[i], key)) {
+                                    defaultRows[i][key] = filteredData[i][key];
+                                }
+                            }
+                        }
+            
+                        this.productInfoTableModel.refresh(true);
+                    },
+                    error: (oError) => {
+                        console.log("Failed to fetch ProductInfo: ", oError);
+                    }
+                });
+            },
+            
+/*
+            fetchProductInfo: function () {
+                var requestData = this.getView().getModel("request").getData();
+                //var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
+                var sProductInfoPath = "/ProductInfo?$filter=Vendor_VendorId eq '" + requestData.VendorId + "'";
+                console.log("sProductInfoPath", sProductInfoPath)
+                console.log("requestData.VendorId", requestData.VendorId)
 
+
+                this.getView().getModel().read(sProductInfoPath, {
+                    success: (oData, oResponse) => {
+                        if (oData.results && oData.results.length > 0) {
+                            this.productInfoTableModel.setData({ rows: oData.results });
+                            this.productInfoTableModel.refresh(true);
+                        }
+                    },
+                    error: (oError) => {
+                        console.log("Failed to fetch ProductInfo: ", oError);
+                    }
+                });
+            },
+*/
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
@@ -191,12 +269,48 @@ sap.ui.define([
                 }
                 if (data.Type === "SERVICE") {
                     this.byId("typeRbId").setSelectedIndex(1);
+                } else if (data.Type === "BOTH") {
+                    this.byId("typeRbId").setSelectedIndex(2);
                 }
                 if (data.Msme === "NO") {
                     this.byId("msmeRbId").setSelectedIndex(1);
                 }
+                if (data.Union === "NO") {
+                    this.byId("unionRbId").setSelectedIndex(1);
+                }
+                if (data.ProdDesign === "NO") {
+                    this.byId("prodDesignRbId").setSelectedIndex(1);
+                }
+                if (data.SoftwareCapabilities === "NO") {
+                    this.byId("softwareCapRbId").setSelectedIndex(1);
+                } else if (data.SoftwareCapabilities === "N/A") {
+                    this.byId("softwareCapRbId").setSelectedIndex(2);
+                }
+                if (data.BusinessContinuity === "NO") {
+                    this.byId("businessContinuityRbId").setSelectedIndex(1);
+                }
+                if (data.LogisticCustomer === "NO") {
+                    this.byId("logCustRbId").setSelectedIndex(1);
+                }
                 if (data.GstApplicable === "NO") {
                     this.byId("gstRbId").setSelectedIndex(1);
+                }
+                if (data.NatureOfIndustry === "SMALL") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(0);
+                } else if (data.NatureOfIndustry === "MEDIUM") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(1);
+                } else if (data.NatureOfIndustry === "HEAVY") {
+                    this.byId("natureOfIndustryRbId").setSelectedIndex(2);
+                }
+                if (data.WorkingTowardsCertifications === "Yes") {
+                    this.byId("workingTowardsCert").setSelectedIndex(0);
+                } else if (data.WorkingTowardsCertifications === "No") {
+                    this.byId("workingTowardsCert").setSelectedIndex(1);
+                }
+                if (data.CentralExciseDutyApplicable === "YES") {
+                    this.byId("centralExciseDutyApplicableRbId").setSelectedIndex(0);
+                } else if (data.CentralExciseDutyApplicable === "NO") {
+                    this.byId("centralExciseDutyApplicableRbId").setSelectedIndex(1);
                 }
             },
 
@@ -223,8 +337,17 @@ sap.ui.define([
                     case "typeRbId":
                         if (index === 1) {
                             data.Type = "SERVICE";
+                        } else if (index === 2) {
+                            data.Type = "BOTH";
                         } else {
                             data.Type = "MATERIAL";
+                        }
+                        break;
+                    case "unionRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
                         }
                         break;
                     case "gstRbId":
@@ -242,6 +365,74 @@ sap.ui.define([
                             data.MsmeItilView = "Non MSME";
                         }
                         break;
+                    case "natureOfIndustryRbId":
+                        if (index === 0) {
+                            data.NatureOfIndustry = "SMALL";
+                        } else if (index === 1) {
+                            data.NatureOfIndustry = "MEDIUM";
+                        } else {
+                            data.NatureOfIndustry = "HEAVY";
+                        }
+                        break;
+                    case "workingTowardsCert": // Make sure this matches the RadioButtonGroup id in your View.xml
+                        if (index === 0) {
+                            data.WorkingTowardsCertifications = "Yes";
+                        } else {
+                            data.WorkingTowardsCertifications = "No";
+                        }
+                        break;
+                    case "centralExciseDutyApplicableRbId":
+                        if (index === 0) {
+                            this.createModel.setProperty("/CentralExciseDutyApplicable", "YES");
+                        } else {
+                            this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
+                        }
+                        break;
+
+                    case "registrationtypeRbId":
+                        if (index === 0) {
+                            data.RegistrationType = "Customer Approved / BOM Parts";
+                        } else {
+                            data.RegistrationType = "Non BOM parts";
+                        }
+                        break;
+                    case "captiveRbId":
+                        if (index === 0) {
+                            data.RegistrationType = "Yes";
+                        } else {
+                            data.RegistrationType = "No";
+                        }
+                        break;
+                    case "prodDesignRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "softwareCapRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else if (index === 2) {
+                            data.Union = "N/A";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "businessContinuityRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
+                    case "logCustRbId":
+                        if (index === 1) {
+                            data.Union = "NO";
+                        } else {
+                            data.Union = "YES";
+                        }
+                        break;
                 }
                 this.createModel.refresh(true);
             },
@@ -255,7 +446,7 @@ sap.ui.define([
                 var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"), oView.byId("purposeId"),
                 oView.byId("address1Id"), oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
-                oView.byId("address2Id"), oView.byId("pincodeId"), oView.byId("contactPersonId"), oView.byId("contactPersonMobileId")];
+                oView.byId("address2Id"), oView.byId("pincodeId")];
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -293,8 +484,11 @@ sap.ui.define([
 
                 //oView.byId("stateId")
                 // oView.byId("constId")
-                var aSelects = [oView.byId("countryId"), oView.byId("stateId"), oView.byId("cityId"),
-                oView.byId("benAccTypeId")];
+                var aSelects = [oView.byId("countryId"),
+                oView.byId("stateId"), oView.byId("cityId"),
+                oView.byId("benAccTypeId"),
+                oView.byId("suppliertypeId"),
+                oView.byId("grouptypeId")];
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -418,13 +612,24 @@ sap.ui.define([
 
             handleStatePress: function () {
                 var oStateSelect = this.getView().byId("stateId");
+                var data = this.createModel.getData();
                 if (oStateSelect.getSelectedKey()) {
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
                     var sStateKey = oStateSelect.getSelectedKey();
+                    if (sCountryKey === "India") {
+                        if (sStateKey === "Haryana") {
+                            data.Location = "Within State";
+                        } else {
+                            data.Location = "Outside State";
+                        }
+                    } else {
+                        data.Location = "Outside Country";
+                    }
                     this.loadCities(sCountryKey, sStateKey);
                 } else {
                     MessageToast.show("Please select a state first.");
                 }
+                this.createModel.refresh(true);
             },
 
             loadCities: function (sCountryKey, sStateKey) {
@@ -478,23 +683,23 @@ sap.ui.define([
             _validateAttachments: function (bValidationError) {
                 var data = this.createModel.getData();
 
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                    if (this.byId("quotfileUploader").getValue() || data.NewVendorQuotationName) {
-                        this.byId("quotfileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("quotfileUploader").setValueState("Error");
-                    }
-                }
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("quotfileUploader").getValue() || data.NewVendorQuotationName) {
+                //         this.byId("quotfileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("quotfileUploader").setValueState("Error");
+                //     }
+                // }
 
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                    if (this.byId("cocFileUploader").getValue() || data.CocName) {
-                        this.byId("cocFileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("cocFileUploader").setValueState("Error");
-                    }
-                }
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("cocFileUploader").getValue() || data.CocName) {
+                //         this.byId("cocFileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("cocFileUploader").setValueState("Error");
+                //     }
+                // }
 
                 if (data.VendorType === "IP" || data.VendorType === "EM" || data.MsmeItilView === 'Non MSME' || this.byId("msmefileUploader").getValue() || data.MsmeDeclarationName) {
                     this.byId("msmefileUploader").setValueState("None");
@@ -527,20 +732,20 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if ((data.VendorType === "DM" || data.VendorType === "IP")) {
-                if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
-                    this.byId("quotfileUploader").setValueState("None");
-                } else {
-                    bValidationError = true;
-                    this.byId("quotfileUploader").setValueState("Error");
-                }
-                if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
-                    this.byId("cocFileUploader").setValueState("None");
-                } else {
-                    bValidationError = true;
-                    this.byId("cocFileUploader").setValueState("Error");
-                }
-            }
+                // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
+                //     if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
+                //         this.byId("quotfileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("quotfileUploader").setValueState("Error");
+                //     }
+                //     if (this.byId("cocFileUploader").getValue() || data.CancelledCheque) {
+                //         this.byId("cocFileUploader").setValueState("None");
+                //     } else {
+                //         bValidationError = true;
+                //         this.byId("cocFileUploader").setValueState("Error");
+                //     }
+                // }
                 return bValidationError;
             },
 
@@ -570,12 +775,12 @@ sap.ui.define([
 
                     context: this,
                     success: function (data, textStatus, jqXHR) {
+                        this.updateProductInfo(this.vendorId);
                         BusyIndicator.hide();
 
                         MessageBox.success("Form data saved successfully", {
                             onClose: () => {
                                 this.changeStatus();
-
                             }
                         });
                     }.bind(this),
@@ -629,47 +834,54 @@ sap.ui.define([
 
                     // Call the sendEmail function
                     oDataModel.callFunction("/sendEmail", mParameters);
-                    // Prepare the function import parameters
-                    // var sPath = "/verifyBankAccount";
-                    // var mParameters = {
-                    //     urlParameters: {
-                    //         beneficiaryAccount: createData.AccountNo,
-                    //         beneficiaryIFSC: createData.IFSCCode
-                    //     },
-                    //     success: function (oData, response) {
-                    //         var result = oData.verifyBankAccount; // or response.data.verifyBankAccount;
-                    //         BusyIndicator.hide();
 
-                    //         if (result.isValid) {
-                    //             // Generate OTP and proceed
-                    //             that.otp = that.getOTP();
-                    //             MessageBox.information("To submit the data, kindly enter the OTP received " + that.otp, {
-                    //                 onClose: () => that._enterOTP()
-                    //             });
-                    //         } else {
-                    //             MessageBox.error(result.errorMessage);
-                    //         }
-                    //     },
-                    //     error: function (oError) {
-                    //         BusyIndicator.hide();
-                    //         MessageBox.error("An error occurred while verifying the bank account.");
-                    //     }
-                    // };
-
-                    // Execute the function import
-                    // oDataModel.callFunction(sPath, mParameters);
                 }
                 else {
                     BusyIndicator.hide();
                     if (mandat) {
                         MessageBox.information("Kindly fill all the required details");
                     }
-                    // else if (!this.isGSTValid) {
-                    //     MessageBox.error("Invalid GST Number");
-                    // }
                 }
 
             },
+
+            sendEmailNotification: function (vendorName, vendorMail) {
+                let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        vendorName: vendorName,
+                        subject: "Supplier Form",
+                        content: emailBody,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
+            },
+
+            getQualityEmails: async function () {
+                var oModel = this.getView().getModel();
+                return new Promise((resolve, reject) => {
+                    oModel.read("/AccessInfo", {
+                        filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, "Quality")],
+                        success: function (oData) {
+                            var emails = oData.results.map(item => item.email);
+                            resolve(emails);
+                        },
+                        error: function (oError) {
+                            reject(oError);
+                        }
+                    });
+                });
+            },
+
 
             _enterOTP: function () {
                 var that = this;
@@ -711,6 +923,8 @@ sap.ui.define([
                                         // Successful OTP validation and submission
                                         BusyIndicator.show();
                                         data.Otp = enterOtp;
+                                        this.name = "Quality Team";
+                                        this.initiateName = "Initiator";
                                         var payloadStr = JSON.stringify(data);
                                         var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${data.VendorId}')`;
                                         $.ajax({
@@ -719,7 +933,8 @@ sap.ui.define([
                                             url: sPath,
                                             data: payloadStr,
                                             context: this,
-                                            success: function (data, textStatus, jqXHR) {
+                                            success: async function (data, textStatus, jqXHR) {
+                                                this.updateProductInfo(data.d.VendorId)
                                                 BusyIndicator.hide();
                                                 if (jqXHR.status === 200 || jqXHR.status === 204) {
                                                     MessageBox.success("Form submitted successfully", {
@@ -727,6 +942,17 @@ sap.ui.define([
                                                             this.changeStatus();
                                                         }
                                                     });
+                                                    // Send email to initiatedBy
+                                                    this.sendEmailNotification(this.initiateName, requestData.initiatedBy);
+                                                    // Fetch and send emails to 'Quality' 
+                                                    try {
+                                                        var qualityEmails = await this.getQualityEmails();
+                                                        qualityEmails.forEach(email => {
+                                                            this.sendEmailNotification(this.name, email);
+                                                        });
+                                                    } catch (error) {
+                                                        console.error("Error fetching Quality emails: ", error);
+                                                    }
                                                 }
                                             }.bind(this),
                                             error: function (jqXHR, textStatus, errorThrown) {
@@ -764,6 +990,30 @@ sap.ui.define([
                     });
                 }
                 this.oSubmitDialog.open();
+            },
+
+            updateProductInfo: function (vendorId) {
+                var productInfoData = this.productInfoTableModel.getData().rows;
+
+                for (let i = 0; i < productInfoData.length; i++) {
+                    let row = productInfoData[i];
+                    let sPathProduct = this.hardcodedURL + `/v2/odata/v4/catalog/ProductInfo(Vendor_VendorId='${vendorId}',SrNo=${row.SrNo})`;
+                    let productPayloadStr = JSON.stringify(row);
+
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json",
+                        url: sPathProduct,
+                        data: productPayloadStr,
+                        context: this,
+                        success: (data, textStatus, jqXHR) => {
+                            BusyIndicator.hide();
+                        },
+                        error: (jqXHR, textStatus, errorThrown) => {
+                            BusyIndicator.hide();
+                        }
+                    });
+                }
             },
 
             onFileUploaderChange: function (evt) {
@@ -840,6 +1090,20 @@ sap.ui.define([
                 this.createModel.refresh(true);
             },
 
+            onCertificationChange: function (evt) {
+                var selected = evt.getParameter("selected");
+                var id = evt.getSource().getId();
+                var idSplit = id.split("--");
+                var fieldName = idSplit[idSplit.length - 1];
+
+                if (selected) {
+                    this.createModel.setProperty("/" + fieldName, "X");
+                } else {
+                    this.createModel.setProperty("/" + fieldName, "");
+                }
+                this.createModel.refresh(true);
+            },
+
             getOTP: function () {
                 var otpgen = Math.floor(100000 + Math.random() * 900000).toString();
                 return otpgen;
@@ -848,14 +1112,18 @@ sap.ui.define([
             changeStatus: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var stat = "";
+                var level = "";
+                var pending = "";
                 if (this.draft) {
                     if (requestData.Status === "INITIATED" || requestData.Status === "SAD") {
                         this.draft = false;
                         stat = "SAD";
                     }
                 } else {
-                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "SCR") {
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "RBQ") {
                         stat = "SBS";
+                        level = "1";
+                        pending = "Quality";
                     } else if (requestData.Status === "SBS") {
                         stat = "SBC";
                     } else if (requestData.Status === "SBF") {
@@ -864,6 +1132,8 @@ sap.ui.define([
                 }
                 var payload = requestData;
                 payload.Status = stat;
+                payload.VenLevel = level;
+                payload.VenApprovalPending = pending;
                 var payloadStr = JSON.stringify(payload);
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VenOnboard(Vendor='${requestData.Vendor}',VendorId=${requestData.VendorId})`;
                 $.ajax({

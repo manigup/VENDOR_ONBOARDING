@@ -139,7 +139,6 @@ formatter = {
             switch (status) {
                 case "CREATED":
                 case "INITIATED":
-                case "SBS":
                 case "SBP":
                 case "SBQ":
                 case "SBC":
@@ -148,9 +147,12 @@ formatter = {
                 case "SAQ_SENT":
                     state = "Information";
                     break;
-                case "SAD":  
+                case "SBS":
+                    state = "Indication08";
+                    break;
+                case "SAD":
                     state = "None";
-                    break;  
+                    break;
                 case "PAP":
                 case "SAQ_APROVE":
                 case "SRE-ROUTE":
@@ -228,7 +230,7 @@ formatter = {
             } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     },
@@ -246,13 +248,13 @@ formatter = {
             } else {
                 return false;
             }
-        }else if (related === "Yes") {
+        } else if (related === "Yes") {
             if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
                 return true;
             } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     },
