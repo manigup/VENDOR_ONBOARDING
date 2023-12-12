@@ -31,7 +31,7 @@
             >
                 <headerToolbar>
                     <OverflowToolbar id="_IDGenOverflowToolbar1">
-                    <!-- <CheckBox id="viewAllId" text="View All" select="onViewAll" /> -->
+                        <!-- <CheckBox id="viewAllId" text="View All" select="onViewAll" /> -->
                         <ToolbarSpacer id="_IDGenToolbarSpacer2" />
                         <SearchField
                             id="search"
@@ -199,7 +199,7 @@
                             />
                             <Text
                                 id="_IDGenText1"
-                                text="{path:'DataModel>createdAt',formatter:'formatter.formatDate'}"
+                                text="{path:'DataModel>createdAt',formatter:'formatter.dateFormat'}"
                             />
                             <!-- <Text
                                 id="_IDGenTextBP"

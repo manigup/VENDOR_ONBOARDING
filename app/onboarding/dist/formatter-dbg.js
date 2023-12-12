@@ -9,9 +9,22 @@ formatter = {
             sap.ui.core.UIComponent.getRouterFor(this).navTo("list");
         }
     },
+    dateFormat: function (oDate) {
+        if (oDate && oDate !== "00000000") {
+            return sap.ui.core.format.DateFormat.getDateInstance({
+                pattern: "MMM dd, yyyy"
+            }).format(new Date(oDate.substring(4, 6) + "/" + oDate.substring(6, 8) + "/" + oDate.substring(0, 4)));
+        } else {
+            return "";
+        }
+    },
     formatDate: function (oDate) {
         if (oDate) {
-            return oDate.toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
+            const d = oDate.getDate().toString(),
+                y = oDate.getFullYear().toString();
+            let m = oDate.getMonth();
+            m = (m + 1).toString();
+            return y + m + d;
         } else {
             return "";
         }
@@ -139,8 +152,6 @@ formatter = {
             switch (status) {
                 case "CREATED":
                 case "INITIATED":
-                case "SAD":
-                case "SBS":
                 case "SBP":
                 case "SBQ":
                 case "SBC":
@@ -148,6 +159,12 @@ formatter = {
                 case "SBF":
                 case "SAQ_SENT":
                     state = "Information";
+                    break;
+                case "SBS":
+                    state = "Indication08";
+                    break;
+                case "SAD":
+                    state = "None";
                     break;
                 case "PAP":
                 case "SAQ_APROVE":
@@ -226,7 +243,7 @@ formatter = {
             } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     },
@@ -244,13 +261,13 @@ formatter = {
             } else {
                 return false;
             }
-        }else if (related === "Yes") {
+        } else if (related === "Yes") {
             if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
                 return true;
             } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     },

@@ -63,8 +63,9 @@ sap.ui.define([
                         success: (data) => {
                             data.results.map(item => {
                                 item.StatusText = formatter.formatStatus(item.Status);
-                                item.WavStatusText = formatter.formatStatus(item.WavStatus);
-                                parseInt(item.Score);
+                                item.createdAt = formatter.formatDate(item.createdAt);
+                                // item.WavStatusText = formatter.formatStatus(item.WavStatus);
+                                // parseInt(item.Score);
                                 return item;
                             });
                             var reqData = { purchase: false, quality: false, coo: false, ceo: false, finance: false };
@@ -122,34 +123,22 @@ sap.ui.define([
                     this.byId("vendorList").getBinding("items").filter([]);
                 }
             },
-            convertFilterDate: function (dateString) {
-                let year = dateString.substring(0, 4)
 
-                let month = dateString.substring(4, 6)
-
-                let day = dateString.substring(6, 8)
-
-                let date = new Date(year, month - 1, day)
-
-                return date.toISOString() + '\\';
-            },
             onCreationDateFilter: function () {
                 var fromValue = this.byId("createFromDateId").getValue(),
                     toValue = this.byId("createToDateId").getValue();
-                    if (fromValue){
-                        fromValue = this.convertFilterDate(fromValue);
-                    }
-                    if (toValue){
-                        toValue = this.convertFilterDate(toValue);
-                    }
                 if (fromValue && toValue) {
                     this.byId("vendorList").getBinding("items").filter([new Filter([
                         new Filter("createdAt", sap.ui.model.FilterOperator.BT, fromValue, toValue)
                     ])]);
                 } else if (fromValue) {
-                    this.byId("vendorList").getBinding("items").filter([new Filter("createdAt", sap.ui.model.FilterOperator.EQ, fromValue)]);
+                    this.byId("vendorList").getBinding("items").filter([new Filter([
+                        new Filter("createdAt", sap.ui.model.FilterOperator.EQ, fromValue)
+                    ])]);
                 } else if (toValue) {
-                    this.byId("vendorList").getBinding("items").filter([new Filter("createdAt", sap.ui.model.FilterOperator.LE, toValue)]);
+                    this.byId("vendorList").getBinding("items").filter([new Filter([
+                        new Filter("createdAt", sap.ui.model.FilterOperator.LE, toValue)
+                    ])]);
                 } else {
                     this.byId("vendorList").getBinding("items").filter([]);
                 }

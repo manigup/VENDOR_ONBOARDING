@@ -330,14 +330,17 @@
                         />
                         <RadioButtonGroup
                             id="registrationtypeRbId"
-                            columns="2"
+                            columns="3"
                             enabled="false"
-                            selectedIndex="{= ${create>/RegistrationType} === 'Customer Approved / BOM Parts' ? 0 : 1}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton
                                 id="_IDGenRadioButton10"
-                                text="Customer Approved / BOM Parts"
+                                text="Customer Approved"
+                            />
+                            <RadioButton 
+                                id="_IDGenRadioButton21"
+                                text="BOM Parts"
                             />
                             <RadioButton
                                 id="_IDGenRadioButton11"
@@ -481,6 +484,15 @@
                             id="_IDGenInput1"
                             value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
                             maxLength="40"
+                        />
+                        <Label
+                            id="_IDGenLabel22"
+                            design="Bold"
+                            text="Fax"
+                        />
+                        <Input
+                            id="_IDGenInput7"
+                            value="{create>/Fax}"
                         />
                         <Label
                             id="_IDGenLabel14"
@@ -704,15 +716,6 @@
                             id="_IDGenInput6"
                             placeholder="Extension"
                             value="{create>/Extension}"
-                        />
-                        <Label
-                            id="_IDGenLabel22"
-                            design="Bold"
-                            text="Fax"
-                        />
-                        <Input
-                            id="_IDGenInput7"
-                            value="{create>/Fax}"
                         />
                         <Label
                             id="_IDGenLabel23"
@@ -1034,7 +1037,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
                         >
                             <u:customData>
@@ -1080,7 +1083,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             visible="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'EM'}"
                         >
                             <u:customData>
@@ -1158,7 +1161,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             change="onFileUploaderChange"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             visible="{= ${create>/GstApplicable} === 'YES'}"
                         >
                             <u:customData>
@@ -1314,7 +1317,7 @@
                             change="onFileUploaderChange"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             buttonText="Browse"
                         >
                             <u:customData>
@@ -1343,7 +1346,7 @@
                             change="onFileUploaderChange"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                             buttonText="Browse"
                         >
                             <u:customData>
@@ -1396,7 +1399,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="MachineName" />
@@ -1433,7 +1436,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="EquipmentName" />
@@ -1475,7 +1478,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="CaptivePowerFileName" />
@@ -1537,7 +1540,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="ProductCustomerName" />
@@ -1819,7 +1822,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="Attachment1" />
@@ -1851,7 +1854,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="Attachment2" />
@@ -1874,7 +1877,7 @@
                         <DatePicker
                             id="ISO9001ValidFrom"
                             placeholder="Enter ISO9001 Valid From"
-                            width="7rem"
+                            width="5rem"
                             value="{path:'create>/ISO9001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             tooltip="{create>/ISO9001ValidFrom}"
                             valueFormat="yyyyMMdd"
@@ -1883,7 +1886,7 @@
                         <DatePicker
                             id="ISO9001ValidTo"
                             placeholder="Enter ISO9001 Valid To"
-                            width="7rem"
+                            width="5rem"
                             value="{path:'create>/ISO9001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             tooltip="{create>/ISO9001ValidTo}"
                             valueFormat="yyyyMMdd"
@@ -1898,7 +1901,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO9001Attachment" />
@@ -1945,7 +1948,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="IATF16949Attachment" />
@@ -1992,7 +1995,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO14001Attachment" />
@@ -2039,7 +2042,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO45001Attachment" />
@@ -2086,7 +2089,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="VDA63Attachment" />
@@ -2116,7 +2119,7 @@
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
                                 <core:CustomData key="NewVendorQuotationName" />

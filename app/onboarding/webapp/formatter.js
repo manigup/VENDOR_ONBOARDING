@@ -9,9 +9,22 @@ formatter = {
             sap.ui.core.UIComponent.getRouterFor(this).navTo("list");
         }
     },
+    dateFormat: function (oDate) {
+        if (oDate && oDate !== "00000000") {
+            return sap.ui.core.format.DateFormat.getDateInstance({
+                pattern: "MMM dd, yyyy"
+            }).format(new Date(oDate.substring(4, 6) + "/" + oDate.substring(6, 8) + "/" + oDate.substring(0, 4)));
+        } else {
+            return "";
+        }
+    },
     formatDate: function (oDate) {
         if (oDate) {
-            return oDate.toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
+            const d = oDate.getDate().toString(),
+                y = oDate.getFullYear().toString();
+            let m = oDate.getMonth();
+            m = (m + 1).toString();
+            return y + m + d;
         } else {
             return "";
         }
