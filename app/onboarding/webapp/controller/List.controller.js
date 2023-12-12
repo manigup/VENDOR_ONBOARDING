@@ -433,9 +433,11 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
+                var venName = payload.VendorName;
                 if (venStatus === "SBQ") {
                     this.access = "Purchase";
-                    this.emailbody = `||Form is approved by the Quality. Approval pending at Purchase `;
+                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at Purchase. `;
+                    this.emailbody = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at Purchase. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "Purchase Team";
                     stat = "ABQ";
                     level = "2";
@@ -443,7 +445,8 @@ sap.ui.define([
                     this.msg = "Approved by Quality";
                 } else if (venStatus === "SBP") {
                     this.access = "COO";
-                    this.emailbody = `||Form is approved by the Purchase. Approval pending at COO `;
+                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. `;
+                    this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "COO Team";
                     stat = "ABP";
                     level = "3";
@@ -451,7 +454,8 @@ sap.ui.define([
                     this.msg = "Approved by Purchase";
                 } else if (venStatus === "SBC" && venRelated === "No") {
                     this.access = "Finance";
-                    this.emailbody = `||Form is approved by the COO. Approval pending at Finance `;
+                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. `;
+                    this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "Finance Team";
                     stat = "ABC";
                     level = "4";
@@ -459,7 +463,8 @@ sap.ui.define([
                     this.msg = "Approved by COO";
                 } else if (venStatus === "SBC" && venRelated === "Yes") {
                     this.access = "CEO";
-                    this.emailbody = `||Form is approved by the COO. Approval pending at CEO `;
+                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. `;
+                    this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "CEO Team";
                     stat = "ABC";
                     level = "4";
@@ -467,7 +472,8 @@ sap.ui.define([
                     this.msg = "Approved by COO";
                 } else if (venStatus === "SBE" && venRelated === "Yes") {
                     this.access = "Finance";
-                    this.emailbody = `||Form is approved by the CEO. Approval pending at Finance `;
+                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. `;
+                    this.emailbody = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "Finance Team";
                     stat = "ABE";
                     level = "5";
@@ -475,7 +481,8 @@ sap.ui.define([
                     this.msg = "Approved by CEO";
                 } else if (venStatus === "SBF") {
                     this.access = "Supplier";
-                    this.emailbody = `||Form is approved by the Finance and BP created successfully. `;
+                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
+                    this.emailbody = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
                     this.VendorName = payload.VendorName;
                     stat = "ABF";
                     payload.AddressCode = formdata.AddressCode;
@@ -493,7 +500,7 @@ sap.ui.define([
                             onClose: () => this.getData()
                         });
                         // Send email to initiatedBy
-                        this.sendApprovalEmailNotification(this.emailbody, this.initiateName, this.initiatedBy);
+                        this.sendApprovalEmailNotification(this.emailbodyini, this.initiateName, this.initiatedBy);
                         // Fetch and send emails  
                         if (this.access !== "Supplier") {
                             try {
