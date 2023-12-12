@@ -853,13 +853,18 @@ sap.ui.define([
 
             },
 
-            sendEmailNotification: function (vendorName, vendorMail) {
-                let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
+            sendEmailNotification: function (venaddress,vendorName, vendorMail,moddate) {
+                let emailBody;
+                if(venaddress === "Initiator"){
+                emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. `;
+                 }else{
+                emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a> `;
+                 }
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
                     urlParameters: {
-                        vendorName: vendorName,
+                        vendorName: venaddress,
                         subject: "Supplier Form",
                         content: emailBody,
                         toAddress: vendorMail
@@ -950,13 +955,15 @@ sap.ui.define([
                                                             this.changeStatus();
                                                         }
                                                     });
+                                                    var moddate = parseInt(data.d.modifiedAt.match(/\/Date\((\d+)\+\d+\)\//)[1]);
+                                                    var suppmodified = new Date(moddate);
                                                     // Send email to initiatedBy
-                                                    this.sendEmailNotification(this.initiateName, requestData.initiatedBy);
+                                                    this.sendEmailNotification(this.initiateName,data.d.VendorName, requestData.initiatedBy, suppmodified);
                                                     // Fetch and send emails to 'Quality' 
                                                     try {
                                                         var qualityEmails = await this.getQualityEmails();
                                                         qualityEmails.forEach(email => {
-                                                            this.sendEmailNotification(this.name, email);
+                                                            this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
                                                         });
                                                     } catch (error) {
                                                         console.error("Error fetching Quality emails: ", error);
