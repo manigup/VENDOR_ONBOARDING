@@ -941,8 +941,21 @@ sap.ui.define([
                     });
                 });
             },
-
-
+            getPurchaseEmails: async function () {
+                var oModel = this.getView().getModel();
+                return new Promise((resolve, reject) => {
+                    oModel.read("/AccessInfo", {
+                        filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, "Purchase")],
+                        success: function (oData) {
+                            var emails = oData.results.map(item => item.email);
+                            resolve(emails);
+                        },
+                        error: function (oError) {
+                            reject(oError);
+                        }
+                    });
+                });
+            },
             _enterOTP: function () {
                 var that = this;
                 var core = sap.ui.getCore();
@@ -983,7 +996,11 @@ sap.ui.define([
                                         // Successful OTP validation and submission
                                         BusyIndicator.show();
                                         data.Otp = enterOtp;
-                                        this.name = "Quality Team";
+                                        if(data.d.RegistrationType === "Non BOM parts"){
+                                        this.name = "Purchase Team";
+                                        }else{
+                                            this.name = "Quality Team";  
+                                        }
                                         this.initiateName = "Initiator";
                                         var payloadStr = JSON.stringify(data);
                                         var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${data.VendorId}')`;
@@ -1007,6 +1024,16 @@ sap.ui.define([
                                                     // Send email to initiatedBy
                                                     this.sendEmailNotification(this.initiateName, data.d.VendorName, requestData.initiatedBy, suppmodified);
                                                     // Fetch and send emails to 'Quality' 
+                                                    if(data.d.RegistrationType === "Non BOM parts"){
+                                                    try {
+                                                        var purchaseEmails = await this.getPurchaseEmails();
+                                                        purchaseEmails.forEach(email => {
+                                                            this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                        });
+                                                    } catch (error) {
+                                                        console.error("Error fetching Purchase emails: ", error);
+                                                    }
+                                                }else{
                                                     try {
                                                         var qualityEmails = await this.getQualityEmails();
                                                         qualityEmails.forEach(email => {
@@ -1015,6 +1042,7 @@ sap.ui.define([
                                                     } catch (error) {
                                                         console.error("Error fetching Quality emails: ", error);
                                                     }
+                                                }
                                                 }
                                             }.bind(this),
                                             error: function (jqXHR, textStatus, errorThrown) {
