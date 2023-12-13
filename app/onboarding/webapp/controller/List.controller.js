@@ -745,6 +745,24 @@ sap.ui.define([
                 if (formdata.DocDescription === null) {
                     formdata.DocDescription = "";
                 }
+                if (formdata.ContactPersonName2 === null) {
+                    formdata.ContactPersonName2 = "";
+                }
+                if (formdata.ContactPersonDepartment2 === null) {
+                    formdata.ContactPersonDepartment2 = "";
+                }
+                if (formdata.ContactPersonDesignation2 === null) {
+                    formdata.ContactPersonDesignation2 = "";
+                }
+                if (formdata.ContactPersonPhone2 === null) {
+                    formdata.ContactPersonPhone2 = "";
+                }
+                if (formdata.ContactPersonMobile2 === null) {
+                    formdata.ContactPersonMobile2 = "";
+                }
+                if (formdata.ContactPersonMail2 === null) {
+                    formdata.ContactPersonMail2 = "";
+                }
                 var form = {
                     "SupplierType": formdata.SupplierType,
                     "UnitCode": sessionStorage.getItem("unitCode"),

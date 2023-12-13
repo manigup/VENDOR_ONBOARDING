@@ -996,7 +996,7 @@ sap.ui.define([
                                         // Successful OTP validation and submission
                                         BusyIndicator.show();
                                         data.Otp = enterOtp;
-                                        if(data.d.RegistrationType === "Non BOM parts"){
+                                        if(data.RegistrationType === "Non BOM parts"){
                                         this.name = "Purchase Team";
                                         }else{
                                             this.name = "Quality Team";  
@@ -1020,7 +1020,8 @@ sap.ui.define([
                                                         }
                                                     });
                                                     var moddate = parseInt(data.d.modifiedAt.match(/\/Date\((\d+)\+\d+\)\//)[1]);
-                                                    var suppmodified = new Date(moddate);
+                                                    var moddatestr = new Date(moddate);
+                                                    var suppmodified = moddatestr.toDateString();
                                                     // Send email to initiatedBy
                                                     this.sendEmailNotification(this.initiateName, data.d.VendorName, requestData.initiatedBy, suppmodified);
                                                     // Fetch and send emails to 'Quality' 
