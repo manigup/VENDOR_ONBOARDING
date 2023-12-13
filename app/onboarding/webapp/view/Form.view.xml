@@ -49,7 +49,7 @@
                         <RadioButtonGroup
                             id="typeRbId"
                             columns="3"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton text="Material" />
@@ -66,7 +66,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/GroupType}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:ListItem
                                 key="A01"
@@ -158,7 +158,7 @@
                         <RadioButtonGroup
                             id="natureOfIndustryRbId"
                             columns="3"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton
@@ -176,19 +176,19 @@
                         </RadioButtonGroup>
 
                         <Label id="certificationLabel" design="Bold" text="Does your company have any of these certifications" />
-                        <CheckBox id="ISO9001Certification" text="ISO9001" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
-                        <CheckBox id="IATF16949Certification" text="IATF 16949" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
-                        <CheckBox id="ISO14001Certification" text="ISO 14001" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                        <CheckBox id="ISO9001Certification" text="ISO9001" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"/>
+                        <CheckBox id="IATF16949Certification" text="IATF 16949" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"/>
+                        <CheckBox id="ISO14001Certification" text="ISO 14001" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"/>
                         <Label text=""/>
-                        <CheckBox id="ISO45001Certification" text="ISO 45001" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
-                        <CheckBox id="VDA63Certification" text="VDA 6.3" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                        <CheckBox id="ISO45001Certification" text="ISO 45001" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"/>
+                        <CheckBox id="VDA63Certification" text="VDA 6.3" select="onCertificationChange" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"/>
 
                         <Label id="workingTowardsCertQuestion" design="Bold" text="If not, are you working towards it?" />
                         <RadioButtonGroup 
                             id="workingTowardsCert" 
                             columns="2"
                             select="onRadioButtonSelect"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             >
                             <buttons>
                                 <RadioButton text="Yes" key="Yes"/>
@@ -201,7 +201,7 @@
                         text="Probable date of ready for Certification"
                         />
                         <DatePicker id="probableCertificationDate" 
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             width="100%" 
                             valueFormat="ddMMyyyy"
                             value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
@@ -211,13 +211,40 @@
                         <RadioButtonGroup
                             id="centralExciseDutyApplicableRbId"
                             columns="2"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             select="onRadioButtonSelect"
                         >
                             <buttons>
                                 <RadioButton text="Yes" />
                                 <RadioButton text="No" />
                             </buttons>
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
+                            text="Company Code"
+                        />
+                        <RadioButtonGroup
+                            id="companycodeRbId"
+                            columns="4"
+                            enabled="false"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton
+                                id="_IDGenRadioButton22"
+                                text="1000 IMPERIAL AUTO INDUSTRIES LIMITED"
+                            />
+                            <RadioButton 
+                                id="_IDGenRadioButton23"
+                                text="2000 SJ RUBBER INDUSTRIES LIMITED"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton24"
+                                text="3000 IAI INDUSTRIES LIMITED"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton25"
+                                text="4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED"
+                            />
                         </RadioButtonGroup>
                         <Label
                             design="Bold"
@@ -254,7 +281,7 @@
                             id="venNameId"
                             change="onVenNameChange"
                             maxLength="40"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
@@ -264,7 +291,7 @@
                         <Input
                             id="venName2Id"
                             maxLength="40"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/VendorName2',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -274,7 +301,7 @@
                         <Input
                             id="venName3Id"
                             maxLength="40"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/VendorName3',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -284,7 +311,7 @@
                         />
                         <Input
                             id="mobileId"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
@@ -294,7 +321,7 @@
                         />
                         <Input
                             id="purposeId"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Purpose',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
@@ -306,7 +333,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/CompanyType}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:Item
                                 key="Partnership"
@@ -333,7 +360,7 @@
                         <Input
                             id="address1Id"
                             maxLength="60"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
                         />
                         <Label
@@ -344,7 +371,7 @@
                         <Input
                             id="address2Id"
                             maxLength="40"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Address2',type:'sap.ui.model.type.String',constraints:{minLength:1, maxLength:40}}"
                         />
                         <Label
@@ -353,13 +380,13 @@
                         />
                         <Input
                             value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
-                            maxLength="40"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            maxLength="40"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <Label
                             design="Bold"
                             text="Fax"
                         />
-                        <Input value="{create>/Fax}"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                        <Input value="{create>/Fax}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"/>
                         
                         <Label
                             id="_IDGenLabel14"
@@ -369,7 +396,7 @@
                         />
                         <ComboBox
                             id="countryId"
-                            items="{countries>/}"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            items="{countries>/}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             selectedKey="{create>/Country_code}"
                             change="countryHelpSelect"
                         >
@@ -388,7 +415,7 @@
                         <!-- enabled="{= ${create>/Country} !== ''}" -->
                         <Select
                             id="stateId"
-                            forceSelection="false"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            forceSelection="false"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             selectedKey="{create>/State_name}"
                             items="{states>/}"
                             change="handleStatePress"
@@ -409,7 +436,7 @@
                             forceSelection="false"
                             selectedKey="{create>/City_name}"
                             items="{cities>/}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:Item
                                 key="{cities>name}"
@@ -420,7 +447,7 @@
                             design="Bold"
                             text="District"
                         />
-                        <Input value="{create>/District}"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                        <Input value="{create>/District}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"/>
                         <Label
                             design="Bold"
                             text="City Postal Code"
@@ -428,7 +455,7 @@
                         />
                         <Input
                             id="pincodeId"
-                            type="Number"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            type="Number"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Pincode',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:7}}"
                         />
                         <Label
@@ -437,7 +464,7 @@
                             required="true"
                         />
                         <Input
-                            id="contactPersonnameId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="contactPersonnameId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -446,7 +473,7 @@
                             required="true"
                         />
                         <Input
-                            id="deptId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="deptId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonDepartment',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -455,7 +482,7 @@
                             required="true"
                         />
                         <Input
-                            id="desigId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="desigId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonDesignation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -465,7 +492,7 @@
                         />
                         <Input
                             id="contphoneId"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonPhone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
@@ -475,7 +502,7 @@
                         />
                         <Input
                             id="contmobileId"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonMobile',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
@@ -484,7 +511,7 @@
                             required="true"
                         />
                         <Input
-                            id="contemailId" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="contemailId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonMail'}"
                         />
                         <Label
@@ -492,7 +519,7 @@
                             text="Contact Person Name"
                         />
                         <Input
-                            id="contactPersonname2Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="contactPersonname2Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -500,7 +527,7 @@
                             text="Department"
                         />
                         <Input
-                            id="dept2Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="dept2Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -508,7 +535,7 @@
                             text="Designation"
                         />
                         <Input
-                            id="desig2Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="desig2Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -517,7 +544,7 @@
                         />
                         <Input
                             id="contphone2Id"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
@@ -526,7 +553,7 @@
                         />
                         <Input
                             id="contmobile2Id"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
@@ -534,7 +561,7 @@
                             text="Email"
                         />
                         <Input
-                            id="contemail2Id" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="contemail2Id" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonMail2'}"
                         />
                         <Label
@@ -543,7 +570,7 @@
                             required="true"
                         />
                         <Input
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/VendorMail'}"
                             type="Email"
                         />
@@ -552,24 +579,24 @@
                             text="Landline Number"
                         />
                         <Input
-                            placeholder="Number"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            placeholder="Number"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{create>/Landline}"
                         />
                         <Input
-                            placeholder="Extension"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            placeholder="Extension"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{create>/Extension}"
                         />
                         <Label
                             design="Bold"
                             text="Website"
                         />
-                        <Input value="{create>/Website}"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                        <Input value="{create>/Website}"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"/>
                         <Label
                             design="Bold"
                             text="Remarks"
                         />
                         <TextArea
-                            id="remarksId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="remarksId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Remarks',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
@@ -577,7 +604,7 @@
                             text="ITIL Comments"
                         />
                         <TextArea
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{create>/Comments}"
                         />
                         <Label
@@ -590,7 +617,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/SupplierType}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:Item
                                 key="Permanent "
@@ -606,43 +633,13 @@
                             />
                         </Select>
 
-                        
-                        <Label
-                            design="Bold"
-                            text="Account Code"
-                            required="true"
-                        />
-                        <ComboBox
-                            id="accountcodeId"
-                            items="{account>/items}"  
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            selectedKey="{create>/AccountCode}"
-                            change="onAccountCodeChange"
-                        >
-                            <core:Item
-                                key="{account>AcctCode}"
-                                text="{account>AcctCode}"
-                            />
-                        </ComboBox>
-                        <Label
-                            design="Bold"
-                            text="Account Description"
-                            required="true"
-                        />
-                        <Input
-                            id="accdescId"
-                             enabled="false"
-                            value="{path:'create>/AccountDesc',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                        />
-
-                        
                         <Label
                             design="Bold"
                             text="Lead time"
                         />
                         <Input
                             id="leadId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/LeadTime',type:'sap.ui.model.type.String'}"
                         />
                         
@@ -665,7 +662,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/DeliveryMode}"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:Item
                                 key="Road"
@@ -701,7 +698,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/CustomerCat}"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:Item
                                 key="OEM"
@@ -731,7 +728,7 @@
                             text="Excise Division"
                         />
                         <Input
-                            id="excisedivId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="excisedivId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExciseDivision',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -739,16 +736,15 @@
                             text="Excise Bank Account"
                         />
                         <Input
-                            id="excisebankaccId"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="excisebankaccId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExciseBankAcc',type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
                             text="ST Rate Percent"
-                            required="true"
                         />
                         <Input
-                            id="stRateId"  type="Number" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="stRateId"  type="Number" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/STRatePerc',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
                         />
                         <Label
@@ -757,7 +753,7 @@
                         />
                         <Input
                             id="tinId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Tin',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -767,7 +763,7 @@
                         <CheckBox
                             id="compositeid"
                             select="onCompositeChange"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             selected="{= ${create>/Composite} === '1' ? true : false}"
                         />
                         
@@ -777,7 +773,7 @@
                         />
                         <Input
                             id="credratingId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/CreditRating',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -786,7 +782,7 @@
                         />
                         <Input
                             id="credratingagId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/CreditRatingAgency',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -795,7 +791,7 @@
                         />
                         <Input
                             id="servaccId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ServiceAccType',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -804,7 +800,7 @@
                         />
                         <Input
                             id="eccId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ECCNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -814,7 +810,7 @@
                         <DatePicker
                             id="cstdate"
                             value="{path:'create>/CSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
 
                          <Label
@@ -824,7 +820,7 @@
                         />
                         <Input
                             id="workingHoursId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/WorkingHours',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -834,7 +830,7 @@
                         />
                         <Input
                             id="weeklyHolidaysId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/WeeklyHolidays',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <!-- Name of the Executive to be contacted -->
@@ -845,7 +841,7 @@
                             />
                             <Input
                             id="executiveNameId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExecutiveName', type:'sap.ui.model.type.String'}"
                             />
                         <!-- Telephone (During Working Hours) -->
@@ -856,7 +852,7 @@
                             />
                             <Input
                             id="contactDuringWorkId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExecutiveContactDuringWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
                             />
                             <!-- Telephone (After Working Hours) -->
@@ -867,7 +863,7 @@
                             />
                             <Input
                             id="contactAfterWorkId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExecutiveContactAfterWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
                             />
                             <!-- Year Of Establishment -->
@@ -876,7 +872,7 @@
                                 text="Year Of Establishment"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/YearOfEstablishment', type:'sap.ui.model.type.String'}"
                             />
                             <!-- Covered Area Of Factory -->
@@ -885,7 +881,7 @@
                                 text="Covered Area Of Factory"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/CoveredAreaOfFactory', type:'sap.ui.model.type.String'}"
                             />
                             <!-- Total Capital Investment -->
@@ -894,7 +890,7 @@
                                 text="Total Capital Investment"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/TotalCapitalInvestment', type:'sap.ui.model.type.String'}"
                             />
                             <!-- Working Capital -->
@@ -903,7 +899,7 @@
                                 text="Working Capital"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/WorkingCapital', type:'sap.ui.model.type.String'}"
                             />
                             <!-- Last Three Years Turn Over -->
@@ -912,7 +908,7 @@
                                 text="Last Three Year Turn Over (Year 1)"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/TurnOverYear1', type:'sap.ui.model.type.String'}"
                             />
                             <Label
@@ -920,7 +916,7 @@
                                 text="Last Three Year Turn Over (Year 2)"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/TurnOverYear2', type:'sap.ui.model.type.String'}"
                             />
                             <Label
@@ -928,7 +924,7 @@
                                 text="Last Three Year Turn Over (Year 3)"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/TurnOverYear3', type:'sap.ui.model.type.String'}"
                             />
 
@@ -937,7 +933,7 @@
                                 text="Associate Company Name"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/AssociateCompanyName', type:'sap.ui.model.type.String'}"
                             />
 
@@ -946,7 +942,7 @@
                                 text="Associate Company Address"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/AssociateCompanyAddr', type:'sap.ui.model.type.String'}"
                             />
 
@@ -955,7 +951,7 @@
                                 text="Banker Name"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/BankerName', type:'sap.ui.model.type.String'}"
                             />
 
@@ -964,7 +960,7 @@
                                 text="Banker Address"
                             />
                             <Input
-                                enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                                 value="{path: 'create>/BankerAddress', type:'sap.ui.model.type.String'}"
                             />
 
@@ -975,7 +971,7 @@
                         <DatePicker
                             id="lstdate"
                             value="{path:'create>/LSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <Label
                             design="Bold"
@@ -983,7 +979,7 @@
                         />
                         <Input
                             id="exciseId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExciseNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -992,7 +988,7 @@
                         />
                         <Input
                             id="jwrwId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/JWRWCost',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -1002,7 +998,7 @@
                         <DatePicker
                             id="isodate"
                             value="{path:'create>/ISOExpiryDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <Label
                             design="Bold"
@@ -1013,7 +1009,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/AddressType}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:Item
                                 key="OEM"
@@ -1030,7 +1026,7 @@
                         />
                         <Input
                             id="exciserangeId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExciseRange',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -1039,17 +1035,16 @@
                         />
                         <Input
                             id="excisebanknameId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExciseBankName',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
                             design="Bold"
                             text="Excise Duty"
-                            required="true"
                         />
                         <Input
                             id="excisedutyId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExciseDuty',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -1058,7 +1053,7 @@
                         />
                         <Input
                             id="cinId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/CinNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -1068,7 +1063,7 @@
                         <CheckBox
                             id="gstRegRbId"
                             select="onGSTChange"
-                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             selected="{= ${create>/GstRegistered} === '1' ? true : false}"
                         />
                          <Label
@@ -1078,7 +1073,7 @@
                         <DatePicker
                             id="gstdate"
                             value="{path:'create>/GSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         
                         <Label
@@ -1087,7 +1082,7 @@
                         />
                         <Input
                             id="serviceaccId" 
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ServiceAccCode',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -1096,7 +1091,7 @@
                         />
                         <Input
                             id="stratesurId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/STRateSurcharge',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -1105,7 +1100,7 @@
                         />
                         <Input
                             id="cstnoId" 
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/CSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <Label
@@ -1114,7 +1109,7 @@
                         />
                         <Input
                             id="lstnoId" 
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/LSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         
@@ -1125,15 +1120,15 @@
                         <DatePicker
                             id="excisedate"
                             value="{path:'create>/ExciseDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <Label
                             design="Bold"
-                            text="MRP Percentage" required="true"
+                            text="MRP Percentage" 
                         />
                         <Input
                             id="mrpId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/MRPPercentage',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                          <!-- <Label
@@ -1142,11 +1137,11 @@
                         /> -->
                         <Label
                             design="Bold"
-                            text="Distance (in KM.)" required="true"
+                            text="Distance (in KM.)"
                         />
                         <Input
                             id="distId" type="Number"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Distance',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
                         <!-- <Label
@@ -1169,7 +1164,7 @@
                         <ComboBox
                             id="transportLocationId"
                             items="{location>/items}"  
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             selectedKey="{create>/GroupingLocation}"
                         >
                             <core:Item
@@ -1182,7 +1177,7 @@
                             text="Group Code 5"
                         />
                         <Input
-                            id="grpcode5Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="grpcode5Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/GroupCode5',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1190,13 +1185,12 @@
                             text="Group Code 7"
                         />
                         <Input
-                            id="grpcode7Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="grpcode7Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/GroupCode7',type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
-                            text="Tax" 
-                            required="{= ${request>/purchase} === true}"
+                            text="Tax"
                         />
                         <Input
                             id="taxId"  enabled="false"
@@ -1213,7 +1207,7 @@
                             text="Group Code 4"
                         />
                         <Input
-                            id="grpcode4Id"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            id="grpcode4Id"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/GroupCode4',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1223,7 +1217,7 @@
                     <ComboBox
                         id="transportersId"
                         items="{transporters>/items}"  
-                        enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                        enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         selectedKey="{create>/Transporters}"
                     >
                         <core:Item
@@ -1243,12 +1237,11 @@
                         <Label
                             design="Bold"
                             text="Doc Code"
-                            required="true"
                         />
                         <ComboBox
                             id="doccodeId"
                             items="{doc>/items}"  
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             selectedKey="{create>/DocCode}"
                             change="doccodeHelpSelect"
                         >
@@ -1260,7 +1253,6 @@
                         <Label
                             design="Bold"
                             text="Doc Description"
-                            required="true"
                         />
                         <Input
                             id="docdescId"
@@ -1282,6 +1274,33 @@
                     columnsXL="3"
                 >
                     <f:content>
+                    <Label
+                            design="Bold"
+                            text="Account Code"
+                            required="{= ${request>/finance} === true}"
+                        />
+                        <ComboBox
+                            id="accountcodeId"
+                            items="{account>/items}"  
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            selectedKey="{create>/AccountCode}"
+                            change="onAccountCodeChange"
+                        >
+                            <core:Item
+                                key="{account>AcctCode}"
+                                text="{account>AcctCode}"
+                            />
+                        </ComboBox>
+                        <Label
+                            design="Bold"
+                            text="Account Description"
+                            required="{= ${request>/finance} === true}"
+                        />
+                        <Input
+                            id="accdescId"
+                             enabled="false"
+                            value="{path:'create>/AccountDesc',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        />
                         <Label
                             design="Bold"
                             text="MSME ITIL View"
@@ -1556,7 +1575,7 @@
                             required="true"
                         />
                         <Input
-                            id="bankNameId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="bankNameId"  enabled="false"
                             value="{path:'create>/BankName',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
                         />
                         <Label
@@ -1566,7 +1585,7 @@
                         />
                         <Input
                             id="accNoId"
-                            maxLength="18"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            maxLength="18"  enabled="false"
                             value="{path:'create>/AccountNo',type:'.customAccountType',constraints:{minLength:1,maxLength:18}}"
                         />
                         <Label
@@ -1576,7 +1595,7 @@
                         />
                         <Input
                             id="benNameId"
-                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                             enabled="false"
                             value="{path:'create>/BeneficiaryName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -1585,7 +1604,7 @@
                             required="true"
                         />
                         <Select
-                            id="benAccTypeId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="benAccTypeId"  enabled="false"
                             forceSelection="false"
                             selectedKey="{create>/AccountType}"
                         >
@@ -1604,7 +1623,7 @@
                             required="true"
                         />
                         <Input
-                            id="ifscId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="ifscId"  enabled="false"
                             value="{ path : 'create>/IFSCCode', type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -1613,7 +1632,7 @@
                             required="true"
                         />
                         <Input
-                            id="branchNameId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="branchNameId"  enabled="false"
                             value="{path:'create>/BranchName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -1622,7 +1641,7 @@
                             required="true"
                         />
                         <Input
-                            id="benLocId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="benLocId"  enabled="false"
                             value="{path:'create>/BeneficiaryLocation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
@@ -1630,7 +1649,7 @@
                             text="Bank Address"
                         />
                         <Input
-                            id="bankaddressId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            id="bankaddressId"  enabled="false"
                             value="{path:'create>/BankAddress',type:'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1646,7 +1665,7 @@
                             change="onFileUploaderChange"
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            maximumFileSize="10MB"  enabled="false"
                             buttonText="Browse"
                         >
                             <u:customData>
@@ -1704,7 +1723,7 @@
                         <Input
                             id="machineId"
                             value="{path:'create>/MachineDetails',type: 'sap.ui.model.type.String'}"  
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <Label
                             design="Bold"
@@ -1726,7 +1745,7 @@
                         <Input
                             id="equipmentId"
                             value="{path:'create>/EquipmentDetails',type: 'sap.ui.model.type.String'}"  
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <Label
                             design="Bold"
@@ -1750,7 +1769,7 @@
                             columns="2"
                             selectedIndex="{= ${create>/CaptivePower} === 'YES' ? 0 : 1}"
                             select="onRadioButtonSelect"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         >
                             <RadioButton text="Yes" />
                             <RadioButton text="No" />
@@ -1774,7 +1793,7 @@
                         />
                         <Input
                             id="captiveId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/CaptivePowerDetails',type: 'sap.ui.model.type.String'}"
                             visible="{= ${create>/CaptivePower} === 'YES'}"
                         />
@@ -1784,7 +1803,7 @@
                         />
                         <Input
                             id="capacityId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/InstalledCapacity',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1793,7 +1812,7 @@
                         />
                         <Input
                             id="spareCapacityId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/SpareCapacity',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1802,7 +1821,7 @@
                         />
                         <Input
                             id="productSafetyId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/ProductSafety',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1824,7 +1843,7 @@
                         />
                         <Input
                             id="totalId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/Total',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1833,7 +1852,7 @@
                         />
                         <Input
                             id="permanentId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/Permanent',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1842,7 +1861,7 @@
                         />
                         <Input
                             id="dailyWagesId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/DailyWages',type: 'sap.ui.model.type.String'}"
                         />
                         <Label id="unionLabel" design="Bold" text="Does organization have any union" />
@@ -1850,7 +1869,7 @@
                             id="unionRbId"
                             columns="2"
                             selectedIndex="{= ${create>/Union} === 'YES' ? 0 : 1}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton text="Yes" />
@@ -1862,7 +1881,7 @@
                         />
                         <Input
                             id="qualityControlId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/QualityControl',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1871,7 +1890,7 @@
                         />
                         <Input
                             id="productsManufacturedId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/ProductsManufactured',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1880,7 +1899,7 @@
                         />
                         <Input
                             id="legalRequirementId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/LegalRequirement',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1889,7 +1908,7 @@
                         />
                         <Input
                             id="mineralSurveyId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/MineralSurvey',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1905,11 +1924,21 @@
                         />
                         <Label
                             design="Bold"
+                            text="System Audit Rating"
+                            required = "{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                        />
+                        <Input
+                            id="systemRatingId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
                             text="Additional Information, if any"
                         />
                         <Input
                             id="addinfoId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/AdditionalInformation',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1919,7 +1948,7 @@
                         <DatePicker
                             id="dateId"
                             value="{path:'create>/Date',type:'sap.ui.model.type.String'}"
-                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <Label
                             design="Bold"
@@ -1927,7 +1956,7 @@
                         />
                         <Input
                             id="nameId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/Name',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1936,7 +1965,7 @@
                         />
                         <Input
                             id="designationId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/VendorDesignation',type: 'sap.ui.model.type.String'}"
                         />
 
@@ -1973,12 +2002,12 @@
                                 <ColumnListItem>
                                     <cells>
                                         <Input id="_IDGenInput2" value="{productInfoTable>SrNo}" editable="false" />
-                                        <Input id="_IDGenInput3" value="{productInfoTable>ProductName}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
-                                        <Input id="_IDGenInput1" value="{productInfoTable>CustomerName}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
-                                        <Input id="_IDGenInput4" value="{productInfoTable>QtyAvgLastYear}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
-                                        <Input id="_IDGenInput5" value="{productInfoTable>RejectionPPMLastYear}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
-                                        <Input id="_IDGenInput6" value="{productInfoTable>AutomotiveBusiness}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
-                                        <Input id="_IDGenInput7" value="{productInfoTable>DeliveryPerformance}" enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"/>
+                                        <Input id="_IDGenInput3" value="{productInfoTable>ProductName}" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"/>
+                                        <Input id="_IDGenInput1" value="{productInfoTable>CustomerName}" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"/>
+                                        <Input id="_IDGenInput4" value="{productInfoTable>QtyAvgLastYear}" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"/>
+                                        <Input id="_IDGenInput5" value="{productInfoTable>RejectionPPMLastYear}" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"/>
+                                        <Input id="_IDGenInput6" value="{productInfoTable>AutomotiveBusiness}" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"/>
+                                        <Input id="_IDGenInput7" value="{productInfoTable>DeliveryPerformance}" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"/>
                                     </cells>
                                 </ColumnListItem>
                             </items>
@@ -1999,7 +2028,7 @@
                             id="prodDesignRbId"
                             columns="2"
                             selectedIndex="{= ${create>/ProdDesign} === 'YES' ? 0 : 1}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton text="Yes" />
@@ -2012,7 +2041,7 @@
                         <RadioButtonGroup
                             id="softwareCapRbId"
                             columns="3"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton text="Yes" />
@@ -2027,7 +2056,7 @@
                             id="businessContinuityRbId"
                             columns="2"
                             selectedIndex="{= ${create>/BusinessContinuity} === 'YES' ? 0 : 1}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton text="Yes" />
@@ -2041,7 +2070,7 @@
                             id="logCustRbId"
                             columns="2"
                             selectedIndex="{= ${create>/LogisticCustomer} === 'YES' ? 0 : 1}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             select="onRadioButtonSelect"
                         >
                             <RadioButton text="Yes" />
@@ -2099,7 +2128,7 @@
                         <Label
                             design="Bold"
                             text="Risk Assessment"
-                            visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            visible="{= ${request>/quality} === true }"
                             required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
                         />
                         <u:FileUploader
@@ -2112,7 +2141,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts')}"
+                            visible="{= ${request>/quality} === true }"
                         >
                             <u:customData>
                                 <core:CustomData key="RiskAssessment" />
@@ -2120,7 +2149,7 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/RiskAssessment}"
-                            visible="{= ${create>/RiskAssessment} !== '' &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/RiskAssessment} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -2130,7 +2159,7 @@
                         <Label
                             design="Bold"
                             text="System Audit Check"
-                            visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            visible="{= ${request>/quality} === true}"
                             required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts')}"
                         />
                         <u:FileUploader
@@ -2143,7 +2172,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
                             buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            visible="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            visible="{= ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="SystemAuditCheck" />
@@ -2151,7 +2180,7 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/SystemAuditCheck}"
-                            visible="{= ${create>/SystemAuditCheck} !== '' &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') &amp;&amp; ${request>/quality} === true}"
+                            visible="{= ${create>/SystemAuditCheck} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
@@ -2305,7 +2334,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="10MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="AgreementName" />
@@ -2331,7 +2360,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="ProjectAppropriationName" />
@@ -2357,7 +2386,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="RelatedEmailName" />
@@ -2383,7 +2412,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>
@@ -2410,7 +2439,7 @@
                             change="onFileUploaderChange"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="5MB"
-                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            buttonText="Browse"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         >
                             <u:customData>

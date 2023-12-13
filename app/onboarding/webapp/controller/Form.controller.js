@@ -402,9 +402,16 @@ sap.ui.define([
                 } else if (data.Type === "BOTH") {
                     this.byId("typeRbId").setSelectedIndex(2);
                 }
-                if (data.Type === "BOM Parts") {
+                if (data.Companycode === "2000 SJ RUBBER INDUSTRIES LIMITED") {
+                    this.byId("companycodeRbId").setSelectedIndex(1);
+                } else if (data.Companycode === "3000 IAI INDUSTRIES LIMITED") {
+                    this.byId("companycodeRbId").setSelectedIndex(2);
+                }else if (data.Companycode === "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED") {
+                    this.byId("companycodeRbId").setSelectedIndex(3);
+                }
+                if (data.RegistrationType === "BOM Parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(1);
-                } else if (data.Type === "Non BOM parts") {
+                } else if (data.RegistrationType === "Non BOM parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(2);
                 }
                 if (data.Msme === "NO") {
@@ -582,6 +589,17 @@ sap.ui.define([
                             this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
                         }
                         break;
+                    case "companycodeRbId":
+                        if (index === 0) {
+                            data.Companycode = "1000 IMPERIAL AUTO INDUSTRIES LIMITED";
+                        }else if(index === 1){
+                            data.Companycode = "2000 SJ RUBBER INDUSTRIES LIMITED";
+                        }else if(index === 2){
+                            data.Companycode = "3000 IAI INDUSTRIES LIMITED";
+                        }else {
+                            data.Companycode = "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED";
+                        }
+                        break;
                     case "registrationtypeRbId":
                         if (index === 0) {
                             data.RegistrationType = "Customer Approved";
@@ -684,16 +702,12 @@ sap.ui.define([
                     bValidationError = false;
                 var aInputs = [oView.byId("venNameId"), oView.byId("address1Id"),
                 oView.byId("mobileId"), oView.byId("purposeId"),
-                oView.byId("accdescId"),
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
                 oView.byId("address2Id"), 
                 oView.byId("pincodeId"), oView.byId("panId"),
-                oView.byId("stRateId"), oView.byId("excisedutyId"),
-                oView.byId("mrpId"), oView.byId("distId"),
                 oView.byId("contactPersonnameId"), oView.byId("deptId"), oView.byId("desigId"),
-                oView.byId("contphoneId"), oView.byId("contmobileId"),
-                oView.byId("docdescId")
+                oView.byId("contphoneId"), oView.byId("contmobileId")
                 ];
 
                 if (requestData.quality) {
@@ -701,7 +715,6 @@ sap.ui.define([
                 }
                 if (requestData.purchase) {
                     aInputs.push(oView.byId("addcodeId"));
-                    aInputs.push(oView.byId("taxId"));
                 }
 
 
@@ -743,12 +756,14 @@ sap.ui.define([
                 // oView.byId("constId")
                 var aSelects = [oView.byId("countryId"),
                 oView.byId("stateId"), oView.byId("cityId"),
-                oView.byId("accountcodeId"),
-                oView.byId("doccodeId"),
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
 
+                if (requestData.finance) {
+                    aInputs.push(oView.byId("accdescId"));
+                    aSelects.push(oView.byId("accountcodeId"));
+                }
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
                     aInputs.push(oView.byId("MsmeValidFrom"));
@@ -1041,7 +1056,7 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if (data.RegistrationType === "BOM parts" && requestData.quality === true) {
+                if ((data.RegistrationType === "Customer Approved" || data.RegistrationType === "BOM parts") && requestData.quality === true) {
                     if (this.byId("riskFileUploader").getValue() || data.RiskAssessment) {
                         this.byId("riskFileUploader").setValueState("None");
                     } else {

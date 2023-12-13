@@ -326,6 +326,33 @@
                         </RadioButtonGroup>
                         <Label
                             design="Bold"
+                            text="Company Code"
+                        />
+                        <RadioButtonGroup
+                            id="companycodeRbId"
+                            columns="4"
+                            enabled="false"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton
+                                id="_IDGenRadioButton22"
+                                text="1000 IMPERIAL AUTO INDUSTRIES LIMITED"
+                            />
+                            <RadioButton 
+                                id="_IDGenRadioButton23"
+                                text="2000 SJ RUBBER INDUSTRIES LIMITED"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton24"
+                                text="3000 IAI INDUSTRIES LIMITED"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton25"
+                                text="4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED"
+                            />
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
                             text="Registration Type"
                         />
                         <RadioButtonGroup

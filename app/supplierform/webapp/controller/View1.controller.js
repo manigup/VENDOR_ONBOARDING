@@ -273,9 +273,16 @@ sap.ui.define([
                 } else if (data.Type === "BOTH") {
                     this.byId("typeRbId").setSelectedIndex(2);
                 }
-                if (data.Type === "BOM Parts") {
+                if (data.Companycode === "2000 SJ RUBBER INDUSTRIES LIMITED") {
+                    this.byId("companycodeRbId").setSelectedIndex(1);
+                } else if (data.Companycode === "3000 IAI INDUSTRIES LIMITED") {
+                    this.byId("companycodeRbId").setSelectedIndex(2);
+                }else if (data.Companycode === "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED") {
+                    this.byId("companycodeRbId").setSelectedIndex(3);
+                }
+                if (data.RegistrationType === "BOM Parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(1);
-                } else if (data.Type === "Non BOM parts") {
+                } else if (data.RegistrationType === "Non BOM parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(2);
                 }
                 if (data.Msme === "NO") {
@@ -394,7 +401,17 @@ sap.ui.define([
                             this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
                         }
                         break;
-
+                        case "companycodeRbId":
+                        if (index === 0) {
+                            data.Companycode = "1000 IMPERIAL AUTO INDUSTRIES LIMITED";
+                        }else if(index === 1){
+                            data.Companycode = "2000 SJ RUBBER INDUSTRIES LIMITED";
+                        }else if(index === 2){
+                            data.Companycode = "3000 IAI INDUSTRIES LIMITED";
+                        }else {
+                            data.Companycode = "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED";
+                        }
+                        break;
                     case "registrationtypeRbId":
                         if (index === 0) {
                             data.RegistrationType = "Customer Approved";
