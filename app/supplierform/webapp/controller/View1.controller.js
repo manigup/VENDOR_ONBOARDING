@@ -55,7 +55,7 @@ sap.ui.define([
 
                 this.hardcodedURL = "";
                 if (window.location.href.includes("launchpad")) {
-                  //  this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
+                    //  this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
                     this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
                 }
 
@@ -171,19 +171,19 @@ sap.ui.define([
             fetchProductInfo: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var vendorId = requestData.VendorId; // Store the VendorId for filtering
-            
+
                 this.getView().getModel().read("/ProductInfo", {
                     success: (oData) => {
                         var filteredData = oData.results.filter(function (item) {
                             return item.Vendor_VendorId === vendorId;
                         });
-            
+
                         // Get the default rows from the model
                         var defaultRows = this.productInfoTableModel.getData().rows;
-            
+
                         // Reset the rows to default before updating
                         this.productInfoTableModel.setData({ rows: defaultRows });
-            
+
                         // Update the default rows with filtered data, if any
                         for (var i = 0; i < filteredData.length && i < defaultRows.length; i++) {
                             for (var key in filteredData[i]) {
@@ -192,7 +192,7 @@ sap.ui.define([
                                 }
                             }
                         }
-            
+
                         this.productInfoTableModel.refresh(true);
                     },
                     error: (oError) => {
@@ -200,29 +200,29 @@ sap.ui.define([
                     }
                 });
             },
+
+            /*
+                        fetchProductInfo: function () {
+                            var requestData = this.getView().getModel("request").getData();
+                            //var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
+                            var sProductInfoPath = "/ProductInfo?$filter=Vendor_VendorId eq '" + requestData.VendorId + "'";
+                            console.log("sProductInfoPath", sProductInfoPath)
+                            console.log("requestData.VendorId", requestData.VendorId)
             
-/*
-            fetchProductInfo: function () {
-                var requestData = this.getView().getModel("request").getData();
-                //var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
-                var sProductInfoPath = "/ProductInfo?$filter=Vendor_VendorId eq '" + requestData.VendorId + "'";
-                console.log("sProductInfoPath", sProductInfoPath)
-                console.log("requestData.VendorId", requestData.VendorId)
-
-
-                this.getView().getModel().read(sProductInfoPath, {
-                    success: (oData, oResponse) => {
-                        if (oData.results && oData.results.length > 0) {
-                            this.productInfoTableModel.setData({ rows: oData.results });
-                            this.productInfoTableModel.refresh(true);
-                        }
-                    },
-                    error: (oError) => {
-                        console.log("Failed to fetch ProductInfo: ", oError);
-                    }
-                });
-            },
-*/
+            
+                            this.getView().getModel().read(sProductInfoPath, {
+                                success: (oData, oResponse) => {
+                                    if (oData.results && oData.results.length > 0) {
+                                        this.productInfoTableModel.setData({ rows: oData.results });
+                                        this.productInfoTableModel.refresh(true);
+                                    }
+                                },
+                                error: (oError) => {
+                                    console.log("Failed to fetch ProductInfo: ", oError);
+                                }
+                            });
+                        },
+            */
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
@@ -277,7 +277,7 @@ sap.ui.define([
                     this.byId("companycodeRbId").setSelectedIndex(1);
                 } else if (data.Companycode === "3000 IAI INDUSTRIES LIMITED") {
                     this.byId("companycodeRbId").setSelectedIndex(2);
-                }else if (data.Companycode === "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED") {
+                } else if (data.Companycode === "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED") {
                     this.byId("companycodeRbId").setSelectedIndex(3);
                 }
                 if (data.RegistrationType === "BOM Parts") {
@@ -401,23 +401,23 @@ sap.ui.define([
                             this.createModel.setProperty("/CentralExciseDutyApplicable", "NO");
                         }
                         break;
-                        case "companycodeRbId":
+                    case "companycodeRbId":
                         if (index === 0) {
                             data.Companycode = "1000 IMPERIAL AUTO INDUSTRIES LIMITED";
-                        }else if(index === 1){
+                        } else if (index === 1) {
                             data.Companycode = "2000 SJ RUBBER INDUSTRIES LIMITED";
-                        }else if(index === 2){
+                        } else if (index === 2) {
                             data.Companycode = "3000 IAI INDUSTRIES LIMITED";
-                        }else {
+                        } else {
                             data.Companycode = "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED";
                         }
                         break;
                     case "registrationtypeRbId":
                         if (index === 0) {
                             data.RegistrationType = "Customer Approved";
-                        }else if(index === 1){
+                        } else if (index === 1) {
                             data.RegistrationType = "BOM Parts";
-                        }else {
+                        } else {
                             data.RegistrationType = "Non BOM parts";
                         }
                         break;
@@ -870,13 +870,13 @@ sap.ui.define([
 
             },
 
-            sendEmailNotification: function (venaddress,vendorName, vendorMail,moddate) {
+            sendEmailNotification: function (venaddress, vendorName, vendorMail, moddate) {
                 let emailBody;
-                if(venaddress === "Initiator"){
-                emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. `;
-                 }else{
-                emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a> `;
-                 }
+                if (venaddress === "Initiator") {
+                    emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. `;
+                } else {
+                    emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a> `;
+                }
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
@@ -975,7 +975,7 @@ sap.ui.define([
                                                     var moddate = parseInt(data.d.modifiedAt.match(/\/Date\((\d+)\+\d+\)\//)[1]);
                                                     var suppmodified = new Date(moddate);
                                                     // Send email to initiatedBy
-                                                    this.sendEmailNotification(this.initiateName,data.d.VendorName, requestData.initiatedBy, suppmodified);
+                                                    this.sendEmailNotification(this.initiateName, data.d.VendorName, requestData.initiatedBy, suppmodified);
                                                     // Fetch and send emails to 'Quality' 
                                                     try {
                                                         var qualityEmails = await this.getQualityEmails();
@@ -1153,13 +1153,15 @@ sap.ui.define([
                     }
                 } else {
                     if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "RBQ") {
-                        stat = "SBS";
-                        level = "1";
-                        pending = "Quality";
-                    } else if (requestData.Status === "SBS") {
-                        stat = "SBC";
-                    } else if (requestData.Status === "SBF") {
-                        stat = "SBF";
+                        if (requestData.RegistrationType === "Non BOM parts") {
+                            stat = "SBS";
+                            level = "1";
+                            pending = "Purchase";
+                        } else {
+                            stat = "SBS";
+                            level = "1";
+                            pending = "Quality";
+                        }
                     }
                 }
                 var payload = requestData;

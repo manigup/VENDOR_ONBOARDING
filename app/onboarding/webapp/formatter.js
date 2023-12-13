@@ -217,19 +217,35 @@ formatter = {
         resetValidity === "X" ? this.addStyleClass("resetValidity") : this.removeStyleClass("resetValidity");
         return vendor;
     },
-    moreInfoBtnVisible: function (related, status, Access) {
+    moreInfoBtnVisible: function (related, regtype, status, Access) {
         if (related === "No") {
+            if (regtype === "Non BOM parts") {
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBC" || status === "RBF") && Access === "Purchase")) {
+                    return true;
+                } else {
+                    return false;
+                } 
+            }else{
             if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
                 return true;
             } else {
                 return false;
             }
+        }
         } else if (related === "Yes") {
+            if (regtype === "Non BOM parts") {
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }else{
             if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Quality")) {
                 return true;
             } else {
                 return false;
             }
+        }
         } else {
             return false;
         }
@@ -241,7 +257,7 @@ formatter = {
             return false;
         }
     },
-    approveBtnVisible: function (related, approve, btn, status) {
+    approveBtnVisible: function (regtype, related, approve, btn, status) {
         if (related === "No") {
             if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
                 return true;
