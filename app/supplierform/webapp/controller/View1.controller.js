@@ -149,13 +149,16 @@ sap.ui.define([
                         this.createModel.setData(data);
                         this.createModel.refresh(true);
                         if (data.Country) {
-                            // createdata.State_name = data.State_name;
-                            this.countryHelpSelect();
-                        }
-                        if (data.City) {
-                            // var sCountryKey = this.getView().byId("countryId").getSelectedKey();
-                            // var sStateKey = this.getView().byId("stateId").getSelectedKey();
-                            this.loadCities(data.Country_code, data.State_name);
+                            this.countryHelpSelect().then(() => {
+                                var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+                                return this.loadStates(sCountryKey, data.State_name, true);
+                            }).then(() => {
+                                if (data.City) {
+                                    return this.loadCities(data.Country_code, data.State_name, data.City_name);
+                                }
+                            }).catch((error) => {
+                                console.error("Error in loading states/cities:", error);
+                            });
                         }
                         this._setRadioButtons(data);
                         BusyIndicator.hide();
@@ -589,49 +592,69 @@ sap.ui.define([
                     },
                     error: function (oError) {
                         console.log("Error", oError);
-                        sap.m.MessageToast.show("Failed to load countries.");
+                        //sap.m.MessageToast.show("Failed to load countries.");
                     }
                 });
             },
 
             countryHelpSelect: function () {
-                var oStateSelect = this.getView().byId("stateId");
-                var sCountryKey = this.getView().byId("countryId").getSelectedKey();
-
-                if (sCountryKey) {
-                    oStateSelect.setEnabled(true);
-                    this.loadStates(sCountryKey);
-                } else {
-                    oStateSelect.setEnabled(false);
-                }
-            },
-
-            loadStates: function (sCountryKey) {
-                var oStateSelect = this.getView().byId("stateId");
-                var oDataModel = this.getOwnerComponent().getModel();
-                var sPath = "/States";
-
-                oDataModel.read(sPath, {
-                    urlParameters: {
-                        "country": sCountryKey
-                    },
-                    success: function (oData) {
-                        var oJsonModel = new sap.ui.model.json.JSONModel();
-                        oJsonModel.setData({ States: oData.results });
-
-                        oStateSelect.setModel(oJsonModel, "states");
-                        oStateSelect.bindItems({
-                            path: "states>/States",
-                            template: new sap.ui.core.Item({
-                                key: "{states>name}",
-                                text: "{states>name}"
-                            })
-                        });
-                    },
-                    error: function (oError) {
-                        console.log("Error", oError);
-                        sap.m.MessageToast.show("Failed to load states.");
+                return new Promise((resolve, reject) => {
+                    var oStateSelect = this.getView().byId("stateId");
+                    var sCountryKey = this.getView().byId("countryId").getSelectedKey();
+            
+                    if (sCountryKey) {
+                        oStateSelect.setEnabled(true);
+                        this.loadStates(sCountryKey).then(resolve).catch(reject);
+                    } else {
+                        oStateSelect.setEnabled(false);
+                        resolve();
                     }
+                });
+            },
+            
+            loadStates: function (sCountryKey, selectedState, isRefresh) {
+                var that = this;
+                return new Promise(function (resolve, reject) {
+                    var oStateSelect = that.getView().byId("stateId");
+                    var oDataModel = that.getOwnerComponent().getModel();
+                    var sPath = "/States";
+
+                    oDataModel.read(sPath, {
+                        urlParameters: {
+                            "country": sCountryKey
+                        },
+                        success: function (oData) {
+                            var oJsonModel = new sap.ui.model.json.JSONModel();
+                            oJsonModel.setData({ States: oData.results });
+
+                            oStateSelect.setModel(oJsonModel, "states");
+                            oStateSelect.bindItems({
+                                path: "states>/States",
+                                template: new sap.ui.core.Item({
+                                    key: "{states>name}",
+                                    text: "{states>name}"
+                                })
+                            });
+
+                            if (isRefresh) {
+                                setTimeout(() => {
+                                    if (selectedState) {
+                                        oStateSelect.setSelectedKey(selectedState);
+                                    }
+                                    resolve();
+                                }, 1000);
+                            } else {
+                                if (selectedState) {
+                                    oStateSelect.setSelectedKey(selectedState);
+                                }
+                                resolve();
+                            }
+                        },
+                        error: function (oError) {
+                            console.log("Error", oError);
+                            reject(oError);
+                        }
+                    });
                 });
             },
 
@@ -657,33 +680,40 @@ sap.ui.define([
                 this.createModel.refresh(true);
             },
 
-            loadCities: function (sCountryKey, sStateKey) {
-                var oCitySelect = this.getView().byId("cityId");
-                var oDataModel = this.getOwnerComponent().getModel();
-                var sPath = "/City";
+            loadCities: function (sCountryKey, sStateKey, selectedCity) {
+                return new Promise((resolve, reject) => {
+                    var oCitySelect = this.getView().byId("cityId");
+                    var oDataModel = this.getOwnerComponent().getModel();
+                    var sPath = "/City";
 
-                oDataModel.read(sPath, {
-                    urlParameters: {
-                        "country": sCountryKey,
-                        "state": sStateKey
-                    },
-                    success: function (oData) {
-                        var oJsonModel = new sap.ui.model.json.JSONModel();
-                        oJsonModel.setData({ Cities: oData.results });
+                    oDataModel.read(sPath, {
+                        urlParameters: {
+                            "country": sCountryKey,
+                            "state": sStateKey
+                        },
+                        success: function (oData) {
+                            var oJsonModel = new sap.ui.model.json.JSONModel();
+                            oJsonModel.setData({ Cities: oData.results });
 
-                        oCitySelect.setModel(oJsonModel, "cities");
-                        oCitySelect.bindItems({
-                            path: "cities>/Cities",
-                            template: new sap.ui.core.Item({
-                                key: "{cities>name}",
-                                text: "{cities>name}"
-                            })
-                        });
-                    },
-                    error: function (oError) {
-                        console.log("Error", oError);
-                        sap.m.MessageToast.show("Failed to load cities.");
-                    }
+                            oCitySelect.setModel(oJsonModel, "cities");
+                            oCitySelect.bindItems({
+                                path: "cities>/Cities",
+                                template: new sap.ui.core.Item({
+                                    key: "{cities>name}",
+                                    text: "{cities>name}"
+                                })
+                            });
+
+                            if (selectedCity) {
+                                oCitySelect.setSelectedKey(selectedCity);
+                            }
+                            resolve();
+                        },
+                        error: function (oError) {
+                            console.log("Error", oError);
+                            reject(oError);
+                        }
+                    });
                 });
             },
 

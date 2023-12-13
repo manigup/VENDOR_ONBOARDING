@@ -200,8 +200,6 @@ module.exports = cds.service.impl(async function () {
         const formDataString = req.data.data;
         const formDatapar = JSON.parse(formDataString);
         const formData = JSON.stringify(formDatapar, null, 2)
-        console.log("Test");
-        console.log(formData);
         return await postFormData(formData);
     });
 
@@ -356,7 +354,7 @@ async function getCountries() {
 
     } catch (error) {
         console.error("Error fetching country data:", error);
-        throw new Error("Failed to fetch country data");
+        //throw new Error("Failed to fetch country data");
     }
 }
 
@@ -379,7 +377,7 @@ async function getStates(country) {
         }));
     } catch (error) {
         console.error("Error fetching state data:", error);
-        throw new Error("Failed to fetch state data");
+        //throw new Error("Failed to fetch state data");
     }
 }
 
@@ -402,7 +400,7 @@ async function getCities(country, state) {
         }));
     } catch (error) {
         console.error("Error fetching city data:", error);
-        throw new Error("Failed to fetch city data");
+        //throw new Error("Failed to fetch city data");
     }
 }
 
@@ -426,7 +424,7 @@ async function getUnitCodes() {
 
     } catch (error) {
         console.error("Error fetching unit code data:", error);
-        throw new Error("Failed to fetch unit code data");
+        //throw new Error("Failed to fetch unit code data");
     }
 }
 
@@ -450,7 +448,7 @@ async function postFormData(formData) {
 
     } catch (error) {
         console.error("Error submitting form data:", error);
-        throw new Error("Failed to submit form data");
+        //throw new Error("Failed to submit form data");
     }
 }
 
@@ -474,7 +472,7 @@ async function getSupplierAccountCodeList(unitCode) {
 
     } catch (error) {
         console.error("Error fetching account data:", error);
-        throw new Error("Failed to fetch account data");
+        //throw new Error("Failed to fetch account data");
     }
 }
 
@@ -496,7 +494,7 @@ async function getDocumentList(unitCode) {
         }));
     } catch (error) {
         console.error("Error fetching document data:", error);
-        throw new Error("Failed to fetch document data");
+        //throw new Error("Failed to fetch document data");
     }
 }
 
@@ -518,7 +516,7 @@ async function getSupplierTransportersList(unitCode) {
         }));
     } catch (error) {
         console.error("Error fetching transporters data:", error);
-        throw new Error("Failed to fetch transporters data");
+        //throw new Error("Failed to fetch transporters data");
     }
 }
 
@@ -540,7 +538,7 @@ async function getSupplierLocationList(unitCode) {
         }));
     } catch (error) {
         console.error("Error fetching location data:", error);
-        throw new Error("Failed to fetch location data");
+        //throw new Error("Failed to fetch location data");
     }
 }
 
