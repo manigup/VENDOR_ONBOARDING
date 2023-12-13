@@ -73,6 +73,7 @@ sap.ui.define([
                     if (vendordata[i].VendorId === this.id) {
                         var vendorStatus = vendordata[i].Status;
                         var vendorrelated = vendordata[i].RelatedPart;
+                        var vendorregtype = vendordata[i].RegistrationType;
                         break;
                     }
                 }
@@ -87,6 +88,22 @@ sap.ui.define([
                             // data.GrBasedInv = "X";
                             // data.SerBasedInv = "X";
                             if (vendorrelated === "No") {
+                                if(vendorregtype === "Non BOM parts"){
+                                    if (vendorStatus === "SBS" && requestData.purchase) {
+                                        requestData.edit = false;
+                                    } else if (vendorStatus === "ABP" && requestData.coo) {
+                                        requestData.edit = false;
+                                    }
+                                    else if (vendorStatus === "ABC" && requestData.finance) {
+                                        requestData.edit = false;
+                                    } else if ((vendorStatus === "RBC" || vendorStatus === "RBF") && requestData.purchase) {
+                                        requestData.edit = false;
+                                        requestData.route = true;
+                                    }
+                                    else {
+                                        requestData.edit = ""
+                                    }
+                                }else{
                                 if (vendorStatus === "SBS" && requestData.quality) {
                                     requestData.edit = false;
                                 } else if (vendorStatus === "ABQ" && requestData.purchase) {
@@ -103,7 +120,25 @@ sap.ui.define([
                                 else {
                                     requestData.edit = ""
                                 }
+                            }
                             } else if (vendorrelated === "Yes") {
+                                if(vendorregtype === "Non BOM parts"){
+                                    if (vendorStatus === "SBS" && requestData.purchase) {
+                                        requestData.edit = false;
+                                    } else if (vendorStatus === "ABP" && requestData.coo) {
+                                        requestData.edit = false;
+                                    } else if (vendorStatus === "ABC" && requestData.ceo) {
+                                        requestData.edit = false;
+                                    } else if (vendorStatus === "ABE" && requestData.finance) {
+                                        requestData.edit = false;
+                                    } else if ((vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.quality) {
+                                        requestData.edit = false;
+                                        requestData.route = true;
+                                    }
+                                    else {
+                                        requestData.edit = ""
+                                    }
+                                }else{
                                 if (vendorStatus === "SBS" && requestData.quality) {
                                     requestData.edit = false;
                                 } else if (vendorStatus === "ABQ" && requestData.purchase) {
@@ -122,6 +157,7 @@ sap.ui.define([
                                     requestData.edit = ""
                                 }
                             }
+                        }
                             if (data.ISO9001Certification === "X") {
                                 this.byId("ISO9001Certification").setSelected(true);
                             }
@@ -1291,6 +1327,7 @@ sap.ui.define([
                         payload.AddressCode = vendata[i].AddressCode;
                         payload.RelatedPart = vendata[i].RelatedPart;
                         var venRelated = vendata[i].RelatedPart;
+                        var venRegType = vendata[i].RegistrationType;
                         break;
                     }
                 }
@@ -1299,11 +1336,19 @@ sap.ui.define([
                 var pending = "";
                 var appr = "0";
                 if (venStatus === "SBS" || venStatus === "RBF") {
+                    if(venRegType === "Non BOM parts"){
+                        stat = "SBP";
+                        appr = "1"
+                        level = "1";
+                        pending = "Purchase";
+                        this.msg = "Form submitted successfully by Purchase";  
+                    }else{
                     stat = "SBQ";
                     appr = "1"
                     level = "1";
                     pending = "Quality";
                     this.msg = "Form submitted successfully by Quality";
+                    }
                 } else if (venStatus === "ABQ") {
                     stat = "SBP";
                     appr = "1"
@@ -1311,29 +1356,61 @@ sap.ui.define([
                     pending = "Purchase";
                     this.msg = "Form submitted successfully by Purchase";
                 } else if (venStatus === "ABP") {
+                    if(venRegType === "Non BOM parts"){
+                        stat = "SBC";
+                        appr = "1"
+                        level = "2";
+                        pending = "COO";
+                        this.msg = "Form submitted successfully by COO";  
+                    }else{
                     stat = "SBC";
                     appr = "1"
                     level = "3";
                     pending = "COO";
                     this.msg = "Form submitted successfully by COO";
+                }
                 } else if (venStatus === "ABC" && venRelated === "No") {
+                    if(venRegType === "Non BOM parts"){
+                    stat = "SBF";
+                    appr = "1"
+                    level = "3";
+                    pending = "Finance";
+                    this.msg = "Form submitted successfully by Finance";
+                    }else{
                     stat = "SBF";
                     appr = "1"
                     level = "4";
                     pending = "Finance";
                     this.msg = "Form submitted successfully by Finance";
+                    }
                 } else if (venStatus === "ABC" && venRelated === "Yes") {
+                    if(venRegType === "Non BOM parts"){
+                        stat = "SBE";
+                        appr = "1"
+                        level = "3";
+                        pending = "CEO";
+                        this.msg = "Form submitted successfully by CEO";
+                    }else{
                     stat = "SBE";
                     appr = "1"
                     level = "4";
                     pending = "CEO";
                     this.msg = "Form submitted successfully by CEO";
+                    }
                 } else if (venStatus === "ABE" && venRelated === "Yes") {
+                    if(venRegType === "Non BOM parts"){
+                    stat = "SBF";
+                    appr = "1"
+                    level = "4";
+                    pending = "Finance";
+                    this.msg = "Form submitted successfully by Finance";
+                    }else{
                     stat = "SBF";
                     appr = "1"
                     level = "5";
                     pending = "Finance";
                     this.msg = "Form submitted successfully by Finance";
+                    }
                 }
                 payload.Status = stat;
                 payload.VenLevel = level;

@@ -415,6 +415,7 @@ sap.ui.define([
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.RelatedPart = vendata[i].RelatedPart;
                         var venRelated = vendata[i].RelatedPart;
+                        var venRegType = vendata[i].RegistrationType;
                         break;
                     }
                 }
@@ -433,39 +434,55 @@ sap.ui.define([
                     pending = "Purchase"
                     this.msg = "Approved by Quality";
                 } else if (venStatus === "SBP") {
+                    if(venRegType === "Non BOM parts"){ 
+                    level = "2";
+                    }else{  
+                    level = "3";
+                    }
                     this.access = "COO";
                     this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. `;
                     this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "COO Team";
                     stat = "ABP";
-                    level = "3";
                     pending = "COO"
                     this.msg = "Approved by Purchase";
                 } else if (venStatus === "SBC" && venRelated === "No") {
+                    if(venRegType === "Non BOM parts"){ 
+                        level = "3";
+                        }else{  
+                        level = "4";
+                        }
                     this.access = "Finance";
                     this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. `;
                     this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "Finance Team";
                     stat = "ABC";
-                    level = "4";
                     pending = "Finance"
                     this.msg = "Approved by COO";
                 } else if (venStatus === "SBC" && venRelated === "Yes") {
+                    if(venRegType === "Non BOM parts"){ 
+                        level = "3";
+                        }else{  
+                        level = "4";
+                        }
                     this.access = "CEO";
                     this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. `;
                     this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "CEO Team";
                     stat = "ABC";
-                    level = "4";
                     pending = "CEO"
                     this.msg = "Approved by COO";
                 } else if (venStatus === "SBE" && venRelated === "Yes") {
+                    if(venRegType === "Non BOM parts"){ 
+                        level = "4";
+                        }else{  
+                        level = "5";
+                        }
                     this.access = "Finance";
                     this.emailbodyini = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. `;
                     this.emailbody = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                     this.VendorName = "Finance Team";
                     stat = "ABE";
-                    level = "5";
                     pending = "Finance"
                     this.msg = "Approved by CEO";
                 } else if (venStatus === "SBF") {
@@ -984,6 +1001,7 @@ sap.ui.define([
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.RelatedPart = vendata[i].RelatedPart;
+                        var venRegType = vendata[i].RegistrationType;
                         break;
                     }
                 }
@@ -995,24 +1013,41 @@ sap.ui.define([
                     stat = "RBQ";
                     this.msg = "Rejected successfully by Quality";
                 } else if (venStatus === "SBP") {
+                    if(venRegType === "Non BOM parts"){
+                    stat = "RBP";
+                    this.msg = "Rejected successfully by Purchase Head";
+                    }else{
                     stat = "RBP";
                     level = "1";
                     pending = "Quality";
                     this.msg = "Rejected successfully by Purchase Head";
+                    }
                 } else if (venStatus === "SBC") {
+                    if(venRegType === "Non BOM parts"){
+                        pending = "Purchase";
+                    }else{
+                        pending = "Quality";
+                    }
                     stat = "RBC";
                     level = "1";
-                    pending = "Quality";
                     this.msg = "Rejected successfully by COO";
                 } else if (venStatus === "SBE") {
+                    if(venRegType === "Non BOM parts"){
+                        pending = "Purchase";
+                    }else{
+                        pending = "Quality";
+                    }
                     stat = "RBE";
                     level = "1";
-                    pending = "Quality";
                     this.msg = "Rejected successfully by CEO";
                 } else if (venStatus === "SBF") {
+                    if(venRegType === "Non BOM parts"){
+                        pending = "Purchase";
+                    }else{
+                        pending = "Quality";
+                    }
                     stat = "RBF";
                     level = "1";
-                    pending = "Quality";
                     this.msg = "Rejected successfully by Finance";
                 }
                 payload.Status = stat;

@@ -39,7 +39,7 @@
                     id="_IDGenButton2"
                     text="More Info"
                     press="onMoreInfoPress"
-                    visible="{parts:[{path:'VenModel>/RelatedPart'},{path:'VenModel>/Status'},{path:'VenModel>/Access'}],formatter:'formatter.moreInfoBtnVisible'}"
+                    visible="{parts:[{path:'VenModel>/RelatedPart'},{path:'VenModel>/RegistrationType'},{path:'VenModel>/Status'},{path:'VenModel>/Access'}],formatter:'formatter.moreInfoBtnVisible'}"
                 />
                 <Button
                     id="_IDGenButton3"
