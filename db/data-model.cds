@@ -77,6 +77,7 @@ entity VendorForm : managed {
       VendorName                   : String;
       VendorType                   : String(5);
       Type                         : String;
+      Companycode                  : String;
       RegistrationType             : String;
       VendorName2                  : String;
       VendorName3                  : String;
@@ -261,6 +262,7 @@ entity VendorForm : managed {
       QualityControl               : String;
       ProductsManufactured         : String;
       OverallRating                : String;
+      SystemAuditRating            : String;
       AdditionalInformation        : String;
       Date                         : String;
       Name                         : String;

@@ -121,7 +121,8 @@
                         <Label
                             id="_IDGenLabel5"
                             design="Bold"
-                            text="Department"
+                            text="Company Code"
+                            wrapping="true"
                         />
                     </Column>
                     <Column
@@ -213,7 +214,8 @@
                             />
                             <Text
                                 id="_IDGenText2"
-                                text="{DataModel>Department}"
+                                text="{DataModel>Companycode}"
+                                wrapping="true"
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus3"

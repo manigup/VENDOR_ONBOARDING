@@ -721,6 +721,24 @@ sap.ui.define([
                 if (formdata.BankAddress === null) {
                     formdata.BankAddress = "";
                 }
+                if (formdata.ExciseDuty === null) {
+                    formdata.ExciseDuty = "0";
+                }
+                if (formdata.MRPPercentage === null) {
+                    formdata.MRPPercentage = "0";
+                }
+                if (formdata.Distance === null) {
+                    formdata.Distance = "0";
+                }
+                if (formdata.Tax === null) {
+                    formdata.Tax = "-";
+                }
+                if (formdata.DocCode === null) {
+                    formdata.DocCode = "";
+                }
+                if (formdata.DocDescription === null) {
+                    formdata.DocDescription = "";
+                }
                 var form = {
                     "SupplierType": formdata.SupplierType,
                     "UnitCode": sessionStorage.getItem("unitCode"),
