@@ -6,14 +6,23 @@ sap.ui.define([
     "sap/ui/model/FilterOperator",
     "sap/ui/model/FilterType",
     "sap/ui/core/BusyIndicator",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    "sap/m/Dialog",
+    "sap/m/Button",
+	"sap/m/Label",
+	"sap/m/library",
+	"sap/m/Text",
+	"sap/m/TextArea"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (BaseController, MessageBox, MessageToast, Filter, FilterOperator, FilterType, BusyIndicator, JSONModel) {
+    function (BaseController, MessageBox, MessageToast, Filter, FilterOperator, FilterType, BusyIndicator, JSONModel, Dialog, Button, Label, mobileLibrary, Text, TextArea) {
 
         "use strict";
+
+        var ButtonType = mobileLibrary.ButtonType;
+	    var DialogType = mobileLibrary.DialogType;
 
         return BaseController.extend("sp.fiori.onboarding.controller.List", {
 
@@ -389,9 +398,13 @@ sap.ui.define([
                     }
                 });
             },
-            changeStatus: function () {
+            changeStatus: async function () {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
+                if(formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating <= "40" ){
+                    MessageBox.error("The form cannot be approved as System Audit Rating is " + formdata.SystemAuditRating);
+                    return;
+                }else{
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
                     if (vendata[i].VendorId === this.vendorId) {
@@ -506,7 +519,7 @@ sap.ui.define([
                             onClose: () => this.getData()
                         });
                         // Send email to initiatedBy
-                        this.sendApprovalEmailNotification(this.emailbodyini, this.initiateName, this.initiatedBy);
+                       await this.sendApprovalEmailNotification(this.emailbodyini, this.initiateName, this.initiatedBy);
                         // Fetch and send emails  
                         if (this.access !== "Supplier") {
                             try {
@@ -526,7 +539,8 @@ sap.ui.define([
                         console.log(error);
                     }
                 });
-            },
+            }
+        },
             sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
                 // let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
                 var oModel = this.getView().getModel();
@@ -995,10 +1009,51 @@ sap.ui.define([
                 //     }
                 // });
             },
-            onRejPress: function (evt) {
+            onRejectPress: function (evt) {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var sPath = evt.getSource().getBindingContext("DataModel").sPath.split("/")[1];
                 this.vendorId = vendata[sPath].VendorId;
+                if (!this.oSubmitDialog) {
+                    this.oSubmitDialog = new Dialog({
+                        title: "Reject Form",
+                        type: DialogType.Message,
+                        content: [
+                            new Label({
+                                text: "Reason for Rejection",
+                                labelFor: "submissionNote"
+                            }),
+                            new TextArea("submissionNote", {
+                                width: "100%",
+                                placeholder: "Add reason (required)",
+                                liveChange: function (oEvent) {
+                                    var sText = oEvent.getParameter("value");
+                                    this.RejReason = sText;
+                                    this.oSubmitDialog.getBeginButton().setEnabled(sText.length > 0);
+                                }.bind(this)
+                            })
+                        ],
+                        beginButton: new Button({
+                            type: ButtonType.Emphasized,
+                            text: "Reject",
+                            enabled: false,
+                            press: function () {
+                                this.oSubmitDialog.close();
+                                this.onRejPress();
+                            }.bind(this)
+                        }),
+                        endButton: new Button({
+                            text: "Cancel",
+                            press: function () {
+                                this.oSubmitDialog.close();
+                            }.bind(this)
+                        })
+                    });
+                }
+    
+                this.oSubmitDialog.open();
+            },            
+            onRejPress: function () {
+                var vendata = this.getView().getModel("DataModel").getData();
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
                     if (vendata[i].VendorId === this.vendorId) {
@@ -1012,13 +1067,14 @@ sap.ui.define([
                         payload.Telephone = vendata[i].Telephone;
                         payload.City = vendata[i].City;
                         payload.VendorMail = vendata[i].VendorMail;
-                        payload.VenValidTo = vendata[i].VenValidTo;
-                        payload.VenFrom = vendata[i].VenFrom;
+                        payload.VenFrom = new Date();
+                        payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         payload.initiatedBy = vendata[i].initiatedBy;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.RelatedPart = vendata[i].RelatedPart;
+                        payload.RejReason = this.RejReason;
                         var venRegType = vendata[i].RegistrationType;
                         break;
                     }
@@ -1083,7 +1139,8 @@ sap.ui.define([
                             onClose: () => this.getData()
                         });
                         if (this.venstatus === "RBQ") {
-                            this.sendEmailNotification(this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
+                            this.rejemail = `||The form is rejected due to the following reason ${this.RejReason} .Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${this.VenValidTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${this.vendorId}">CLICK HERE</a>`;
+                            this.sendRejEmailNotification(this.rejemail,this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
                         }
                     },
                     error: (error) => {
@@ -1092,6 +1149,25 @@ sap.ui.define([
                     }
                 });
             },
+            sendRejEmailNotification: function (rejemail, vendorName, vendorId, vendorMail, validTo) {
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        vendorName: vendorName,
+                        subject: "Supplier Form",
+                        content: rejemail,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
+            }
             // changevalidity: function (venItem) {
             //     var payload = venItem;
             //     var today = new Date();

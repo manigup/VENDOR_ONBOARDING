@@ -259,7 +259,7 @@
                                     class="rejectBtn"
                                     text="Reject"
                                     type="Reject"
-                                    press="onRejPress"
+                                    press="onRejectPress"
                                     width="80px"
                                     visible="{parts:[{path:'DataModel>/RegistrationType'},{path:'DataModel>RelatedPart'},{path:'DataModel>VenApprove'},{path:'request>/appbtn'},{path:'DataModel>Status'}],formatter:'formatter.approveBtnVisible'}"
                                 >
