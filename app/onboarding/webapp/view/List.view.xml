@@ -18,6 +18,12 @@
                 type="Transparent"
             />
             <Button
+                id="_IDGenButton5"
+                text="Deselect All"
+                press="onDeselectAllData"
+                type="Transparent"
+            />
+            <Button
                 id="_IDGenButton1"
                 text="Create Supplier"
                 icon="sap-icon://add"
