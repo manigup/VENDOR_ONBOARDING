@@ -161,6 +161,9 @@ sap.ui.define([
                     });
                 }, 1000);
             },
+            onDeselectAllData: function () {
+                this.getData();
+            },
 
             onSearch: function (evt) {
                 var sValue = evt.getParameter("query");
