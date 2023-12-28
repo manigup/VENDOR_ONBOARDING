@@ -1054,7 +1054,7 @@ sap.ui.define([
                                                     var moddatestr = new Date(moddate);
                                                     var suppmodified = moddatestr.toDateString();
                                                     // Send email to initiatedBy
-                                                    this.sendEmailNotification(this.initiateName, data.d.VendorName, requestData.initiatedBy, suppmodified);
+                                                    await this.sendEmailNotification(this.initiateName, data.d.VendorName, requestData.initiatedBy, suppmodified);
                                                     // Fetch and send emails to 'Quality' 
                                                     if(data.d.RegistrationType === "Non BOM parts"){
                                                     try {
