@@ -11,6 +11,12 @@
         titleAlignment="Center"
     >
         <headerContent>
+        <Button
+                id="_IDGenButton4"
+                text="Select All"
+                press="onSelectAllData"
+                type="Transparent"
+            />
             <Button
                 id="_IDGenButton1"
                 text="Create Supplier"
