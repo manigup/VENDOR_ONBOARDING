@@ -572,9 +572,14 @@ sap.ui.define([
                         if (this.access !== "Supplier") {
                             try {
                                 var deptEmails = await this.getEmails(this.access);
+                                for (const email of deptEmails) {
+                                    await this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
+                                }
+                                /*
                                 deptEmails.forEach(email => {
                                     this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
                                 });
+                                */
                             } catch (error) {
                                 console.error("Error fetching emails: ", error);
                             }
@@ -589,6 +594,32 @@ sap.ui.define([
                 });
             }
         },
+
+        sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
+            return new Promise((resolve, reject) => {
+                var oModel = this.getView().getModel();
+                var mParameters = {
+                    method: "GET",
+                    urlParameters: {
+                        vendorName: vendorName,
+                        subject: "Supplier Form",
+                        content: emailbody,
+                        toAddress: vendorMail
+                    },
+                    success: function (oData, response) {
+                        console.log("Email sent successfully.");
+                        resolve(oData);
+                    },
+                    error: function (oError) {
+                        console.log("Failed to send email.");
+                        reject(oError);
+                    }
+                };
+                oModel.callFunction("/sendEmail", mParameters);
+            });
+        },        
+
+        /*
             sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
                 // let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
                 var oModel = this.getView().getModel();
@@ -609,6 +640,7 @@ sap.ui.define([
                 };
                 oModel.callFunction("/sendEmail", mParameters);
             },
+            */
 
             getEmails: async function (access) {
                 var oModel = this.getView().getModel();

@@ -899,7 +899,7 @@ sap.ui.define([
                 }
 
             },
-
+/*
             sendEmailNotification: function (venaddress, vendorName, vendorMail, moddate) {
                 let emailBody;
                 if (venaddress === "Initiator") {
@@ -925,6 +925,37 @@ sap.ui.define([
                 };
                 oModel.callFunction("/sendEmail", mParameters);
             },
+*/
+            sendEmailNotification: function (venaddress, vendorName, vendorMail, moddate) {
+                return new Promise((resolve, reject) => {
+                    let emailBody;
+                    if (venaddress === "Initiator") {
+                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality.`;
+                    } else {
+                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>`;
+                    }
+                    var oModel = this.getView().getModel();
+                    var mParameters = {
+                        method: "GET",
+                        urlParameters: {
+                            vendorName: venaddress,
+                            subject: "Supplier Form",
+                            content: emailBody,
+                            toAddress: vendorMail
+                        },
+                        success: function (oData, response) {
+                            console.log("Email sent successfully.");
+                            resolve(oData);
+                        },
+                        error: function (oError) {
+                            console.log("Failed to send email.");
+                            reject(oError);
+                        }
+                    };
+                    oModel.callFunction("/sendEmail", mParameters);
+                });
+            },
+
 
             getQualityEmails: async function () {
                 var oModel = this.getView().getModel();
@@ -1028,18 +1059,28 @@ sap.ui.define([
                                                     if(data.d.RegistrationType === "Non BOM parts"){
                                                     try {
                                                         var purchaseEmails = await this.getPurchaseEmails();
+                                                        /*
                                                         purchaseEmails.forEach(email => {
                                                             this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
                                                         });
+                                                        */
+                                                        for (const email of purchaseEmails) {
+                                                            await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                        }
                                                     } catch (error) {
                                                         console.error("Error fetching Purchase emails: ", error);
                                                     }
                                                 }else{
                                                     try {
                                                         var qualityEmails = await this.getQualityEmails();
+                                                        /*
                                                         qualityEmails.forEach(email => {
                                                             this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
                                                         });
+                                                        */
+                                                        for (const email of qualityEmails) {
+                                                            await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                        }
                                                     } catch (error) {
                                                         console.error("Error fetching Quality emails: ", error);
                                                     }
