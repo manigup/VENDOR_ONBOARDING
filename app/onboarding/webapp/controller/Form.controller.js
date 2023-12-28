@@ -750,6 +750,7 @@ sap.ui.define([
 
                 if (requestData.quality) {
                     aInputs.push(oView.byId("overallRatingId"));
+                    aInputs.push(oView.byId("systemRatingId"));
                 }
                 if (requestData.purchase) {
                     aInputs.push(oView.byId("addcodeId"));
@@ -1120,7 +1121,7 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if ((data.RegistrationType === "Customer Approved" || data.RegistrationType === "BOM parts") && requestData.quality === true) {
+                if (requestData.quality === true) {
                     if (this.byId("riskFileUploader").getValue() || data.RiskAssessment) {
                         this.byId("riskFileUploader").setValueState("None");
                     } else {

@@ -1913,13 +1913,13 @@
                         />
                         <Label
                             design="Bold"
-                            text="Overall Rating"
+                            text="Risk Rating"
                             required = "{= ${request>/quality} === true}"
                         />
                         <Input
                             id="overallRatingId"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String'}"
+                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
                         />
                         <Label
@@ -1930,7 +1930,7 @@
                         <Input
                             id="systemRatingId"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String'}"
+                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueState="{path:'create>/SystemAuditRating',formatter:'formatter.sysratingState'}"
                         />
                         <Label

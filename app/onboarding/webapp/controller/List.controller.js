@@ -113,6 +113,54 @@ sap.ui.define([
                     });
                 }, 1000);
             },
+            onSelectAllData: function () {
+                BusyIndicator.show();
+                setTimeout(() => {
+                    this.getView().getModel().read("/VenOnboard", {
+                        success: (data) => {
+                            data.results.map(item => {
+                                item.StatusText = formatter.formatStatus(item.Status);
+                                item.createdAt = formatter.formatDate(item.createdAt);
+                                // item.WavStatusText = formatter.formatStatus(item.WavStatus);
+                                // parseInt(item.Score);
+                                return item;
+                            });
+                            var reqData = { purchase: false, quality: false, coo: false, ceo: false, finance: false };
+                            var accessdata = this.getView().getModel("AccessDetails").getData();
+                            var res = this.getView().getModel("UserApiDetails").getData();
+                            //var res = {};
+                            //res.email = "rajeshsehgal@impauto.com";
+                            reqData.purchase = accessdata.find(item => item.email === res.email && item.Access === "Purchase") ? true : false;
+                            reqData.quality = accessdata.find(item => item.email === res.email && item.Access === "Quality") ? true : false;
+                            reqData.coo = accessdata.find(item => item.email === res.email && item.Access === "COO") ? true : false;
+                            reqData.ceo = accessdata.find(item => item.email === res.email && item.Access === "CEO") ? true : false;
+                            reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
+                            // reqData.finance = true;
+                            if (reqData.purchase) {
+                                reqData.appbtn = "purchase";
+                            } else if (reqData.quality) {
+                                reqData.appbtn = "quality";
+                            } else if (reqData.coo) {
+                                reqData.appbtn = "coo";
+                            } else if (reqData.ceo) {
+                                reqData.appbtn = "ceo";
+                            } else if (reqData.finance) {
+                                reqData.appbtn = "finance";
+                            }
+                            this.getView().getModel("request").setData(reqData);
+                            this.getView().getModel("request").refresh(true);
+                            this.getView().getModel("DataModel").setData(data.results);
+                            this.getView().getModel("DataModel").setSizeLimit(data.results.length);
+                            this.getView().getModel("DataModel").refresh(true);
+                            // for(var i = 0; i<data.results.length; i++){
+                            // this.changevalidity(data.results[i]);
+                            // }
+                            BusyIndicator.hide();
+                        },
+                        error: () => BusyIndicator.hide()
+                    });
+                }, 1000);
+            },
 
             onSearch: function (evt) {
                 var sValue = evt.getParameter("query");
