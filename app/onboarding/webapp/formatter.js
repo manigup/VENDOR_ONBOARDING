@@ -82,10 +82,10 @@ formatter = {
                 case "RBP":
                     text = "Rejected by Purchase Head";
                     break;
-                case "RBF":
+                case "RBQ":
                     text = "Rejected by Quality";
                     break;
-                case "RBF":
+                case "RBC":
                     text = "Rejected by COO";
                     break;
                 case "RBE":
@@ -297,6 +297,18 @@ formatter = {
             state = "Error";
         }
         return state;
+    },
+    sysratingState: function (rating) {
+        var state = "None";
+        if (rating >= "0" && rating <= "40") {
+            state = "Error";
+        } else if (rating >= "41" && rating <= "65") {
+            state = "Warning";
+        } else if (rating > "65") {
+            state = "Success";
+        }
+        return state;
     }
+
 
 };
