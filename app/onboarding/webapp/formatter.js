@@ -263,6 +263,13 @@ formatter = {
             return false;
         }
     },
+    viewFormBtnVisible: function (status, Access) {
+        if (((status === "ABQ" || status === "RBQ") && Access === "Quality") || ((status === "ABP" || status === "RBP") && Access === "Purchase") || ((status === "ABC" || status === "RBC") && Access === "COO") || ((status === "ABE" || status === "RBE") && Access === "CEO") || ((status === "ABF" || status === "RBF") && Access === "Finance")) {
+            return true;
+        } else {
+            return false;
+        }
+    },
     fillformBtnVisible: function (status) {
         if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "RBQ") {
             return true;

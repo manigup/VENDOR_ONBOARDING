@@ -42,6 +42,12 @@
                     visible="{parts:[{path:'VenModel>/RelatedPart'},{path:'VenModel>/RegistrationType'},{path:'VenModel>/Status'},{path:'VenModel>/Access'}],formatter:'formatter.moreInfoBtnVisible'}"
                 />
                 <Button
+                    id="_IDGenButton5"
+                    text="More Info"
+                    press="onMoreInfoPress"
+                    visible="{parts:[{path:'VenModel>/Status'},{path:'VenModel>/Access'}],formatter:'formatter.viewFormBtnVisible'}"
+                />
+                <Button
                     id="_IDGenButton3"
                     text="Reset Validity"
                     press="onResetValidityPress"
