@@ -987,6 +987,10 @@ sap.ui.define([
                     });
                 });
             },
+
+            delay: function(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            },
             _enterOTP: function () {
                 var that = this;
                 var core = sap.ui.getCore();
@@ -1066,6 +1070,7 @@ sap.ui.define([
                                                         */
                                                         for (const email of purchaseEmails) {
                                                             await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                            await this.delay(500)
                                                         }
                                                     } catch (error) {
                                                         console.error("Error fetching Purchase emails: ", error);
@@ -1080,6 +1085,7 @@ sap.ui.define([
                                                         */
                                                         for (const email of qualityEmails) {
                                                             await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                            await this.delay(500)
                                                         }
                                                     } catch (error) {
                                                         console.error("Error fetching Quality emails: ", error);

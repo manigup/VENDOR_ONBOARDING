@@ -237,28 +237,7 @@ sap.ui.define([
                     MessageBox.error("Please correct all the error's to proceed");
                 }
             },
-/*
-            sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
-                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
-                var oModel = this.getView().getModel();
-                var mParameters = {
-                    method: "GET",
-                    urlParameters: {
-                        vendorName: vendorName,
-                        subject: "Supplier Form",
-                        content: emailBody,
-                        toAddress: vendorMail
-                    },
-                    success: function (oData, response) {
-                        console.log("Email sent successfully.");
-                    },
-                    error: function (oError) {
-                        console.log("Failed to send email.");
-                    }
-                };
-                oModel.callFunction("/sendEmail", mParameters);
-            },
-*/
+
             sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
                 return new Promise((resolve, reject) => {
                     let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
@@ -472,6 +451,9 @@ sap.ui.define([
                     }
                 });
             },
+            delay: function(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            },
             changeStatus: async function () {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
@@ -600,6 +582,7 @@ sap.ui.define([
                                 var deptEmails = await this.getEmails(this.access);
                                 for (const email of deptEmails) {
                                     await this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
+                                    await this.delay(500);
                                 }
                                 /*
                                 deptEmails.forEach(email => {
