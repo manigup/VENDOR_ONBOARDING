@@ -1029,7 +1029,7 @@ sap.ui.define([
                                                 }
             
                                                 // Hide BusyIndicator after all emails are sent
-                                                BusyIndicator.hide();
+                                                //BusyIndicator.hide();
             
                                                 MessageBox.success("Form submitted successfully", {
                                                     onClose: () => {
