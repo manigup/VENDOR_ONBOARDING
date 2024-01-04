@@ -204,28 +204,6 @@ sap.ui.define([
                 });
             },
 
-            /*
-                        fetchProductInfo: function () {
-                            var requestData = this.getView().getModel("request").getData();
-                            //var sProductInfoPath = `/ProductInfo?$filter=Vendor_VendorId eq '${requestData.VendorId}'`;
-                            var sProductInfoPath = "/ProductInfo?$filter=Vendor_VendorId eq '" + requestData.VendorId + "'";
-                            console.log("sProductInfoPath", sProductInfoPath)
-                            console.log("requestData.VendorId", requestData.VendorId)
-            
-            
-                            this.getView().getModel().read(sProductInfoPath, {
-                                success: (oData, oResponse) => {
-                                    if (oData.results && oData.results.length > 0) {
-                                        this.productInfoTableModel.setData({ rows: oData.results });
-                                        this.productInfoTableModel.refresh(true);
-                                    }
-                                },
-                                error: (oError) => {
-                                    console.log("Failed to fetch ProductInfo: ", oError);
-                                }
-                            });
-                        },
-            */
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
@@ -862,7 +840,7 @@ sap.ui.define([
 
             onSubmitPress: async function (oEvent) {
                 var that = this;
-                // BusyIndicator.show();
+                //BusyIndicator.show();
                 var mandat = await this._mandatCheck(); // Mandatory Check
                 if (!mandat) {
                     var createData = this.createModel.getData();
@@ -899,34 +877,8 @@ sap.ui.define([
                 }
 
             },
-/*
-            sendEmailNotification: function (venaddress, vendorName, vendorMail, moddate) {
-                let emailBody;
-                if (venaddress === "Initiator") {
-                    emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. `;
-                } else {
-                    emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a> `;
-                }
-                var oModel = this.getView().getModel();
-                var mParameters = {
-                    method: "GET",
-                    urlParameters: {
-                        vendorName: venaddress,
-                        subject: "Supplier Form",
-                        content: emailBody,
-                        toAddress: vendorMail
-                    },
-                    success: function (oData, response) {
-                        console.log("Email sent successfully.");
-                    },
-                    error: function (oError) {
-                        console.log("Failed to send email.");
-                    }
-                };
-                oModel.callFunction("/sendEmail", mParameters);
-            },
-*/
-            sendEmailNotification: function (venaddress, vendorName, vendorMail, moddate) {
+
+        sendEmailNotification: function (venaddress, vendorName, vendorMail, moddate) {
                 return new Promise((resolve, reject) => {
                     let emailBody;
                     if (venaddress === "Initiator") {
@@ -952,7 +904,7 @@ sap.ui.define([
                             reject(oError);
                         }
                     };
-                    oModel.callFunction("/sendEmail", mParameters);
+                    oModel.callFunction("/sendEmail", mParameters)
                 });
             },
 
@@ -988,9 +940,140 @@ sap.ui.define([
                 });
             },
 
-            delay: function(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
+            _enterOTP: function () {
+                var that = this;
+                var core = sap.ui.getCore();
+                let data = this.createModel.getData();
+                var requestData = this.getView().getModel("request").getData();
+                data.VendorName = requestData.VendorName;
+                data.Telephone = requestData.Telephone;
+                data.VendorType = requestData.VendorType;
+                data.VendorMail = requestData.VendorMail;
+                data.vendorId = requestData.vendorId;
+                data.BeneficiaryName = requestData.VendorName;
+            
+                if (!this.oSubmitDialog) {
+                    this.oSubmitDialog = new Dialog({
+                        type: DialogType.Message,
+                        title: "Enter the OTP Received ",
+                        content: [
+                            new Input("submissionNote", {
+                                width: "100%",
+                                placeholder: "Enter OTP",
+                                liveChange: function (oEvent) {
+                                    var sText = oEvent.getParameter("value");
+                                    this.oSubmitDialog.getButtons()[0].setEnabled(sText.length >= 6);
+                                }.bind(this)
+                            })
+                        ],
+                        buttons: [
+                            new Button({
+                                type: ButtonType.Emphasized,
+                                text: "Submit",
+                                enabled: false,
+                                press: async function () {
+                                    var currentTime = new Date().getTime();
+                                    var timeDifference = currentTime - this.otpTime;
+                                    var enterOtp = core.byId("submissionNote").getValue();
+            
+                                    if (timeDifference <= 300000 && enterOtp === this.otp) {
+                                        BusyIndicator.show();
+                                        data.Otp = enterOtp;
+                                        if(data.RegistrationType === "Non BOM parts"){
+                                            this.name = "Purchase Team";
+                                        } else {
+                                            this.name = "Quality Team";  
+                                        }
+                                        this.initiateName = "Initiator";
+                                        var payloadStr = JSON.stringify(data);
+                                        var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VendorForm('${data.VendorId}')`;
+            
+                                        $.ajax({
+                                            type: "PUT",
+                                            contentType: "application/json",
+                                            url: sPath,
+                                            data: payloadStr,
+                                            context: this,
+                                            success: async function (data, textStatus, jqXHR) {
+                                                this.updateProductInfo(data.d.VendorId);
+                                                var moddate = parseInt(data.d.modifiedAt.match(/\/Date\((\d+)\+\d+\)\//)[1]);
+                                                var moddatestr = new Date(moddate);
+                                                var suppmodified = moddatestr.toDateString();
+            
+                                                // Send email to initiatedBy
+                                                await this.sendEmailNotification(this.initiateName, data.d.VendorName, requestData.initiatedBy, suppmodified);
+            
+                                                // Fetch and send emails to 'Quality' or 'Purchase' 
+                                                if(data.d.RegistrationType === "Non BOM parts"){
+                                                    try {
+                                                        var purchaseEmails = await this.getPurchaseEmails();
+                                                        for (const email of purchaseEmails) {
+                                                            await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                        }
+                                                    } catch (error) {
+                                                        console.error("Error fetching Purchase emails: ", error);
+                                                    }
+                                                } else {
+                                                    try {
+                                                        var qualityEmails = await this.getQualityEmails();
+                                                        for (const email of qualityEmails) {
+                                                            try {
+                                                                await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                            } catch (emailError) {
+                                                                console.error(`Failed to send email to ${email}: `, emailError);
+                                                            }
+                                                        }
+                                                    } catch (error) {
+                                                        console.error("Error fetching Quality emails: ", error);
+                                                    }
+                                                }
+            
+                                                // Hide BusyIndicator after all emails are sent
+                                                BusyIndicator.hide();
+            
+                                                MessageBox.success("Form submitted successfully", {
+                                                    onClose: () => {
+                                                        this.changeStatus();
+                                                    }
+                                                });
+                                            }.bind(this),
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                console.log("Error: ", jqXHR, textStatus, errorThrown);
+                                                BusyIndicator.hide();
+                                            }
+                                        });
+                                        core.byId("submissionNote").setValue();
+                                        this.oSubmitDialog.close();
+                                    } else {
+                                        core.byId("submissionNote").setValue();
+                                        if (timeDifference > 60000) {
+                                            MessageBox.error("OTP has expired");
+                                        } else {
+                                            MessageBox.error("Incorrect OTP");
+                                        }
+                                    }
+                                }.bind(this)
+                            }),
+                            new Button({
+                                text: "Resend OTP",
+                                press: function () {
+                                    this.onSubmitPress();
+                                    this.oSubmitDialog.close();
+                                }.bind(this)
+                            }),
+                            new Button({
+                                type: ButtonType.Reject,
+                                text: "Cancel",
+                                press: function () {
+                                    this.oSubmitDialog.close();
+                                }.bind(this)
+                            })
+                        ]
+                    });
+                }
+                this.oSubmitDialog.open();
             },
+/*
             _enterOTP: function () {
                 var that = this;
                 var core = sap.ui.getCore();
@@ -1047,7 +1130,7 @@ sap.ui.define([
                                             context: this,
                                             success: async function (data, textStatus, jqXHR) {
                                                 this.updateProductInfo(data.d.VendorId)
-                                                BusyIndicator.hide();
+                                                //BusyIndicator.hide();
                                                 if (jqXHR.status === 200 || jqXHR.status === 204) {
                                                     MessageBox.success("Form submitted successfully", {
                                                         onClose: () => {
@@ -1063,14 +1146,8 @@ sap.ui.define([
                                                     if(data.d.RegistrationType === "Non BOM parts"){
                                                     try {
                                                         var purchaseEmails = await this.getPurchaseEmails();
-                                                        /*
-                                                        purchaseEmails.forEach(email => {
-                                                            this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
-                                                        });
-                                                        */
                                                         for (const email of purchaseEmails) {
                                                             await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
-                                                            await this.delay(500)
                                                         }
                                                     } catch (error) {
                                                         console.error("Error fetching Purchase emails: ", error);
@@ -1078,14 +1155,12 @@ sap.ui.define([
                                                 }else{
                                                     try {
                                                         var qualityEmails = await this.getQualityEmails();
-                                                        /*
-                                                        qualityEmails.forEach(email => {
-                                                            this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
-                                                        });
-                                                        */
                                                         for (const email of qualityEmails) {
-                                                            await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
-                                                            await this.delay(500)
+                                                            try {
+                                                                await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                            } catch (emailError) {
+                                                                console.error(`Failed to send email to ${email}: `, emailError);
+                                                            }
                                                         }
                                                     } catch (error) {
                                                         console.error("Error fetching Quality emails: ", error);
@@ -1129,7 +1204,7 @@ sap.ui.define([
                 }
                 this.oSubmitDialog.open();
             },
-
+*/
             updateProductInfo: function (vendorId) {
                 var productInfoData = this.productInfoTableModel.getData().rows;
 
