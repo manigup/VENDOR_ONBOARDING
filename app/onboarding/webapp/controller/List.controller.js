@@ -458,6 +458,7 @@ sap.ui.define([
                 return new Promise(resolve => setTimeout(resolve, ms));
             },
             changeStatus: async function () {
+                BusyIndicator.show();
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
                 if(formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating <= "40" ){
@@ -573,10 +574,7 @@ sap.ui.define([
                 this.initiateName = "Initiator";
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
                     success: async () => {
-                        BusyIndicator.hide();
-                        MessageBox.success(this.msg, {
-                            onClose: () => this.getData()
-                        });
+                        
                         // Send email to initiatedBy
                        await this.sendApprovalEmailNotification(this.emailbodyini, this.initiateName, this.initiatedBy);
                         // Fetch and send emails  
@@ -598,6 +596,10 @@ sap.ui.define([
                         } else if (this.access === "Supplier") {
                             this.sendApprovalEmailNotification(this.emailbody, this.VendorName, this.VendorMail);
                         }
+                        BusyIndicator.hide();
+                        MessageBox.success(this.msg, {
+                            onClose: () => this.getData()
+                        });
                     },
                     error: (error) => {
                         BusyIndicator.hide();
