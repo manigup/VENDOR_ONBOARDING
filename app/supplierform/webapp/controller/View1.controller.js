@@ -977,8 +977,7 @@ sap.ui.define([
                                     var enterOtp = core.byId("submissionNote").getValue();
             
                                     if (timeDifference <= 300000 && enterOtp === this.otp) {
-                                        //BusyIndicator.show();
-                                        this.showBusyIndicator(4000, 0);
+                                        BusyIndicator.show();
                                         data.Otp = enterOtp;
                                         if(data.RegistrationType === "Non BOM parts"){
                                             this.name = "Purchase Team";
@@ -1030,7 +1029,8 @@ sap.ui.define([
                                                 }
             
                                                 // Hide BusyIndicator after all emails are sent
-                                                //BusyIndicator.hide();
+                                                    //BusyIndicator.hide();
+                                                 
             
                                                 MessageBox.success("Form submitted successfully", {
                                                     onClose: () => {
@@ -1073,24 +1073,6 @@ sap.ui.define([
                     });
                 }
                 this.oSubmitDialog.open();
-            },
-            hideBusyIndicator : function() {
-                BusyIndicator.hide();
-            },
-    
-            showBusyIndicator : function (iDuration, iDelay) {
-                BusyIndicator.show(iDelay);
-    
-                if (iDuration && iDuration > 0) {
-                    if (this._sTimeoutId) {
-                        clearTimeout(this._sTimeoutId);
-                        this._sTimeoutId = null;
-                    }
-    
-                    this._sTimeoutId = setTimeout(function() {
-                        this.hideBusyIndicator();
-                    }.bind(this), iDuration);
-                }
             },
 /*
             _enterOTP: function () {
