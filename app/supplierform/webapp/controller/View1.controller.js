@@ -855,7 +855,8 @@ sap.ui.define([
                             vendorName: data.VendorName,
                             subject: "OTP",
                             content: `||OTP for submit vendor on-boarding form is ${that.otp}. | Do not share this with anyone. ImperialAuto will never telephone you to verify it.`,
-                            toAddress: data.VendorMail
+                            toAddress: data.VendorMail,
+                            ccAddress: ""
                         },
                         success: function (oData, response) {
                             that._enterOTP()
@@ -893,7 +894,8 @@ sap.ui.define([
                             vendorName: venaddress,
                             subject: "Supplier Form",
                             content: emailBody,
-                            toAddress: vendorMail
+                            toAddress: vendorMail,
+                            ccAddress: ""
                         },
                         success: function (oData, response) {
                             console.log("Email sent successfully.");

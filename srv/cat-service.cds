@@ -47,7 +47,7 @@ service CatalogService @(requires: 'any') {
 
     function verifyBankAccount(beneficiaryAccount: String, beneficiaryIFSC: String) returns String;
 
-    function sendEmail(vendorName: String, subject: String, content: String, toAddress: String) returns String;
+    function sendEmail(vendorName: String, subject: String, content: String, toAddress: String, ccAddress: String) returns String;
 
     function GetSupplierAccountCodeList(unitCode:String) returns array of AccountCodeType;
 
