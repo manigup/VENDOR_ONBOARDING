@@ -230,7 +230,7 @@ formatter = {
         resetValidity === "X" ? this.addStyleClass("resetValidity") : this.removeStyleClass("resetValidity");
         return vendor;
     },
-    moreInfoBtnVisible: function (related, regtype, status, Access) {
+    moreInfoBtnVisible: function (related, regtype, status, Access, supType) {
         if (related === "No") {
             if (regtype === "Non BOM parts") {
                 if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBC" || status === "RBF") && Access === "Purchase")) {
@@ -239,25 +239,49 @@ formatter = {
                     return false;
                 } 
             }else{
+            if(supType === "Temporary" || supType === "One Time" ){
+                if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }else{    
             if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
                 return true;
             } else {
                 return false;
             }
         }
+        }
         } else if (related === "Yes") {
             if (regtype === "Non BOM parts") {
+                if(supType === "Temporary" || supType === "One Time" ){
+                    if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }else{ 
                 if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
                     return true;
                 } else {
                     return false;
                 }
+            }
             }else{
+                if(supType === "Temporary" || supType === "One Time" ){
+                    if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }else{ 
             if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Quality")) {
                 return true;
             } else {
                 return false;
             }
+        }
         }
         } else {
             return false;

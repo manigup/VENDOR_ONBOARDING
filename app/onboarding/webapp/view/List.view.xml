@@ -13,13 +13,13 @@
         <headerContent>
         <Button
                 id="_IDGenButton4"
-                text="Select All"
+                text="Display All Requests"
                 press="onSelectAllData"
                 type="Transparent"
             />
             <Button
                 id="_IDGenButton5"
-                text="Deselect All"
+                text="Hide Requests"
                 press="onDeselectAllData"
                 type="Transparent"
             />
