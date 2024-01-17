@@ -984,7 +984,12 @@ sap.ui.define([
                                         if(data.RegistrationType === "Non BOM parts"){
                                             this.name = "Purchase Team";
                                         } else {
+                                            if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
+                                                this.name = "Purchase Team";  
+                                            }
+                                            else{
                                             this.name = "Quality Team";  
+                                            }
                                         }
                                         this.initiateName = "Initiator";
                                         var payloadStr = JSON.stringify(data);
@@ -1006,7 +1011,7 @@ sap.ui.define([
                                                 await this.sendEmailNotification(this.initiateName, data.d.VendorName, requestData.initiatedBy, suppmodified);
             
                                                 // Fetch and send emails to 'Quality' or 'Purchase' 
-                                                if(data.d.RegistrationType === "Non BOM parts"){
+                                                if(data.d.RegistrationType === "Non BOM parts" ){
                                                     try {
                                                         var purchaseEmails = await this.getPurchaseEmails();
                                                         for (const email of purchaseEmails) {
@@ -1016,6 +1021,16 @@ sap.ui.define([
                                                         console.error("Error fetching Purchase emails: ", error);
                                                     }
                                                 } else {
+                                                    if(data.d.SupplierType === "Temporary" || data.d.SupplierType === "One Time" ){
+                                                        try {
+                                                            var purchaseEmails = await this.getPurchaseEmails();
+                                                            for (const email of purchaseEmails) {
+                                                                await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
+                                                            }
+                                                        } catch (error) {
+                                                            console.error("Error fetching Purchase emails: ", error);
+                                                        }
+                                                    }else{
                                                     try {
                                                         var qualityEmails = await this.getQualityEmails();
                                                         for (const email of qualityEmails) {
@@ -1028,6 +1043,7 @@ sap.ui.define([
                                                     } catch (error) {
                                                         console.error("Error fetching Quality emails: ", error);
                                                     }
+                                                }
                                                 }
             
                                                 // Hide BusyIndicator after all emails are sent
@@ -1327,6 +1343,7 @@ sap.ui.define([
 
             changeStatus: function () {
                 var requestData = this.getView().getModel("request").getData();
+                var data = this.createModel.getData();
                 var stat = "";
                 var level = "";
                 var pending = "";
@@ -1341,17 +1358,25 @@ sap.ui.define([
                             stat = "SBS";
                             level = "1";
                             pending = "Purchase";
-                        } else {
+                        }else{
+                            if (data.SupplierType === "Temporary" || data.SupplierType === "One Time" ) {
+                                stat = "SBS";
+                                level = "1";
+                                pending = "Purchase";
+                            }
+                        else {
                             stat = "SBS";
                             level = "1";
                             pending = "Quality";
                         }
+                    }
                     }
                 }
                 var payload = requestData;
                 payload.Status = stat;
                 payload.VenLevel = level;
                 payload.VenApprovalPending = pending;
+                payload.SupplierType = data.SupplierType;
                 var payloadStr = JSON.stringify(payload);
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VenOnboard(Vendor='${requestData.Vendor}',VendorId=${requestData.VendorId})`;
                 $.ajax({

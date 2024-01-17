@@ -83,12 +83,26 @@ sap.ui.define([
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
                             data.PartyClassification = "Sup";
+                            this.SupplierType = data.SupplierType;
                             //     data.TaxNumCat = "IN3";
                             // data.ChkDoubleInv = "X";
                             // data.GrBasedInv = "X";
                             // data.SerBasedInv = "X";
                             if (vendorrelated === "No") {
                                 if(vendorregtype === "Non BOM parts"){
+                                    if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
+                                        if (vendorStatus === "SBS" && requestData.purchase) {
+                                            requestData.edit = false;
+                                        } else if (vendorStatus === "ABP" && requestData.finance) {
+                                            requestData.edit = false;
+                                        } else if (vendorStatus === "RBF" && requestData.purchase) {
+                                            requestData.edit = false;
+                                            requestData.route = true;
+                                        }
+                                        else {
+                                            requestData.edit = ""
+                                        }
+                                    } else {
                                     if (vendorStatus === "SBS" && requestData.purchase) {
                                         requestData.edit = false;
                                     } else if (vendorStatus === "ABP" && requestData.coo) {
@@ -103,7 +117,21 @@ sap.ui.define([
                                     else {
                                         requestData.edit = ""
                                     }
+                                }
                                 }else{
+                                    if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
+                                        if (vendorStatus === "SBS" && requestData.purchase) {
+                                            requestData.edit = false;
+                                        } else if (vendorStatus === "ABP" && requestData.finance) {
+                                            requestData.edit = false;
+                                        } else if (vendorStatus === "RBF" && requestData.purchase) {
+                                            requestData.edit = false;
+                                            requestData.route = true;
+                                        }
+                                        else {
+                                            requestData.edit = ""
+                                        }
+                                    }else{
                                 if (vendorStatus === "SBS" && requestData.quality) {
                                     requestData.edit = false;
                                 } else if (vendorStatus === "ABQ" && requestData.purchase) {
@@ -121,8 +149,22 @@ sap.ui.define([
                                     requestData.edit = ""
                                 }
                             }
+                            }
                             } else if (vendorrelated === "Yes") {
                                 if(vendorregtype === "Non BOM parts"){
+                                    if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
+                                        if (vendorStatus === "SBS" && requestData.purchase) {
+                                            requestData.edit = false;
+                                        } else if (vendorStatus === "ABP" && requestData.finance) {
+                                            requestData.edit = false;
+                                        } else if (vendorStatus === "RBF" && requestData.purchase) {
+                                            requestData.edit = false;
+                                            requestData.route = true;
+                                        }
+                                        else {
+                                            requestData.edit = ""
+                                        }
+                                    }else{
                                     if (vendorStatus === "SBS" && requestData.purchase) {
                                         requestData.edit = false;
                                     } else if (vendorStatus === "ABP" && requestData.coo) {
@@ -138,7 +180,21 @@ sap.ui.define([
                                     else {
                                         requestData.edit = ""
                                     }
+                                }
                                 }else{
+                                    if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
+                                        if (vendorStatus === "SBS" && requestData.purchase) {
+                                            requestData.edit = false;
+                                        } else if (vendorStatus === "ABP" && requestData.finance) {
+                                            requestData.edit = false;
+                                        } else if (vendorStatus === "RBF" && requestData.purchase) {
+                                            requestData.edit = false;
+                                            requestData.route = true;
+                                        }
+                                        else {
+                                            requestData.edit = ""
+                                        }
+                                    }else{
                                 if (vendorStatus === "SBS" && requestData.quality) {
                                     requestData.edit = false;
                                 } else if (vendorStatus === "ABQ" && requestData.purchase) {
@@ -157,6 +213,7 @@ sap.ui.define([
                                     requestData.edit = ""
                                 }
                             }
+                        }
                         }
                             if (data.ISO9001Certification === "X") {
                                 this.byId("ISO9001Certification").setSelected(true);
@@ -1355,6 +1412,7 @@ sap.ui.define([
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.AddressCode = vendata[i].AddressCode;
                         payload.RelatedPart = vendata[i].RelatedPart;
+                        payload.SupplierType = vendata[i].SupplierType;
                         var venRelated = vendata[i].RelatedPart;
                         var venRegType = vendata[i].RegistrationType;
                         break;
@@ -1372,11 +1430,19 @@ sap.ui.define([
                         pending = "Purchase";
                         this.msg = "Form submitted successfully by Purchase";  
                     }else{
-                    stat = "SBQ";
-                    appr = "1"
-                    level = "1";
-                    pending = "Quality";
-                    this.msg = "Form submitted successfully by Quality";
+                        if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
+                            stat = "SBP";
+                            appr = "1"
+                            level = "1";
+                            pending = "Purchase";
+                            this.msg = "Form submitted successfully by Purchase";  
+                        }else{
+                        stat = "SBQ";
+                        appr = "1"
+                        level = "1";
+                        pending = "Quality";
+                        this.msg = "Form submitted successfully by Quality";
+                        }
                     }
                 } else if (venStatus === "ABQ") {
                     stat = "SBP";
@@ -1386,17 +1452,33 @@ sap.ui.define([
                     this.msg = "Form submitted successfully by Purchase";
                 } else if (venStatus === "ABP") {
                     if(venRegType === "Non BOM parts"){
+                        if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
+                            stat = "SBF";
+                            appr = "1"
+                            level = "2";
+                            pending = "Finance";
+                            this.msg = "Form submitted successfully by Finance";  
+                        }else{
                         stat = "SBC";
                         appr = "1"
                         level = "2";
                         pending = "COO";
                         this.msg = "Form submitted successfully by COO";  
+                        }
                     }else{
+                        if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
+                            stat = "SBF";
+                            appr = "1"
+                            level = "2";
+                            pending = "Finance";
+                            this.msg = "Form submitted successfully by Finance";  
+                        }else{
                     stat = "SBC";
                     appr = "1"
                     level = "3";
                     pending = "COO";
                     this.msg = "Form submitted successfully by COO";
+                        }
                 }
                 } else if (venStatus === "ABC" && venRelated === "No") {
                     if(venRegType === "Non BOM parts"){
@@ -1498,6 +1580,7 @@ sap.ui.define([
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.AddressCode = vendata[i].AddressCode;
                         payload.RelatedPart = vendata[i].RelatedPart;
+                        payload.SupplierType = vendata[i].SupplierType;
                         break;
                     }
                 }

@@ -55,6 +55,7 @@ entity VenOnboardHeader : managed {
       initiatedBy        : String;
       RelatedPart        : String;
       RejReason          : String;
+      SupplierType       : String;
 }
 
 entity Attachments : managed {

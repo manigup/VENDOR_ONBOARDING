@@ -291,6 +291,8 @@ sap.ui.define([
             onVendorPress: function (evt) {
                 var data = evt.getSource().getBindingContext("DataModel").getObject();
                 var requestData = this.getView().getModel("request").getData();
+                //var formdata = this.getView().getModel("FormData").getData();
+               // data.SupplierType = formdata.SupplierType;
                 this.vendor = data.Vendor;
                 this.vendorId = data.VendorId;
                 if (requestData.purchase === true) {
@@ -334,6 +336,7 @@ sap.ui.define([
                         payload.ResetValidity = "";
                         payload.initiatedBy = vendata[i].initiatedBy;
                         payload.RelatedPart = vendata[i].RelatedPart;
+                        payload.SupplierType = vendata[i].SupplierType;
                         this.RVendorName = vendata[i].VendorName;
                         this.RVendorMail = vendata[i].VendorMail;
                         this.RVenValidTo = payload.VenValidTo;
@@ -463,7 +466,8 @@ sap.ui.define([
                 BusyIndicator.show();
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
-                if(formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating <= "40" ){
+                this.SupplierType = formdata.SupplierType;
+                if(this.SupplierType === "Permanent" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating <= "40" ){
                     MessageBox.error("The form cannot be approved as System Audit Rating is " + formdata.SystemAuditRating);
                     return;
                 }else{
@@ -489,6 +493,7 @@ sap.ui.define([
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.RelatedPart = vendata[i].RelatedPart;
+                        payload.SupplierType = vendata[i].SupplierType;
                         var venRelated = vendata[i].RelatedPart;
                         var venRegType = vendata[i].RegistrationType;
                         break;
@@ -510,10 +515,17 @@ sap.ui.define([
                     this.msg = "Approved by Quality";
                 } else if (venStatus === "SBP") {
                     if(venRegType === "Non BOM parts"){ 
+                        if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
+                        this.access = "Finance";
+                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.VendorName = "Finance Team";
+                        stat = "ABP";
+                        pending = "Finance"
+                        this.msg = "Approved by Purchase";
+                        level = "2"; 
+                        }else{
                     level = "2";
-                    }else{  
-                    level = "3";
-                    }
                     this.access = "COO";
                     this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. `;
                     this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
@@ -521,6 +533,29 @@ sap.ui.define([
                     stat = "ABP";
                     pending = "COO"
                     this.msg = "Approved by Purchase";
+                        }
+                    }else{ 
+                        if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
+                            this.access = "Finance";
+                            this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
+                            this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                            this.VendorName = "Finance Team";
+                            stat = "ABP";
+                            pending = "Finance"
+                            this.msg = "Approved by Purchase";
+                            level = "2"; 
+                            }else{ 
+                    level = "3";
+                    this.access = "COO";
+                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. `;
+                    this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                    this.VendorName = "COO Team";
+                    stat = "ABP";
+                    pending = "COO"
+                    this.msg = "Approved by Purchase";
+                    }
+                }
+                    
                 } else if (venStatus === "SBC" && venRelated === "No") {
                     if(venRegType === "Non BOM parts"){ 
                         level = "3";
@@ -1171,8 +1206,10 @@ sap.ui.define([
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.RelatedPart = vendata[i].RelatedPart;
+                        payload.SupplierType = vendata[i].SupplierType;
                         payload.RejReason = this.RejReason;
                         var venRegType = vendata[i].RegistrationType;
+                        var supType = vendata[i].SupplierType;
                         break;
                     }
                 }
@@ -1188,10 +1225,15 @@ sap.ui.define([
                     stat = "RBP";
                     this.msg = "Rejected successfully by Purchase Head";
                     }else{
+                    if(supType=== "Temporary" || supType === "One Time" ){
+                    stat = "RBP";
+                    this.msg = "Rejected successfully by Purchase Head";
+                    }else{
                     stat = "RBP";
                     level = "1";
                     pending = "Quality";
                     this.msg = "Rejected successfully by Purchase Head";
+                        }
                     }
                 } else if (venStatus === "SBC") {
                     if(venRegType === "Non BOM parts"){
@@ -1215,7 +1257,11 @@ sap.ui.define([
                     if(venRegType === "Non BOM parts"){
                         pending = "Purchase";
                     }else{
+                        if(supType=== "Temporary" || supType === "One Time"){
+                            pending = "Purchase";
+                        }else{
                         pending = "Quality";
+                        }
                     }
                     stat = "RBF";
                     level = "1";
