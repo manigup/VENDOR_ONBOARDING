@@ -1538,7 +1538,8 @@ sap.ui.define([
                         vendorName: vendorName,
                         subject: "Supplier Form",
                         content: emailBody,
-                        toAddress: vendorMail
+                        toAddress: vendorMail,
+                        ccAddress: ""
                     },
                     success: function (oData, response) {
                         console.log("Email sent successfully.");

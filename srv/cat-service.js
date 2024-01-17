@@ -139,7 +139,7 @@ module.exports = cds.service.impl(async function () {
 
     //Email trigger
     this.on('sendEmail', async (req) => {
-        const { vendorName, subject, content, toAddress } = req.data;
+        const { vendorName, subject, content, toAddress, ccAddress } = req.data;
         console.log(req.data)
 
         const payload = {
@@ -147,7 +147,7 @@ module.exports = cds.service.impl(async function () {
             Content: `Dear ${vendorName}, ${content} | | Regards | ImperialAuto`,
             Seperator: "|",
             ToAddress: toAddress,
-            CCAddress: "",
+            CCAddress: ccAddress,
             BCCAddress: "",
             CreatedBy: "Manikandan"
         };
