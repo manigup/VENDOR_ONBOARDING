@@ -891,24 +891,24 @@ sap.ui.define([
                 if (formdata.DocDescription === null) {
                     formdata.DocDescription = "";
                 }
-                if (formdata.ContactPersonName2 === null) {
-                    formdata.ContactPersonName2 = "";
-                }
-                if (formdata.ContactPersonDepartment2 === null) {
-                    formdata.ContactPersonDepartment2 = "";
-                }
-                if (formdata.ContactPersonDesignation2 === null) {
-                    formdata.ContactPersonDesignation2 = "";
-                }
-                if (formdata.ContactPersonPhone2 === null) {
-                    formdata.ContactPersonPhone2 = "";
-                }
-                if (formdata.ContactPersonMobile2 === null) {
-                    formdata.ContactPersonMobile2 = "";
-                }
-                if (formdata.ContactPersonMail2 === null) {
-                    formdata.ContactPersonMail2 = "";
-                }
+                // if (formdata.ContactPersonName2 === null) {
+                //     formdata.ContactPersonName2 = "";
+                // }
+                // if (formdata.ContactPersonDepartment2 === null) {
+                //     formdata.ContactPersonDepartment2 = "";
+                // }
+                // if (formdata.ContactPersonDesignation2 === null) {
+                //     formdata.ContactPersonDesignation2 = "";
+                // }
+                // if (formdata.ContactPersonPhone2 === null) {
+                //     formdata.ContactPersonPhone2 = "";
+                // }
+                // if (formdata.ContactPersonMobile2 === null) {
+                //     formdata.ContactPersonMobile2 = "";
+                // }
+                // if (formdata.ContactPersonMail2 === null) {
+                //     formdata.ContactPersonMail2 = "";
+                // }
                 var form = {
                     "SupplierType": formdata.SupplierType,
                     "UnitCode": sessionStorage.getItem("unitCode"),
@@ -919,7 +919,7 @@ sap.ui.define([
                     "AccountDesc": formdata.AccountDesc,
                     "FaxNo": formdata.Fax,
                     "ContactPerson": formdata.ContactPersonName,
-                    "LeadTime": formdata.LeadTime,
+                    "LeadTime": "",
                     "Remark": formdata.Remarks,
                     "IAIvendorCode": "",
                     "Country": formdata.Country_code,
@@ -930,50 +930,50 @@ sap.ui.define([
                     "PhoneNumber": formdata.Telephone,
                     "Email": formdata.VendorMail,
                     "ContactPersonDesgn": formdata.ContactPersonDesignation,
-                    "DeliveryMode": formdata.DeliveryMode,
-                    "CustomerCategory": formdata.CustomerCat,
-                    "ExciseDivision": formdata.ExciseDivision,
-                    "ExciseBankAccount": formdata.ExciseBankAcc,
-                    "StRatePercent": formdata.STRatePerc,
+                    "DeliveryMode": "",
+                    "CustomerCategory": "",
+                    "ExciseDivision": "-",
+                    "ExciseBankAccount": "-",
+                    "StRatePercent": "0",
                     "TinNo": formdata.Tin,
-                    "Composite": formdata.Composite,
+                    "Composite": "",
                     "GSTRegistartion": formdata.GstNumber,
-                    "CreditRating": formdata.CreditRating,
-                    "CreditRatingAgency": formdata.CreditRatingAgency,
-                    "ServiceAccounType": formdata.ServiceAccType,
-                    "ECCNo": formdata.ECCNo,
+                    "CreditRating": "",
+                    "CreditRatingAgency": "",
+                    "ServiceAccounType": "",
+                    "ECCNo": "",
                     "CSTDate": formdata.CSTDate,
                     "LSTDate": formdata.LSTDate,
-                    "ExciseNo": formdata.ExciseNo,
-                    "JswCost": formdata.JWRWCost,
+                    "ExciseNo": "",
+                    "JswCost": "0",
                     "CompanyType": formdata.CompanyType,
-                    "ISOExpiryDate": formdata.ISOExpiryDate,
+                    "ISOExpiryDate": "",
                     "AddressType": formdata.AddressType,
-                    "ExciseRange": formdata.ExciseRange,
-                    "ExciseBankAccountName": formdata.ExciseBankName,
-                    "ExciseDuty": formdata.ExciseDuty,
+                    "ExciseRange": "0",
+                    "ExciseBankAccountName": "-",
+                    "ExciseDuty": "0",
                     "CinNo": formdata.CinNo,
                     "GstRegistered": formdata.GstRegistered,
                     "GstDate": formdata.GSTDate,
                     "MSMEType": formdata.MsmeMainCertificateId,
-                    "ServiceAccountCode": formdata.ServiceAccCode,
-                    "STRateSurCharge": formdata.STRateSurcharge,
+                    "ServiceAccountCode": "",
+                    "STRateSurCharge": "0",
                     "CSTNo": formdata.CSTNo,
-                    "LSTNo": formdata.LSTNo,
+                    "LSTNo": "0",
                     "PANNo": formdata.Pan,
-                    "ExciseDate": formdata.ExciseDate,
-                    "MRPPercentage": formdata.MRPPercentage,
+                    "ExciseDate": "",
+                    "MRPPercentage": "0",
                     "SalesPersonCode": "",
-                    "DistanceKm": formdata.Distance,
+                    "DistanceKm": "0",
                     "TypeOfSupplier": "",
-                    "PartyClassification": formdata.PartyClassification,
+                    "PartyClassification": "sup",
                     "GroupingLocation": formdata.GroupingLocation,
-                    "GroupCode5": formdata.GroupCode5,
-                    "GroupCode7": formdata.GroupCode7,
-                    "Tax": formdata.Tax,
-                    "GroupCode4": formdata.GroupCode4,
-                    "Transporters": formdata.Transporters,
-                    "GroupCode8": formdata.GroupCode8,
+                    "GroupCode5": "",
+                    "GroupCode7": "/ /",
+                    "Tax": "-",
+                    "GroupCode4": "",
+                    "Transporters": "",
+                    "GroupCode8": "",
                     "BankAccountNo": formdata.AccountNo,
                     "IFSCNo": formdata.IFSCCode,
                     "PayeeName": formdata.BeneficiaryName,
@@ -988,21 +988,21 @@ sap.ui.define([
                             "ContactMobiloNo": formdata.ContactPersonMobile,
                             "ContactEmail": formdata.ContactPersonMail,
                             "SNo": "1"
-                        },
-                        {
-                            "ContactName": formdata.ContactPersonName2,
-                            "ContactDepartment": formdata.ContactPersonDepartment2,
-                            "ContactAddress": formdata.ContactPersonDesignation2,
-                            "ContactPhoneNo": formdata.ContactPersonPhone2,
-                            "ContactMobiloNo": formdata.ContactPersonMobile2,
-                            "ContactEmail": formdata.ContactPersonMail2,
-                            "SNo": "2"
                         }
+                        // {
+                        //     "ContactName": formdata.ContactPersonName2,
+                        //     "ContactDepartment": formdata.ContactPersonDepartment2,
+                        //     "ContactAddress": formdata.ContactPersonDesignation2,
+                        //     "ContactPhoneNo": formdata.ContactPersonPhone2,
+                        //     "ContactMobiloNo": formdata.ContactPersonMobile2,
+                        //     "ContactEmail": formdata.ContactPersonMail2,
+                        //     "SNo": "2"
+                        // }
                     ],
                     "DocumentRequired": [
                         {
-                            "DocumentCode": formdata.DocCode,
-                            "DocumentDescription": formdata.DocDescription
+                            "DocumentCode": "",
+                            "DocumentDescription": "" 
                         }
                     ],
                     "TransMode": "",

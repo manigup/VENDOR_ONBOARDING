@@ -604,7 +604,7 @@
                             type="Number"
                             value="{path:'create>/Pincode',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:7}}"
                         />
-                        <Label
+                        <!-- <Label
                             id="_IDGenLabel51"
                             design="Bold"
                             text="Location"
@@ -614,7 +614,7 @@
                             id="locationId"
                             enabled="false"
                             value="{path:'create>/Location',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="Contact Person Name"
@@ -669,7 +669,7 @@
                             id="contemailId"
                             value="{path:'create>/ContactPersonMail'}"
                         />
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Contact Person Name"
                         />
@@ -716,7 +716,7 @@
                         <Input
                             id="contemail2Id"
                             value="{path:'create>/ContactPersonMail2'}"
-                        />
+                        /> -->
                         <Label
                             id="_IDGenLabel20"
                             design="Bold"

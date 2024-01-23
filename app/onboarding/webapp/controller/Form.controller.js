@@ -82,7 +82,7 @@ sap.ui.define([
                 setTimeout(() => {
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
-                            data.PartyClassification = "Sup";
+                            //data.PartyClassification = "Sup";
                             this.SupplierType = data.SupplierType;
                             //     data.TaxNumCat = "IN3";
                             // data.ChkDoubleInv = "X";
@@ -809,9 +809,7 @@ sap.ui.define([
                     aInputs.push(oView.byId("overallRatingId"));
                     aInputs.push(oView.byId("systemRatingId"));
                 }
-                if (requestData.purchase) {
-                    aInputs.push(oView.byId("addcodeId"));
-                }
+                
 
 
                 // Inside _mandatCheck function
@@ -858,6 +856,7 @@ sap.ui.define([
 
                 if (requestData.finance) {
                     aInputs.push(oView.byId("accdescId"));
+                    aInputs.push(oView.byId("addcodeId"));
                     aSelects.push(oView.byId("accountcodeId"));
                 }
                 if (data.MsmeItilView === 'MSME') {

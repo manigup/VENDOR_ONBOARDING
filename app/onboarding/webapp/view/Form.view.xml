@@ -262,18 +262,6 @@
                         </RadioButtonGroup>
                         <Label
                             design="Bold"
-                            text="Address Code"
-                            required="{= ${request>/purchase} === true}"
-                        />
-                        <Input
-                            id="addcodeId"
-                            change="onAddressCodChange"
-                            maxLength="9"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/AddressCode',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                        />
-                        <Label
-                            design="Bold"
                             text="Vendor Name"
                             required="true"
                         />
@@ -514,7 +502,7 @@
                             id="contemailId" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonMail'}"
                         />
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Contact Person Name"
                         />
@@ -563,7 +551,7 @@
                         <Input
                             id="contemail2Id" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonMail2'}"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="Email"
@@ -632,8 +620,7 @@
                                 text="One Time"
                             />
                         </Select>
-
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Lead time"
                         />
@@ -641,10 +628,8 @@
                             id="leadId"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/LeadTime',type:'sap.ui.model.type.String'}"
-                        />
-                        
-                        
-                        <Label
+                        /> -->
+                        <!-- <Label
                             design="Bold"
                             text="Location"
                             required="true"
@@ -652,8 +637,8 @@
                         <Input
                             id="locationId"  enabled="false"
                             value="{path:'create>/Location',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
+                        /> -->
+                        <!-- <Label
                             design="Bold"
                             text="Delivery Mode"
                         />
@@ -720,10 +705,10 @@
                                 key="Others"
                                 text="Others"
                             />
-                        </Select>
+                        </Select> -->
 
                     
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Excise Division"
                         />
@@ -738,15 +723,15 @@
                         <Input
                             id="excisebankaccId"  enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExciseBankAcc',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
+                        /> -->
+                        <!-- <Label
                             design="Bold"
                             text="ST Rate Percent"
                         />
                         <Input
                             id="stRateId"  type="Number" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/STRatePerc',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="Tin Number"
@@ -756,7 +741,7 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Tin',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Composite"
                         />
@@ -802,7 +787,7 @@
                             id="eccId"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ECCNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="CST Date"
@@ -973,7 +958,7 @@
                             value="{path:'create>/LSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Excise No."
                         />
@@ -999,7 +984,7 @@
                             id="isodate"
                             value="{path:'create>/ISOExpiryDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="Address Type"
@@ -1020,7 +1005,7 @@
                                 text="SPD"
                             />
                         </Select>
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Excise range"
                         />
@@ -1046,7 +1031,7 @@
                             id="excisedutyId" type="Number"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ExciseDuty',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="Cin No."
@@ -1076,7 +1061,7 @@
                             valueFormat="ddMMyyyy" enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Service A/C Code"
                         />
@@ -1093,7 +1078,7 @@
                             id="stratesurId" type="Number"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/STRateSurcharge',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="CST No."
@@ -1103,7 +1088,7 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/CSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
                         />
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="LST No."
                         />
@@ -1130,12 +1115,12 @@
                             id="mrpId" type="Number"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/MRPPercentage',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
-                        />
+                        /> -->
                          <!-- <Label
                             design="Bold"
                             text="Sales Person code"
                         /> -->
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Distance (in KM.)"
                         />
@@ -1143,12 +1128,12 @@
                             id="distId" type="Number"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Distance',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
-                        />
+                        /> -->
                         <!-- <Label
                             design="Bold"
                             text="Type Of Supplier" required="true"
                         /> -->
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Party Classification"
                             required="true"
@@ -1156,7 +1141,7 @@
                         <Input
                             id="partyclassId"  enabled="false"
                             value="{path:'create>/PartyClassification',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
+                        /> -->
                         <Label
                             design="Bold"
                             text="Location"
@@ -1172,7 +1157,7 @@
                                 text="{location>LocationName}"
                             />
                         </ComboBox>
-                        <Label
+                        <!-- <Label
                             design="Bold"
                             text="Group Code 5"
                         />
@@ -1258,7 +1243,7 @@
                             id="docdescId"
                              enabled="false"
                             value="{path:'create>/DocDescription',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                        />
+                        /> -->
                     </f:content>
                 </f:SimpleForm>
             </Panel>
@@ -1300,6 +1285,18 @@
                             id="accdescId"
                              enabled="false"
                             value="{path:'create>/AccountDesc',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Address Code"
+                            required="{= ${request>/finance} === true}"
+                        />
+                        <Input
+                            id="addcodeId"
+                            change="onAddressCodChange"
+                            maxLength="9"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            value="{path:'create>/AddressCode',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
                             design="Bold"
