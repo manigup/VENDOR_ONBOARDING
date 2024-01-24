@@ -269,6 +269,9 @@ sap.ui.define([
                 if (data.Msme === "NO") {
                     this.byId("msmeRbId").setSelectedIndex(1);
                 }
+                if (data.CaptivePower === "NO") {
+                    this.byId("captiveRbId").setSelectedIndex(1);
+                }
                 if (data.Union === "NO") {
                     this.byId("unionRbId").setSelectedIndex(1);
                 }
@@ -404,39 +407,39 @@ sap.ui.define([
                         break;
                     case "captiveRbId":
                         if (index === 0) {
-                            data.RegistrationType = "Yes";
+                            data.CaptivePower = "Yes";
                         } else {
-                            data.RegistrationType = "No";
+                            data.CaptivePower = "No";
                         }
                         break;
                     case "prodDesignRbId":
                         if (index === 1) {
-                            data.Union = "NO";
+                            data.ProdDesign = "NO";
                         } else {
-                            data.Union = "YES";
+                            data.ProdDesign = "YES";
                         }
                         break;
                     case "softwareCapRbId":
                         if (index === 1) {
-                            data.Union = "NO";
+                            data.SoftwareCapabilities = "NO";
                         } else if (index === 2) {
-                            data.Union = "N/A";
+                            data.SoftwareCapabilities = "N/A";
                         } else {
-                            data.Union = "YES";
+                            data.SoftwareCapabilities = "YES";
                         }
                         break;
                     case "businessContinuityRbId":
                         if (index === 1) {
-                            data.Union = "NO";
+                            data.BusinessContinuity = "NO";
                         } else {
-                            data.Union = "YES";
+                            data.BusinessContinuity = "YES";
                         }
                         break;
                     case "logCustRbId":
                         if (index === 1) {
-                            data.Union = "NO";
+                            data.LogisticCustomer = "NO";
                         } else {
-                            data.Union = "YES";
+                            data.LogisticCustomer = "YES";
                         }
                         break;
                 }
