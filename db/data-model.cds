@@ -129,6 +129,8 @@ entity VendorForm : managed {
       BeneficiaryLocation          : String;
       CancelledCheque              : String;
       SupplierType                 : String;
+      TemporaryStartDate           : String;
+      TemporaryEndDate             : String;
       AccountCode                  : String;
       AccountDesc                  : String;
       LeadTime                     : String;
@@ -280,6 +282,7 @@ entity VendorForm : managed {
       ISO14001Attachment           : String;
       ISO45001Attachment           : String;
       VDA63Attachment              : String;
+      MACEGreenAttachment          : String;
       GroupType                    : String;
       BalanceSheet                 : String;
       ProductSafety                : String;
