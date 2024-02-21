@@ -77,6 +77,80 @@
                 >
                     <f:content>
                         <Label
+                            id="_IDGenLabel4"
+                            design="Bold"
+                            text="Vendor Name"
+                            required="true"
+                        />
+                        <Input
+                            id="venNameId"
+                            change="onVenNameChange"
+                            maxLength="40"
+                            value="{path:'request>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        />
+                        <Label
+                            id="_IDGenLabel5"
+                            design="Bold"
+                            text="Vendor Name 2"
+                        />
+                        <Input
+                            id="venName2Id"
+                            maxLength="40"
+                            value="{path:'create>/VendorName2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            id="_IDGenLabel6"
+                            design="Bold"
+                            text="Vendor Name 3"
+                        />
+                        <Input
+                            id="venName3Id"
+                            maxLength="40"
+                            value="{path:'create>/VendorName3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            id="_IDGenLabel7"
+                            design="Bold"
+                            text="Vendor Mobile Number"
+                            required="true"
+                        />
+                        <Input
+                            id="mobileId"
+                            value="{path:'request>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            id="_IDGenLabel10"
+                            design="Bold"
+                            text="Address 1"
+                            required="true"
+                        />
+                        <Input
+                            id="address1Id"
+                            maxLength="60"
+                            value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
+                        />
+                        <Label
+                            id="_IDGenLabel11"
+                            design="Bold"
+                            text="Address 2"
+                            required="true"
+                        />
+                        <Input
+                            id="address2Id"
+                            maxLength="40"
+                            value="{path:'create>/Address2',type:'sap.ui.model.type.String',constraints:{minLength:1, maxLength:40}}"
+                        />
+                        <Label
+                            id="_IDGenLabel12"
+                            design="Bold"
+                            text="Address 3"
+                        />
+                        <Input
+                            id="_IDGenInput1"
+                            value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
+                            maxLength="40"
+                        />
+                        <Label
                             id="_IDGenLabel2"
                             design="Bold"
                             text="Vendor Type"
@@ -338,7 +412,7 @@
                                 id="_IDGenRadioButton22"
                                 text="1000 IMPERIAL AUTO INDUSTRIES LIMITED"
                             />
-                            <RadioButton 
+                            <RadioButton
                                 id="_IDGenRadioButton23"
                                 text="2000 SJ RUBBER INDUSTRIES LIMITED"
                             />
@@ -365,7 +439,7 @@
                                 id="_IDGenRadioButton10"
                                 text="Customer Approved"
                             />
-                            <RadioButton 
+                            <RadioButton
                                 id="_IDGenRadioButton21"
                                 text="BOM Parts"
                             />
@@ -400,46 +474,24 @@
                             />
                         </Select>
                         <Label
-                            id="_IDGenLabel4"
                             design="Bold"
-                            text="Vendor Name"
-                            required="true"
+                            text="Time Period"
+                            required="{= ${create>/SupplierType} === 'Temporary'}"
+                            visible="{= ${create>/SupplierType} === 'Temporary'}"
                         />
-                        <Input
-                            id="venNameId"
-                            change="onVenNameChange"
-                            maxLength="40"
-                            value="{path:'request>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        <DatePicker
+                            id="TemporaryStartDateid"
+                            placeholder="Enter ISO9001 Valid From"
+                            value="{path:'create>/TemporaryStartDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="{= ${create>/SupplierType} === 'Temporary'}"
                         />
-                        <Label
-                            id="_IDGenLabel5"
-                            design="Bold"
-                            text="Vendor Name 2"
-                        />
-                        <Input
-                            id="venName2Id"
-                            maxLength="40"
-                            value="{path:'create>/VendorName2',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            id="_IDGenLabel6"
-                            design="Bold"
-                            text="Vendor Name 3"
-                        />
-                        <Input
-                            id="venName3Id"
-                            maxLength="40"
-                            value="{path:'create>/VendorName3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            id="_IDGenLabel7"
-                            design="Bold"
-                            text="Vendor Mobile Number"
-                            required="true"
-                        />
-                        <Input
-                            id="mobileId"
-                            value="{path:'request>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        <DatePicker
+                            id="TemporaryEndDateid"
+                            placeholder="Enter ISO9001 Valid To"
+                            value="{path:'create>/TemporaryEndDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            enabled="{= ${create>/SupplierType} === 'Temporary'}"
                         />
                         <Label
                             id="_IDGenLabel8"
@@ -447,10 +499,34 @@
                             text="Reasons for the development of new vendor"
                             required="true"
                         />
-                        <Input
+                        <Select
                             id="purposeId"
-                            value="{path:'create>/Purpose',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                        />
+                            showSecondaryValues="true"
+                            forceSelection="false"
+                            selectedKey="{create>/Purpose}"
+                            enabled="true"
+                        >
+                            <core:Item
+                                key="Customer Recommendation "
+                                text="Customer Recommendation "
+                            />
+                            <core:Item
+                                key="Quality Performance"
+                                text="Quality Performance"
+                            />
+                            <core:Item
+                                key="Make or Buy"
+                                text="Make or Buy"
+                            />
+                            <core:Item
+                                key="Cost"
+                                text="Cost"
+                            />
+                            <core:Item
+                                key="Capacity"
+                                text="Capacity"
+                            />
+                        </Select>
                         <Label
                             id="_IDGenLabel9"
                             design="Bold"
@@ -480,47 +556,6 @@
                                 text="Limited"
                             />
                         </Select>
-                        <Label
-                            id="_IDGenLabel10"
-                            design="Bold"
-                            text="Address 1"
-                            required="true"
-                        />
-                        <Input
-                            id="address1Id"
-                            maxLength="60"
-                            value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
-                        />
-                        <Label
-                            id="_IDGenLabel11"
-                            design="Bold"
-                            text="Address 2"
-                            required="true"
-                        />
-                        <Input
-                            id="address2Id"
-                            maxLength="40"
-                            value="{path:'create>/Address2',type:'sap.ui.model.type.String',constraints:{minLength:1, maxLength:40}}"
-                        />
-                        <Label
-                            id="_IDGenLabel12"
-                            design="Bold"
-                            text="Address 3"
-                        />
-                        <Input
-                            id="_IDGenInput1"
-                            value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
-                            maxLength="40"
-                        />
-                        <Label
-                            id="_IDGenLabel22"
-                            design="Bold"
-                            text="Fax"
-                        />
-                        <Input
-                            id="_IDGenInput7"
-                            value="{create>/Fax}"
-                        />
                         <Label
                             id="_IDGenLabel14"
                             design="Bold"
@@ -1834,70 +1869,6 @@
                     <f:content>
                         <Label
                             design="Bold"
-                            text="Attachment 1"
-                        />
-                        <Input
-                            id="attach1Id"
-                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
-                        />
-                        <u:FileUploader
-                            id="attach1fileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                        >
-                            <u:customData>
-                                <core:CustomData key="Attachment1" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/Attachment1}"
-                            visible="{= ${create>/Attachment1} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="Attachment1" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="Attachment 2"
-                        />
-                        <Input
-                            id="attach2Id"
-                            value="{path:'create>/Attachment2Name',type:'sap.ui.model.type.String'}"
-                        />
-                        <u:FileUploader
-                            id="attach2fileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                        >
-                            <u:customData>
-                                <core:CustomData key="Attachment2" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/Attachment2}"
-                            visible="{= ${create>/Attachment2} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="Attachment2" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
                             text="ISO9001 Certificate"
                             required="{= ${create>/ISO9001Certification} === 'X'}"
                         />
@@ -2131,357 +2102,71 @@
                                 <core:CustomData key="VDA63Attachment" />
                             </customData>
                         </Link>
-                        <!-- <Label
-                            id="_IDGenLabel51"
+                        <Label
                             design="Bold"
-                            text="New Vendor Quotation"
-                            required="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'IP'}"
+                            text="Attachment 1"
+                        />
+                        <Input
+                            id="attach1Id"
+                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
                         />
                         <u:FileUploader
-                            id="quotfileUploader"
+                            id="attach1fileUploader"
                             sendXHR="true"
                             useMultipart="false"
                             change="onFileUploaderChange"
                             uploadComplete="onUploadComplete"
                             buttonText="Browse"
                             fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
                         >
                             <u:customData>
-                                <core:CustomData key="NewVendorQuotationName" />
+                                <core:CustomData key="Attachment1" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
-                            id="_IDGenLink1"
-                            text="{create>/NewVendorQuotationName}"
-                            visible="{= ${create>/NewVendorQuotationName} !== ''}"
+                            text="{create>/Attachment1}"
+                            visible="{= ${create>/Attachment1} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="NewVendorQuotationName" />
+                                <core:CustomData key="Attachment1" />
                             </customData>
                         </Link>
                         <Label
-                            id="_IDGenLabel52"
                             design="Bold"
-                            text="NDA Attachment"
+                            text="Attachment 2"
+                        />
+                        <Input
+                            id="attach2Id"
+                            value="{path:'create>/Attachment2Name',type:'sap.ui.model.type.String'}"
                         />
                         <u:FileUploader
-                            id="_IDGenFileUploader1"
+                            id="attach2fileUploader"
                             sendXHR="true"
                             useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
                             change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
+                            uploadComplete="onUploadComplete"
                             buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
                         >
                             <u:customData>
-                                <core:CustomData key="NdaName" />
+                                <core:CustomData key="Attachment2" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
-                            id="_IDGenLink2"
-                            text="{create>/NdaName}"
-                            visible="{= ${create>/NdaName} !== ''}"
+                            text="{create>/Attachment2}"
+                            visible="{= ${create>/Attachment2} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="NdaName" />
+                                <core:CustomData key="Attachment2" />
                             </customData>
                         </Link>
-                        <Label
-                            id="_IDGenLabel53"
-                            design="Bold"
-                            text="Code of Conduct"
-                            required="{= ${request>/VendorType} === 'DM' || ${request>/VendorType} === 'IP'}"
-                        />
-                        <u:FileUploader
-                            id="cocFileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                        >
-                            <u:customData>
-                                <core:CustomData key="CocName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink3"
-                            text="{create>/CocName}"
-                            visible="{= ${create>/CocName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="CocName" />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel54"
-                            design="Bold"
-                            text="Agreement Copy"
-                        />
-                        <u:FileUploader
-                            id="_IDGenFileUploader2"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                        >
-                            <u:customData>
-                                <core:CustomData key="AgreementName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink4"
-                            text="{create>/AgreementName}"
-                            visible="{= ${create>/AgreementName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="AgreementName" />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel55"
-                            design="Bold"
-                            text="Project Appropriation Ref"
-                        />
-                        <u:FileUploader
-                            id="_IDGenFileUploader3"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                        >
-                            <u:customData>
-                                <core:CustomData
-                                    key="ProjectAppropriationName"
-                                />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink5"
-                            text="{create>/ProjectAppropriationName}"
-                            visible="{= ${create>/ProjectAppropriationName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData
-                                    key="ProjectAppropriationName"
-                                />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel56"
-                            design="Bold"
-                            text="Related Email Exchanges"
-                        />
-                        <u:FileUploader
-                            id="_IDGenFileUploader4"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                        >
-                            <u:customData>
-                                <core:CustomData key="RelatedEmailName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink6"
-                            text="{create>/RelatedEmailName}"
-                            visible="{= ${create>/RelatedEmailName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="RelatedEmailName" />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel57"
-                            design="Bold"
-                            text="Tax Residency Certificate"
-                        />
-                        <u:FileUploader
-                            id="_IDGenFileUploader5"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
-                        >
-                            <u:customData>
-                                <core:CustomData
-                                    key="TaxResidencyCertificate"
-                                />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink7"
-                            text="{create>/TaxResidencyCertificate}"
-                            visible="{= ${create>/TaxResidencyCertificate} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData
-                                    key="TaxResidencyCertificate"
-                                />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel58"
-                            design="Bold"
-                            text="Form 10F"
-                        />
-                        <u:FileUploader
-                            id="_IDGenFileUploader6"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="Form10F" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink8"
-                            text="{create>/Form10F}"
-                            visible="{= ${create>/Form10F} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="Form10F" />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel59"
-                            design="Bold"
-                            text="No PE Establishment Certificate"
-                        />
-                        <u:FileUploader
-                            id="_IDGenFileUploader7"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
-                        >
-                            <u:customData>
-                                <core:CustomData
-                                    key="EstablishmentCertificate"
-                                />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink9"
-                            text="{create>/EstablishmentCertificate}"
-                            visible="{= ${create>/EstablishmentCertificate} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData
-                                    key="EstablishmentCertificate"
-                                />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel60"
-                            design="Bold"
-                            text="Lower Deduction Certificate"
-                        />
-                        <u:FileUploader
-                            id="_IDGenFileUploader8"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="DeductionCertificate" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink10"
-                            text="{create>/DeductionCertificate}"
-                            visible="{= ${create>/DeductionCertificate} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="DeductionCertificate" />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel61"
-                            design="Bold"
-                            text="Other Document"
-                        />
-                        <u:FileUploader
-                            id="_IDGenFileUploader9"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="5MB"
-                            buttonText="Browse"
-                            visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="OtherDocument" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink11"
-                            text="{create>/OtherDocument}"
-                            tooltip=""
-                            visible="{= ${create>/OtherDocument} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="OtherDocument" />
-                            </customData>
-                        </Link> -->
-                    </f:content>
+                        </f:content>
                 </f:SimpleForm>
             </Panel>
         </content>
