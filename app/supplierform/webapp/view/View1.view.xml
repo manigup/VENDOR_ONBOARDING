@@ -371,7 +371,6 @@
                                 />
                             </buttons>
                         </RadioButtonGroup>
-
                         <Label
                             id="probableCertDateLabel"
                             design="Bold"
@@ -383,7 +382,16 @@
                             valueFormat="ddMMyyyy"
                             value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
                         />
-
+                         <Label
+                            id="statusLabel"
+                            design="Bold"
+                            text="Does your company have this Status"
+                        />
+                        <CheckBox
+                            id="MACEGreen"
+                            text="MACE Green"
+                            select="onCertificationChange"
+                            />
                         <Label
                             design="Bold"
                             text="Is Central Excise Duty Applicable?"
@@ -481,17 +489,15 @@
                         />
                         <DatePicker
                             id="TemporaryStartDateid"
-                            placeholder="Enter ISO9001 Valid From"
                             value="{path:'create>/TemporaryStartDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="{= ${create>/SupplierType} === 'Temporary'}"
+                            visible="{= ${create>/SupplierType} === 'Temporary'}"
                         />
                         <DatePicker
                             id="TemporaryEndDateid"
-                            placeholder="Enter ISO9001 Valid To"
                             value="{path:'create>/TemporaryEndDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="{= ${create>/SupplierType} === 'Temporary'}"
+                            visible="{= ${create>/SupplierType} === 'Temporary'}"
                         />
                         <Label
                             id="_IDGenLabel8"
@@ -789,25 +795,6 @@
                             value="{create>/Website}"
                         />
                         <Label
-                            design="Bold"
-                            text="CST Date"
-                        />
-                        <DatePicker
-                            id="cstdate"
-                            value="{path:'create>/CSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy"
-                            enabled="true"
-                        />
-                        <Label
-                            design="Bold"
-                            text="CST No."
-                        />
-                        <Input
-                            id="cstnoId"
-                            enabled="true"
-                            value="{path:'create>/CSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
-                        />
-                        <Label
                             id="workingHoursLabel"
                             design="Bold"
                             text="Working Hours"
@@ -819,7 +806,7 @@
                         <Label
                             id="weeklyHolidaysLabel"
                             design="Bold"
-                            text="Weekly Holidays"
+                            text="Weekly Holiday"
                         />
                         <Input
                             id="weeklyHolidaysId"
@@ -866,7 +853,7 @@
                         <!-- Covered Area Of Factory -->
                         <Label
                             design="Bold"
-                            text="Covered Area Of Factory"
+                            text="Covered Area Of Factory in sq. yards"
                         />
                         <Input
                             value="{path: 'create>/CoveredAreaOfFactory', type:'sap.ui.model.type.String'}"
@@ -1241,6 +1228,24 @@
                             </customData>
                         </Link>
                         <Label
+                            design="Bold"
+                            text="CST No."
+                        />
+                        <Input
+                            id="cstnoId"
+                            enabled="true"
+                            value="{path:'create>/CSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
+                        />
+                         <Label
+                            design="Bold"
+                            text="CST Date"
+                        />
+                        <DatePicker
+                            id="cstdate"
+                            value="{path:'create>/CSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="ddMMyyyy"
+                            enabled="true"
+                        /> <Label
                             id="_IDGenLabel40"
                             design="Bold"
                             text="Currency"
@@ -1576,6 +1581,7 @@
                         <Label
                             design="Bold"
                             text="Spare capacity available"
+                            required="true"
                         />
                         <Input
                             id="spareCapacityId"
@@ -1658,6 +1664,7 @@
                         <Label
                             design="Bold"
                             text="Quality Control Employees"
+                            required="true"
                         />
                         <Input
                             id="qualityControlId"
@@ -1666,6 +1673,7 @@
                         <Label
                             design="Bold"
                             text="Products Manufactured"
+                            required="true"
                         />
                         <Input
                             id="productsManufacturedId"
@@ -1746,19 +1754,19 @@
                             <Text text="Sr. No." />
                         </Column>
                         <Column>
-                            <Text text="Product/Part/Assy. Name" />
-                        </Column>
-                        <Column>
                             <Text text="Customer Name" />
                         </Column>
                         <Column>
-                            <Text text="Qty. (Average last 1 year)" />
+                            <Text text="Customer Location" />
+                        </Column>
+                        <Column>
+                            <Text text="Product/Part/Assy. Name" />
+                        </Column>
+                        <Column>
+                            <Text text="SOB % (Share of business)" />
                         </Column>
                         <Column>
                             <Text text="Rejection ppm (Average last 1 year)" />
-                        </Column>
-                        <Column>
-                            <Text text="% of Automotive Business" />
                         </Column>
                         <Column>
                             <Text text="Delivery Performance %" />
@@ -1772,18 +1780,18 @@
                                     value="{productInfoTable>SrNo}"
                                     editable="false"
                                 />
-                                <Input value="{productInfoTable>ProductName}" />
                                 <Input
                                     value="{productInfoTable>CustomerName}"
                                 />
+                                <Input
+                                    value="{productInfoTable>CustomerLoc}"
+                                />
+                                <Input value="{productInfoTable>ProductName}" />
                                 <Input
                                     value="{productInfoTable>QtyAvgLastYear}"
                                 />
                                 <Input
                                     value="{productInfoTable>RejectionPPMLastYear}"
-                                />
-                                <Input
-                                    value="{productInfoTable>AutomotiveBusiness}"
                                 />
                                 <Input
                                     value="{productInfoTable>DeliveryPerformance}"
@@ -2100,6 +2108,53 @@
                         >
                             <customData>
                                 <core:CustomData key="VDA63Attachment" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="MACE Green"
+                            required="{= ${create>/MACEGreen} === 'X'}"
+                        />
+                        <DatePicker
+                            id="MACEGreenValidFrom"
+                            width="5rem"
+                            placeholder="Enter MACE Green Valid From"
+                            value="{path:'create>/MACEGreenValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            tooltip="{create>/MACEGreenValidFrom}"
+                            valueFormat="yyyyMMdd"
+                            enabled="true"
+                        />
+                        <DatePicker
+                            id="MACEGreenValidTo"
+                            width="5rem"
+                            placeholder="Enter MACEGreen Valid To"
+                            value="{path:'create>/MACEGreenValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            tooltip="{create>/MACEGreenValidTo}"
+                            valueFormat="yyyyMMdd"
+                            enabled="true"
+                        />
+                        <u:FileUploader
+                            id="MACEGreenfileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="MACEGreenAttachment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/MACEGreenAttachment}"
+                            visible="{= ${create>/MACEGreenAttachment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="MACEGreenAttachment" />
                             </customData>
                         </Link>
                         <Label

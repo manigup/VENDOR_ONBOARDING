@@ -467,7 +467,7 @@ sap.ui.define([
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
                 this.SupplierType = formdata.SupplierType;
-                if(this.SupplierType === "Permanent" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating <= "40" ){
+                if(this.SupplierType === "Permanent" && formdata.OverallRating > "3" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "65" ){
                     MessageBox.error("The form cannot be approved as System Audit Rating is " + formdata.SystemAuditRating);
                     return;
                 }else{

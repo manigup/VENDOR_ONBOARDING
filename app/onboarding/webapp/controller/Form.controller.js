@@ -230,6 +230,9 @@ sap.ui.define([
                             if (data.VDA63Certification === "X") {
                                 this.byId("VDA63Certification").setSelected(true);
                             }
+                            if (data.MACEGreen === "X") {
+                                this.byId("MACEGreen").setSelected(true);
+                            }
                             this.getView().getModel("request").refresh(true);
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
@@ -799,13 +802,14 @@ sap.ui.define([
                 var oView = this.getView(),
                     bValidationError = false;
                 var aInputs = [oView.byId("venNameId"), oView.byId("address1Id"),
-                oView.byId("mobileId"), oView.byId("purposeId"),
+                oView.byId("mobileId"),
                 oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
                 oView.byId("address2Id"), 
                 oView.byId("pincodeId"), oView.byId("panId"),
                 oView.byId("contactPersonnameId"), oView.byId("deptId"), oView.byId("desigId"),
-                oView.byId("contphoneId"), oView.byId("contmobileId")
+                oView.byId("contphoneId"), oView.byId("contmobileId"),
+                oView.byId("qualityControlId"), oView.byId("productsManufacturedId"), oView.byId("spareCapacityId")
                 ];
 
                 if (requestData.quality) {
@@ -855,7 +859,7 @@ sap.ui.define([
                 oView.byId("stateId"), oView.byId("cityId"),
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId"),
-                oView.byId("grouptypeId")];
+                oView.byId("grouptypeId"),oView.byId("purposeId")];
 
                 if (requestData.finance) {
                     aInputs.push(oView.byId("accdescId"));
@@ -1070,6 +1074,15 @@ sap.ui.define([
                     this.createModel.setProperty("/" + fieldName, "X");
                 } else {
                     this.createModel.setProperty("/" + fieldName, "");
+                }
+                this.createModel.refresh(true);
+            },
+            onMACEGreenChange: function (evt) {
+                var selected = evt.getParameter("selected");
+                if (selected) {
+                    this.createModel.setProperty("/" + MACEGreen, "X");
+                } else {
+                    this.createModel.setProperty("/" + MACEGreen, "");
                 }
                 this.createModel.refresh(true);
             },
