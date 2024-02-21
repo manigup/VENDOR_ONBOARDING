@@ -243,6 +243,7 @@ entity VendorForm : managed {
       ISO14001Certification        : String;
       ISO45001Certification        : String;
       VDA63Certification           : String;
+      MACEGreen                    : String;
       WorkingTowardsCertifications : String;
       ProbableCertificationDate    : String;
       CentralExciseDutyApplicable  : String;
@@ -303,6 +304,8 @@ entity VendorForm : managed {
       ISO45001ValidTo              : String;
       VDA63ValidFrom               : String;
       VDA63ValidTo                 : String;
+      MACEGreenValidFrom           : String;
+      MACEGreenValidTo             : String;
       Products                     : Composition of many ProductInfo
                                        on Products.Vendor = $self;
 }
@@ -312,8 +315,8 @@ entity ProductInfo {
   key SrNo                 : Integer;
       ProductName          : String;
       CustomerName         : String;
+      CustomerLoc          : String;
       QtyAvgLastYear       : String;
       RejectionPPMLastYear : String;
-      AutomotiveBusiness   : String;
       DeliveryPerformance  : String;
 }

@@ -331,11 +331,9 @@ formatter = {
     },
     sysratingState: function (rating) {
         var state = "None";
-        if (rating >= "0" && rating <= "40") {
+        if (rating >= "0" && rating < "65") {
             state = "Error";
-        } else if (rating >= "41" && rating <= "65") {
-            state = "Warning";
-        } else if (rating > "65") {
+        } else if (rating >= "65") {
             state = "Success";
         }
         return state;

@@ -144,7 +144,9 @@ sap.ui.define([
                         if (data.VDA63Certification === "X") {
                             this.byId("VDA63Certification").setSelected(true);
                         }
-
+                        if (data.MACEGreen === "X") {
+                            this.byId("MACEGreen").setSelected(true);
+                        }
                         data.BeneficiaryName = requestData.VendorName;
                         this.createModel.setData(data);
                         this.createModel.refresh(true);
@@ -452,10 +454,11 @@ sap.ui.define([
 
                 var oView = this.getView(),
                     bValidationError = false;
-                var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"), oView.byId("purposeId"),
+                var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"),
                 oView.byId("address1Id"), oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
-                oView.byId("address2Id"), oView.byId("pincodeId")];
+                oView.byId("address2Id"), oView.byId("pincodeId"),oView.byId("qualityControlId"),
+                oView.byId("productsManufacturedId"), oView.byId("spareCapacityId")];
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -497,7 +500,7 @@ sap.ui.define([
                 oView.byId("stateId"), oView.byId("cityId"),
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId"),
-                oView.byId("grouptypeId")];
+                oView.byId("grouptypeId"),oView.byId("purposeId")];
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -1338,7 +1341,15 @@ sap.ui.define([
                 }
                 this.createModel.refresh(true);
             },
-
+            onMACEGreenChange: function (evt) {
+                var selected = evt.getParameter("selected");
+                if (selected) {
+                    this.createModel.setProperty("/" + MACEGreen, "X");
+                } else {
+                    this.createModel.setProperty("/" + MACEGreen, "");
+                }
+                this.createModel.refresh(true);
+            },
             getOTP: function () {
                 var otpgen = Math.floor(100000 + Math.random() * 900000).toString();
                 return otpgen;
