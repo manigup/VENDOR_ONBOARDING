@@ -72,6 +72,18 @@ entity Attachments : managed {
       Filename    : String;
 }
 
+entity CommonFile : managed {
+    Venfiletype     : String;
+
+    @Core.MediaType                : Mediatype 
+    @Core.ContentDisposition.Filename : Filename   
+    Data            : LargeBinary;
+
+    @Core.IsMediaType
+    Mediatype       : String; 
+    Filename        : String;
+}
+
 entity VendorForm : managed {
   key VendorId                     : String;
       Vendor                       : String(10);
