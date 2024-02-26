@@ -29,14 +29,14 @@ sap.ui.define([
                 this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
                 this.router.attachRouteMatched(this.handleRouteMatched, this);
 
-                this.productInfoTableModel = new JSONModel({
-                    rows: [
-                        { 'SrNo': 1 },
-                        { 'SrNo': 2 },
-                        { 'SrNo': 3 }
-                    ]
-                });
-                this.getView().setModel(this.productInfoTableModel, "productInfoTable");
+                // this.productInfoTableModel = new JSONModel({
+                //     rows: [
+                //         { 'SrNo': 1 },
+                //         { 'SrNo': 2 },
+                //         { 'SrNo': 3 }
+                //     ]
+                // });
+                // this.getView().setModel(this.productInfoTableModel, "productInfoTable");
 
                 this.createModel = new JSONModel();
                 this.getView().setModel(this.createModel, "create");
@@ -132,16 +132,16 @@ sap.ui.define([
                                             requestData.edit = ""
                                         }
                                     }else{
-                                if (vendorStatus === "SBS" && requestData.quality) {
+                                if (vendorStatus === "SBS" && requestData.purchase) {
                                     requestData.edit = false;
-                                } else if (vendorStatus === "ABQ" && requestData.purchase) {
+                                } else if (vendorStatus === "ABP" && requestData.quality) {
                                     requestData.edit = false;
-                                } else if (vendorStatus === "ABP" && requestData.coo) {
+                                } else if (vendorStatus === "ABQ" && requestData.coo) {
                                     requestData.edit = false;
                                 }
                                 else if (vendorStatus === "ABC" && requestData.finance) {
                                     requestData.edit = false;
-                                } else if ((vendorStatus === "RBP" || vendorStatus === "RBC" || vendorStatus === "RBF") && requestData.quality) {
+                                } else if ((vendorStatus === "RBQ" || vendorStatus === "RBC" || vendorStatus === "RBF") && requestData.purchase) {
                                     requestData.edit = false;
                                     requestData.route = true;
                                 }
@@ -195,17 +195,17 @@ sap.ui.define([
                                             requestData.edit = ""
                                         }
                                     }else{
-                                if (vendorStatus === "SBS" && requestData.quality) {
+                                if (vendorStatus === "SBS" && requestData.purchase) {
                                     requestData.edit = false;
-                                } else if (vendorStatus === "ABQ" && requestData.purchase) {
+                                } else if (vendorStatus === "ABP" && requestData.quality) {
                                     requestData.edit = false;
-                                } else if (vendorStatus === "ABP" && requestData.coo) {
+                                } else if (vendorStatus === "ABQ" && requestData.coo) {
                                     requestData.edit = false;
                                 } else if (vendorStatus === "ABC" && requestData.ceo) {
                                     requestData.edit = false;
                                 } else if (vendorStatus === "ABE" && requestData.finance) {
                                     requestData.edit = false;
-                                } else if ((vendorStatus === "RBP" || vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.quality) {
+                                } else if ((vendorStatus === "RBQ" || vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.purchase) {
                                     requestData.edit = false;
                                     requestData.route = true;
                                 }
@@ -265,7 +265,7 @@ sap.ui.define([
                         }
                     });
                 }, 1000);
-                this.fetchProductInfo();
+               // this.fetchProductInfo();
             },
             fetchProductInfo: function () {
                 var requestData = this.getView().getModel("request").getData();
@@ -795,12 +795,15 @@ sap.ui.define([
                 oView.byId("pincodeId"), oView.byId("panId"),
                 oView.byId("contactPersonnameId"), oView.byId("deptId"), oView.byId("desigId"),
                 oView.byId("contphoneId"), oView.byId("contmobileId"),
-                oView.byId("qualityControlId"), oView.byId("productsManufacturedId"), oView.byId("spareCapacityId")
+                oView.byId("spareCapacityId")
                 ];
 
                 if (requestData.quality) {
                     aInputs.push(oView.byId("overallRatingId"));
                     aInputs.push(oView.byId("systemRatingId"));
+                }
+                if (requestData.purchase) {
+                    aInputs.push(oView.byId("overallRatingId"));
                 }
                 
 
@@ -847,7 +850,7 @@ sap.ui.define([
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
                 if (requestData.purchase) {
-                    aInputs.push(oView.byId("purposeId"));
+                    aSelects.push(oView.byId("purposeId"));
                 }
                 if (requestData.finance) {
                     aInputs.push(oView.byId("accdescId"));
@@ -1181,13 +1184,21 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if (requestData.quality === true) {
+                if (requestData.purchase === true) {
                     if (this.byId("riskFileUploader").getValue() || data.RiskAssessment) {
                         this.byId("riskFileUploader").setValueState("None");
                     } else {
                         bValidationError = true;
                         this.byId("riskFileUploader").setValueState("Error");
                     }
+                    if (this.byId("supplierAssessmentFileUploader").getValue() || data.SupplierAssessment) {
+                        this.byId("supplierAssessmentFileUploader").setValueState("None");
+                    } else {
+                        bValidationError = true;
+                        this.byId("supplierAssessmentFileUploader").setValueState("Error");
+                    }
+                }
+                if (requestData.quality === true) {    
                     if (this.byId("systemAuditCheckFileUploader").getValue() || data.SystemAuditCheck) {
                         this.byId("systemAuditCheckFileUploader").setValueState("None");
                     } else {
@@ -1268,7 +1279,7 @@ sap.ui.define([
             },
 
             saveData: function (createData) {
-                this.updateProductInfo(this.id)
+                //this.updateProductInfo(this.id)
                 BusyIndicator.show();
                 setTimeout(() => {
                     this.getView().getModel().update("/VendorForm(VendorId='" + this.id + "')", createData, {
@@ -1426,33 +1437,11 @@ sap.ui.define([
                 var pending = "";
                 var appr = "0";
                 if (venStatus === "SBS" || venStatus === "RBF") {
-                    if(venRegType === "Non BOM parts"){
                         stat = "SBP";
                         appr = "1"
                         level = "1";
                         pending = "Purchase";
-                        this.msg = "Form submitted successfully by Purchase";  
-                    }else{
-                        if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
-                            stat = "SBP";
-                            appr = "1"
-                            level = "1";
-                            pending = "Purchase";
-                            this.msg = "Form submitted successfully by Purchase";  
-                        }else{
-                        stat = "SBQ";
-                        appr = "1"
-                        level = "1";
-                        pending = "Quality";
-                        this.msg = "Form submitted successfully by Quality";
-                        }
-                    }
-                } else if (venStatus === "ABQ") {
-                    stat = "SBP";
-                    appr = "1"
-                    level = "2";
-                    pending = "Purchase";
-                    this.msg = "Form submitted successfully by Purchase";
+                        this.msg = "Form submitted successfully by Purchase";
                 } else if (venStatus === "ABP") {
                     if(venRegType === "Non BOM parts"){
                         if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
@@ -1476,14 +1465,21 @@ sap.ui.define([
                             pending = "Finance";
                             this.msg = "Form submitted successfully by Finance";  
                         }else{
+                    stat = "SBQ";
+                    appr = "1"
+                    level = "2";
+                    pending = "Quality";
+                    this.msg = "Form submitted successfully by Quality";
+                        }
+                }
+                }else if (venStatus === "ABQ") {
                     stat = "SBC";
                     appr = "1"
                     level = "3";
                     pending = "COO";
                     this.msg = "Form submitted successfully by COO";
-                        }
                 }
-                } else if (venStatus === "ABC" && venRelated === "No") {
+                 else if (venStatus === "ABC" && venRelated === "No") {
                     if(venRegType === "Non BOM parts"){
                     stat = "SBF";
                     appr = "1"

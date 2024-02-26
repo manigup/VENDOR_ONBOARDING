@@ -28,14 +28,14 @@ sap.ui.define([
                 this.router = sap.ui.core.UIComponent.getRouterFor(this); //Get Router
                 this.router.attachRouteMatched(this.handleRouteMatched, this);
 
-                this.productInfoTableModel = new JSONModel({
-                    rows: [
-                        { 'SrNo': 1 },
-                        { 'SrNo': 2 },
-                        { 'SrNo': 3 }
-                    ]
-                });
-                this.getView().setModel(this.productInfoTableModel, "productInfoTable");
+                // this.productInfoTableModel = new JSONModel({
+                //     rows: [
+                //         { 'SrNo': 1 },
+                //         { 'SrNo': 2 },
+                //         { 'SrNo': 3 }
+                //     ]
+                // });
+                // this.getView().setModel(this.productInfoTableModel, "productInfoTable");
 
 
                 this.createModel = new JSONModel();
@@ -172,7 +172,7 @@ sap.ui.define([
                         console.log("Upsert failed: ", errorThrown);
                     }
                 });
-                this.fetchProductInfo();
+                //this.fetchProductInfo();
                 this._showRemainingTime();
             },
             fetchProductInfo: function () {
@@ -458,8 +458,8 @@ sap.ui.define([
                 var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"),
                 oView.byId("address1Id"), oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
-                oView.byId("address2Id"), oView.byId("pincodeId"),oView.byId("qualityControlId"),
-                oView.byId("productsManufacturedId"), oView.byId("spareCapacityId")];
+                oView.byId("address2Id"), oView.byId("pincodeId"),
+                oView.byId("spareCapacityId")];
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -815,7 +815,7 @@ sap.ui.define([
 
                     context: this,
                     success: function (data, textStatus, jqXHR) {
-                        this.updateProductInfo(this.vendorId);
+                        //this.updateProductInfo(this.vendorId);
                         BusyIndicator.hide();
 
                         MessageBox.success("Form data saved successfully", {
@@ -890,9 +890,9 @@ sap.ui.define([
                 return new Promise((resolve, reject) => {
                     let emailBody;
                     if (venaddress === "Initiator") {
-                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality.`;
+                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Purchase.`;
                     } else {
-                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>`;
+                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Purchase. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>`;
                     }
                     var oModel = this.getView().getModel();
                     var mParameters = {
@@ -922,7 +922,7 @@ sap.ui.define([
                 var oModel = this.getView().getModel();
                 return new Promise((resolve, reject) => {
                     oModel.read("/AccessInfo", {
-                        filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, "Quality")],
+                        filters: [new sap.ui.model.Filter("Access", sap.ui.model.FilterOperator.EQ, "Purchase")],
                         success: function (oData) {
                             var emails = oData.results.map(item => item.email);
                             resolve(emails);
@@ -995,7 +995,7 @@ sap.ui.define([
                                                 this.name = "Purchase Team";  
                                             }
                                             else{
-                                            this.name = "Quality Team";  
+                                            this.name = "Purchase Team";  
                                             }
                                         }
                                         this.initiateName = "Initiator";
@@ -1009,7 +1009,7 @@ sap.ui.define([
                                             data: payloadStr,
                                             context: this,
                                             success: async function (data, textStatus, jqXHR) {
-                                                this.updateProductInfo(data.d.VendorId);
+                                                //this.updateProductInfo(data.d.VendorId);
                                                 var moddate = parseInt(data.d.modifiedAt.match(/\/Date\((\d+)\+\d+\)\//)[1]);
                                                 var moddatestr = new Date(moddate);
                                                 var suppmodified = moddatestr.toDateString();
@@ -1018,8 +1018,7 @@ sap.ui.define([
                                                 await this.sendEmailNotification(this.initiateName, data.d.VendorName, requestData.initiatedBy, suppmodified);
             
                                                 // Fetch and send emails to 'Quality' or 'Purchase' 
-                                                if(data.d.RegistrationType === "Non BOM parts" ){
-                                                    try {
+                                                try {
                                                         var purchaseEmails = await this.getPurchaseEmails();
                                                         for (const email of purchaseEmails) {
                                                             await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
@@ -1027,32 +1026,6 @@ sap.ui.define([
                                                     } catch (error) {
                                                         console.error("Error fetching Purchase emails: ", error);
                                                     }
-                                                } else {
-                                                    if(data.d.SupplierType === "Temporary" || data.d.SupplierType === "One Time" ){
-                                                        try {
-                                                            var purchaseEmails = await this.getPurchaseEmails();
-                                                            for (const email of purchaseEmails) {
-                                                                await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
-                                                            }
-                                                        } catch (error) {
-                                                            console.error("Error fetching Purchase emails: ", error);
-                                                        }
-                                                    }else{
-                                                    try {
-                                                        var qualityEmails = await this.getQualityEmails();
-                                                        for (const email of qualityEmails) {
-                                                            try {
-                                                                await this.sendEmailNotification(this.name, data.d.VendorName, email, suppmodified);
-                                                            } catch (emailError) {
-                                                                console.error(`Failed to send email to ${email}: `, emailError);
-                                                            }
-                                                        }
-                                                    } catch (error) {
-                                                        console.error("Error fetching Quality emails: ", error);
-                                                    }
-                                                }
-                                                }
-            
                                                 // Hide BusyIndicator after all emails are sent
                                                     //BusyIndicator.hide();
                                                  
@@ -1368,7 +1341,7 @@ sap.ui.define([
                         stat = "SAD";
                     }
                 } else {
-                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "RBQ") {
+                    if (requestData.Status === "INITIATED" || requestData.Status === "SAD" || requestData.Status === "SRE-ROUTE" || requestData.Status === "RBP") {
                         if (requestData.RegistrationType === "Non BOM parts") {
                             stat = "SBS";
                             level = "1";
@@ -1382,7 +1355,7 @@ sap.ui.define([
                         else {
                             stat = "SBS";
                             level = "1";
-                            pending = "Quality";
+                            pending = "Purchase";
                         }
                     }
                     }
