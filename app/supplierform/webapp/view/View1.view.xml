@@ -76,81 +76,7 @@
                     columnsXL="3"
                 >
                     <f:content>
-                        <Label
-                            id="_IDGenLabel4"
-                            design="Bold"
-                            text="Vendor Name"
-                            required="true"
-                        />
-                        <Input
-                            id="venNameId"
-                            change="onVenNameChange"
-                            maxLength="40"
-                            value="{path:'request>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                        />
-                        <Label
-                            id="_IDGenLabel5"
-                            design="Bold"
-                            text="Vendor Name 2"
-                        />
-                        <Input
-                            id="venName2Id"
-                            maxLength="40"
-                            value="{path:'create>/VendorName2',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            id="_IDGenLabel6"
-                            design="Bold"
-                            text="Vendor Name 3"
-                        />
-                        <Input
-                            id="venName3Id"
-                            maxLength="40"
-                            value="{path:'create>/VendorName3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            id="_IDGenLabel7"
-                            design="Bold"
-                            text="Vendor Mobile Number"
-                            required="true"
-                        />
-                        <Input
-                            id="mobileId"
-                            value="{path:'request>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            id="_IDGenLabel10"
-                            design="Bold"
-                            text="Address 1"
-                            required="true"
-                        />
-                        <Input
-                            id="address1Id"
-                            maxLength="60"
-                            value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
-                        />
-                        <Label
-                            id="_IDGenLabel11"
-                            design="Bold"
-                            text="Address 2"
-                            required="true"
-                        />
-                        <Input
-                            id="address2Id"
-                            maxLength="40"
-                            value="{path:'create>/Address2',type:'sap.ui.model.type.String',constraints:{minLength:1, maxLength:40}}"
-                        />
-                        <Label
-                            id="_IDGenLabel12"
-                            design="Bold"
-                            text="Address 3"
-                        />
-                        <Input
-                            id="_IDGenInput1"
-                            value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
-                            maxLength="40"
-                        />
-                        <Label
+                    <Label
                             id="_IDGenLabel2"
                             design="Bold"
                             text="Vendor Type"
@@ -199,6 +125,99 @@
                                 text="Both"
                             />
                         </RadioButtonGroup>
+                        <Label
+                            design="Bold"
+                            text="Company Code"
+                        />
+                        <RadioButtonGroup
+                            id="companycodeRbId"
+                            columns="4"
+                            enabled="false"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton
+                                id="_IDGenRadioButton22"
+                                text="1000 IMPERIAL AUTO INDUSTRIES LIMITED"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton23"
+                                text="2000 SJ RUBBER INDUSTRIES LIMITED"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton24"
+                                text="3000 IAI INDUSTRIES LIMITED"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton25"
+                                text="4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED"
+                            />
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
+                            text="Registration Type"
+                        />
+                        <RadioButtonGroup
+                            id="registrationtypeRbId"
+                            columns="3"
+                            enabled="false"
+                            select="onRadioButtonSelect"
+                        >
+                            <RadioButton
+                                id="_IDGenRadioButton10"
+                                text="Customer Approved"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton21"
+                                text="BOM Parts"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton11"
+                                text="Non BOM parts"
+                            />
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
+                            text="Transaction Type"
+                            required="true"
+                        />
+                        <Select
+                            id="suppliertypeId"
+                            showSecondaryValues="true"
+                            forceSelection="false"
+                            selectedKey="{create>/SupplierType}"
+                            enabled="false"
+                        >
+                            <core:Item
+                                key="Permanent "
+                                text="Permanent "
+                            />
+                            <core:Item
+                                key="Temporary"
+                                text="Temporary"
+                            />
+                            <core:Item
+                                key="One Time"
+                                text="One Time"
+                            />
+                        </Select>
+                        <Label
+                            design="Bold"
+                            text="Time Period"
+                            required="{= ${create>/SupplierType} === 'Temporary'}"
+                            visible="{= ${create>/SupplierType} === 'Temporary'}"
+                        />
+                        <DatePicker
+                            id="TemporaryStartDateid"
+                            value="{path:'create>/TemporaryStartDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            visible="{= ${create>/SupplierType} === 'Temporary'}"
+                        />
+                        <DatePicker
+                            id="TemporaryEndDateid"
+                            value="{path:'create>/TemporaryEndDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            visible="{= ${create>/SupplierType} === 'Temporary'}"
+                        />
                         <Label
                             design="Bold"
                             text="Group Type"
@@ -293,247 +312,6 @@
                             />
                         </Select>
                         <Label
-                            id="natureOfIndustryLabel"
-                            design="Bold"
-                            text="Nature of Industry"
-                            required="true"
-                        />
-                        <RadioButtonGroup
-                            id="natureOfIndustryRbId"
-                            columns="3"
-                            enabled="true"
-                            select="onRadioButtonSelect"
-                        >
-                            <RadioButton
-                                id="_IDGenRadioButtonNatureSmall"
-                                text="Small"
-                            />
-                            <RadioButton
-                                id="_IDGenRadioButtonNatureMedium"
-                                text="Medium"
-                            />
-                            <RadioButton
-                                id="_IDGenRadioButtonNatureHeavy"
-                                text="Heavy"
-                            />
-                        </RadioButtonGroup>
-
-                        <Label
-                            id="certificationLabel"
-                            design="Bold"
-                            text="Does your company have any of these certifications"
-                        />
-                        <CheckBox
-                            id="ISO9001Certification"
-                            text="ISO9001"
-                            select="onCertificationChange"
-                        />
-                        <CheckBox
-                            id="IATF16949Certification"
-                            text="IATF 16949"
-                            select="onCertificationChange"
-                        />
-                        <CheckBox
-                            id="ISO14001Certification"
-                            text="ISO 14001"
-                            select="onCertificationChange"
-                        />
-                        <Label text="" />
-                        <CheckBox
-                            id="ISO45001Certification"
-                            text="ISO 45001"
-                            select="onCertificationChange"
-                        />
-                        <CheckBox
-                            id="VDA63Certification"
-                            text="VDA 6.3"
-                            select="onCertificationChange"
-                        />
-
-                        <Label
-                            id="workingTowardsCertQuestion"
-                            design="Bold"
-                            text="If not, are you working towards it?"
-                        />
-                        <RadioButtonGroup
-                            id="workingTowardsCert"
-                            columns="2"
-                            select="onRadioButtonSelect"
-                        >
-                            <buttons>
-                                <RadioButton
-                                    text="Yes"
-                                    key="Yes"
-                                />
-                                <RadioButton
-                                    text="No"
-                                    key="No"
-                                />
-                            </buttons>
-                        </RadioButtonGroup>
-                        <Label
-                            id="probableCertDateLabel"
-                            design="Bold"
-                            text="Probable date of ready for Certification"
-                        />
-                        <DatePicker
-                            id="probableCertificationDate"
-                            width="100%"
-                            valueFormat="ddMMyyyy"
-                            value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
-                        />
-                         <Label
-                            id="statusLabel"
-                            design="Bold"
-                            text="Does your company have this Status"
-                        />
-                        <CheckBox
-                            id="MACEGreen"
-                            text="MACE Green"
-                            select="onCertificationChange"
-                            />
-                        <Label
-                            design="Bold"
-                            text="Is Central Excise Duty Applicable?"
-                        />
-                        <RadioButtonGroup
-                            id="centralExciseDutyApplicableRbId"
-                            columns="2"
-                            select="onRadioButtonSelect"
-                        >
-                            <buttons>
-                                <RadioButton text="Yes" />
-                                <RadioButton text="No" />
-                            </buttons>
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="Company Code"
-                        />
-                        <RadioButtonGroup
-                            id="companycodeRbId"
-                            columns="4"
-                            enabled="false"
-                            select="onRadioButtonSelect"
-                        >
-                            <RadioButton
-                                id="_IDGenRadioButton22"
-                                text="1000 IMPERIAL AUTO INDUSTRIES LIMITED"
-                            />
-                            <RadioButton
-                                id="_IDGenRadioButton23"
-                                text="2000 SJ RUBBER INDUSTRIES LIMITED"
-                            />
-                            <RadioButton
-                                id="_IDGenRadioButton24"
-                                text="3000 IAI INDUSTRIES LIMITED"
-                            />
-                            <RadioButton
-                                id="_IDGenRadioButton25"
-                                text="4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED"
-                            />
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="Registration Type"
-                        />
-                        <RadioButtonGroup
-                            id="registrationtypeRbId"
-                            columns="3"
-                            enabled="false"
-                            select="onRadioButtonSelect"
-                        >
-                            <RadioButton
-                                id="_IDGenRadioButton10"
-                                text="Customer Approved"
-                            />
-                            <RadioButton
-                                id="_IDGenRadioButton21"
-                                text="BOM Parts"
-                            />
-                            <RadioButton
-                                id="_IDGenRadioButton11"
-                                text="Non BOM parts"
-                            />
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="Transaction Type"
-                            required="true"
-                        />
-                        <Select
-                            id="suppliertypeId"
-                            showSecondaryValues="true"
-                            forceSelection="false"
-                            selectedKey="{create>/SupplierType}"
-                            enabled="true"
-                        >
-                            <core:Item
-                                key="Permanent "
-                                text="Permanent "
-                            />
-                            <core:Item
-                                key="Temporary"
-                                text="Temporary"
-                            />
-                            <core:Item
-                                key="One Time"
-                                text="One Time"
-                            />
-                        </Select>
-                        <Label
-                            design="Bold"
-                            text="Time Period"
-                            required="{= ${create>/SupplierType} === 'Temporary'}"
-                            visible="{= ${create>/SupplierType} === 'Temporary'}"
-                        />
-                        <DatePicker
-                            id="TemporaryStartDateid"
-                            value="{path:'create>/TemporaryStartDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="yyyyMMdd"
-                            visible="{= ${create>/SupplierType} === 'Temporary'}"
-                        />
-                        <DatePicker
-                            id="TemporaryEndDateid"
-                            value="{path:'create>/TemporaryEndDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="yyyyMMdd"
-                            visible="{= ${create>/SupplierType} === 'Temporary'}"
-                        />
-                        <Label
-                            id="_IDGenLabel8"
-                            design="Bold"
-                            text="Reasons for the development of new vendor"
-                            required="true"
-                        />
-                        <Select
-                            id="purposeId"
-                            showSecondaryValues="true"
-                            forceSelection="false"
-                            selectedKey="{create>/Purpose}"
-                            enabled="true"
-                        >
-                            <core:Item
-                                key="Customer Recommendation "
-                                text="Customer Recommendation "
-                            />
-                            <core:Item
-                                key="Quality Performance"
-                                text="Quality Performance"
-                            />
-                            <core:Item
-                                key="Make or Buy"
-                                text="Make or Buy"
-                            />
-                            <core:Item
-                                key="Cost"
-                                text="Cost"
-                            />
-                            <core:Item
-                                key="Capacity"
-                                text="Capacity"
-                            />
-                        </Select>
-                        <Label
                             id="_IDGenLabel9"
                             design="Bold"
                             text="Constitution of Business"
@@ -550,18 +328,218 @@
                                 text="Partnership"
                             />
                             <core:Item
-                                key="Proprietorship"
-                                text="Proprietorship"
+                                key="Limited partnership"
+                                text="Limited partnership"
+                            />
+                            
+                           <core:Item
+                                key="Limited liability company"
+                                text="Limited liability company"
+                            />
+                            
+                            <core:Item
+                                key="Cooperative"
+                                text="Cooperative"
                             />
                             <core:Item
-                                key="Private Limited"
-                                text="Private Limited"
+                                key="C corporation"
+                                text="C corporation"
                             />
                             <core:Item
-                                key="Limited"
-                                text="Limited"
+                                key="Company"
+                                text="Company"
+                            />
+                            <core:Item
+                                key="Manufacturing"
+                                text="Manufacturing"
+                            />
+                            <core:Item
+                                key="Retail"
+                                text="Retail"
+                            />
+                            <core:Item
+                                key="Sole proprietorship"
+                                text="Sole proprietorship"
+                            />
+                            <core:Item
+                                key="Benefit corporation"
+                                text="Benefit corporation"
+                            />
+                            <core:Item
+                                key="Business costs"
+                                text="Business costs"
+                            />
+                            <core:Item
+                                key="Agriculture"
+                                text="Agriculture"
+                            />
+                            <core:Item
+                                key="Private company limited by shares"
+                                text="Private company limited by shares"
+                            />
+                            <core:Item
+                                key="Social enterprise"
+                                text="Social enterprise"
+                            />
+                            <core:Item
+                                key="Limited liability company"
+                                text="Limited liability company"
+                            />
+                            <core:Item
+                                key="Limited liability company"
+                                text="Limited liability company"
+                            />
+                            <core:Item
+                                key="Corporation"
+                                text="Corporation"
+                            />
+                            <core:Item
+                                key="Nonprofit"
+                                text="Nonprofit"
+                            />
+                            <core:Item
+                                key="Business Services"
+                                text="Business Services"
+                            />
+                            <core:Item
+                                key="Joint venture"
+                                text="Joint venture"
+                            />
+                            <core:Item
+                                key="Holding company"
+                                text="Holding company"
+                            />
+                            <core:Item
+                                key="Public limited company"
+                                text="Public limited company"
                             />
                         </Select>
+                        
+                        <Label
+                            design="Bold"
+                            text=""
+                        />
+                        <Text text="" />
+                         <Label
+                            design="Bold"
+                            text=""
+                        />
+                        <Text text="" />
+                        <!-- <Label
+                            id="_IDGenLabel23"
+                            design="Bold"
+                            text="Website"
+                        />
+                        <Input
+                            id="_IDGenInput8"
+                            value="{create>/Website}"
+                        />
+                        <Label
+                            id="_IDGenLabel21"
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            id="_IDGenInput5"
+                            placeholder="Number"
+                            value="{create>/Landline}"
+                        />
+                        <Input
+                            id="_IDGenInput6"
+                            placeholder="Extension"
+                            value="{create>/Extension}"
+                        /> -->
+                        <Label
+                            id="_IDGenLabel4"
+                            design="Bold"
+                            text="Vendor Name"
+                            required="true"
+                        />
+                        <Input
+                            id="venNameId"
+                            change="onVenNameChange"
+                            maxLength="40"
+                            value="{path:'request>/VendorName',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        />
+                        <Label
+                            id="_IDGenLabel5"
+                            design="Bold"
+                            text="Vendor Name 2"
+                        />
+                        <Input
+                            tooltip="If Vendor Name exceeds 40 char enter Name 2"
+                            id="venName2Id"
+                            maxLength="40"
+                            value="{path:'create>/VendorName2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            id="_IDGenLabel6"
+                            design="Bold"
+                            text="Vendor Name 3"
+                        />
+                        <Input
+                            tooltip="If Vendor Name 2 exceeds 40 char enter Name 3"
+                            id="venName3Id"
+                            maxLength="40"
+                            value="{path:'create>/VendorName3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            id="_IDGenLabel7"
+                            design="Bold"
+                            text="Vendor Mobile Number"
+                            required="true"
+                        />
+                        <Input
+                            id="mobileId"
+                            value="{path:'request>/Telephone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            id="_IDGenLabel20"
+                            design="Bold"
+                            text="Email"
+                            required="true"
+                        />
+                        <Input
+                            id="vendormailId"
+                            enabled="false"
+                            value="{path:'request>/VendorMail'}"
+                            type="Email"
+                        />
+                        <Label
+                            id="_IDGenLabel10"
+                            design="Bold"
+                            text="Address 1"
+                            required="true"
+                        />
+                        <Input
+                            placeholder="Plot No.,House No.,Street No."
+                            id="address1Id"
+                            maxLength="60"
+                            value="{path:'create>/Address1',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
+                        />
+                        <Label
+                            id="_IDGenLabel11"
+                            design="Bold"
+                            text="Address 2"
+                            required="true"
+                        />
+                        <Input
+                            placeholder="City, State, District"
+                            id="address2Id"
+                            maxLength="40"
+                            value="{path:'create>/Address2',type:'sap.ui.model.type.String',constraints:{minLength:1, maxLength:40}}"
+                        />
+                        <Label
+                            id="_IDGenLabel12"
+                            design="Bold"
+                            text="Address 3"
+                        />
+                        <Input
+                            placeholder="Additional Address Info"
+                            id="_IDGenInput1"
+                            value="{path:'create>/Address3',type:'sap.ui.model.type.String',constraints:{minLength:0, maxLength:40}}"
+                            maxLength="40"
+                        />
                         <Label
                             id="_IDGenLabel14"
                             design="Bold"
@@ -586,7 +564,6 @@
                             text="State"
                             required="true"
                         />
-                        <!-- enabled="{= ${create>/Country} !== ''}" -->
                         <Select
                             id="stateId"
                             forceSelection="false"
@@ -607,11 +584,6 @@
                             text="City"
                             required="true"
                         />
-                        <!-- <Input
-                            id="_IDGenInput11"
-                            maxLength="20"
-                            value="{create>/City}"
-                        /> -->
                         <Select
                             id="cityId"
                             forceSelection="false"
@@ -645,17 +617,8 @@
                             type="Number"
                             value="{path:'create>/Pincode',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:7}}"
                         />
-                        <!-- <Label
-                            id="_IDGenLabel51"
-                            design="Bold"
-                            text="Location"
-                            required="true"
-                        />
-                        <Input
-                            id="locationId"
-                            enabled="false"
-                            value="{path:'create>/Location',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        /> -->
+                        <Label design="Bold" text="Contact Person details" />
+                        <Text text=""/>
                         <Label
                             design="Bold"
                             text="Contact Person Name"
@@ -685,7 +648,7 @@
                         />
                         <Label
                             design="Bold"
-                            text="Phone Number"
+                            text="Landline Number"
                             required="true"
                         />
                         <Input
@@ -710,250 +673,12 @@
                             id="contemailId"
                             value="{path:'create>/ContactPersonMail'}"
                         />
-                        <!-- <Label
-                            design="Bold"
-                            text="Contact Person Name"
-                        />
-                        <Input
-                            id="contactPersonname2Id"
-                            value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                        />
-                        <Input
-                            id="dept2Id"
-                            value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            id="desig2Id"
-                            value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Phone Number"
-                        />
-                        <Input
-                            id="contphone2Id"
-                            value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            id="contmobile2Id"
-                            value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            id="contemail2Id"
-                            value="{path:'create>/ContactPersonMail2'}"
-                        /> -->
-                        <Label
-                            id="_IDGenLabel20"
-                            design="Bold"
-                            text="Email"
-                            required="true"
-                        />
-                        <Input
-                            id="vendormailId"
-                            enabled="false"
-                            value="{path:'request>/VendorMail'}"
-                            type="Email"
-                        />
-                        <Label
-                            id="_IDGenLabel21"
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            id="_IDGenInput5"
-                            placeholder="Number"
-                            value="{create>/Landline}"
-                        />
-                        <Input
-                            id="_IDGenInput6"
-                            placeholder="Extension"
-                            value="{create>/Extension}"
-                        />
-                        <Label
-                            id="_IDGenLabel23"
-                            design="Bold"
-                            text="Website"
-                        />
-                        <Input
-                            id="_IDGenInput8"
-                            value="{create>/Website}"
-                        />
-                        <Label
-                            id="workingHoursLabel"
-                            design="Bold"
-                            text="Working Hours"
-                        />
-                        <Input
-                            id="workingHoursId"
-                            value="{path:'create>/WorkingHours',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            id="weeklyHolidaysLabel"
-                            design="Bold"
-                            text="Weekly Holiday"
-                        />
-                        <Input
-                            id="weeklyHolidaysId"
-                            value="{path:'create>/WeeklyHolidays',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <!-- Name of the Executive to be contacted -->
-                        <Label
-                            id="executiveNameLabel"
-                            design="Bold"
-                            text="Name of the Executive to be contacted"
-                        />
-                        <Input
-                            id="executiveNameId"
-                            value="{path:'create>/ExecutiveName', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Telephone (During Working Hours) -->
-                        <Label
-                            id="contactDuringWorkLabel"
-                            design="Bold"
-                            text="Telephone (During Working Hours)"
-                        />
-                        <Input
-                            id="contactDuringWorkId"
-                            value="{path:'create>/ExecutiveContactDuringWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <!-- Telephone (After Working Hours) -->
-                        <Label
-                            id="contactAfterWorkLabel"
-                            design="Bold"
-                            text="Telephone (After Working Hours)"
-                        />
-                        <Input
-                            id="contactAfterWorkId"
-                            value="{path:'create>/ExecutiveContactAfterWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <!-- Year Of Establishment -->
-                        <Label
-                            design="Bold"
-                            text="Year Of Establishment"
-                        />
-                        <Input
-                            value="{path: 'create>/YearOfEstablishment', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Covered Area Of Factory -->
-                        <Label
-                            design="Bold"
-                            text="Covered Area Of Factory in sq. yards"
-                        />
-                        <Input
-                            value="{path: 'create>/CoveredAreaOfFactory', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Total Capital Investment -->
-                        <Label
-                            design="Bold"
-                            text="Total Capital Investment"
-                        />
-                        <Input
-                            value="{path: 'create>/TotalCapitalInvestment', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Working Capital -->
-                        <Label
-                            design="Bold"
-                            text="Working Capital"
-                        />
-                        <Input
-                            value="{path: 'create>/WorkingCapital', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Last Three Years Turn Over -->
-                        <Label
-                            design="Bold"
-                            text="Last Three Year Turn Over (Year 1)"
-                        />
-                        <Input
-                            value="{path: 'create>/TurnOverYear1', type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Last Three Year Turn Over (Year 2)"
-                        />
-                        <Input
-                            value="{path: 'create>/TurnOverYear2', type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Last Three Year Turn Over (Year 3)"
-                        />
-                        <Input
-                            value="{path: 'create>/TurnOverYear3', type:'sap.ui.model.type.String'}"
-                        />
-
-                        <Label
-                            design="Bold"
-                            text="Associate Company Name"
-                        />
-                        <Input
-                            value="{path: 'create>/AssociateCompanyName', type:'sap.ui.model.type.String'}"
-                        />
-
-                        <Label
-                            design="Bold"
-                            text="Associate Company Address"
-                        />
-                        <Input
-                            value="{path: 'create>/AssociateCompanyAddr', type:'sap.ui.model.type.String'}"
-                        />
-
-                        <Label
-                            design="Bold"
-                            text="Banker Name"
-                        />
-                        <Input
-                            value="{path: 'create>/BankerName', type:'sap.ui.model.type.String'}"
-                        />
-
-                        <Label
-                            design="Bold"
-                            text="Banker Address"
-                        />
-                        <Input
-                            value="{path: 'create>/BankerAddress', type:'sap.ui.model.type.String'}"
-                        />
-
-                        <Label
-                            id="_IDGenLabel24"
-                            design="Bold"
-                            text="Remarks"
-                        />
-                        <TextArea
-                            id="remarksId"
-                            value="{path:'create>/Remarks',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                        />
-                        <Label
-                            id="_IDGenLabel25"
-                            design="Bold"
-                            text="ITIL Comments"
-                        />
-                        <TextArea
-                            id="_IDGenTextArea1"
-                            enabled="false"
-                            value="{create>/Comments}"
-                        />
                     </f:content>
                 </f:SimpleForm>
             </Panel>
             <Panel
                 id="_IDGenPanel2"
-                headerText="Finance Data"
+                headerText="KYC Data"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -965,144 +690,8 @@
                     columnsXL="3"
                 >
                     <f:content>
-                        <Label
-                            id="_IDGenLabel26"
-                            design="Bold"
-                            text="MSME ITIL View"
-                        />
-                        <RadioButtonGroup
-                            columns="2"
-                            id="msmeItil"
-                            select="onRadioButtonSelect"
-                            visible="{= ${request>/VendorType} === 'DM'}"
-                        >
-                            <RadioButton
-                                id="_IDGenRadioButton6"
-                                text="MSME"
-                            />
-                            <RadioButton
-                                id="_IDGenRadioButton7"
-                                text="Non-MSME"
-                            />
-                        </RadioButtonGroup>
-                        <Label
-                            id="_IDGenLabel27"
-                            design="Bold"
-                            text="MSME Main Certificate"
-                            required="true"
-                        />
-                        <CheckBox
-                            id="msmeCert"
-                            select="onMainCertificateChange"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
-                        />
-                        <Label
-                            id="_IDGenLabel28"
-                            design="Bold"
-                            text="MSME Certificate ID"
-                            required="true"
-                        />
-                        <Select
-                            id="MsmeCertificateId"
-                            showSecondaryValues="true"
-                            forceSelection="false"
-                            selectedKey="{create>/MsmeMainCertificateId}"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
-                        >
-                            <core:Item
-                                id="_IDGenItem3"
-                                key="INMED"
-                                text="Medium"
-                            />
-                            <core:Item
-                                id="_IDGenItem4"
-                                key="INMIC"
-                                text="Micro"
-                            />
-                            <core:Item
-                                id="_IDGenItem5"
-                                key="INSML"
-                                text="Small"
-                            />
-                        </Select>
-                        <Label
-                            id="_IDGenLabel29"
-                            design="Bold"
-                            text="MSME Certification No."
-                            required="true"
-                        />
-                        <Input
-                            id="MsmeCertificateNo"
-                            value="{path:'create>/MsmeCertificateNo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
-                        />
-                        <Label
-                            id="_IDGenLabel30"
-                            design="Bold"
-                            text="MSME Valid From"
-                            required="true"
-                        />
-                        <DatePicker
-                            id="MsmeValidFrom"
-                            value="{path:'create>/MsmeValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="yyyyMMdd"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
-                        />
-                        <Label
-                            id="_IDGenLabel31"
-                            design="Bold"
-                            text="MSME Valid Up To"
-                            required="true"
-                        />
-                        <DatePicker
-                            id="MsmeValidTo"
-                            value="{create>/MsmeValidTo}"
-                            valueFormat="yyyyMMdd"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
-                        />
-                        <Label
-                            id="_IDGenLabel32"
-                            design="Bold"
-                            text="MSME Registration City"
-                            required="true"
-                        />
-                        <Input
-                            id="MsmeRegistrationCity"
-                            value="{path:'create>/MsmeRegistrationCity',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
-                        />
-                        <Label
-                            id="_IDGenLabel33"
-                            design="Bold"
-                            text="Upload MSME Certificate"
-                            required="true"
-                        />
-                        <u:FileUploader
-                            id="msmefileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            change="onFileUploaderChange"
-                            maximumFileSize="10MB"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="MsmeDeclarationName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="msmefileUploadLink"
-                            text="{create>/MsmeDeclarationName}"
-                            press="onAttachmentGet"
-                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeDeclarationName} !== ''}"
-                        >
-                            <customData>
-                                <core:CustomData key="MsmeDeclarationName" />
-                            </customData>
-                        </Link>
+                        <Label design="Bold" text="Statutory Compliance" />
+                        <Text text="" />
                         <Label
                             id="_IDGenLabel34"
                             design="Bold"
@@ -1229,6 +818,20 @@
                         </Link>
                         <Label
                             design="Bold"
+                            text="Is Central Excise Duty Applicable?"
+                        />
+                        <RadioButtonGroup
+                            id="centralExciseDutyApplicableRbId"
+                            columns="2"
+                            select="onRadioButtonSelect"
+                        >
+                            <buttons>
+                                <RadioButton text="Yes" />
+                                <RadioButton text="No" />
+                            </buttons>
+                        </RadioButtonGroup>
+                        <Label
+                            design="Bold"
                             text="CST No."
                         />
                         <Input
@@ -1276,7 +879,7 @@
                             value="{create>/VAT}"
                             visible="{path:'request>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         />
-                        <Label
+                        <!-- <Label
                             id="_IDGenLabel42"
                             design="Bold"
                             text="Import/Export Code"
@@ -1285,7 +888,9 @@
                             id="_IDGenInput10"
                             placeholder="Enter Import/Export Code"
                             value="{create>/ImportExportCode}"
-                        />
+                        /> -->
+                        <Label design="Bold" text="Bank details" />
+                        <Text text="" />
                         <Label
                             id="_IDGenLabel43"
                             design="Bold"
@@ -1430,6 +1035,156 @@
                                 <core:CustomData key="BalanceSheet" />
                             </customData>
                         </Link>
+                        <!-- <Label
+                            design="Bold"
+                            text=""
+                        />
+                        <Text text="" />
+                         <Label
+                            design="Bold"
+                            text=""
+                        />
+                        <Text text="" /> -->
+                        <Label design="Bold" text="MSME details" />
+                    <Text text="" />
+                        <Label
+                            id="_IDGenLabel26"
+                            design="Bold"
+                            text="MSME ITIL View"
+                        />
+                        <RadioButtonGroup
+                            columns="2"
+                            id="msmeItil"
+                            select="onRadioButtonSelect"
+                            visible="{= ${request>/VendorType} === 'DM'}"
+                        >
+                            <RadioButton
+                                id="_IDGenRadioButton6"
+                                text="MSME"
+                            />
+                            <RadioButton
+                                id="_IDGenRadioButton7"
+                                text="Non-MSME"
+                            />
+                        </RadioButtonGroup>
+                        <Label
+                            id="_IDGenLabel27"
+                            design="Bold"
+                            text="MSME Main Certificate"
+                            required="true"
+                        />
+                        <CheckBox
+                            id="msmeCert"
+                            select="onMainCertificateChange"
+                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                        />
+                        <Label
+                            id="_IDGenLabel28"
+                            design="Bold"
+                            text="MSME Certificate ID"
+                            required="true"
+                        />
+                        <Select
+                            id="MsmeCertificateId"
+                            showSecondaryValues="true"
+                            forceSelection="false"
+                            selectedKey="{create>/MsmeMainCertificateId}"
+                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                        >
+                            <core:Item
+                                id="_IDGenItem3"
+                                key="INMED"
+                                text="Medium"
+                            />
+                            <core:Item
+                                id="_IDGenItem4"
+                                key="INMIC"
+                                text="Micro"
+                            />
+                            <core:Item
+                                id="_IDGenItem5"
+                                key="INSML"
+                                text="Small"
+                            />
+                        </Select>
+                        <Label
+                            id="_IDGenLabel29"
+                            design="Bold"
+                            text="MSME Certification No."
+                            required="true"
+                        />
+                        <Input
+                            id="MsmeCertificateNo"
+                            value="{path:'create>/MsmeCertificateNo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                        />
+                        <Label
+                            id="_IDGenLabel30"
+                            design="Bold"
+                            text="MSME Valid From"
+                            required="true"
+                        />
+                        <DatePicker
+                            id="MsmeValidFrom"
+                            value="{path:'create>/MsmeValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueFormat="yyyyMMdd"
+                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                        />
+                        <Label
+                            id="_IDGenLabel31"
+                            design="Bold"
+                            text="MSME Valid Up To"
+                            required="true"
+                        />
+                        <DatePicker
+                            id="MsmeValidTo"
+                            value="{create>/MsmeValidTo}"
+                            valueFormat="yyyyMMdd"
+                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                        />
+                        <Label
+                            id="_IDGenLabel32"
+                            design="Bold"
+                            text="MSME Registration City"
+                            required="true"
+                        />
+                        <Input
+                            id="MsmeRegistrationCity"
+                            value="{path:'create>/MsmeRegistrationCity',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                        />
+                        <Label
+                            id="_IDGenLabel33"
+                            design="Bold"
+                            text="Upload MSME Certificate"
+                            required="true"
+                        />
+                        <u:FileUploader
+                            id="msmefileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            change="onFileUploaderChange"
+                            maximumFileSize="10MB"
+                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeItilView} === 'MSME'}"
+                        >
+                            <u:customData>
+                                <core:CustomData key="MsmeDeclarationName" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="msmefileUploadLink"
+                            text="{create>/MsmeDeclarationName}"
+                            press="onAttachmentGet"
+                            visible="{= ${request>/VendorType} === 'DM' &amp;&amp; ${create>/MsmeDeclarationName} !== ''}"
+                        >
+                            <customData>
+                                <core:CustomData key="MsmeDeclarationName" />
+                            </customData>
+                        </Link>
                     </f:content>
                 </f:SimpleForm>
             </Panel>
@@ -1445,6 +1200,80 @@
                     columnsXL="3"
                 >
                     <f:content>
+                    <Label
+                            id="certificationLabel"
+                            design="Bold"
+                            text="Does your company have any of these certifications"
+                        />
+                        <CheckBox
+                            id="ISO9001Certification"
+                            text="ISO9001"
+                            select="onCertificationChange"
+                        />
+                        <CheckBox
+                            id="IATF16949Certification"
+                            text="IATF 16949"
+                            select="onCertificationChange"
+                        />
+                        <CheckBox
+                            id="ISO14001Certification"
+                            text="ISO 14001"
+                            select="onCertificationChange"
+                        />
+                        <Label text="" />
+                        <CheckBox
+                            id="ISO45001Certification"
+                            text="ISO 45001"
+                            select="onCertificationChange"
+                        />
+                        <CheckBox
+                            id="VDA63Certification"
+                            text="VDA 6.3"
+                            select="onCertificationChange"
+                        />
+
+                        <Label
+                            id="workingTowardsCertQuestion"
+                            design="Bold"
+                            text="If not, are you working towards it?"
+                        />
+                        <RadioButtonGroup
+                            id="workingTowardsCert"
+                            columns="2"
+                            select="onRadioButtonSelect"
+                        >
+                            <buttons>
+                                <RadioButton
+                                    text="Yes"
+                                    key="Yes"
+                                />
+                                <RadioButton
+                                    text="No"
+                                    key="No"
+                                />
+                            </buttons>
+                        </RadioButtonGroup>
+                        <Label
+                            id="probableCertDateLabel"
+                            design="Bold"
+                            text="Probable date of ready for Certification"
+                        />
+                        <DatePicker
+                            id="probableCertificationDate"
+                            width="100%"
+                            valueFormat="ddMMyyyy"
+                            value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
+                        />
+                         <Label
+                            id="statusLabel"
+                            design="Bold"
+                            text="Does your company have this Status"
+                        />
+                        <CheckBox
+                            id="MACEGreen"
+                            text="MACE Green"
+                            select="onCertificationChange"
+                            />
                         <Label
                             design="Bold"
                             text="Machinery details with year and make"
@@ -1587,6 +1416,15 @@
                             id="spareCapacityId"
                             value="{path:'create>/SpareCapacity',type: 'sap.ui.model.type.String'}"
                         />
+                        <!-- <Label
+                            design="Bold"
+                            text="Upload Spare capacity available"
+                            required="true"
+                        />
+                        <Link
+                            text="Spare Capacity"
+                            press="onGetSpareAttachment"
+                        /> -->
                         <Label
                             design="Bold"
                             text="Any product safety required"
@@ -1695,15 +1533,6 @@
                             id="mineralSurveyId"
                             value="{path:'create>/MineralSurvey',type: 'sap.ui.model.type.String'}"
                         />
-                        <!-- <Label
-                            design="Bold"
-                            text="Overall Rating"
-                        />
-                        <Input
-                            id="overallRatingId"
-                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String'}"
-                            valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
-                        /> -->
                         <Label
                             design="Bold"
                             text="Additional Information, if any"
@@ -1713,29 +1542,141 @@
                             value="{path:'create>/AdditionalInformation',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
+                            id="workingHoursLabel"
                             design="Bold"
-                            text="Date"
+                            text="Working Hours"
                         />
-                        <DatePicker
-                            id="dateId"
-                            value="{path:'create>/Date',type:'sap.ui.model.type.String'}"
-                            valueFormat="ddMMyyyy"
+                        <Input
+                            id="workingHoursId"
+                            value="{path:'create>/WorkingHours',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            id="weeklyHolidaysLabel"
+                            design="Bold"
+                            text="Weekly Holiday"
+                        />
+                        <Input
+                            id="weeklyHolidaysId"
+                            value="{path:'create>/WeeklyHolidays',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <!-- Name of the Executive to be contacted -->
+                        <Label
+                            id="executiveNameLabel"
+                            design="Bold"
+                            text="Name of the Executive to be contacted"
+                        />
+                        <Input
+                            id="executiveNameId"
+                            value="{path:'create>/ExecutiveName', type:'sap.ui.model.type.String'}"
+                        />
+                        <!-- Telephone (During Working Hours) -->
+                        <Label
+                            id="contactDuringWorkLabel"
+                            design="Bold"
+                            text="Telephone (During Working Hours)"
+                        />
+                        <Input
+                            id="contactDuringWorkId"
+                            value="{path:'create>/ExecutiveContactDuringWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <!-- Telephone (After Working Hours) -->
+                        <Label
+                            id="contactAfterWorkLabel"
+                            design="Bold"
+                            text="Telephone (After Working Hours)"
+                        />
+                        <Input
+                            id="contactAfterWorkId"
+                            value="{path:'create>/ExecutiveContactAfterWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <!-- Year Of Establishment -->
+                        <Label
+                            design="Bold"
+                            text="Year Of Establishment"
+                        />
+                        <Input
+                            value="{path: 'create>/YearOfEstablishment', type:'sap.ui.model.type.String'}"
+                        />
+                        <!-- Covered Area Of Factory -->
+                        <Label
+                            design="Bold"
+                            text="Covered Area Of Factory in sq. yards"
+                        />
+                        <Input
+                            value="{path: 'create>/CoveredAreaOfFactory', type:'sap.ui.model.type.String'}"
+                        />
+                        <!-- Total Capital Investment -->
+                        <Label
+                            design="Bold"
+                            text="Total Capital Investment"
+                        />
+                        <Input
+                            value="{path: 'create>/TotalCapitalInvestment', type:'sap.ui.model.type.String'}"
+                        />
+                        <!-- Working Capital -->
+                        <Label
+                            design="Bold"
+                            text="Working Capital"
+                        />
+                        <Input
+                            value="{path: 'create>/WorkingCapital', type:'sap.ui.model.type.String'}"
+                        />
+                        <!-- Last Three Years Turn Over -->
+                        <Label
+                            design="Bold"
+                            text="Last Three Year Turn Over (Year 1)"
+                        />
+                        <Input
+                            value="{path: 'create>/TurnOverYear1', type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
-                            text="Name"
+                            text="Last Three Year Turn Over (Year 2)"
                         />
                         <Input
-                            id="nameId"
-                            value="{path:'create>/Name',type: 'sap.ui.model.type.String'}"
+                            value="{path: 'create>/TurnOverYear2', type:'sap.ui.model.type.String'}"
                         />
                         <Label
                             design="Bold"
-                            text="Designation"
+                            text="Last Three Year Turn Over (Year 3)"
                         />
                         <Input
-                            id="designationId"
-                            value="{path:'create>/VendorDesignation',type: 'sap.ui.model.type.String'}"
+                            value="{path: 'create>/TurnOverYear3', type:'sap.ui.model.type.String'}"
+                        />
+
+                        <Label
+                            design="Bold"
+                            text="Associate Company Name"
+                        />
+                        <Input
+                            value="{path: 'create>/AssociateCompanyName', type:'sap.ui.model.type.String'}"
+                        />
+
+                        <Label
+                            design="Bold"
+                            text="Associate Company Address"
+                        />
+                        <Input
+                            value="{path: 'create>/AssociateCompanyAddr', type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            id="_IDGenLabel24"
+                            design="Bold"
+                            text="Remarks"
+                        />
+                        <TextArea
+                            id="remarksId"
+                            value="{path:'create>/Remarks',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        />
+                        <Label
+                            id="_IDGenLabel25"
+                            design="Bold"
+                            text="ITIL Comments"
+                        />
+                        <TextArea
+                            id="_IDGenTextArea1"
+                            enabled="false"
+                            value="{create>/Comments}"
                         />
                     </f:content>
                 </f:SimpleForm>

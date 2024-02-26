@@ -40,6 +40,8 @@ service CatalogService @(requires: 'any') {
     entity UnitCodes as projection on db.UnitCode;
 
     entity AccessInfo as projection on db.AccessInfo;
+
+    entity CommonFile as projection on db.CommonFile;
     
     function verfiyPANDetails(panNumber: String) returns String;
 

@@ -73,6 +73,7 @@ sap.ui.define([
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
                 createdata.RegistrationType = requestData.RegistrationType;
+                createdata.SupplierType= "Permanent";
                 if (requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
                     this.byId("msmeItil").setSelectedIndex(0);
@@ -120,6 +121,7 @@ sap.ui.define([
                             data.Type = "MATERIAL";
                             // data.ScopeOfSupply = "PARTS";
                         }
+                        data.SupplierType = "Permanent";
                         if (!data.MsmeItilView && requestData.VendorType === "DM") {
                             data.MsmeItilView = "MSME";
                             this.byId("msmeItil").setSelectedIndex(0);
@@ -205,7 +207,20 @@ sap.ui.define([
                     }
                 });
             },
-
+            onGetSpareAttachment: function (evt) {
+                BusyIndicator.show();
+                setTimeout(() => {
+                    this.getView().getModel().read("/CommonFile", {
+                        success: (data) => {
+                            var item = data.results[0];
+                            var fileUrl = this.getView().getModel().sServiceUrl + "/CommonFile(fileid=1)/$value";
+                            window.open(fileUrl, '_blank');
+                            BusyIndicator.hide();
+                        },
+                        error: () => BusyIndicator.hide()
+                    });
+                }, 1000);
+            },
             _showRemainingTime: function () {
                 var that = this;
                 var data = this.getView().getModel("request").getData();
@@ -294,13 +309,7 @@ sap.ui.define([
                 if (data.GstApplicable === "NO") {
                     this.byId("gstRbId").setSelectedIndex(1);
                 }
-                if (data.NatureOfIndustry === "SMALL") {
-                    this.byId("natureOfIndustryRbId").setSelectedIndex(0);
-                } else if (data.NatureOfIndustry === "MEDIUM") {
-                    this.byId("natureOfIndustryRbId").setSelectedIndex(1);
-                } else if (data.NatureOfIndustry === "HEAVY") {
-                    this.byId("natureOfIndustryRbId").setSelectedIndex(2);
-                }
+                
                 if (data.WorkingTowardsCertifications === "Yes") {
                     this.byId("workingTowardsCert").setSelectedIndex(0);
                 } else if (data.WorkingTowardsCertifications === "No") {
@@ -364,15 +373,7 @@ sap.ui.define([
                             data.MsmeItilView = "Non MSME";
                         }
                         break;
-                    case "natureOfIndustryRbId":
-                        if (index === 0) {
-                            data.NatureOfIndustry = "SMALL";
-                        } else if (index === 1) {
-                            data.NatureOfIndustry = "MEDIUM";
-                        } else {
-                            data.NatureOfIndustry = "HEAVY";
-                        }
-                        break;
+                    
                     case "workingTowardsCert": // Make sure this matches the RadioButtonGroup id in your View.xml
                         if (index === 0) {
                             data.WorkingTowardsCertifications = "Yes";
@@ -500,7 +501,7 @@ sap.ui.define([
                 oView.byId("stateId"), oView.byId("cityId"),
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId"),
-                oView.byId("grouptypeId"),oView.byId("purposeId")];
+                oView.byId("grouptypeId")];
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
