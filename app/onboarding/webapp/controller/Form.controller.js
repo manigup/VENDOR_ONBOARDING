@@ -538,13 +538,7 @@ sap.ui.define([
                 if (data.LogisticCustomer === "NO") {
                     this.byId("logCustRbId").setSelectedIndex(1);
                 }
-                if (data.NatureOfIndustry === "SMALL") {
-                    this.byId("natureOfIndustryRbId").setSelectedIndex(0);
-                } else if (data.NatureOfIndustry === "MEDIUM") {
-                    this.byId("natureOfIndustryRbId").setSelectedIndex(1);
-                } else if (data.NatureOfIndustry === "HEAVY") {
-                    this.byId("natureOfIndustryRbId").setSelectedIndex(2);
-                }
+                
                 if (data.WorkingTowardsCertifications === "Yes") {
                     this.byId("workingTowardsCert").setSelectedIndex(0);
                 } else if (data.WorkingTowardsCertifications === "No") {
@@ -667,15 +661,7 @@ sap.ui.define([
                             data.MsmeItilView = "Non MSME";
                         }
                         break;
-                    case "natureOfIndustryRbId":
-                        if (index === 0) {
-                            data.NatureOfIndustry = "SMALL";
-                        } else if (index === 1) {
-                            data.NatureOfIndustry = "MEDIUM";
-                        } else {
-                            data.NatureOfIndustry = "HEAVY";
-                        }
-                        break;
+                    
                     case "workingTowardsCert": // Make sure this matches the RadioButtonGroup id in your View.xml
                         if (index === 0) {
                             data.WorkingTowardsCertifications = "Yes";
@@ -859,8 +845,10 @@ sap.ui.define([
                 oView.byId("stateId"), oView.byId("cityId"),
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId"),
-                oView.byId("grouptypeId"),oView.byId("purposeId")];
-
+                oView.byId("grouptypeId")];
+                if (requestData.purchase) {
+                    aInputs.push(oView.byId("purposeId"));
+                }
                 if (requestData.finance) {
                     aInputs.push(oView.byId("accdescId"));
                     aInputs.push(oView.byId("addcodeId"));
