@@ -136,8 +136,8 @@
                             enabled="false"
                         >
                             <core:Item
-                                key="Permanent "
-                                text="Permanent "
+                                key="Permanent"
+                                text="Permanent"
                             />
                             <core:Item
                                 key="Temporary"
@@ -799,26 +799,6 @@
                         />
                         <Label
                             design="Bold"
-                            text="GST Registered"
-                        />
-                        <CheckBox
-                            id="gstRegRbId"
-                            select="onGSTChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            selected="{= ${create>/GstRegistered} === '1' ? true : false}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="GST Date"
-                        />
-                        <DatePicker
-                            id="gstdate"
-                            value="{path:'create>/GSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                        />
-                        <Label
-                            design="Bold"
                             text="GST Applicable"
                             required="true"
                         />
@@ -881,59 +861,6 @@
                         </Link>
                         <Label
                             design="Bold"
-                            text="Is Central Excise Duty Applicable?"
-                        />
-                        <RadioButtonGroup
-                            id="centralExciseDutyApplicableRbId"
-                            columns="2"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            select="onRadioButtonSelect"
-                        >
-                            <buttons>
-                                <RadioButton text="Yes" />
-                                <RadioButton text="No" />
-                            </buttons>
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="CST No."
-                        />
-                        <Input
-                            id="cstnoId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            value="{path:'create>/CSTNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
-                        />
-                        <Label
-                            design="Bold"
-                            text="CST Date"
-                        />
-                        <DatePicker
-                            id="cstdate"
-                            value="{path:'create>/CSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                        />
-                        <!-- <Label
-                            design="Bold"
-                            text="Cin No."
-                        />
-                        <Input
-                            id="cinId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            value="{path:'create>/CinNo',type : 'sap.ui.model.type.String', constraints : { minLength: 1} }"
-                        />
-                        <Label
-                            design="Bold"
-                            text="LST Date"
-                        />
-                        <DatePicker
-                            id="lstdate"
-                            value="{path:'create>/LSTDate',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="ddMMyyyy"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                        /> -->
-                        <Label
-                            design="Bold"
                             text="Currency"
                             required="true"
                         />
@@ -953,7 +880,7 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             visible="{path:'create>/VendorType',formatter:'formatter.visibleFieldsInt'}"
                         />
-                        <!-- <Label
+                        <Label
                             design="Bold"
                             text="Import/Export Code"
                         />
@@ -961,7 +888,7 @@
                             placeholder="Enter Import/Export Code"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{create>/ImportExportCode}"
-                        /> -->
+                        />
                         <Label design="Bold" text="Bank details" />
                         <Text text="" />
                         <Label
@@ -1256,7 +1183,7 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                headerText="Manufacturing and Quality Control Facilities"
+                headerText="Supplier Quality Assurance"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1303,750 +1230,12 @@
                             select="onCertificationChange"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
-                        <Label
-                            id="workingTowardsCertQuestion"
-                            design="Bold"
-                            text="If not, are you working towards it?"
-                        />
-                        <RadioButtonGroup
-                            id="workingTowardsCert"
-                            columns="2"
-                            select="onRadioButtonSelect"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        >
-                            <buttons>
-                                <RadioButton
-                                    text="Yes"
-                                    key="Yes"
-                                />
-                                <RadioButton
-                                    text="No"
-                                    key="No"
-                                />
-                            </buttons>
-                        </RadioButtonGroup>
-                        <Label
-                            id="probableCertDateLabel"
-                            design="Bold"
-                            text="Probable date of ready for Certification"
-                        />
-                        <DatePicker
-                            id="probableCertificationDate"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            width="100%"
-                            valueFormat="ddMMyyyy"
-                            value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
-                        />
-                        <Label
-                            id="statusLabel"
-                            design="Bold"
-                            text="Does your company have this Status"
-                        />
                         <CheckBox
                             id="MACEGreen"
                             text="MACE Green"
                             select="onMACEGreenChange"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
-                        <Label
-                            design="Bold"
-                            text="Machinery details with year and make"
-                        />
-                        <Input
-                            id="machineId"
-                            value="{path:'create>/MachineDetails',type: 'sap.ui.model.type.String'}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Upload Machine Details"
-                        />
-                        <u:FileUploader
-                            id="machinefileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="MachineName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="machinefileUploadLink"
-                            text="{create>/MachineName}"
-                            visible="{= ${create>/MachineName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="MachineName" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="Equipment details with year and make"
-                        />
-                        <Input
-                            id="equipmentId"
-                            value="{path:'create>/EquipmentDetails',type: 'sap.ui.model.type.String'}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Upload Equipment Details"
-                        />
-                        <u:FileUploader
-                            id="equipmentfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="EquipmentName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="equipmentfileUploadLink"
-                            text="{create>/EquipmentName}"
-                            visible="{= ${create>/EquipmentName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="EquipmentName" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="Captive Power Generation"
-                        />
-                        <RadioButtonGroup
-                            id="captiveRbId"
-                            columns="2"
-                            selectedIndex="{= ${create>/CaptivePower} === 'YES' ? 0 : 1}"
-                            select="onRadioButtonSelect"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        >
-                            <RadioButton text="Yes" />
-                            <RadioButton text="No" />
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="Upload Captive Power Generation"
-                        />
-                        <u:FileUploader
-                            id="captivefileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="CaptivePowerFileName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="captivefileUploadLink"
-                            text="{create>/CaptivePowerFileName}"
-                            visible="{= ${create>/CaptivePowerFileName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="CaptivePowerFileName" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="Captive Power Generation Details"
-                        />
-                        <Input
-                            id="captiveId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/CaptivePowerDetails',type: 'sap.ui.model.type.String'}"
-                            visible="{= ${create>/CaptivePower} === 'YES'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Installed Capacity"
-                        />
-                        <Input
-                            id="capacityId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/InstalledCapacity',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Spare capacity available"
-                            required="true"
-                        />
-                        <Input
-                            id="spareCapacityId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/SpareCapacity',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Any product safety required"
-                        />
-                        <Input
-                            id="productSafetyId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/ProductSafety',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Product and Customers"
-                        />
-                        <u:FileUploader
-                            id="prodCustfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="ProductCustomerName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="prodCustfileUploadLink"
-                            text="{create>/ProductCustomerName}"
-                            visible="{= ${create>/ProductCustomerName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="ProductCustomerName" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="Total No. of Employees"
-                        />
-                        <Input
-                            id="totalId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/Total',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Permanent Employees"
-                        />
-                        <Input
-                            id="permanentId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/Permanent',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Daily Wages Employees"
-                        />
-                        <Input
-                            id="dailyWagesId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/DailyWages',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            id="unionLabel"
-                            design="Bold"
-                            text="Does organization have any union"
-                        />
-                        <RadioButtonGroup
-                            id="unionRbId"
-                            columns="2"
-                            selectedIndex="{= ${create>/Union} === 'YES' ? 0 : 1}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            select="onRadioButtonSelect"
-                        >
-                            <RadioButton text="Yes" />
-                            <RadioButton text="No" />
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="Quality Control Employees"
-                            required="true"
-                        />
-                        <Input
-                            id="qualityControlId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/QualityControl',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Products Manufactured"
-                            required="true"
-                        />
-                        <Input
-                            id="productsManufacturedId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/ProductsManufactured',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Applicable legal requirement (ELV/ROHS)"
-                        />
-                        <Input
-                            id="legalRequirementId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/LegalRequirement',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Conflict Mineral Survey (3TG)"
-                        />
-                        <Input
-                            id="mineralSurveyId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/MineralSurvey',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Risk Rating"
-                            required="{= ${request>/quality} === true}"
-                        />
-                        <Input
-                            id="overallRatingId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="System Audit Rating"
-                            required="{= ${request>/quality} === true}"
-                        />
-                        <Input
-                            id="systemRatingId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueState="{path:'create>/SystemAuditRating',formatter:'formatter.sysratingState'}"
-                        />
-                        <Label
-                            id="workingHoursLabel"
-                            design="Bold"
-                            text="Working Hours"
-                        />
-                        <Input
-                            id="workingHoursId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/WorkingHours',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            id="weeklyHolidaysLabel"
-                            design="Bold"
-                            text="Weekly Holiday"
-                        />
-                        <Input
-                            id="weeklyHolidaysId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/WeeklyHolidays',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <!-- Name of the Executive to be contacted -->
-                        <Label
-                            id="executiveNameLabel"
-                            design="Bold"
-                            text="Name of the Executive to be contacted"
-                        />
-                        <Input
-                            id="executiveNameId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/ExecutiveName', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Telephone (During Working Hours) -->
-                        <Label
-                            id="contactDuringWorkLabel"
-                            design="Bold"
-                            text="Telephone (During Working Hours)"
-                        />
-                        <Input
-                            id="contactDuringWorkId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/ExecutiveContactDuringWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <!-- Telephone (After Working Hours) -->
-                        <Label
-                            id="contactAfterWorkLabel"
-                            design="Bold"
-                            text="Telephone (After Working Hours)"
-                        />
-                        <Input
-                            id="contactAfterWorkId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/ExecutiveContactAfterWork', type:'sap.ui.model.type.String', constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <!-- Year Of Establishment -->
-                        <Label
-                            design="Bold"
-                            text="Year Of Establishment"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/YearOfEstablishment', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Covered Area Of Factory -->
-                        <Label
-                            design="Bold"
-                            text="Covered Area Of Factory in sq. yards"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/CoveredAreaOfFactory', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Total Capital Investment -->
-                        <Label
-                            design="Bold"
-                            text="Total Capital Investment"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/TotalCapitalInvestment', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Working Capital -->
-                        <Label
-                            design="Bold"
-                            text="Working Capital"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/WorkingCapital', type:'sap.ui.model.type.String'}"
-                        />
-                        <!-- Last Three Years Turn Over -->
-                        <Label
-                            design="Bold"
-                            text="Last Three Year Turn Over (Year 1)"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/TurnOverYear1', type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Last Three Year Turn Over (Year 2)"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/TurnOverYear2', type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Last Three Year Turn Over (Year 3)"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/TurnOverYear3', type:'sap.ui.model.type.String'}"
-                        />
-
-                        <Label
-                            design="Bold"
-                            text="Associate Company Name"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/AssociateCompanyName', type:'sap.ui.model.type.String'}"
-                        />
-
-                        <Label
-                            design="Bold"
-                            text="Associate Company Address"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path: 'create>/AssociateCompanyAddr', type:'sap.ui.model.type.String'}"
-                        />
-                         <Label
-                            design="Bold"
-                            text="Remarks"
-                        />
-                        <TextArea
-                            id="remarksId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/Remarks',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="ITIL Comments"
-                        />
-                        <TextArea
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{create>/Comments}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Additional Information, if any"
-                        />
-                        <Input
-                            id="addinfoId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/AdditionalInformation',type: 'sap.ui.model.type.String'}"
-                        />
-                        <!-- <Label
-                            design="Bold"
-                            text="Date"
-                        />
-                        <DatePicker
-                            id="dateId"
-                            value="{path:'create>/Date',type:'sap.ui.model.type.String'}"
-                            valueFormat="ddMMyyyy"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Name"
-                        />
-                        <Input
-                            id="nameId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/Name',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            id="designationId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/VendorDesignation',type: 'sap.ui.model.type.String'}"
-                        /> -->
-                        </f:content>
-                </f:SimpleForm>
-                <!-- The Table section starts here -->
-                <Label
-                    design="Bold"
-                    text="Furnish details of product and three of your Reputed Customers(Attach sheet if requried)"
-                />
-                <Table
-                    id="productTable"
-                    items="{productInfoTable>/rows}"
-                    fixedLayout="false"
-                >
-                    <columns>
-                        <Column>
-                            <Text text="Sr. No." />
-                        </Column>
-                        <Column>
-                            <Text text="Customer Name" />
-                        </Column>
-                        <Column>
-                            <Text text="Customer Location" />
-                        </Column>
-                        <Column>
-                            <Text text="Product/Part/Assy. Name" />
-                        </Column>
-                        <Column>
-                            <Text text="SOB % (Share of business)" />
-                        </Column>
-                        <Column>
-                            <Text text="Rejection ppm (Average last 1 year)" />
-                        </Column>
-                        <Column>
-                            <Text text="Delivery Performance %" />
-                        </Column>
-                    </columns>
-
-                    <items>
-                        <ColumnListItem>
-                            <cells>
-                                <Input
-                                    id="_IDGenInput2"
-                                    value="{productInfoTable>SrNo}"
-                                    editable="false"
-                                />
-                                <Input
-                                    id="_IDGenInput1"
-                                    value="{productInfoTable>CustomerName}"
-                                    enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                                />
-                                <Input
-                                    id="_IDGenInput6"
-                                    value="{productInfoTable>CustomerLoc}"
-                                    enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                                />
-                                <Input
-                                    id="_IDGenInput3"
-                                    value="{productInfoTable>ProductName}"
-                                    enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                                />
-                                <Input
-                                    id="_IDGenInput4"
-                                    value="{productInfoTable>QtyAvgLastYear}"
-                                    enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                                />
-                                <Input
-                                    id="_IDGenInput5"
-                                    value="{productInfoTable>RejectionPPMLastYear}"
-                                    enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                                />
-                                <Input
-                                    id="_IDGenInput7"
-                                    value="{productInfoTable>DeliveryPerformance}"
-                                    enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                                />
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
-                <f:SimpleForm
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
-                        <Label
-                            design="Bold"
-                            text="Does the organization have capability of product design"
-                        />
-                        <RadioButtonGroup
-                            id="prodDesignRbId"
-                            columns="2"
-                            selectedIndex="{= ${create>/ProdDesign} === 'YES' ? 0 : 1}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            select="onRadioButtonSelect"
-                        >
-                            <RadioButton text="Yes" />
-                            <RadioButton text="No" />
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="Does have software development capabilities (if applicable)"
-                        />
-                        <RadioButtonGroup
-                            id="softwareCapRbId"
-                            columns="3"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            select="onRadioButtonSelect"
-                        >
-                            <RadioButton text="Yes" />
-                            <RadioButton text="No" />
-                            <RadioButton text="N/A" />
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="Do you have business continuity planning"
-                        />
-                        <RadioButtonGroup
-                            id="businessContinuityRbId"
-                            columns="2"
-                            selectedIndex="{= ${create>/BusinessContinuity} === 'YES' ? 0 : 1}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            select="onRadioButtonSelect"
-                        >
-                            <RadioButton text="Yes" />
-                            <RadioButton text="No" />
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="Logistics and customer service"
-                        />
-                        <RadioButtonGroup
-                            id="logCustRbId"
-                            columns="2"
-                            selectedIndex="{= ${create>/LogisticCustomer} === 'YES' ? 0 : 1}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            select="onRadioButtonSelect"
-                        >
-                            <RadioButton text="Yes" />
-                            <RadioButton text="No" />
-                        </RadioButtonGroup>
-                    </f:content>
-                </f:SimpleForm>
-            </Panel>
-            <Panel
-                headerText="Attachments"
-                expandable="true"
-            >
-                <f:SimpleForm
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
-                        <Label
-                            design="Bold"
-                            text="Risk Assessment"
-                            visible="true"
-                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
-                        />
-                        <u:FileUploader
-                            id="riskFileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            buttonText="Browse"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            visible="true"
-                        >
-                            <u:customData>
-                                <core:CustomData key="RiskAssessment" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/RiskAssessment}"
-                            visible="{= ${create>/RiskAssessment} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="RiskAssessment" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="System Audit Check"
-                            visible="true"
-                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts')}"
-                        />
-                        <u:FileUploader
-                            id="systemAuditCheckFileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            buttonText="Browse"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            visible="true"
-                        >
-                            <u:customData>
-                                <core:CustomData key="SystemAuditCheck" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/SystemAuditCheck}"
-                            visible="{= ${create>/SystemAuditCheck} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="SystemAuditCheck" />
-                            </customData>
-                        </Link>
                         <Label
                             design="Bold"
                             text="ISO9001 Certificate"
@@ -2228,20 +1417,6 @@
                             text="VDA 6.3 Certificate"
                             required="{= ${create>/VDA63Certification} === 'X'}"
                         />
-                        <DatePicker
-                            id="VDA63ValidFrom"
-                            placeholder="Enter VDA63 Valid From"
-                            value="{path:'create>/VDA63ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="yyyyMMdd"
-                            enabled="false"
-                        />
-                        <DatePicker
-                            id="VDA63ValidTo"
-                            placeholder="Enter VDA63 Valid To"
-                            value="{path:'create>/VDA63ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="yyyyMMdd"
-                            enabled="false"
-                        />
                         <u:FileUploader
                             id="VDA63attach1fileUploader"
                             sendXHR="true"
@@ -2315,6 +1490,229 @@
                                 <core:CustomData key="MACEGreenAttachment" />
                             </customData>
                         </Link>
+                        <Label
+                            id="workingTowardsCertQuestion"
+                            design="Bold"
+                            text="If not, are you working towards it?"
+                        />
+                        <RadioButtonGroup
+                            id="workingTowardsCert"
+                            columns="2"
+                            select="onRadioButtonSelect"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                        >
+                            <buttons>
+                                <RadioButton
+                                    text="Yes"
+                                    key="Yes"
+                                />
+                                <RadioButton
+                                    text="No"
+                                    key="No"
+                                />
+                            </buttons>
+                        </RadioButtonGroup>
+                        <Label
+                            id="probableCertDateLabel"
+                            design="Bold"
+                            text="Probable date of ready for Certification"
+                        />
+                        <DatePicker
+                            id="probableCertificationDate"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            width="100%"
+                            valueFormat="ddMMyyyy"
+                            value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Spare capacity available(%)"
+                            required="true"
+                        />
+                        <Input
+                            id="spareCapacityId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            value="{path:'create>/SpareCapacity',type: 'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Upload Spare capacity available"
+                            required="true"
+                        />
+                        <u:FileUploader
+                            id="sparecapacityfileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                            maximumFileSize="10MB"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                        >
+                            <u:customData>
+                                <core:CustomData key="SpareCapacityName" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="spareCapacityfileUploadLink"
+                            text="{create>/SpareCapacityName}"
+                            visible="{= ${create>/SpareCapacityName} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="SpareCapacityName" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="System Audit Rating"
+                            required="{= ${request>/quality} === true}"
+                        />
+                        <Input
+                            id="systemRatingId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueState="{path:'create>/SystemAuditRating',formatter:'formatter.sysratingState'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="System Audit Check"
+                            visible="true"
+                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts')}"
+                        />
+                        <u:FileUploader
+                            id="systemAuditCheckFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            visible="true"
+                        >
+                            <u:customData>
+                                <core:CustomData key="SystemAuditCheck" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/SystemAuditCheck}"
+                            visible="{= ${create>/SystemAuditCheck} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="SystemAuditCheck" />
+                            </customData>
+                        </Link>
+                        </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                headerText="Purchase and Development"
+                expandable="true"
+            >
+                <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
+                    <Label
+                            design="Bold"
+                            text="Risk Rating"
+                            required="{= ${request>/purchase} === true || ${request>/quality} === true}"
+                        />
+                        <Input
+                            id="overallRatingId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Risk Assessment"
+                            visible="true"
+                            required="{= (${request>/purchase} === true || ${request>/quality} === true) &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                        />
+                        <u:FileUploader
+                            id="riskFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            visible="true"
+                        >
+                            <u:customData>
+                                <core:CustomData key="RiskAssessment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/RiskAssessment}"
+                            visible="{= ${create>/RiskAssessment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="RiskAssessment" />
+                            </customData>
+                        </Link>
+                        <Label
+                            design="Bold"
+                            text="Preliminary Supplier Assessment Form"
+                            visible="true"
+                            required="{= ${request>/purchase} === true}"
+                        />
+                        <u:FileUploader
+                            id="supplierAssessmentFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            visible="true"
+                        >
+                            <u:customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/SupplierAssessment}"
+                            visible="{= ${create>/SupplierAssessment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </customData>
+                        </Link>
+                    </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                headerText="Attachments"
+                expandable="true"
+            >
+                <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
                         <Label
                             design="Bold"
                             text="Attachment 1"

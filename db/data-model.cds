@@ -273,6 +273,7 @@ entity VendorForm : managed {
       CaptivePowerDetails          : String;
       InstalledCapacity            : String;
       SpareCapacity                : String;
+      SpareCapacityName            : String;
       ProductCustomerName          : String;
       Total                        : String;
       Permanent                    : String;
@@ -319,6 +320,7 @@ entity VendorForm : managed {
       VDA63ValidTo                 : String;
       MACEGreenValidFrom           : String;
       MACEGreenValidTo             : String;
+      SupplierAssessment           : String;
       Products                     : Composition of many ProductInfo
                                        on Products.Vendor = $self;
 }

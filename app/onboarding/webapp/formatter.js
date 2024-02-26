@@ -246,7 +246,7 @@ formatter = {
                     return false;
                 }
             }else{    
-            if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
                 return true;
             } else {
                 return false;
@@ -276,7 +276,7 @@ formatter = {
                         return false;
                     }
                 }else{ 
-            if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Quality")) {
+            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBQ" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
                 return true;
             } else {
                 return false;
@@ -295,7 +295,7 @@ formatter = {
         }
     },
     fillformBtnVisible: function (status) {
-        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "RBQ") {
+        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "RBP") {
             return true;
         } else {
             return false;

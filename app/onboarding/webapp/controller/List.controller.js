@@ -9,10 +9,10 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/Dialog",
     "sap/m/Button",
-	"sap/m/Label",
-	"sap/m/library",
-	"sap/m/Text",
-	"sap/m/TextArea"
+    "sap/m/Label",
+    "sap/m/library",
+    "sap/m/Text",
+    "sap/m/TextArea"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -22,7 +22,7 @@ sap.ui.define([
         "use strict";
 
         var ButtonType = mobileLibrary.ButtonType;
-	    var DialogType = mobileLibrary.DialogType;
+        var DialogType = mobileLibrary.DialogType;
 
         return BaseController.extend("sp.fiori.onboarding.controller.List", {
 
@@ -292,7 +292,7 @@ sap.ui.define([
                 var data = evt.getSource().getBindingContext("DataModel").getObject();
                 var requestData = this.getView().getModel("request").getData();
                 //var formdata = this.getView().getModel("FormData").getData();
-               // data.SupplierType = formdata.SupplierType;
+                // data.SupplierType = formdata.SupplierType;
                 this.vendor = data.Vendor;
                 this.vendorId = data.VendorId;
                 if (requestData.purchase === true) {
@@ -459,7 +459,7 @@ sap.ui.define([
                     }
                 });
             },
-            delay: function(ms) {
+            delay: function (ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             },
             changeStatus: async function () {
@@ -467,232 +467,232 @@ sap.ui.define([
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
                 this.SupplierType = formdata.SupplierType;
-                if(this.SupplierType === "Permanent" && formdata.OverallRating > "3" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "65" ){
+                if (this.SupplierType === "Permanent" && formdata.OverallRating > "3" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "65") {
                     MessageBox.error("The form cannot be approved as System Audit Rating is " + formdata.SystemAuditRating);
                     return;
-                }else{
-                var payload = {};
-                for (var i = 0; i < vendata.length; i++) {
-                    if (vendata[i].VendorId === this.vendorId) {
-                        payload.Vendor = vendata[i].Vendor;
-                        payload.VendorId = vendata[i].VendorId;
-                        payload.VendorName = vendata[i].VendorName;
-                        payload.VendorType = vendata[i].VendorType;
-                        payload.Companycode = vendata[i].Companycode;
-                        payload.RegistrationType = vendata[i].RegistrationType;
-                        payload.Department = vendata[i].Department;
-                        payload.Telephone = vendata[i].Telephone;
-                        payload.City = vendata[i].City;
-                        payload.VendorMail = vendata[i].VendorMail;
-                        this.VendorMail = vendata[i].VendorMail;
-                        payload.VenValidTo = vendata[i].VenValidTo;
-                        payload.VenFrom = vendata[i].VenFrom;
-                        payload.VenTimeLeft = vendata[i].VenTimeLeft;
-                        payload.initiatedBy = vendata[i].initiatedBy;
-                        this.initiatedBy = vendata[i].initiatedBy;
-                        var venStatus = vendata[i].Status;
-                        payload.ResetValidity = vendata[i].ResetValidity;
-                        payload.RelatedPart = vendata[i].RelatedPart;
-                        payload.SupplierType = vendata[i].SupplierType;
-                        var venRelated = vendata[i].RelatedPart;
-                        var venRegType = vendata[i].RegistrationType;
-                        break;
+                } else {
+                    var payload = {};
+                    for (var i = 0; i < vendata.length; i++) {
+                        if (vendata[i].VendorId === this.vendorId) {
+                            payload.Vendor = vendata[i].Vendor;
+                            payload.VendorId = vendata[i].VendorId;
+                            payload.VendorName = vendata[i].VendorName;
+                            payload.VendorType = vendata[i].VendorType;
+                            payload.Companycode = vendata[i].Companycode;
+                            payload.RegistrationType = vendata[i].RegistrationType;
+                            payload.Department = vendata[i].Department;
+                            payload.Telephone = vendata[i].Telephone;
+                            payload.City = vendata[i].City;
+                            payload.VendorMail = vendata[i].VendorMail;
+                            this.VendorMail = vendata[i].VendorMail;
+                            payload.VenValidTo = vendata[i].VenValidTo;
+                            payload.VenFrom = vendata[i].VenFrom;
+                            payload.VenTimeLeft = vendata[i].VenTimeLeft;
+                            payload.initiatedBy = vendata[i].initiatedBy;
+                            this.initiatedBy = vendata[i].initiatedBy;
+                            var venStatus = vendata[i].Status;
+                            payload.ResetValidity = vendata[i].ResetValidity;
+                            payload.RelatedPart = vendata[i].RelatedPart;
+                            payload.SupplierType = vendata[i].SupplierType;
+                            var venRelated = vendata[i].RelatedPart;
+                            var venRegType = vendata[i].RegistrationType;
+                            break;
+                        }
                     }
-                }
-                var stat = "";
-                var level = "";
-                var pending = "";
-                var appr = "0";
-                var venName = payload.VendorName;
-                if (venStatus === "SBQ") {
-                    this.access = "Purchase";
-                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at Purchase. `;
-                    this.emailbody = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at Purchase. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                    this.VendorName = "Purchase Team";
-                    stat = "ABQ";
-                    level = "2";
-                    pending = "Purchase"
-                    this.msg = "Approved by Quality";
-                } else if (venStatus === "SBP") {
-                    if(venRegType === "Non BOM parts"){ 
-                        if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
-                        this.access = "Finance";
-                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
-                        this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                        this.VendorName = "Finance Team";
-                        stat = "ABP";
-                        pending = "Finance"
-                        this.msg = "Approved by Purchase";
-                        level = "2"; 
-                        }else{
-                    level = "2";
-                    this.access = "COO";
-                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. `;
-                    this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                    this.VendorName = "COO Team";
-                    stat = "ABP";
-                    pending = "COO"
-                    this.msg = "Approved by Purchase";
-                        }
-                    }else{ 
-                        if(this.SupplierType === "Temporary" || this.SupplierType === "One Time" ){
-                            this.access = "Finance";
-                            this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
-                            this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                            this.VendorName = "Finance Team";
-                            stat = "ABP";
-                            pending = "Finance"
-                            this.msg = "Approved by Purchase";
-                            level = "2"; 
-                            }else{ 
-                    level = "3";
-                    this.access = "COO";
-                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. `;
-                    this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                    this.VendorName = "COO Team";
-                    stat = "ABP";
-                    pending = "COO"
-                    this.msg = "Approved by Purchase";
-                    }
-                }
-                    
-                } else if (venStatus === "SBC" && venRelated === "No") {
-                    if(venRegType === "Non BOM parts"){ 
+                    var stat = "";
+                    var level = "";
+                    var pending = "";
+                    var appr = "0";
+                    var venName = payload.VendorName;
+                    if (venStatus === "SBQ") {
+                        this.access = "COO";
+                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at COO. `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.VendorName = "COO Team";
+                        stat = "ABQ";
                         level = "3";
-                        }else{  
-                        level = "4";
-                        }
-                    this.access = "Finance";
-                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. `;
-                    this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                    this.VendorName = "Finance Team";
-                    stat = "ABC";
-                    pending = "Finance"
-                    this.msg = "Approved by COO";
-                } else if (venStatus === "SBC" && venRelated === "Yes") {
-                    if(venRegType === "Non BOM parts"){ 
-                        level = "3";
-                        }else{  
-                        level = "4";
-                        }
-                    this.access = "CEO";
-                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. `;
-                    this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                    this.VendorName = "CEO Team";
-                    stat = "ABC";
-                    pending = "CEO"
-                    this.msg = "Approved by COO";
-                } else if (venStatus === "SBE" && venRelated === "Yes") {
-                    if(venRegType === "Non BOM parts"){ 
-                        level = "4";
-                        }else{  
-                        level = "5";
-                        }
-                    this.access = "Finance";
-                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. `;
-                    this.emailbody = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                    this.VendorName = "Finance Team";
-                    stat = "ABE";
-                    pending = "Finance"
-                    this.msg = "Approved by CEO";
-                } else if (venStatus === "SBF") {
-                    this.access = "Supplier";
-                    this.emailbodyini = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
-                    this.emailbody = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
-                    this.VendorName = payload.VendorName;
-                    stat = "ABF";
-                    payload.AddressCode = formdata.AddressCode;
-                    this.msg = "Approved by Finance and BP " + payload.AddressCode + " created successfully";
-                }
-                payload.Status = stat;
-                payload.VenLevel = level;
-                payload.VenApprovalPending = pending;
-                payload.VenApprove = appr;
-                this.initiateName = "Initiator";
-                this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
-                    success: async () => {
-                        
-                        // Send email to initiatedBy
-                       await this.sendApprovalEmailNotification(this.emailbodyini, this.initiateName, this.initiatedBy);
-                        // Fetch and send emails  
-                        if (this.access !== "Supplier") {
-                            try {
-                                var deptEmails = await this.getEmails(this.access);
-                                for (const email of deptEmails) {
-                                    await this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
-                                    await this.delay(500);
-                                }
-                                /*
-                                deptEmails.forEach(email => {
-                                    this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
-                                });
-                                */
-                            } catch (error) {
-                                console.error("Error fetching emails: ", error);
+                        pending = "COO"
+                        this.msg = "Approved by Quality";
+                    } else if (venStatus === "SBP") {
+                        if (venRegType === "Non BOM parts") {
+                            if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
+                                this.access = "Finance";
+                                this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.VendorName = "Finance Team";
+                                stat = "ABP";
+                                pending = "Finance"
+                                this.msg = "Approved by Purchase";
+                                level = "2";
+                            } else {
+                                level = "2";
+                                this.access = "COO";
+                                this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.VendorName = "COO Team";
+                                stat = "ABP";
+                                pending = "COO"
+                                this.msg = "Approved by Purchase";
                             }
-                        } else if (this.access === "Supplier") {
-                            this.sendApprovalEmailNotification(this.emailbody, this.VendorName, this.VendorMail);
+                        } else {
+                            if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
+                                this.access = "Finance";
+                                this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.VendorName = "Finance Team";
+                                stat = "ABP";
+                                pending = "Finance"
+                                this.msg = "Approved by Purchase";
+                                level = "2";
+                            } else {
+                                level = "2";
+                                this.access = "Quality";
+                                this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Quality. `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.VendorName = "Quality Team";
+                                stat = "ABP";
+                                pending = "Quality"
+                                this.msg = "Approved by Purchase";
+                            }
                         }
-                        BusyIndicator.hide();
-                        MessageBox.success(this.msg, {
-                            onClose: () => this.getData()
-                        });
-                    },
-                    error: (error) => {
-                        BusyIndicator.hide();
-                        console.log(error);
-                    }
-                });
-            }
-        },
 
-        sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
-            return new Promise((resolve, reject) => {
-                var oModel = this.getView().getModel();
-                var mParameters = {
-                    method: "GET",
-                    urlParameters: {
-                        vendorName: vendorName,
-                        subject: "Supplier Form",
-                        content: emailbody,
-                        toAddress: vendorMail,
-                        ccAddress: ""
-                    },
-                    success: function (oData, response) {
-                        console.log("Email sent successfully.");
-                        resolve(oData);
-                    },
-                    error: function (oError) {
-                        console.log("Failed to send email.");
-                        reject(oError);
+                    } else if (venStatus === "SBC" && venRelated === "No") {
+                        if (venRegType === "Non BOM parts") {
+                            level = "3";
+                        } else {
+                            level = "4";
+                        }
+                        this.access = "Finance";
+                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.VendorName = "Finance Team";
+                        stat = "ABC";
+                        pending = "Finance"
+                        this.msg = "Approved by COO";
+                    } else if (venStatus === "SBC" && venRelated === "Yes") {
+                        if (venRegType === "Non BOM parts") {
+                            level = "3";
+                        } else {
+                            level = "4";
+                        }
+                        this.access = "CEO";
+                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.VendorName = "CEO Team";
+                        stat = "ABC";
+                        pending = "CEO"
+                        this.msg = "Approved by COO";
+                    } else if (venStatus === "SBE" && venRelated === "Yes") {
+                        if (venRegType === "Non BOM parts") {
+                            level = "4";
+                        } else {
+                            level = "5";
+                        }
+                        this.access = "Finance";
+                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.VendorName = "Finance Team";
+                        stat = "ABE";
+                        pending = "Finance"
+                        this.msg = "Approved by CEO";
+                    } else if (venStatus === "SBF") {
+                        this.access = "Supplier";
+                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
+                        this.VendorName = payload.VendorName;
+                        stat = "ABF";
+                        payload.AddressCode = formdata.AddressCode;
+                        this.msg = "Approved by Finance and BP " + payload.AddressCode + " created successfully";
                     }
-                };
-                oModel.callFunction("/sendEmail", mParameters);
-            });
-        },        
+                    payload.Status = stat;
+                    payload.VenLevel = level;
+                    payload.VenApprovalPending = pending;
+                    payload.VenApprove = appr;
+                    this.initiateName = "Initiator";
+                    this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
+                        success: async () => {
 
-        /*
-            sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
-                // let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
-                var oModel = this.getView().getModel();
-                var mParameters = {
-                    method: "GET",
-                    urlParameters: {
-                        vendorName: vendorName,
-                        subject: "Supplier Form",
-                        content: emailbody,
-                        toAddress: vendorMail
-                    },
-                    success: function (oData, response) {
-                        console.log("Email sent successfully.");
-                    },
-                    error: function (oError) {
-                        console.log("Failed to send email.");
-                    }
-                };
-                oModel.callFunction("/sendEmail", mParameters);
+                            // Send email to initiatedBy
+                            await this.sendApprovalEmailNotification(this.emailbodyini, this.initiateName, this.initiatedBy);
+                            // Fetch and send emails  
+                            if (this.access !== "Supplier") {
+                                try {
+                                    var deptEmails = await this.getEmails(this.access);
+                                    for (const email of deptEmails) {
+                                        await this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
+                                        await this.delay(500);
+                                    }
+                                    /*
+                                    deptEmails.forEach(email => {
+                                        this.sendApprovalEmailNotification(this.emailbody, this.VendorName, email);
+                                    });
+                                    */
+                                } catch (error) {
+                                    console.error("Error fetching emails: ", error);
+                                }
+                            } else if (this.access === "Supplier") {
+                                this.sendApprovalEmailNotification(this.emailbody, this.VendorName, this.VendorMail);
+                            }
+                            BusyIndicator.hide();
+                            MessageBox.success(this.msg, {
+                                onClose: () => this.getData()
+                            });
+                        },
+                        error: (error) => {
+                            BusyIndicator.hide();
+                            console.log(error);
+                        }
+                    });
+                }
             },
-            */
+
+            sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
+                return new Promise((resolve, reject) => {
+                    var oModel = this.getView().getModel();
+                    var mParameters = {
+                        method: "GET",
+                        urlParameters: {
+                            vendorName: vendorName,
+                            subject: "Supplier Form",
+                            content: emailbody,
+                            toAddress: vendorMail,
+                            ccAddress: ""
+                        },
+                        success: function (oData, response) {
+                            console.log("Email sent successfully.");
+                            resolve(oData);
+                        },
+                        error: function (oError) {
+                            console.log("Failed to send email.");
+                            reject(oError);
+                        }
+                    };
+                    oModel.callFunction("/sendEmail", mParameters);
+                });
+            },
+
+            /*
+                sendApprovalEmailNotification: function (emailbody, vendorName, vendorMail) {
+                    // let emailBody = `||Form is submitted by the supplier. Approval pending at Quality `;
+                    var oModel = this.getView().getModel();
+                    var mParameters = {
+                        method: "GET",
+                        urlParameters: {
+                            vendorName: vendorName,
+                            subject: "Supplier Form",
+                            content: emailbody,
+                            toAddress: vendorMail
+                        },
+                        success: function (oData, response) {
+                            console.log("Email sent successfully.");
+                        },
+                        error: function (oError) {
+                            console.log("Failed to send email.");
+                        }
+                    };
+                    oModel.callFunction("/sendEmail", mParameters);
+                },
+                */
 
             getEmails: async function (access) {
                 var oModel = this.getView().getModel();
@@ -1002,7 +1002,7 @@ sap.ui.define([
                     "DocumentRequired": [
                         {
                             "DocumentCode": "",
-                            "DocumentDescription": "" 
+                            "DocumentDescription": ""
                         }
                     ],
                     "TransMode": "",
@@ -1181,9 +1181,9 @@ sap.ui.define([
                         })
                     });
                 }
-    
+
                 this.oSubmitDialog.open();
-            },            
+            },
             onRejPress: function () {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var payload = {};
@@ -1217,52 +1217,27 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                if (venStatus === "SBQ") {
+                 if (venStatus === "SBP") {
+                    stat = "RBP";
+                    this.msg = "Rejected successfully by Purchase Head";
+                }else if (venStatus === "SBQ") {
+                    pending = "Purchase";
                     stat = "RBQ";
-                    this.msg = "Rejected successfully by Quality";
-                } else if (venStatus === "SBP") {
-                    if(venRegType === "Non BOM parts"){
-                    stat = "RBP";
-                    this.msg = "Rejected successfully by Purchase Head";
-                    }else{
-                    if(supType=== "Temporary" || supType === "One Time" ){
-                    stat = "RBP";
-                    this.msg = "Rejected successfully by Purchase Head";
-                    }else{
-                    stat = "RBP";
                     level = "1";
-                    pending = "Quality";
-                    this.msg = "Rejected successfully by Purchase Head";
-                        }
-                    }
-                } else if (venStatus === "SBC") {
-                    if(venRegType === "Non BOM parts"){
-                        pending = "Purchase";
-                    }else{
-                        pending = "Quality";
-                    }
+                    this.msg = "Rejected successfully by Quality";
+                }
+                 else if (venStatus === "SBC") {
+                    pending = "Purchase";
                     stat = "RBC";
                     level = "1";
                     this.msg = "Rejected successfully by COO";
                 } else if (venStatus === "SBE") {
-                    if(venRegType === "Non BOM parts"){
-                        pending = "Purchase";
-                    }else{
-                        pending = "Quality";
-                    }
+                    pending = "Purchase";
                     stat = "RBE";
                     level = "1";
                     this.msg = "Rejected successfully by CEO";
                 } else if (venStatus === "SBF") {
-                    if(venRegType === "Non BOM parts"){
-                        pending = "Purchase";
-                    }else{
-                        if(supType=== "Temporary" || supType === "One Time"){
-                            pending = "Purchase";
-                        }else{
-                        pending = "Quality";
-                        }
-                    }
+                    pending = "Purchase";
                     stat = "RBF";
                     level = "1";
                     this.msg = "Rejected successfully by Finance";
@@ -1281,9 +1256,9 @@ sap.ui.define([
                         MessageBox.success(this.msg, {
                             onClose: () => this.getData()
                         });
-                        if (this.venstatus === "RBQ") {
+                        if (this.venstatus === "RBP") {
                             this.rejemail = `||The form is rejected due to the following reason ${this.RejReason} .Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${this.VenValidTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${this.vendorId}">CLICK HERE</a>`;
-                            this.sendRejEmailNotification(this.rejemail,this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
+                            this.sendRejEmailNotification(this.rejemail, this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
                         }
                     },
                     error: (error) => {
