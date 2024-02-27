@@ -765,12 +765,32 @@ sap.ui.define([
                         this.byId("gstfileUploader").setValueState("Error");
                     }
                 }
+                if (data.ISO9001Certification !== "X") {
+                    if (this.byId("IATFfileUploader").getValue() || data.IATFAttachment) {
+                        this.byId("IATFfileUploader").setValueState("None");
+                    } else {
+                        bValidationError = true;
+                        this.byId("IATFfileUploader").setValueState("Error");
+                    }
+                }
 
                 if (this.byId("canChqfileUploader").getValue() || data.CancelledCheque) {
                     this.byId("canChqfileUploader").setValueState("None");
                 } else {
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
+                }
+                if (this.byId("supplierAssessmentFileUploader").getValue() || data.SupplierAssessment) {
+                    this.byId("supplierAssessmentFileUploader").setValueState("None");
+                } else {
+                    bValidationError = true;
+                    this.byId("supplierAssessmentFileUploader").setValueState("Error");
+                }
+                if (this.byId("sparecapacityfileUploader").getValue() || data.SpareCapacityName) {
+                    this.byId("sparecapacityfileUploader").setValueState("None");
+                } else {
+                    bValidationError = true;
+                    this.byId("sparecapacityfileUploader").setValueState("Error");
                 }
                 // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
                 //     if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {

@@ -805,6 +805,9 @@ sap.ui.define([
                 if (requestData.purchase) {
                     aInputs.push(oView.byId("overallRatingId"));
                 }
+                if (requestData.purchase && data.OverallRating > "3") {
+                    aInputs.push(oView.byId("riskRatingRemId"));
+                }
                 
 
 
@@ -1190,12 +1193,6 @@ sap.ui.define([
                     } else {
                         bValidationError = true;
                         this.byId("riskFileUploader").setValueState("Error");
-                    }
-                    if (this.byId("supplierAssessmentFileUploader").getValue() || data.SupplierAssessment) {
-                        this.byId("supplierAssessmentFileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("supplierAssessmentFileUploader").setValueState("Error");
                     }
                 }
                 if (requestData.quality === true) {    

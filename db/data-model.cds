@@ -321,6 +321,9 @@ entity VendorForm : managed {
       MACEGreenValidFrom           : String;
       MACEGreenValidTo             : String;
       SupplierAssessment           : String;
+      IATFAttachment               : String;
+      RiskRatingRemark             : String;
+      ActionPlanAttachment         : String;
       Products                     : Composition of many ProductInfo
                                        on Products.Vendor = $self;
 }
