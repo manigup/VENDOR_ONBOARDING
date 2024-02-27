@@ -1183,7 +1183,7 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                headerText="Supplier Quality Assurance"
+                headerText="Purchase and Development"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1493,37 +1493,64 @@
                         <Label
                             id="workingTowardsCertQuestion"
                             design="Bold"
-                            text="If not, are you working towards it?"
+                            text="If you are not IATF 16949 certified, upload road map for it"
                         />
-                        <RadioButtonGroup
-                            id="workingTowardsCert"
-                            columns="2"
-                            select="onRadioButtonSelect"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                        <u:FileUploader
+                            id="IATFfileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            enabled="false"
                         >
-                            <buttons>
-                                <RadioButton
-                                    text="Yes"
-                                    key="Yes"
-                                />
-                                <RadioButton
-                                    text="No"
-                                    key="No"
-                                />
-                            </buttons>
-                        </RadioButtonGroup>
-                        <Label
-                            id="probableCertDateLabel"
+                            <u:customData>
+                                <core:CustomData key="IATFAttachment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/IATFAttachment}"
+                            visible="{= ${create>/IATFAttachment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="IATFAttachment" />
+                            </customData>
+                        </Link>
+                    <Label
                             design="Bold"
-                            text="Probable date of ready for Certification"
+                            text="Preliminary Supplier Assessment Form"
+                            visible="true"
                         />
-                        <DatePicker
-                            id="probableCertificationDate"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            width="100%"
-                            valueFormat="ddMMyyyy"
-                            value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
-                        />
+                        <u:FileUploader
+                            id="supplierAssessmentFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            visible="true"
+                        >
+                            <u:customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/SupplierAssessment}"
+                            visible="{= ${create>/SupplierAssessment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </customData>
+                        </Link>
                         <Label
                             design="Bold"
                             text="Spare capacity available(%)"
@@ -1531,7 +1558,7 @@
                         />
                         <Input
                             id="spareCapacityId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/SpareCapacity',type: 'sap.ui.model.type.String'}"
                         />
                         <Label
@@ -1549,7 +1576,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
                             maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="SpareCapacityName" />
@@ -1565,6 +1592,76 @@
                                 <core:CustomData key="SpareCapacityName" />
                             </customData>
                         </Link>
+                    <Label
+                            design="Bold"
+                            text="Risk Rating"
+                            required="{= ${request>/purchase} === true || ${request>/quality} === true}"
+                        />
+                        <Input
+                            id="overallRatingId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Remark"
+                            required="{= ${create>/OverallRating} > '3'}"
+                            visible="{= ${create>/OverallRating} > '3'}"
+                        />
+                        <Input
+                            id="riskRatingRemId"
+                            visible="{= ${create>/OverallRating} > '3'}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            value="{path:'create>/RiskRatingRemark',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Risk Assessment"
+                            visible="true"
+                            required="{= (${request>/purchase} === true || ${request>/quality} === true) &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                        />
+                        <u:FileUploader
+                            id="riskFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            visible="true"
+                        >
+                            <u:customData>
+                                <core:CustomData key="RiskAssessment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/RiskAssessment}"
+                            visible="{= ${create>/RiskAssessment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="RiskAssessment" />
+                            </customData>
+                        </Link>
+                    </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                headerText="Supplier Quality Assurance"
+                expandable="true"
+            >
+                <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
                         <Label
                             design="Bold"
                             text="System Audit Rating"
@@ -1612,7 +1709,7 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                headerText="Purchase and Development"
+                headerText="Attachments"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1625,94 +1722,33 @@
                     <f:content>
                     <Label
                             design="Bold"
-                            text="Risk Rating"
-                            required="{= ${request>/purchase} === true || ${request>/quality} === true}"
-                        />
-                        <Input
-                            id="overallRatingId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Risk Assessment"
-                            visible="true"
-                            required="{= (${request>/purchase} === true || ${request>/quality} === true) &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            text="Action Plan"
                         />
                         <u:FileUploader
-                            id="riskFileUploader"
+                            id="actionPlanfileUploader"
                             sendXHR="true"
                             useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
                             change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
-                            buttonText="Browse"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            visible="true"
+                            enabled="{= ${request>/edit} === true}"
                         >
                             <u:customData>
-                                <core:CustomData key="RiskAssessment" />
+                                <core:CustomData key="ActionPlanAttachment" />
                             </u:customData>
                         </u:FileUploader>
                         <Link
-                            text="{create>/RiskAssessment}"
-                            visible="{= ${create>/RiskAssessment} !== ''}"
+                            text="{create>/ActionPlanAttachment}"
+                            visible="{= ${create>/ActionPlanAttachment} !== ''}"
                             press="onAttachmentGet"
                         >
                             <customData>
-                                <core:CustomData key="RiskAssessment" />
+                                <core:CustomData key="ActionPlanAttachment" />
                             </customData>
                         </Link>
-                        <Label
-                            design="Bold"
-                            text="Preliminary Supplier Assessment Form"
-                            visible="true"
-                            required="{= ${request>/purchase} === true}"
-                        />
-                        <u:FileUploader
-                            id="supplierAssessmentFileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            buttonText="Browse"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            visible="true"
-                        >
-                            <u:customData>
-                                <core:CustomData key="SupplierAssessment" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/SupplierAssessment}"
-                            visible="{= ${create>/SupplierAssessment} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="SupplierAssessment" />
-                            </customData>
-                        </Link>
-                    </f:content>
-                </f:SimpleForm>
-            </Panel>
-            <Panel
-                headerText="Attachments"
-                expandable="true"
-            >
-                <f:SimpleForm
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
                         <Label
                             design="Bold"
                             text="Attachment 1"

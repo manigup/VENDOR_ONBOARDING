@@ -1162,7 +1162,7 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                headerText="Supplier Quality Assurance"
+                headerText="Purchase and Development"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1476,35 +1476,64 @@
                         <Label
                             id="workingTowardsCertQuestion"
                             design="Bold"
-                            text="If not, are you working towards it?"
+                            text="If you are not IATF 16949 certified, upload road map for it"
+                            required="{= ${create>/ISO9001Certification} !== 'X'}"
+                            visible="{= ${create>/ISO9001Certification} !== 'X'}"
                         />
-                        <RadioButtonGroup
-                            id="workingTowardsCert"
-                            columns="2"
-                            select="onRadioButtonSelect"
+                        <u:FileUploader
+                            id="IATFfileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            visible="{= ${create>/ISO9001Certification} !== 'X'}"
                         >
-                            <buttons>
-                                <RadioButton
-                                    text="Yes"
-                                    key="Yes"
-                                />
-                                <RadioButton
-                                    text="No"
-                                    key="No"
-                                />
-                            </buttons>
-                        </RadioButtonGroup>
+                            <u:customData>
+                                <core:CustomData key="IATFAttachment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/IATFAttachment}"
+                            visible="{= ${create>/IATFAttachment} !== '' &amp;&amp; ${create>/ISO9001Certification} !== 'X'}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="IATFAttachment" />
+                            </customData>
+                        </Link>
                         <Label
-                            id="probableCertDateLabel"
                             design="Bold"
-                            text="Probable date of ready for Certification"
+                            text="Preliminary Supplier Assessment Form"
+                            required="true"
                         />
-                        <DatePicker
-                            id="probableCertificationDate"
-                            width="100%"
-                            valueFormat="ddMMyyyy"
-                            value="{path:'create>/ProbableCertificationDate', type:'sap.ui.model.type.String', constraints:{minLength: 1}}"
-                        /> 
+                        <u:FileUploader
+                            id="supplierAssessmentFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                        >
+                            <u:customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/SupplierAssessment}"
+                            visible="{= ${create>/SupplierAssessment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </customData>
+                        </Link>
                         <Label
                             design="Bold"
                             text="Spare capacity available(%)"
