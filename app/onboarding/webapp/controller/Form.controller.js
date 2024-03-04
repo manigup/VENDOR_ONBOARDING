@@ -855,6 +855,9 @@ sap.ui.define([
                 if (requestData.purchase) {
                     aSelects.push(oView.byId("purposeId"));
                 }
+                if (requestData.quality && data.VDAAssessment === "Yes") {
+                    aSelects.push(oView.byId("VDAStatusId"));
+                }
                 if (requestData.finance) {
                     aInputs.push(oView.byId("accdescId"));
                     aInputs.push(oView.byId("addcodeId"));
@@ -1195,7 +1198,15 @@ sap.ui.define([
                         this.byId("riskFileUploader").setValueState("Error");
                     }
                 }
-                if (requestData.quality === true) {    
+                if (requestData.quality === true) { 
+                    if(data.VDAAssessment === "Yes"){
+                        if (this.byId("VDAAssessmentFileUploader").getValue() || data.VDAAssessmentAttachment) {
+                            this.byId("VDAAssessmentFileUploader").setValueState("None");
+                        } else {
+                            bValidationError = true;
+                            this.byId("VDAAssessmentFileUploader").setValueState("Error");
+                        }
+                    }   
                     if (this.byId("systemAuditCheckFileUploader").getValue() || data.SystemAuditCheck) {
                         this.byId("systemAuditCheckFileUploader").setValueState("None");
                     } else {
@@ -1424,6 +1435,7 @@ sap.ui.define([
                         payload.AddressCode = vendata[i].AddressCode;
                         payload.RelatedPart = vendata[i].RelatedPart;
                         payload.SupplierType = vendata[i].SupplierType;
+                        payload.VDAAssessment = vendata[i].VDAAssessment;
                         var venRelated = vendata[i].RelatedPart;
                         var venRegType = vendata[i].RegistrationType;
                         break;
@@ -1577,6 +1589,7 @@ sap.ui.define([
                         payload.AddressCode = vendata[i].AddressCode;
                         payload.RelatedPart = vendata[i].RelatedPart;
                         payload.SupplierType = vendata[i].SupplierType;
+                        payload.VDAAssessment = vendata[i].VDAAssessment;
                         break;
                     }
                 }

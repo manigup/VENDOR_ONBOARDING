@@ -73,6 +73,7 @@ sap.ui.define([
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
                 createdata.RegistrationType = requestData.RegistrationType;
+                createdata.VDAAssessment = requestData.VDAAssessment;
                 createdata.SupplierType= "Permanent";
                 if (requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
