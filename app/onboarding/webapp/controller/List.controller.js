@@ -337,6 +337,7 @@ sap.ui.define([
                         payload.initiatedBy = vendata[i].initiatedBy;
                         payload.RelatedPart = vendata[i].RelatedPart;
                         payload.SupplierType = vendata[i].SupplierType;
+                        payload.VDAAssessment = vendata[i].VDAAssessment;
                         this.RVendorName = vendata[i].VendorName;
                         this.RVendorMail = vendata[i].VendorMail;
                         this.RVenValidTo = payload.VenValidTo;
@@ -466,8 +467,9 @@ sap.ui.define([
                 BusyIndicator.show();
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
+                var requestData = this.getView().getModel("request").getData();
                 this.SupplierType = formdata.SupplierType;
-                if (this.SupplierType === "Permanent" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "65") {
+                if (requestData.quality && this.SupplierType === "Permanent" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "65") {
                     MessageBox.error("The form cannot be approved as System Audit Rating is " + formdata.SystemAuditRating);
                     return;
                 } else {
@@ -494,6 +496,7 @@ sap.ui.define([
                             payload.ResetValidity = vendata[i].ResetValidity;
                             payload.RelatedPart = vendata[i].RelatedPart;
                             payload.SupplierType = vendata[i].SupplierType;
+                            payload.VDAAssessment = vendata[i].VDAAssessment;
                             var venRelated = vendata[i].RelatedPart;
                             var venRegType = vendata[i].RegistrationType;
                             break;
@@ -1208,6 +1211,7 @@ sap.ui.define([
                         payload.RelatedPart = vendata[i].RelatedPart;
                         payload.SupplierType = vendata[i].SupplierType;
                         payload.RejReason = this.RejReason;
+                        payload.VDAAssessment = vendata[i].VDAAssessment;
                         var venRegType = vendata[i].RegistrationType;
                         var supType = vendata[i].SupplierType;
                         break;

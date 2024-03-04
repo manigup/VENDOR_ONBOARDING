@@ -56,6 +56,7 @@ entity VenOnboardHeader : managed {
       RelatedPart        : String;
       RejReason          : String;
       SupplierType       : String;
+      VDAAssessment      : String;
 }
 
 entity Attachments : managed {
@@ -324,6 +325,9 @@ entity VendorForm : managed {
       IATFAttachment               : String;
       RiskRatingRemark             : String;
       ActionPlanAttachment         : String;
+      VDAAssessment                : String;
+      VDAAssessmentStatus          : String;
+      VDAAssessmentAttachment      : String;
       Products                     : Composition of many ProductInfo
                                        on Products.Vendor = $self;
 }

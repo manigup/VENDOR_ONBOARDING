@@ -208,6 +208,30 @@
                     text="No"
                 />
             </Select>
+            <Label
+                id="_IDGenLabel10"
+                design="Bold"
+                required="true"
+                text="VDA Assessment"
+            />
+            <Select
+                id="_IDGenSelect5"
+                forceSelection="false"
+                selectedKey="{path:'CreateModel>/VDAAssessment',type:'sap.ui.model.type.String'}"
+                valueStateText="Required"
+                fieldGroupIds="required"
+            >
+                <core:Item
+                    id="_IDGenItem16"
+                    key="Yes"
+                    text="Yes"
+                />
+                <core:Item
+                    id="_IDGenItem17"
+                    key="No"
+                    text="No"
+                />
+            </Select>
         </f:SimpleForm>
     </content>
     <beginButton>

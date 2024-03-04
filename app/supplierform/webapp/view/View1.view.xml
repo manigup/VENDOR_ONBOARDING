@@ -1477,8 +1477,8 @@
                             id="workingTowardsCertQuestion"
                             design="Bold"
                             text="If you are not IATF 16949 certified, upload road map for it"
-                            required="{= ${create>/ISO9001Certification} !== 'X'}"
-                            visible="{= ${create>/ISO9001Certification} !== 'X'}"
+                            required="{= ${create>/IATF16949Certification} !== 'X'}"
+                            visible="{= ${create>/IATF16949Certification} !== 'X'}"
                         />
                         <u:FileUploader
                             id="IATFfileUploader"
@@ -1490,7 +1490,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
-                            visible="{= ${create>/ISO9001Certification} !== 'X'}"
+                            visible="{= ${create>/IATF16949Certification} !== 'X'}"
                         >
                             <u:customData>
                                 <core:CustomData key="IATFAttachment" />
@@ -1498,7 +1498,7 @@
                         </u:FileUploader>
                         <Link
                             text="{create>/IATFAttachment}"
-                            visible="{= ${create>/IATFAttachment} !== '' &amp;&amp; ${create>/ISO9001Certification} !== 'X'}"
+                            visible="{= ${create>/IATFAttachment} !== '' &amp;&amp; ${create>/IATF16949Certification} !== 'X'}"
                             press="onAttachmentGet"
                         >
                             <customData>

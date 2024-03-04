@@ -53,7 +53,7 @@
                     columnsXL="3"
                 >
                     <f:content>
-                     <Label
+                        <Label
                             design="Bold"
                             text="Vendor Type"
                             required="true"
@@ -82,7 +82,7 @@
                             <RadioButton text="Service" />
                             <RadioButton text="Both" />
                         </RadioButtonGroup>
-                         <Label
+                        <Label
                             design="Bold"
                             text="Company Code"
                         />
@@ -313,12 +313,12 @@
                                 key="Limited partnership"
                                 text="Limited partnership"
                             />
-                            
-                           <core:Item
+
+                            <core:Item
                                 key="Limited liability company"
                                 text="Limited liability company"
                             />
-                            
+
                             <core:Item
                                 key="Cooperative"
                                 text="Cooperative"
@@ -396,7 +396,7 @@
                                 text="Public limited company"
                             />
                         </Select>
-                         <!-- <Label
+                        <!-- <Label
                             design="Bold"
                             text=""
                         />
@@ -409,7 +409,7 @@
                             value="{create>/Website}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         /> -->
-                         <Label
+                        <Label
                             design="Bold"
                             text="Vendor Name"
                             required="true"
@@ -587,8 +587,11 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/Pincode',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:7}}"
                         />
-                        <Label design="Bold" text="Contact Person details" />
-                        <Text text=""/>
+                        <Label
+                            design="Bold"
+                            text="Contact Person details"
+                        />
+                        <Text text="" />
                         <Label
                             design="Bold"
                             text="Contact Person Name"
@@ -738,7 +741,10 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{path:'create>/AddressCode',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
-                        <Label design="Bold" text="Statutory Compliance" />
+                        <Label
+                            design="Bold"
+                            text="Statutory Compliance"
+                        />
                         <Text text="" />
                         <Label
                             design="Bold"
@@ -889,7 +895,10 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
                             value="{create>/ImportExportCode}"
                         />
-                        <Label design="Bold" text="Bank details" />
+                        <Label
+                            design="Bold"
+                            text="Bank details"
+                        />
                         <Text text="" />
                         <Label
                             design="Bold"
@@ -1046,7 +1055,10 @@
                             text=""
                         />
                         <Text text="" /> -->
-                        <Label design="Bold" text="MSME details"/>
+                        <Label
+                            design="Bold"
+                            text="MSME details"
+                        />
                         <Text text="" />
                         <Label
                             design="Bold"
@@ -1194,7 +1206,7 @@
                     columnsXL="3"
                 >
                     <f:content>
-                    <Label
+                        <Label
                             id="certificationLabel"
                             design="Bold"
                             text="Does your company have any of these certifications"
@@ -1203,38 +1215,38 @@
                             id="ISO9001Certification"
                             text="ISO9001"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <CheckBox
                             id="IATF16949Certification"
                             text="IATF 16949"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <CheckBox
                             id="ISO14001Certification"
                             text="ISO 14001"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <Label text="" />
                         <CheckBox
                             id="ISO45001Certification"
                             text="ISO 45001"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <CheckBox
                             id="VDA63Certification"
                             text="VDA 6.3"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <CheckBox
                             id="MACEGreen"
                             text="MACE Green"
                             select="onMACEGreenChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
                         <Label
                             design="Bold"
@@ -1442,7 +1454,7 @@
                                 <core:CustomData key="VDA63Attachment" />
                             </customData>
                         </Link>
-                         <Label
+                        <Label
                             design="Bold"
                             text="MACE Green"
                             required="{= ${create>/MACEGreen} === 'X'}"
@@ -1520,10 +1532,11 @@
                                 <core:CustomData key="IATFAttachment" />
                             </customData>
                         </Link>
-                    <Label
+                        <Label
                             design="Bold"
                             text="Preliminary Supplier Assessment Form"
                             visible="true"
+                            required="true"
                         />
                         <u:FileUploader
                             id="supplierAssessmentFileUploader"
@@ -1592,7 +1605,7 @@
                                 <core:CustomData key="SpareCapacityName" />
                             </customData>
                         </Link>
-                    <Label
+                        <Label
                             design="Bold"
                             text="Risk Rating"
                             required="{= ${request>/purchase} === true || ${request>/quality} === true}"
@@ -1705,7 +1718,70 @@
                                 <core:CustomData key="SystemAuditCheck" />
                             </customData>
                         </Link>
-                        </f:content>
+                        <Label
+                            design="Bold"
+                            text="VDA Status"
+                            required="{= ${request>/quality} === true &amp;&amp; ${create>/VDAAssessment} === 'Yes'}"
+                        />
+                        <Select
+                            id="VDAStatusId"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            forceSelection="false"
+                            selectedKey="{create>/VDAAssessmentStatus}"
+                        >
+                            <core:Item
+                                id="_IDGenItem8"
+                                key="Green"
+                                text="Green"
+                            />
+                            <core:Item
+                                id="_IDGenItem7"
+                                key="Yellow"
+                                text="Yellow"
+                            />
+                            <core:Item
+                                id="_IDGenItem9"
+                                key="Red"
+                                text="Red"
+                            />
+                        </Select>
+                        <Label
+                            design="Bold"
+                            text="VDA Assessment"
+                            visible="true"
+                            required="{= ${request>/quality} === true &amp;&amp; ${create>/VDAAssessment} === 'Yes'}"
+                        />
+                        <u:FileUploader
+                            id="VDAAssessmentFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
+                            visible="true"
+                        >
+                            <u:customData>
+                                <core:CustomData
+                                    key="VDAAssessmentAttachment"
+                                />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/VDAAssessmentAttachment}"
+                            visible="{= ${create>/VDAAssessmentAttachment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData
+                                    key="VDAAssessmentAttachment"
+                                />
+                            </customData>
+                        </Link>
+                    </f:content>
                 </f:SimpleForm>
             </Panel>
             <Panel
@@ -1720,7 +1796,7 @@
                     columnsXL="3"
                 >
                     <f:content>
-                    <Label
+                        <Label
                             design="Bold"
                             text="Action Plan"
                         />
