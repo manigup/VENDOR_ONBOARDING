@@ -794,18 +794,14 @@ sap.ui.define([
                 oView.byId("address2Id"), 
                 oView.byId("pincodeId"), oView.byId("panId"),
                 oView.byId("contactPersonnameId"), oView.byId("deptId"), oView.byId("desigId"),
-                oView.byId("contphoneId"), oView.byId("contmobileId"),
-                oView.byId("spareCapacityId")
+                oView.byId("contphoneId"), oView.byId("contmobileId")
                 ];
 
                 if (requestData.quality) {
                     aInputs.push(oView.byId("overallRatingId"));
                     aInputs.push(oView.byId("systemRatingId"));
                 }
-                if (requestData.purchase) {
-                    aInputs.push(oView.byId("overallRatingId"));
-                }
-                if (requestData.purchase && data.OverallRating > "3") {
+                if (requestData.quality && data.OverallRating > "3") {
                     aInputs.push(oView.byId("riskRatingRemId"));
                 }
                 
@@ -1190,15 +1186,13 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if (requestData.purchase === true) {
+                if (requestData.quality === true) {
                     if (this.byId("riskFileUploader").getValue() || data.RiskAssessment) {
                         this.byId("riskFileUploader").setValueState("None");
                     } else {
                         bValidationError = true;
                         this.byId("riskFileUploader").setValueState("Error");
-                    }
-                }
-                if (requestData.quality === true) { 
+                    } 
                     if(data.VDAAssessment === "Yes"){
                         if (this.byId("VDAAssessmentFileUploader").getValue() || data.VDAAssessmentAttachment) {
                             this.byId("VDAAssessmentFileUploader").setValueState("None");
