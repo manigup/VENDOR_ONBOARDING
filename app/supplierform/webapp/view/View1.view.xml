@@ -1162,7 +1162,7 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                headerText="Purchase and Development"
+                headerText="Manufacturing Data"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1507,7 +1507,7 @@
                         </Link>
                         <Label
                             design="Bold"
-                            text="Preliminary Supplier Assessment Form"
+                            text="Supplier Registration Form"
                             required="true"
                         />
                         <u:FileUploader
@@ -1532,45 +1532,6 @@
                         >
                             <customData>
                                 <core:CustomData key="SupplierAssessment" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="Spare capacity available(%)"
-                            required="true"
-                        />
-                        <Input
-                            id="spareCapacityId"
-                            value="{path:'create>/SpareCapacity',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Upload Spare capacity available"
-                            required="true"
-                        />
-                        <u:FileUploader
-                            id="sparecapacityfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"
-                        >
-                            <u:customData>
-                                <core:CustomData key="SpareCapacityName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="spareCapacityfileUploadLink"
-                            text="{create>/SpareCapacityName}"
-                            visible="{= ${create>/SpareCapacityName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="SpareCapacityName" />
                             </customData>
                         </Link>
                     </f:content>

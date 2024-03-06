@@ -1195,7 +1195,7 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                headerText="Purchase and Development"
+                headerText="Manufacturing Data"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1534,7 +1534,7 @@
                         </Link>
                         <Label
                             design="Bold"
-                            text="Preliminary Supplier Assessment Form"
+                            text="Supplier Registration Form"
                             visible="true"
                             required="true"
                         />
@@ -1564,51 +1564,25 @@
                                 <core:CustomData key="SupplierAssessment" />
                             </customData>
                         </Link>
-                        <Label
-                            design="Bold"
-                            text="Spare capacity available(%)"
-                            required="true"
-                        />
-                        <Input
-                            id="spareCapacityId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/SpareCapacity',type: 'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Upload Spare capacity available"
-                            required="true"
-                        />
-                        <u:FileUploader
-                            id="sparecapacityfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="SpareCapacityName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="spareCapacityfileUploadLink"
-                            text="{create>/SpareCapacityName}"
-                            visible="{= ${create>/SpareCapacityName} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="SpareCapacityName" />
-                            </customData>
-                        </Link>
-                        <Label
+                    </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                headerText="Supplier Quality Assurance"
+                expandable="true"
+            >
+                <f:SimpleForm
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="3"
+                >
+                    <f:content>
+                    <Label
                             design="Bold"
                             text="Risk Rating"
-                            required="{= ${request>/purchase} === true || ${request>/quality} === true}"
+                            required="{= ${request>/quality} === true}"
                         />
                         <Input
                             id="overallRatingId"
@@ -1632,7 +1606,7 @@
                             design="Bold"
                             text="Risk Assessment"
                             visible="true"
-                            required="{= (${request>/purchase} === true || ${request>/quality} === true) &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
                         />
                         <u:FileUploader
                             id="riskFileUploader"
@@ -1660,21 +1634,6 @@
                                 <core:CustomData key="RiskAssessment" />
                             </customData>
                         </Link>
-                    </f:content>
-                </f:SimpleForm>
-            </Panel>
-            <Panel
-                headerText="Supplier Quality Assurance"
-                expandable="true"
-            >
-                <f:SimpleForm
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
                         <Label
                             design="Bold"
                             text="System Audit Rating"

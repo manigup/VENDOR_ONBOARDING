@@ -459,8 +459,7 @@ sap.ui.define([
                 var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"),
                 oView.byId("address1Id"), oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
-                oView.byId("address2Id"), oView.byId("pincodeId"),
-                oView.byId("spareCapacityId")];
+                oView.byId("address2Id"), oView.byId("pincodeId")];
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -786,12 +785,6 @@ sap.ui.define([
                 } else {
                     bValidationError = true;
                     this.byId("supplierAssessmentFileUploader").setValueState("Error");
-                }
-                if (this.byId("sparecapacityfileUploader").getValue() || data.SpareCapacityName) {
-                    this.byId("sparecapacityfileUploader").setValueState("None");
-                } else {
-                    bValidationError = true;
-                    this.byId("sparecapacityfileUploader").setValueState("Error");
                 }
                 // if ((data.VendorType === "DM" || data.VendorType === "IP")) {
                 //     if (this.byId("quotfileUploader").getValue() || data.CancelledCheque) {
