@@ -6,3 +6,15 @@
 .resetValidity .sapMObjectIdentifierTitle .sapMLnk {
     color: red !important;
 }
+
+.ratingError .sapMInputBaseInner {
+    color: red !important;
+}
+
+.ratingWarning .sapMInputBaseInner {
+    color:orange !important;
+}
+
+.ratingSuccess .sapMInputBaseInner {
+    color: rgb(73, 183, 18) !important;
+}

@@ -329,11 +329,29 @@ formatter = {
         }
         return state;
     },
+    addRatingColor: function (rating) {
+        if (rating >= "0" && rating <= "2") {
+            this.addStyleClass("ratingSuccess");
+        } else if (rating >= "2.1" && rating <= "3") {
+            this.addStyleClass("ratingWarning");
+        } else if (rating > "3") {
+            this.addStyleClass("ratingError");
+        };
+        return rating;
+    },
+    addsysRatingColor: function (rating) {
+        if (rating >= "0" && rating < "85") {
+            this.addStyleClass("ratingError");
+        }else if (rating >= "85") {
+            this.addStyleClass("ratingSuccess");
+        };
+        return rating;
+    },
     sysratingState: function (rating) {
         var state = "None";
-        if (rating >= "0" && rating < "65") {
+        if (rating >= "0" && rating < "85") {
             state = "Error";
-        } else if (rating >= "65") {
+        } else if (rating >= "85") {
             state = "Success";
         }
         return state;
