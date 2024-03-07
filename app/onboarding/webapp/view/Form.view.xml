@@ -1587,9 +1587,9 @@
                         <Input
                             id="overallRatingId"
                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}"
+                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}, formatter:'formatter.addRatingColor'}"
                         />
+                        <!-- valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}" -->
                         <Label
                             design="Bold"
                             text="Remark"
@@ -1642,9 +1642,9 @@
                         <Input
                             id="systemRatingId"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueState="{path:'create>/SystemAuditRating',formatter:'formatter.sysratingState'}"
+                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1},formatter:'formatter.addsysRatingColor'}"
                         />
+                        <!-- valueState="{path:'create>/SystemAuditRating',formatter:'formatter.sysratingState'}" -->
                         <Label
                             design="Bold"
                             text="System Audit Check"

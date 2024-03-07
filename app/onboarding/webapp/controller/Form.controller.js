@@ -480,12 +480,8 @@ sap.ui.define([
                 // if (data.SerBasedInv === "X") {
                 //     this.getView().byId("srvbasedId").setSelected(true);
                 // }
-                if (data.Composite === "1") {
-                    this.getView().byId("compositeid").setSelected(true);
-                }
-                if (data.GstRegistered === "1") {
-                    this.getView().byId("gstRbId").setSelected(true);
-                }
+                
+                
 
             },
 
@@ -517,37 +513,6 @@ sap.ui.define([
                 }
                 if (data.GstApplicable === "NO") {
                     this.byId("gstRbId").setSelectedIndex(1);
-                }
-                if (data.CaptivePower === "NO") {
-                    this.byId("captiveRbId").setSelectedIndex(1);
-                }
-                if (data.Union === "NO") {
-                    this.byId("unionRbId").setSelectedIndex(1);
-                }
-                if (data.ProdDesign === "NO") {
-                    this.byId("prodDesignRbId").setSelectedIndex(1);
-                }
-                if (data.SoftwareCapabilities === "NO") {
-                    this.byId("softwareCapRbId").setSelectedIndex(1);
-                } else if (data.SoftwareCapabilities === "N/A") {
-                    this.byId("softwareCapRbId").setSelectedIndex(2);
-                }
-                if (data.BusinessContinuity === "NO") {
-                    this.byId("businessContinuityRbId").setSelectedIndex(1);
-                }
-                if (data.LogisticCustomer === "NO") {
-                    this.byId("logCustRbId").setSelectedIndex(1);
-                }
-                
-                if (data.WorkingTowardsCertifications === "Yes") {
-                    this.byId("workingTowardsCert").setSelectedIndex(0);
-                } else if (data.WorkingTowardsCertifications === "No") {
-                    this.byId("workingTowardsCert").setSelectedIndex(1);
-                }
-                if (data.CentralExciseDutyApplicable === "YES") {
-                    this.byId("centralExciseDutyApplicableRbId").setSelectedIndex(0);
-                } else if (data.CentralExciseDutyApplicable === "NO") {
-                    this.byId("centralExciseDutyApplicableRbId").setSelectedIndex(1);
                 }
             },
 
