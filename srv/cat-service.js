@@ -39,14 +39,14 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.before('READ', 'VenOnboard', async (req) => {
-        if(req._queryOptions && req._queryOptions.venfilter == 'true'){
-        let userID = req.user.id;
-        if (req.user.id === "anonymous") {
-            userID = "manishgupta8@kpmg.com";
+        if (req._queryOptions && req._queryOptions.venfilter == 'true') {
+            let userID = req.user.id;
+            if (req.user.id === "anonymous") {
+                userID = "manishgupta8@kpmg.com";
+            }
+            const { Access } = await SELECT.one.from(AccessInfo).where({ email: userID }).columns('Access');
+            req.query.where(`VenApprovalPending = '${Access}' or initiatedBy = '${userID}'`)
         }
-        const { Access } = await SELECT.one.from(AccessInfo).where({ email: userID }).columns('Access');
-        req.query.where(`VenApprovalPending = '${Access}' or initiatedBy = '${userID}'`)
-    }
     })
 
 
