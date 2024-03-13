@@ -52,10 +52,13 @@ sap.ui.define([
                 this.byId("MsmeValidTo").attachBrowserEvent("keypress", evt => evt.preventDefault());
 
                 this.hardcodedURL = "";
-                if (window.location.href.includes("launchpad")) {
-                   // this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorionboarding-0.0.1";
-                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorionboarding-0.0.1";
-                }
+                // if (window.location.href.includes("launchpad")) {
+                //    // this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorionboarding-0.0.1";
+                //     this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorionboarding-0.0.1";
+                // }
+                if (window.location.href.includes("site")) {
+					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+				}
 
                 this.initializeCountries();
 
@@ -233,6 +236,26 @@ sap.ui.define([
                             if (data.MACEGreen === "X") {
                                 this.byId("MACEGreen").setSelected(true);
                             }
+                            if (data.OverallRating >= "0" && data.OverallRating <= "2") {
+                                this.getView().byId("overallRatingId").addStyleClass("ratingSuccess");
+                                this.getView().byId("overallRatingId").removeStyleClass("ratingWarning");
+                                this.getView().byId("overallRatingId").removeStyleClass("ratingError");
+                            } else if (data.OverallRating >= "2.1" && data.OverallRating <= "3") {
+                                this.getView().byId("overallRatingId").addStyleClass("ratingWarning");
+                                this.getView().byId("overallRatingId").removeStyleClass("ratingError");
+                                this.getView().byId("overallRatingId").removeStyleClass("ratingSuccess");
+                            } else if (data.OverallRating > "3") {
+                                this.getView().byId("overallRatingId").addStyleClass("ratingError");
+                                this.getView().byId("overallRatingId").removeStyleClass("ratingSuccess");
+                                this.getView().byId("overallRatingId").removeStyleClass("ratingWarning");
+                            }
+                            if (data.SystemAuditRating >= "0" && data.SystemAuditRating < "70") {
+                                this.getView().byId("systemRatingId").addStyleClass("ratingError");
+                                this.getView().byId("systemRatingId").removeStyleClass("ratingSuccess");
+                            }else if (data.SystemAuditRating >= "70") {
+                                this.getView().byId("systemRatingId").addStyleClass("ratingSuccess");
+                                this.getView().byId("systemRatingId").removeStyleClass("ratingError");
+                            }
                             this.getView().getModel("request").refresh(true);
                             this.createModel.setData(data);
                             this.createModel.refresh(true);
@@ -266,6 +289,32 @@ sap.ui.define([
                     });
                 }, 1000);
                // this.fetchProductInfo();
+            },
+            onRiskRatingChange: function (oEvent) {
+                var rating = oEvent.getSource().getValue();
+                if (rating >= "0" && rating <= "2") {
+                    this.getView().byId("overallRatingId").addStyleClass("ratingSuccess");
+                    this.getView().byId("overallRatingId").removeStyleClass("ratingWarning");
+                    this.getView().byId("overallRatingId").removeStyleClass("ratingError");
+                } else if (rating >= "2.1" && rating <= "3") {
+                    this.getView().byId("overallRatingId").addStyleClass("ratingWarning");
+                    this.getView().byId("overallRatingId").removeStyleClass("ratingError");
+                    this.getView().byId("overallRatingId").removeStyleClass("ratingSuccess");
+                } else if (rating > "3") {
+                    this.getView().byId("overallRatingId").addStyleClass("ratingError");
+                    this.getView().byId("overallRatingId").removeStyleClass("ratingSuccess");
+                    this.getView().byId("overallRatingId").removeStyleClass("ratingWarning");
+                }
+            },
+            onsysRatingChange: function (oEvent) {
+                var rating = oEvent.getSource().getValue();
+                if (rating >= "0" && rating < "70") {
+                    this.getView().byId("systemRatingId").addStyleClass("ratingError");
+                    this.getView().byId("systemRatingId").removeStyleClass("ratingSuccess");
+                }else if (rating >= "70") {
+                    this.getView().byId("systemRatingId").addStyleClass("ratingSuccess");
+                    this.getView().byId("systemRatingId").removeStyleClass("ratingError");
+                }
             },
             fetchProductInfo: function () {
                 var requestData = this.getView().getModel("request").getData();
@@ -769,7 +818,9 @@ sap.ui.define([
                 if (requestData.quality && data.OverallRating > "3") {
                     aInputs.push(oView.byId("riskRatingRemId"));
                 }
-                
+                if (requestData.purchase) {
+                    aInputs.push(oView.byId("overallRatingId"));
+                }
 
 
                 // Inside _mandatCheck function
@@ -1151,13 +1202,16 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if (requestData.quality === true) {
+                if (requestData.purchase === true) {
                     if (this.byId("riskFileUploader").getValue() || data.RiskAssessment) {
                         this.byId("riskFileUploader").setValueState("None");
                     } else {
                         bValidationError = true;
                         this.byId("riskFileUploader").setValueState("Error");
-                    } 
+                    }
+                }
+                if (requestData.quality === true) {
+                    
                     if(data.VDAAssessment === "Yes"){
                         if (this.byId("VDAAssessmentFileUploader").getValue() || data.VDAAssessmentAttachment) {
                             this.byId("VDAAssessmentFileUploader").setValueState("None");
