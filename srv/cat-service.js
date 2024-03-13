@@ -200,7 +200,12 @@ module.exports = cds.service.impl(async function () {
         const formDataString = req.data.data;
         const formDatapar = JSON.parse(formDataString);
         const formData = JSON.stringify(formDatapar, null, 2)
+        try {
         return await postFormData(formData);
+        }catch (error) {
+            console.error('Error submitting form data:', error);
+            req.reject(400,`Error creationg BP: ${error.message}`);
+        }
     });
 
     //GetSupplierCodeList
@@ -448,7 +453,7 @@ async function postFormData(formData) {
 
     } catch (error) {
         console.error("Error submitting form data:", error);
-        //throw new Error("Failed to submit form data");
+        throw error;
     }
 }
 

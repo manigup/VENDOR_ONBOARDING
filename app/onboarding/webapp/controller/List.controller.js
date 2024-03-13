@@ -469,7 +469,7 @@ sap.ui.define([
                 var formdata = this.getView().getModel("FormData").getData();
                 var requestData = this.getView().getModel("request").getData();
                 this.SupplierType = formdata.SupplierType;
-                if (requestData.quality && this.SupplierType === "Permanent" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "65") {
+                if (requestData.quality && this.SupplierType === "Permanent" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "70") {
                     MessageBox.error("The form cannot be approved as System Audit Rating is " + formdata.SystemAuditRating);
                     return;
                 } else {
@@ -1021,10 +1021,9 @@ sap.ui.define([
                 }
                 var formdatastr = JSON.stringify(form);
                 this.hardcodedURL = "";
-                if (window.location.href.includes("launchpad")) {
-                    //this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorionboarding-0.0.1";
-                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorionboarding-0.0.1";
-                }
+				if (window.location.href.includes("site")) {
+					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+				}
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/submitFormData`;
                 $.ajax({
                     type: "POST",
@@ -1040,7 +1039,8 @@ sap.ui.define([
                         this.changeStatus();
                     }.bind(this),
                     error: function (error) {
-                        MessageBox.success("BP creation failed");
+                        var errormsg = JSON.parse(error.responseText)
+						MessageBox.error(errormsg.error.message.value);
                     }
                 });
             },

@@ -1582,12 +1582,13 @@
                     <Label
                             design="Bold"
                             text="Risk Rating"
-                            required="{= ${request>/quality} === true}"
+                            required="{= ${request>/quality} === true || ${request>/purchase} === true}"
                         />
                         <Input
                             id="overallRatingId"
                             enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
-                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}, formatter:'formatter.addRatingColor'}"
+                            value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            change="onRiskRatingChange"
                         />
                         <!-- valueState="{path:'create>/OverallRating',formatter:'formatter.ratingState'}" -->
                         <Label
@@ -1606,7 +1607,7 @@
                             design="Bold"
                             text="Risk Assessment"
                             visible="true"
-                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            required="{= (${request>/quality} === true || ${request>/purchase} === true) &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
                         />
                         <u:FileUploader
                             id="riskFileUploader"
@@ -1642,7 +1643,8 @@
                         <Input
                             id="systemRatingId"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
-                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1},formatter:'formatter.addsysRatingColor'}"
+                            value="{path:'create>/SystemAuditRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                            change="onsysRatingChange"
                         />
                         <!-- valueState="{path:'create>/SystemAuditRating',formatter:'formatter.sysratingState'}" -->
                         <Label
