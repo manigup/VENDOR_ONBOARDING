@@ -1,9 +1,6 @@
 namespace db.VenOnboard;
 
-using {
-  managed,
-  cuid
-} from '@sap/cds/common';
+using {managed} from '@sap/cds/common';
 
 entity Country {
   key code : String;
@@ -257,6 +254,8 @@ entity VendorForm : managed {
       ISO14001Certification        : String;
       ISO45001Certification        : String;
       VDA63Certification           : String;
+      SuppCurrency                 : String;
+      SuppPaymentTerm              : String;
       MACEGreen                    : String;
       WorkingTowardsCertifications : String;
       ProbableCertificationDate    : String;

@@ -82,10 +82,10 @@ formatter = {
                 case "RBP":
                     text = "Rejected by Purchase Head";
                     break;
-                case "RBF":
+                case "RBQ":
                     text = "Rejected by Quality";
                     break;
-                case "RBF":
+                case "RBC":
                     text = "Rejected by COO";
                     break;
                 case "RBE":
@@ -230,31 +230,78 @@ formatter = {
         resetValidity === "X" ? this.addStyleClass("resetValidity") : this.removeStyleClass("resetValidity");
         return vendor;
     },
-    moreInfoBtnVisible: function (related, status, Access) {
+    moreInfoBtnVisible: function (related, regtype, status, Access, supType) {
         if (related === "No") {
-            if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+            if (regtype === "Non BOM parts") {
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBC" || status === "RBF") && Access === "Purchase")) {
+                    return true;
+                } else {
+                    return false;
+                } 
+            }else{
+            if(supType === "Temporary" || supType === "One Time" ){
+                if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }else{    
+            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
                 return true;
             } else {
                 return false;
             }
+        }
+        }
         } else if (related === "Yes") {
-            if ((status === "SBS" && Access === "Quality") || (status === "ABQ" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Quality")) {
+            if (regtype === "Non BOM parts") {
+                if(supType === "Temporary" || supType === "One Time" ){
+                    if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }else{ 
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            }else{
+                if(supType === "Temporary" || supType === "One Time" ){
+                    if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }else{ 
+            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBQ" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
                 return true;
             } else {
                 return false;
             }
+        }
+        }
         } else {
             return false;
         }
     },
-    fillformBtnVisible: function (status) {
-        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "RBQ") {
+    viewFormBtnVisible: function (status, Access) {
+        if (((status === "ABQ" || status === "RBQ") && Access === "Quality") || ((status === "ABP" || status === "RBP") && Access === "Purchase") || ((status === "ABC" || status === "RBC") && Access === "COO") || ((status === "ABE" || status === "RBE") && Access === "CEO") || ((status === "ABF" || status === "RBF") && Access === "Finance")) {
             return true;
         } else {
             return false;
         }
     },
-    approveBtnVisible: function (related, approve, btn, status) {
+    fillformBtnVisible: function (status) {
+        if (status === "INITIATED" || status === "SAD" || status === "SRE-ROUTE" || status === "RBP") {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    approveBtnVisible: function (regtype, related, approve, btn, status) {
         if (related === "No") {
             if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
                 return true;
@@ -271,16 +318,5 @@ formatter = {
             return false;
         }
     },
-    ratingState: function (rating) {
-        var state = "None";
-        if (rating >= "0" && rating <= "2") {
-            state = "Success";
-        } else if (rating >= "2.1" && rating <= "3") {
-            state = "Warning";
-        } else if (rating > "3") {
-            state = "Error";
-        }
-        return state;
-    }
 
 };

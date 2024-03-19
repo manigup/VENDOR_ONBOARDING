@@ -76,7 +76,7 @@
                     columnsXL="3"
                 >
                     <f:content>
-                    <Label
+                        <Label
                             id="_IDGenLabel2"
                             design="Bold"
                             text="Vendor Type"
@@ -126,6 +126,7 @@
                             />
                         </RadioButtonGroup>
                         <Label
+                            id="_IDGenLabel51"
                             design="Bold"
                             text="Company Code"
                         />
@@ -153,6 +154,7 @@
                             />
                         </RadioButtonGroup>
                         <Label
+                            id="_IDGenLabel52"
                             design="Bold"
                             text="Registration Type"
                         />
@@ -176,6 +178,7 @@
                             />
                         </RadioButtonGroup>
                         <Label
+                            id="_IDGenLabel53"
                             design="Bold"
                             text="Transaction Type"
                             required="true"
@@ -188,19 +191,23 @@
                             enabled="false"
                         >
                             <core:Item
+                                id="_IDGenItem10"
                                 key="Permanent"
                                 text="Permanent"
                             />
                             <core:Item
+                                id="_IDGenItem11"
                                 key="Temporary"
                                 text="Temporary"
                             />
                             <core:Item
+                                id="_IDGenItem12"
                                 key="One Time"
                                 text="One Time"
                             />
                         </Select>
                         <Label
+                            id="_IDGenLabel54"
                             design="Bold"
                             text="Time Period"
                             required="{= ${create>/SupplierType} === 'Temporary'}"
@@ -219,6 +226,7 @@
                             visible="{= ${create>/SupplierType} === 'Temporary'}"
                         />
                         <Label
+                            id="_IDGenLabel55"
                             design="Bold"
                             text="Group Type"
                             required="true"
@@ -231,81 +239,97 @@
                             enabled="true"
                         >
                             <core:ListItem
+                                id="_IDGenListItem2"
                                 key="A01"
                                 text="Casting"
                                 additionalText="A01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem3"
                                 key="B01"
                                 text="Forging"
                                 additionalText="B01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem4"
                                 key="C01"
                                 text="Bulk Hose"
                                 additionalText="C01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem5"
                                 key="D01"
                                 text="Formed Hose"
                                 additionalText="D01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem6"
                                 key="E01"
                                 text="Ind Material - Prod"
                                 additionalText="E01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem7"
                                 key="F01"
                                 text="Ind Material - Other"
                                 additionalText="F01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem8"
                                 key="G01"
                                 text="Molding"
                                 additionalText="G01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem9"
                                 key="H01"
                                 text="Job-work"
                                 additionalText="H01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem10"
                                 key="I01"
                                 text="Machining"
                                 additionalText="I01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem11"
                                 key="J01"
                                 text="RM - Polymer"
                                 additionalText="J01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem12"
                                 key="K01"
                                 text="Proprietory"
                                 additionalText="K01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem13"
                                 key="L01"
                                 text="Sheet Metal"
                                 additionalText="L01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem14"
                                 key="M01"
                                 text="Capex"
                                 additionalText="M01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem15"
                                 key="N01"
                                 text="Tubes"
                                 additionalText="N01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem16"
                                 key="O01"
                                 text="Sleeves"
                                 additionalText="O01"
                             />
                             <core:ListItem
+                                id="_IDGenListItem17"
                                 key="P01"
                                 text="Springs"
                                 additionalText="P01"
@@ -324,107 +348,137 @@
                             enabled="true"
                         >
                             <core:Item
+                                id="_IDGenItem13"
                                 key="Partnership"
                                 text="Partnership"
                             />
                             <core:Item
+                                id="_IDGenItem14"
                                 key="Limited partnership"
                                 text="Limited partnership"
                             />
-                            
-                           <core:Item
+
+                            <core:Item
+                                id="_IDGenItem15"
                                 key="Limited liability company"
                                 text="Limited liability company"
                             />
-                            
+
                             <core:Item
+                                id="_IDGenItem16"
                                 key="Cooperative"
                                 text="Cooperative"
                             />
                             <core:Item
+                                id="_IDGenItem17"
                                 key="C corporation"
                                 text="C corporation"
                             />
                             <core:Item
+                                id="_IDGenItem18"
                                 key="Company"
                                 text="Company"
                             />
                             <core:Item
+                                id="_IDGenItem19"
                                 key="Manufacturing"
                                 text="Manufacturing"
                             />
                             <core:Item
+                                id="_IDGenItem20"
                                 key="Retail"
                                 text="Retail"
                             />
                             <core:Item
+                                id="_IDGenItem21"
                                 key="Sole proprietorship"
                                 text="Sole proprietorship"
                             />
                             <core:Item
+                                id="_IDGenItem22"
                                 key="Benefit corporation"
                                 text="Benefit corporation"
                             />
                             <core:Item
+                                id="_IDGenItem23"
                                 key="Business costs"
                                 text="Business costs"
                             />
                             <core:Item
+                                id="_IDGenItem24"
                                 key="Agriculture"
                                 text="Agriculture"
                             />
                             <core:Item
+                                id="_IDGenItem25"
                                 key="Private company limited by shares"
                                 text="Private company limited by shares"
                             />
                             <core:Item
+                                id="_IDGenItem26"
                                 key="Social enterprise"
                                 text="Social enterprise"
                             />
                             <core:Item
+                                id="_IDGenItem27"
                                 key="Limited liability company"
                                 text="Limited liability company"
                             />
                             <core:Item
+                                id="_IDGenItem28"
                                 key="Limited liability company"
                                 text="Limited liability company"
                             />
                             <core:Item
+                                id="_IDGenItem29"
                                 key="Corporation"
                                 text="Corporation"
                             />
                             <core:Item
+                                id="_IDGenItem30"
                                 key="Nonprofit"
                                 text="Nonprofit"
                             />
                             <core:Item
+                                id="_IDGenItem31"
                                 key="Business Services"
                                 text="Business Services"
                             />
                             <core:Item
+                                id="_IDGenItem32"
                                 key="Joint venture"
                                 text="Joint venture"
                             />
                             <core:Item
+                                id="_IDGenItem33"
                                 key="Holding company"
                                 text="Holding company"
                             />
                             <core:Item
+                                id="_IDGenItem34"
                                 key="Public limited company"
                                 text="Public limited company"
                             />
                         </Select>
-                        
+
                         <Label
+                            id="_IDGenLabel56"
                             design="Bold"
                             text=""
                         />
-                        <Text text="" />
-                         <Label
+                        <Text
+                            id="_IDGenText1"
+                            text=""
+                        />
+                        <Label
+                            id="_IDGenLabel57"
                             design="Bold"
                             text=""
                         />
-                        <Text text="" />
+                        <Text
+                            id="_IDGenText2"
+                            text=""
+                        />
                         <!-- <Label
                             id="_IDGenLabel23"
                             design="Bold"
@@ -579,7 +633,7 @@
                             />
                         </Select>
                         <Label
-                            id="_IDGenLabel62"
+                            id="_IDGenLabel620"
                             design="Bold"
                             text="City"
                             required="true"
@@ -617,9 +671,17 @@
                             type="Number"
                             value="{path:'create>/Pincode',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:7}}"
                         />
-                        <Label design="Bold" text="Contact Person details" />
-                        <Text text=""/>
                         <Label
+                            id="_IDGenLabel58"
+                            design="Bold"
+                            text="Contact Person details"
+                        />
+                        <Text
+                            id="_IDGenText3"
+                            text=""
+                        />
+                        <Label
+                            id="_IDGenLabel59"
                             design="Bold"
                             text="Contact Person Name"
                             required="true"
@@ -629,6 +691,7 @@
                             value="{path:'create>/ContactPersonName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
+                            id="_IDGenLabel60"
                             design="Bold"
                             text="Department"
                             required="true"
@@ -638,6 +701,7 @@
                             value="{path:'create>/ContactPersonDepartment',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
+                            id="_IDGenLabel61"
                             design="Bold"
                             text="Designation"
                             required="true"
@@ -647,6 +711,7 @@
                             value="{path:'create>/ContactPersonDesignation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                         />
                         <Label
+                            id="_IDGenLabel62"
                             design="Bold"
                             text="Landline Number"
                             required="true"
@@ -656,6 +721,7 @@
                             value="{path:'create>/ContactPersonPhone',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
+                            id="_IDGenLabel63"
                             design="Bold"
                             text="Mobile Number"
                             required="true"
@@ -665,6 +731,7 @@
                             value="{path:'create>/ContactPersonMobile',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                         <Label
+                            id="_IDGenLabel64"
                             design="Bold"
                             text="Email"
                             required="true"
@@ -690,8 +757,15 @@
                     columnsXL="3"
                 >
                     <f:content>
-                        <Label design="Bold" text="Statutory Compliance" />
-                        <Text text="" />
+                        <Label
+                            id="_IDGenLabel501"
+                            design="Bold"
+                            text="Statutory Compliance"
+                        />
+                        <Text
+                            id="_IDGenText4"
+                            text=""
+                        />
                         <Label
                             id="_IDGenLabel34"
                             design="Bold"
@@ -861,8 +935,15 @@
                         <Text text="" />
                         <Label text="" />
                         <Text text="" /> -->
-                        <Label design="Bold" text="Bank details" />
-                        <Text text="" />
+                        <Label
+                            id="_IDGenLabel65"
+                            design="Bold"
+                            text="Bank details"
+                        />
+                        <Text
+                            id="_IDGenText5"
+                            text=""
+                        />
                         <Label
                             id="_IDGenLabel43"
                             design="Bold"
@@ -979,6 +1060,7 @@
                             </customData>
                         </Link>
                         <Label
+                            id="_IDGenLabel66"
                             design="Bold"
                             text="Financial Status (Balance Sheet)"
                         />
@@ -1017,8 +1099,15 @@
                             text=""
                         />
                         <Text text="" /> -->
-                        <Label design="Bold" text="MSME details" />
-                    <Text text="" />
+                        <Label
+                            id="_IDGenLabel67"
+                            design="Bold"
+                            text="MSME details"
+                        />
+                        <Text
+                            id="_IDGenText6"
+                            text=""
+                        />
                         <Label
                             id="_IDGenLabel26"
                             design="Bold"
@@ -1162,10 +1251,12 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
+                id="_IDGenPanel4"
                 headerText="Manufacturing Data"
                 expandable="true"
             >
                 <f:SimpleForm
+                    id="_IDGenSimpleForm4"
                     editable="true"
                     layout="ColumnLayout"
                     columnsM="2"
@@ -1173,7 +1264,7 @@
                     columnsXL="3"
                 >
                     <f:content>
-                    <Label
+                        <Label
                             id="certificationLabel"
                             design="Bold"
                             text="Does your company have any of these certifications"
@@ -1193,7 +1284,10 @@
                             text="ISO 14001"
                             select="onCertificationChange"
                         />
-                        <Label text="" />
+                        <Label
+                            id="_IDGenLabel68"
+                            text=""
+                        />
                         <CheckBox
                             id="ISO45001Certification"
                             text="ISO 45001"
@@ -1208,8 +1302,9 @@
                             id="MACEGreen"
                             text="MACE Green"
                             select="onCertificationChange"
-                            />
+                        />
                         <Label
+                            id="_IDGenLabel69"
                             design="Bold"
                             text="ISO9001 Certificate"
                             required="{= ${create>/ISO9001Certification} === 'X'}"
@@ -1248,6 +1343,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink1"
                             text="{create>/ISO9001Attachment}"
                             visible="{= ${create>/ISO9001Attachment} !== ''}"
                             press="onAttachmentGet"
@@ -1257,6 +1353,7 @@
                             </customData>
                         </Link>
                         <Label
+                            id="_IDGenLabel70"
                             design="Bold"
                             text="IATF 16949 Certificate"
                             required="{= ${create>/IATF16949Certification} === 'X'}"
@@ -1295,6 +1392,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink2"
                             text="{create>/IATF16949Attachment}"
                             visible="{= ${create>/IATF16949Attachment} !== ''}"
                             press="onAttachmentGet"
@@ -1304,6 +1402,7 @@
                             </customData>
                         </Link>
                         <Label
+                            id="_IDGenLabel71"
                             design="Bold"
                             text="ISO 14001 Certificate"
                             required="{= ${create>/ISO14001Certification} === 'X'}"
@@ -1342,6 +1441,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink3"
                             text="{create>/ISO14001Attachment}"
                             visible="{= ${create>/ISO14001Attachment} !== ''}"
                             press="onAttachmentGet"
@@ -1351,6 +1451,7 @@
                             </customData>
                         </Link>
                         <Label
+                            id="_IDGenLabel72"
                             design="Bold"
                             text="ISO 45001 Certificate"
                             required="{= ${create>/ISO45001Certification} === 'X'}"
@@ -1389,6 +1490,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink4"
                             text="{create>/ISO45001Attachment}"
                             visible="{= ${create>/ISO45001Attachment} !== ''}"
                             press="onAttachmentGet"
@@ -1398,6 +1500,7 @@
                             </customData>
                         </Link>
                         <Label
+                            id="_IDGenLabel73"
                             design="Bold"
                             text="VDA 6.3 Certificate"
                             required="{= ${create>/VDA63Certification} === 'X'}"
@@ -1418,6 +1521,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink5"
                             text="{create>/VDA63Attachment}"
                             visible="{= ${create>/VDA63Attachment} !== ''}"
                             press="onAttachmentGet"
@@ -1427,6 +1531,7 @@
                             </customData>
                         </Link>
                         <Label
+                            id="_IDGenLabel74"
                             design="Bold"
                             text="MACE Green"
                             required="{= ${create>/MACEGreen} === 'X'}"
@@ -1465,6 +1570,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink6"
                             text="{create>/MACEGreenAttachment}"
                             visible="{= ${create>/MACEGreenAttachment} !== ''}"
                             press="onAttachmentGet"
@@ -1472,7 +1578,7 @@
                             <customData>
                                 <core:CustomData key="MACEGreenAttachment" />
                             </customData>
-                        </Link>    
+                        </Link>
                         <Label
                             id="workingTowardsCertQuestion"
                             design="Bold"
@@ -1497,6 +1603,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink7"
                             text="{create>/IATFAttachment}"
                             visible="{= ${create>/IATFAttachment} !== '' &amp;&amp; ${create>/IATF16949Certification} !== 'X'}"
                             press="onAttachmentGet"
@@ -1506,6 +1613,7 @@
                             </customData>
                         </Link>
                         <Label
+                            id="_IDGenLabel75"
                             design="Bold"
                             text="Supplier Registration Form"
                             required="true"
@@ -1526,6 +1634,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink8"
                             text="{create>/SupplierAssessment}"
                             visible="{= ${create>/SupplierAssessment} !== ''}"
                             press="onAttachmentGet"
@@ -1534,6 +1643,26 @@
                                 <core:CustomData key="SupplierAssessment" />
                             </customData>
                         </Link>
+                        <Label
+                            id="_IDGenLabel710"
+                            design="Bold"
+                            text="Supplier Payment Term"
+                            required="true"
+                        />
+                        <Input
+                            id="suppPaymentTerm"
+                            value="{path:'create>/SuppPaymentTerm',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
+                        />
+                        <Label
+                            id="_IDGenLabel720"
+                            design="Bold"
+                            text="Supplier Default Currency"
+                            required="true"
+                        />
+                        <Input
+                            id="suppCurrency"
+                            value="{path:'create>/SuppCurrency',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
+                        />
                     </f:content>
                 </f:SimpleForm>
             </Panel>
@@ -1552,6 +1681,7 @@
                 >
                     <f:content>
                         <Label
+                            id="_IDGenLabel76"
                             design="Bold"
                             text="Attachment 1"
                         />
@@ -1575,6 +1705,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink9"
                             text="{create>/Attachment1}"
                             visible="{= ${create>/Attachment1} !== ''}"
                             press="onAttachmentGet"
@@ -1584,6 +1715,7 @@
                             </customData>
                         </Link>
                         <Label
+                            id="_IDGenLabel77"
                             design="Bold"
                             text="Attachment 2"
                         />
@@ -1607,6 +1739,7 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="_IDGenLink10"
                             text="{create>/Attachment2}"
                             visible="{= ${create>/Attachment2} !== ''}"
                             press="onAttachmentGet"
@@ -1615,7 +1748,7 @@
                                 <core:CustomData key="Attachment2" />
                             </customData>
                         </Link>
-                        </f:content>
+                    </f:content>
                 </f:SimpleForm>
             </Panel>
         </content>

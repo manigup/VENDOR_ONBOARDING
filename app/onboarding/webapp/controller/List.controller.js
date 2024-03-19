@@ -335,9 +335,9 @@ sap.ui.define([
                         payload.Status = vendata[i].Status;
                         payload.ResetValidity = "";
                         payload.initiatedBy = vendata[i].initiatedBy;
-                        payload.RelatedPart = vendata[i].RelatedPart;
+                        // payload.RelatedPart = vendata[i].RelatedPart;
                         payload.SupplierType = vendata[i].SupplierType;
-                        payload.VDAAssessment = vendata[i].VDAAssessment;
+                        // payload.VDAAssessment = vendata[i].VDAAssessment;
                         this.RVendorName = vendata[i].VendorName;
                         this.RVendorMail = vendata[i].VendorMail;
                         this.RVenValidTo = payload.VenValidTo;
@@ -494,10 +494,10 @@ sap.ui.define([
                             this.initiatedBy = vendata[i].initiatedBy;
                             var venStatus = vendata[i].Status;
                             payload.ResetValidity = vendata[i].ResetValidity;
-                            payload.RelatedPart = vendata[i].RelatedPart;
+                            // payload.RelatedPart = vendata[i].RelatedPart;
                             payload.SupplierType = vendata[i].SupplierType;
-                            payload.VDAAssessment = vendata[i].VDAAssessment;
-                            var venRelated = vendata[i].RelatedPart;
+                            // payload.VDAAssessment = vendata[i].VDAAssessment;
+                            // var venRelated = vendata[i].RelatedPart;
                             var venRegType = vendata[i].RegistrationType;
                             break;
                         }
@@ -1208,10 +1208,10 @@ sap.ui.define([
                         payload.initiatedBy = vendata[i].initiatedBy;
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
-                        payload.RelatedPart = vendata[i].RelatedPart;
+                        // payload.RelatedPart = vendata[i].RelatedPart;
                         payload.SupplierType = vendata[i].SupplierType;
                         payload.RejReason = this.RejReason;
-                        payload.VDAAssessment = vendata[i].VDAAssessment;
+                        // payload.VDAAssessment = vendata[i].VDAAssessment;
                         var venRegType = vendata[i].RegistrationType;
                         var supType = vendata[i].SupplierType;
                         break;

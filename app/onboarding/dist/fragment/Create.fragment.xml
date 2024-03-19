@@ -7,7 +7,8 @@
     xmlns="sap.m"
     draggable="true"
     escapeHandler=".onDialogEscapeHandler"
-    contentWidth="320px"
+    contentWidth="350px"
+    contentHeight="400px"
     class="sapUiSizeCompact"
 >
     <content>
@@ -58,6 +59,45 @@
                 fieldGroupIds="required"
             />
             <Label
+                id="_IDGenLabel9"
+                design="Bold"
+                required="true"
+                text="Company Code"
+            />
+            <Select
+                id="_IDGenSelect4"
+                forceSelection="false"
+                selectedKey="{path:'CreateModel>/Companycode',type:'sap.ui.model.type.String'}"
+                valueStateText="Required"
+                fieldGroupIds="required"
+            >
+                <core:Item
+                    id="_IDGenItem11"
+                    key=""
+                    text=""
+                />
+                <core:Item
+                    id="_IDGenItem12"
+                    key="1000 IMPERIAL AUTO INDUSTRIES LIMITED"
+                    text="1000 IMPERIAL AUTO INDUSTRIES LIMITED"
+                />
+                <core:Item
+                    id="_IDGenItem13"
+                    key="2000 SJ RUBBER INDUSTRIES LIMITED"
+                    text="2000 SJ RUBBER INDUSTRIES LIMITED"
+                />
+                <core:Item
+                    id="_IDGenItem14"
+                    key="3000 IAI INDUSTRIES LIMITED"
+                    text="3000 IAI INDUSTRIES LIMITED"
+                />
+                <core:Item
+                    id="_IDGenItem15"
+                    key="4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED"
+                    text="4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED"
+                />
+            </Select>
+            <Label
                 id="_IDGenLabel7"
                 design="Bold"
                 required="true"
@@ -107,7 +147,7 @@
                 id="_IDGenLabel4"
                 design="Bold"
                 required="true"
-                text="Telephone No."
+                text="Supplier Telephone No."
             />
             <Input
                 id="_IDGenInput3"
@@ -140,7 +180,7 @@
                 valueStateText="Required"
                 fieldGroupIds="required"
             />
-            <Label
+            <!-- <Label
                 id="_IDGenLabel8"
                 design="Bold"
                 required="true"
@@ -169,6 +209,30 @@
                     text="No"
                 />
             </Select>
+            <Label
+                id="_IDGenLabel10"
+                design="Bold"
+                required="true"
+                text="VDA Assessment"
+            />
+            <Select
+                id="_IDGenSelect5"
+                forceSelection="false"
+                selectedKey="{path:'CreateModel>/VDAAssessment',type:'sap.ui.model.type.String'}"
+                valueStateText="Required"
+                fieldGroupIds="required"
+            >
+                <core:Item
+                    id="_IDGenItem16"
+                    key="Yes"
+                    text="Yes"
+                />
+                <core:Item
+                    id="_IDGenItem17"
+                    key="No"
+                    text="No"
+                />
+            </Select> -->
         </f:SimpleForm>
     </content>
     <beginButton>
