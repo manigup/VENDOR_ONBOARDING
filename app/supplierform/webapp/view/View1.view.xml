@@ -357,29 +357,27 @@
                                 key="Limited partnership"
                                 text="Limited partnership"
                             />
-
                             <core:Item
                                 id="_IDGenItem15"
                                 key="Limited liability company"
                                 text="Limited liability company"
                             />
-
                             <core:Item
                                 id="_IDGenItem16"
                                 key="Cooperative"
                                 text="Cooperative"
                             />
-                            <core:Item
+                            <!-- <core:Item
                                 id="_IDGenItem17"
                                 key="C corporation"
                                 text="C corporation"
-                            />
+                            /> -->
                             <core:Item
                                 id="_IDGenItem18"
                                 key="Company"
                                 text="Company"
                             />
-                            <core:Item
+                            <!-- <core:Item
                                 id="_IDGenItem19"
                                 key="Manufacturing"
                                 text="Manufacturing"
@@ -388,13 +386,13 @@
                                 id="_IDGenItem20"
                                 key="Retail"
                                 text="Retail"
-                            />
+                            /> -->
                             <core:Item
                                 id="_IDGenItem21"
                                 key="Sole proprietorship"
                                 text="Sole proprietorship"
                             />
-                            <core:Item
+                            <!-- <core:Item
                                 id="_IDGenItem22"
                                 key="Benefit corporation"
                                 text="Benefit corporation"
@@ -408,7 +406,7 @@
                                 id="_IDGenItem24"
                                 key="Agriculture"
                                 text="Agriculture"
-                            />
+                            /> -->
                             <core:Item
                                 id="_IDGenItem25"
                                 key="Private company limited by shares"
@@ -419,7 +417,7 @@
                                 key="Social enterprise"
                                 text="Social enterprise"
                             />
-                            <core:Item
+                            <!-- <core:Item
                                 id="_IDGenItem27"
                                 key="Limited liability company"
                                 text="Limited liability company"
@@ -428,7 +426,7 @@
                                 id="_IDGenItem28"
                                 key="Limited liability company"
                                 text="Limited liability company"
-                            />
+                            /> -->
                             <core:Item
                                 id="_IDGenItem29"
                                 key="Corporation"
@@ -439,21 +437,21 @@
                                 key="Nonprofit"
                                 text="Nonprofit"
                             />
-                            <core:Item
+                            <!-- <core:Item
                                 id="_IDGenItem31"
                                 key="Business Services"
                                 text="Business Services"
-                            />
+                            /> -->
                             <core:Item
                                 id="_IDGenItem32"
                                 key="Joint venture"
                                 text="Joint venture"
                             />
-                            <core:Item
+                            <!-- <core:Item
                                 id="_IDGenItem33"
                                 key="Holding company"
                                 text="Holding company"
-                            />
+                            /> -->
                             <core:Item
                                 id="_IDGenItem34"
                                 key="Public limited company"
