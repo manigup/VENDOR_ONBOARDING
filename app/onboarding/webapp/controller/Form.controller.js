@@ -75,7 +75,7 @@ sap.ui.define([
                 for (var i = 0; i < vendordata.length; i++) {
                     if (vendordata[i].VendorId === this.id) {
                         var vendorStatus = vendordata[i].Status;
-                        var vendorrelated = vendordata[i].RelatedPart;
+                        //var vendorrelated = vendordata[i].RelatedPart;
                         var vendorregtype = vendordata[i].RegistrationType;
                         break;
                     }
@@ -91,7 +91,7 @@ sap.ui.define([
                             // data.ChkDoubleInv = "X";
                             // data.GrBasedInv = "X";
                             // data.SerBasedInv = "X";
-                            if (vendorrelated === "No") {
+                            // if (vendorrelated === "No") {
                                 if(vendorregtype === "Non BOM parts"){
                                     if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
                                         if (vendorStatus === "SBS" && requestData.purchase) {
@@ -153,71 +153,71 @@ sap.ui.define([
                                 }
                             }
                             }
-                            } else if (vendorrelated === "Yes") {
-                                if(vendorregtype === "Non BOM parts"){
-                                    if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
-                                        if (vendorStatus === "SBS" && requestData.purchase) {
-                                            requestData.edit = false;
-                                        } else if (vendorStatus === "ABP" && requestData.finance) {
-                                            requestData.edit = false;
-                                        } else if (vendorStatus === "RBF" && requestData.purchase) {
-                                            requestData.edit = false;
-                                            requestData.route = true;
-                                        }
-                                        else {
-                                            requestData.edit = ""
-                                        }
-                                    }else{
-                                    if (vendorStatus === "SBS" && requestData.purchase) {
-                                        requestData.edit = false;
-                                    } else if (vendorStatus === "ABP" && requestData.coo) {
-                                        requestData.edit = false;
-                                    } else if (vendorStatus === "ABC" && requestData.ceo) {
-                                        requestData.edit = false;
-                                    } else if (vendorStatus === "ABE" && requestData.finance) {
-                                        requestData.edit = false;
-                                    } else if ((vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.quality) {
-                                        requestData.edit = false;
-                                        requestData.route = true;
-                                    }
-                                    else {
-                                        requestData.edit = ""
-                                    }
-                                }
-                                }else{
-                                    if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
-                                        if (vendorStatus === "SBS" && requestData.purchase) {
-                                            requestData.edit = false;
-                                        } else if (vendorStatus === "ABP" && requestData.finance) {
-                                            requestData.edit = false;
-                                        } else if (vendorStatus === "RBF" && requestData.purchase) {
-                                            requestData.edit = false;
-                                            requestData.route = true;
-                                        }
-                                        else {
-                                            requestData.edit = ""
-                                        }
-                                    }else{
-                                if (vendorStatus === "SBS" && requestData.purchase) {
-                                    requestData.edit = false;
-                                } else if (vendorStatus === "ABP" && requestData.quality) {
-                                    requestData.edit = false;
-                                } else if (vendorStatus === "ABQ" && requestData.coo) {
-                                    requestData.edit = false;
-                                } else if (vendorStatus === "ABC" && requestData.ceo) {
-                                    requestData.edit = false;
-                                } else if (vendorStatus === "ABE" && requestData.finance) {
-                                    requestData.edit = false;
-                                } else if ((vendorStatus === "RBQ" || vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.purchase) {
-                                    requestData.edit = false;
-                                    requestData.route = true;
-                                }
-                                else {
-                                    requestData.edit = ""
-                                }
-                            }
-                        }
-                        }
+                        //     } else if (vendorrelated === "Yes") {
+                        //         if(vendorregtype === "Non BOM parts"){
+                        //             if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
+                        //                 if (vendorStatus === "SBS" && requestData.purchase) {
+                        //                     requestData.edit = false;
+                        //                 } else if (vendorStatus === "ABP" && requestData.finance) {
+                        //                     requestData.edit = false;
+                        //                 } else if (vendorStatus === "RBF" && requestData.purchase) {
+                        //                     requestData.edit = false;
+                        //                     requestData.route = true;
+                        //                 }
+                        //                 else {
+                        //                     requestData.edit = ""
+                        //                 }
+                        //             }else{
+                        //             if (vendorStatus === "SBS" && requestData.purchase) {
+                        //                 requestData.edit = false;
+                        //             } else if (vendorStatus === "ABP" && requestData.coo) {
+                        //                 requestData.edit = false;
+                        //             } else if (vendorStatus === "ABC" && requestData.ceo) {
+                        //                 requestData.edit = false;
+                        //             } else if (vendorStatus === "ABE" && requestData.finance) {
+                        //                 requestData.edit = false;
+                        //             } else if ((vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.quality) {
+                        //                 requestData.edit = false;
+                        //                 requestData.route = true;
+                        //             }
+                        //             else {
+                        //                 requestData.edit = ""
+                        //             }
+                        //         }
+                        //         }else{
+                        //             if(data.SupplierType === "Temporary" || data.SupplierType === "One Time" ){
+                        //                 if (vendorStatus === "SBS" && requestData.purchase) {
+                        //                     requestData.edit = false;
+                        //                 } else if (vendorStatus === "ABP" && requestData.finance) {
+                        //                     requestData.edit = false;
+                        //                 } else if (vendorStatus === "RBF" && requestData.purchase) {
+                        //                     requestData.edit = false;
+                        //                     requestData.route = true;
+                        //                 }
+                        //                 else {
+                        //                     requestData.edit = ""
+                        //                 }
+                        //             }else{
+                        //         if (vendorStatus === "SBS" && requestData.purchase) {
+                        //             requestData.edit = false;
+                        //         } else if (vendorStatus === "ABP" && requestData.quality) {
+                        //             requestData.edit = false;
+                        //         } else if (vendorStatus === "ABQ" && requestData.coo) {
+                        //             requestData.edit = false;
+                        //         } else if (vendorStatus === "ABC" && requestData.ceo) {
+                        //             requestData.edit = false;
+                        //         } else if (vendorStatus === "ABE" && requestData.finance) {
+                        //             requestData.edit = false;
+                        //         } else if ((vendorStatus === "RBQ" || vendorStatus === "RBC" || vendorStatus === "RBE" || vendorStatus === "RBF") && requestData.purchase) {
+                        //             requestData.edit = false;
+                        //             requestData.route = true;
+                        //         }
+                        //         else {
+                        //             requestData.edit = ""
+                        //         }
+                        //     }
+                        // }
+                        // }
                             if (data.ISO9001Certification === "X") {
                                 this.byId("ISO9001Certification").setSelected(true);
                             }
@@ -875,6 +875,11 @@ sap.ui.define([
                     aInputs.push(oView.byId("addcodeId"));
                     aSelects.push(oView.byId("accountcodeId"));
                 }
+                if (data.RelatedParty === true) {
+                    aInputs.push(oView.byId("RelatedPartyNameId"));
+                    aInputs.push(oView.byId("RelatedPartyDesigId"));
+                    aInputs.push(oView.byId("RelatedPartyContactId"));
+                }
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
                     aInputs.push(oView.byId("MsmeValidFrom"));
@@ -1446,10 +1451,10 @@ sap.ui.define([
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.AddressCode = vendata[i].AddressCode;
-                        payload.RelatedPart = vendata[i].RelatedPart;
+                        //payload.RelatedPart = vendata[i].RelatedPart;
                         payload.SupplierType = vendata[i].SupplierType;
                         payload.VDAAssessment = vendata[i].VDAAssessment;
-                        var venRelated = vendata[i].RelatedPart;
+                        //var venRelated = vendata[i].RelatedPart;
                         var venRegType = vendata[i].RegistrationType;
                         break;
                     }
@@ -1501,7 +1506,7 @@ sap.ui.define([
                     pending = "COO";
                     this.msg = "Form submitted successfully by COO";
                 }
-                 else if (venStatus === "ABC" && venRelated === "No") {
+                 else if (venStatus === "ABC") {
                     if(venRegType === "Non BOM parts"){
                     stat = "SBF";
                     appr = "1"
@@ -1515,35 +1520,37 @@ sap.ui.define([
                     pending = "Finance";
                     this.msg = "Form submitted successfully by Finance";
                     }
-                } else if (venStatus === "ABC" && venRelated === "Yes") {
-                    if(venRegType === "Non BOM parts"){
-                        stat = "SBE";
-                        appr = "1"
-                        level = "3";
-                        pending = "CEO";
-                        this.msg = "Form submitted successfully by CEO";
-                    }else{
-                    stat = "SBE";
-                    appr = "1"
-                    level = "4";
-                    pending = "CEO";
-                    this.msg = "Form submitted successfully by CEO";
-                    }
-                } else if (venStatus === "ABE" && venRelated === "Yes") {
-                    if(venRegType === "Non BOM parts"){
-                    stat = "SBF";
-                    appr = "1"
-                    level = "4";
-                    pending = "Finance";
-                    this.msg = "Form submitted successfully by Finance";
-                    }else{
-                    stat = "SBF";
-                    appr = "1"
-                    level = "5";
-                    pending = "Finance";
-                    this.msg = "Form submitted successfully by Finance";
-                    }
-                }
+                } 
+                // else if (venStatus === "ABC" && venRelated === "Yes") {
+                //     if(venRegType === "Non BOM parts"){
+                //         stat = "SBE";
+                //         appr = "1"
+                //         level = "3";
+                //         pending = "CEO";
+                //         this.msg = "Form submitted successfully by CEO";
+                //     }else{
+                //     stat = "SBE";
+                //     appr = "1"
+                //     level = "4";
+                //     pending = "CEO";
+                //     this.msg = "Form submitted successfully by CEO";
+                //     }
+                // } 
+                // else if (venStatus === "ABE" && venRelated === "Yes") {
+                //     if(venRegType === "Non BOM parts"){
+                //     stat = "SBF";
+                //     appr = "1"
+                //     level = "4";
+                //     pending = "Finance";
+                //     this.msg = "Form submitted successfully by Finance";
+                //     }else{
+                //     stat = "SBF";
+                //     appr = "1"
+                //     level = "5";
+                //     pending = "Finance";
+                //     this.msg = "Form submitted successfully by Finance";
+                //     }
+                // }
                 payload.Status = stat;
                 payload.VenLevel = level;
                 payload.VenApprovalPending = pending;
@@ -1600,7 +1607,7 @@ sap.ui.define([
                         var venStatus = vendata[i].Status;
                         payload.ResetValidity = vendata[i].ResetValidity;
                         payload.AddressCode = vendata[i].AddressCode;
-                        payload.RelatedPart = vendata[i].RelatedPart;
+                        //payload.RelatedPart = vendata[i].RelatedPart;
                         payload.SupplierType = vendata[i].SupplierType;
                         payload.VDAAssessment = vendata[i].VDAAssessment;
                         break;

@@ -327,6 +327,10 @@ entity VendorForm : managed {
       VDAAssessment                : String;
       VDAAssessmentStatus          : String;
       VDAAssessmentAttachment      : String;
+      RelatedParty                 : Boolean default false;
+      RelatedPartyName             : String;
+      RelatedPartyDesignation      : String;
+      RelatedPartyContact          : String;
       Products                     : Composition of many ProductInfo
                                        on Products.Vendor = $self;
 }

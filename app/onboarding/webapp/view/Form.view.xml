@@ -650,41 +650,49 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonMail'}"
                         />
-                        <!-- <Label
-                            design="Bold"
-                            text="Address Type"
-                        />
-                        <Select
-                            id="addresstypeId"
-                            showSecondaryValues="true"
-                            forceSelection="false"
-                            selectedKey="{create>/AddressType}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                        >
-                            <core:Item
-                                key="OEM"
-                                text="OEM"
-                            />
-                            <core:Item
-                                key="SPD"
-                                text="SPD"
-                            />
-                        </Select>
                         <Label
                             design="Bold"
-                            text="Location"
+                            text="Related Party"
                         />
-                        <ComboBox
-                            id="transportLocationId"
-                            items="{location>/items}"
+                        <Switch
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            selectedKey="{create>/GroupingLocation}"
-                        >
-                            <core:Item
-                                key="{location>LocationCode}"
-                                text="{location>LocationName}"
-                            />
-                        </ComboBox> -->
+                            state="{create>/RelatedParty}"
+                            customTextOn="Yes"
+                            customTextOff="No"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Related Party Contact Person Name"
+                            required="true"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            visible="{= ${create>/RelatedParty} === true}"
+                            id="RelatedPartyNameId"
+                            value="{path:'create>/RelatedPartyName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Related Party Designation"
+                            required="true"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            visible="{= ${create>/RelatedParty} === true}"
+                            id="RelatedPartyDesigId"
+                            value="{path:'create>/RelatedPartyDesignation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Related Party Mobile Number"
+                            required="true"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            id="RelatedPartyContactId"
+                            visible="{= ${create>/RelatedParty} === true}"
+                            value="{path:'create>/RelatedPartyContact',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
                     </f:content>
                 </f:SimpleForm>
             </Panel>

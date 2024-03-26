@@ -559,7 +559,7 @@ sap.ui.define([
                             }
                         }
 
-                    } else if (venStatus === "SBC" && venRelated === "No") {
+                    } else if (venStatus === "SBC" ) {
                         if (venRegType === "Non BOM parts") {
                             level = "3";
                         } else {
@@ -572,33 +572,36 @@ sap.ui.define([
                         stat = "ABC";
                         pending = "Finance"
                         this.msg = "Approved by COO";
-                    } else if (venStatus === "SBC" && venRelated === "Yes") {
-                        if (venRegType === "Non BOM parts") {
-                            level = "3";
-                        } else {
-                            level = "4";
-                        }
-                        this.access = "CEO";
-                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. `;
-                        this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                        this.VendorName = "CEO Team";
-                        stat = "ABC";
-                        pending = "CEO"
-                        this.msg = "Approved by COO";
-                    } else if (venStatus === "SBE" && venRelated === "Yes") {
-                        if (venRegType === "Non BOM parts") {
-                            level = "4";
-                        } else {
-                            level = "5";
-                        }
-                        this.access = "Finance";
-                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. `;
-                        this.emailbody = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
-                        this.VendorName = "Finance Team";
-                        stat = "ABE";
-                        pending = "Finance"
-                        this.msg = "Approved by CEO";
-                    } else if (venStatus === "SBF") {
+                    } 
+                    // else if (venStatus === "SBC" && venRelated === "Yes") {
+                    //     if (venRegType === "Non BOM parts") {
+                    //         level = "3";
+                    //     } else {
+                    //         level = "4";
+                    //     }
+                    //     this.access = "CEO";
+                    //     this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. `;
+                    //     this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                    //     this.VendorName = "CEO Team";
+                    //     stat = "ABC";
+                    //     pending = "CEO"
+                    //     this.msg = "Approved by COO";
+                    // } 
+                    // else if (venStatus === "SBE" && venRelated === "Yes") {
+                    //     if (venRegType === "Non BOM parts") {
+                    //         level = "4";
+                    //     } else {
+                    //         level = "5";
+                    //     }
+                    //     this.access = "Finance";
+                    //     this.emailbodyini = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. `;
+                    //     this.emailbody = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                    //     this.VendorName = "Finance Team";
+                    //     stat = "ABE";
+                    //     pending = "Finance"
+                    //     this.msg = "Approved by CEO";
+                    // }
+                     else if (venStatus === "SBF") {
                         this.access = "Supplier";
                         this.emailbodyini = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
                         this.emailbody = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;

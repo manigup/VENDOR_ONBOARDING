@@ -230,8 +230,8 @@ formatter = {
         resetValidity === "X" ? this.addStyleClass("resetValidity") : this.removeStyleClass("resetValidity");
         return vendor;
     },
-    moreInfoBtnVisible: function (related, regtype, status, Access, supType) {
-        if (related === "No") {
+    moreInfoBtnVisible: function (regtype, status, Access, supType) {
+        // if (related === "No") {
             if (regtype === "Non BOM parts") {
                 if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBC" || status === "RBF") && Access === "Purchase")) {
                     return true;
@@ -253,39 +253,40 @@ formatter = {
             }
         }
         }
-        } else if (related === "Yes") {
-            if (regtype === "Non BOM parts") {
-                if(supType === "Temporary" || supType === "One Time" ){
-                    if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }else{ 
-                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            }else{
-                if(supType === "Temporary" || supType === "One Time" ){
-                    if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }else{ 
-            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBQ" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        }
-        } else {
-            return false;
-        }
+        // }else if (related === "Yes") {
+        //     if (regtype === "Non BOM parts") {
+        //         if(supType === "Temporary" || supType === "One Time" ){
+        //             if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+        //                 return true;
+        //             } else {
+        //                 return false;
+        //             }
+        //         }else{ 
+        //         if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
+        //             return true;
+        //         } else {
+        //             return false;
+        //         }
+        //     }
+        //     }else{
+        //         if(supType === "Temporary" || supType === "One Time" ){
+        //             if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+        //                 return true;
+        //             } else {
+        //                 return false;
+        //             }
+        //         }else{ 
+        //     if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "CEO") || (status === "ABE" && Access === "Finance") || ((status === "RBQ" || status === "RBC" || status === "RBE" || status === "RBF") && Access === "Purchase")) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
+        // }
+        // } 
+        // else {
+        //     return false;
+        // }
     },
     viewFormBtnVisible: function (status, Access) {
         if (((status === "ABQ" || status === "RBQ") && Access === "Quality") || ((status === "ABP" || status === "RBP") && Access === "Purchase") || ((status === "ABC" || status === "RBC") && Access === "COO") || ((status === "ABE" || status === "RBE") && Access === "CEO") || ((status === "ABF" || status === "RBF") && Access === "Finance")) {
@@ -301,22 +302,22 @@ formatter = {
             return false;
         }
     },
-    approveBtnVisible: function (regtype, related, approve, btn, status) {
-        if (related === "No") {
+    approveBtnVisible: function (regtype, approve, btn, status) {
+        // if (related === "No") {
             if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
                 return true;
             } else {
                 return false;
             }
-        } else if (related === "Yes") {
-            if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+        // } else if (related === "Yes") {
+        //     if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // } else {
+        //     return false;
+        // }
     },
 
 };

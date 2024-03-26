@@ -14,7 +14,7 @@ const sdmCredentials = {
 }
 
 module.exports = cds.service.impl(async function () {
-    const { AccessInfo } = cds.entities;
+    const { AccessInfo, VendorForm } = cds.entities;
 
     this.before('CREATE', 'VenOnboard', async (req) => {
 
@@ -33,6 +33,11 @@ module.exports = cds.service.impl(async function () {
         await _createFolder(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId);
     });
 
+    this.before(['CREATE','UPDATE'], VendorForm, async (data, req) => {
+        data.RelatedParty = data.RelatedParty === 'true';
+        return data;
+    });
+
     this.after('READ', 'VenOnboard', async (req) => {
         let today = new Date();
         req.filter(item => today.toISOString() >= item.VenValidTo).map(item => item.ResetValidity = "X");
@@ -49,7 +54,7 @@ module.exports = cds.service.impl(async function () {
         }
     })
 
-
+    
     this.before("CREATE", 'Attachments', async (req) => {
 
         const reqData = req.data.Filename.split("/");

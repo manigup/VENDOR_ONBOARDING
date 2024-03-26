@@ -74,6 +74,7 @@ sap.ui.define([
                 createdata.Vendor = requestData.Vendor;
                 createdata.RegistrationType = requestData.RegistrationType;
                 createdata.VDAAssessment = requestData.VDAAssessment;
+                createdata.RelatedParty = false;
                 createdata.SupplierType = "Permanent";
                 if (requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
@@ -502,6 +503,12 @@ sap.ui.define([
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
+
+                if (data.RelatedParty === true) {
+                    aInputs.push(oView.byId("RelatedPartyNameId"));
+                    aInputs.push(oView.byId("RelatedPartyDesigId"));
+                    aInputs.push(oView.byId("RelatedPartyContactId"));
+                }
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));

@@ -465,6 +465,7 @@
                             text=""
                         />
                         <Text
+                            visible="{= ${create>/RelatedParty} === false}"
                             id="_IDGenText1"
                             text=""
                         />
@@ -474,6 +475,7 @@
                             text=""
                         />
                         <Text
+                            visible="{= ${create>/RelatedParty} === false}"
                             id="_IDGenText2"
                             text=""
                         />
@@ -737,6 +739,45 @@
                         <Input
                             id="contemailId"
                             value="{path:'create>/ContactPersonMail'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Related Party"
+                        />
+                        <Switch
+                            state="{create>/RelatedParty}"
+                            customTextOn="Yes"
+                            customTextOff="No"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Related Party Contact Person Name"
+                            required="true"
+                        />
+                        <Input
+                            visible="{= ${create>/RelatedParty} === true}"
+                            id="RelatedPartyNameId"
+                            value="{path:'create>/RelatedPartyName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Related Party Designation"
+                            required="true"
+                        />
+                        <Input
+                            visible="{= ${create>/RelatedParty} === true}"
+                            id="RelatedPartyDesigId"
+                            value="{path:'create>/RelatedPartyDesignation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Related Party Mobile Number"
+                            required="true"
+                        />
+                        <Input
+                            id="RelatedPartyContactId"
+                            visible="{= ${create>/RelatedParty} === true}"
+                            value="{path:'create>/RelatedPartyContact',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
                     </f:content>
                 </f:SimpleForm>
