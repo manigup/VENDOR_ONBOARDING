@@ -20,10 +20,16 @@ formatter = {
     },
     formatDate: function (oDate) {
         if (oDate) {
-            const d = oDate.getDate().toString(),
+            let d = oDate.getDate().toString(),
                 y = oDate.getFullYear().toString();
             let m = oDate.getMonth();
             m = (m + 1).toString();
+            if(d < 10){
+                d = "0" + d;
+            }
+            if(m < 10){
+                m = "0" + m;
+            }
             return y + m + d;
         } else {
             return "";
