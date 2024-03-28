@@ -178,6 +178,14 @@ sap.ui.define([
                 //this.fetchProductInfo();
                 this._showRemainingTime();
             },
+            onGetSupplierRegForm: function(){
+                this.hardcodedURL = "";
+                if (window.location.href.includes("launchpad")) {
+                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+                }
+                var fileUrl = this.hardcodedURL + "/files/SupplierRegistrationfromupdated.doc";
+                window.open(fileUrl, '_blank');
+            },
             fetchProductInfo: function () {
                 var requestData = this.getView().getModel("request").getData();
                 var vendorId = requestData.VendorId; // Store the VendorId for filtering

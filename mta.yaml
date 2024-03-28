@@ -3,151 +3,153 @@ ID: VENDOR_ONBOARDING
 description: A simple CAP project.
 version: 1.0.0
 modules:
-- name: VENDOR_ONBOARDING-srv
-  type: nodejs
-  path: gen/srv
-  requires:
-  - name: VENDOR_ONBOARDING-db
-  - name: uaa_VENDOR_ONBOARDING
-  provides:
-  - name: srv-api
-    properties:
-      srv-url: ${default-url}
-  parameters:
-    buildpack: nodejs_buildpack
-  build-parameters:
-    builder: npm
-- name: VENDOR_ONBOARDING-destination-content
-  type: com.sap.application.content
-  requires:
-  - name: VENDOR_ONBOARDING-destination-service
-    parameters:
-      content-target: true
-  - name: VENDOR_ONBOARDING_html_repo_host
-    parameters:
-      service-key:
-        name: VENDOR_ONBOARDING_html_repo_host-key
-  - name: srv-api
-  - name: uaa_VENDOR_ONBOARDING
-    parameters:
-      service-key:
-        name: uaa_VENDOR_ONBOARDING-key
-  parameters:
-    content:
-      instance:
-        destinations:
-        - Name: onboarding_VENDOR_ONBOARDING_html_repo_host
-          ServiceInstanceName: VENDOR_ONBOARDING-html5-app-host-service
-          ServiceKeyName: VENDOR_ONBOARDING_html_repo_host-key
-          URL: ~{srv-api/srv-url}
-          sap.cloud.service: onboarding
-        - Authentication: OAuth2UserTokenExchange
-          Name: onboarding_uaa_VENDOR_ONBOARDING
-          ServiceInstanceName: VENDOR_ONBOARDING-xsuaa-service
-          ServiceKeyName: uaa_VENDOR_ONBOARDING-key
-          sap.cloud.service: onboarding
-        existing_destinations_policy: ignore
-  build-parameters:
-    no-source: true
-- name: VENDOR_ONBOARDING-app-content
-  type: com.sap.application.content
-  path: .
-  requires:
-  - name: VENDOR_ONBOARDING_html_repo_host
-    parameters:
-      content-target: true
-  build-parameters:
-    build-result: resources
+  - name: VENDOR_ONBOARDING-srv
+    type: nodejs
+    path: gen/srv
     requires:
-    - artifacts:
-      - spfiorionboarding.zip
-      name: spfiorionboarding
-      target-path: resources/
-    - artifacts:
-      - spfiorisupplierform.zip
-      name: spfiorisupplierform
-      target-path: resources/
-- name: spfiorionboarding
-  type: html5
-  path: app/onboarding
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
-- name: VENDOR_ONBOARDING-db-deployer
-  type: hdb
-  path: gen/db
-  requires:
-  - name: VENDOR_ONBOARDING-db
-  parameters:
-    buildpack: nodejs_buildpack
-- name: spfiorisupplierform
-  type: html5
-  path: app/supplierform
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
-resources:
-- name: VENDOR_ONBOARDING-destination-service
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      HTML5Runtime_enabled: true
-      init_data:
+      - name: VENDOR_ONBOARDING-db
+      - name: uaa_VENDOR_ONBOARDING
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm
+  - name: VENDOR_ONBOARDING-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: VENDOR_ONBOARDING-destination-service
+        parameters:
+          content-target: true
+      - name: VENDOR_ONBOARDING_html_repo_host
+        parameters:
+          service-key:
+            name: VENDOR_ONBOARDING_html_repo_host-key
+      - name: srv-api
+      - name: uaa_VENDOR_ONBOARDING
+        parameters:
+          service-key:
+            name: uaa_VENDOR_ONBOARDING-key
+    parameters:
+      content:
         instance:
           destinations:
-          - Authentication: NoAuthentication
-            Name: ui5
-            ProxyType: Internet
-            Type: HTTP
-            URL: https://ui5.sap.com
-          - Authentication: NoAuthentication
-            HTML5.DynamicDestination: true
-            HTML5.ForwardAuthToken: true
-            Name: VENDOR_ONBOARDING-srv-api
-            ProxyType: Internet
-            Type: HTTP
-            URL: ~{srv-api/srv-url}
-          existing_destinations_policy: update
-      version: 1.0.0
-    service: destination
-    service-name: VENDOR_ONBOARDING-destination-service
-    service-plan: lite
-  requires:
-  - name: srv-api
-- name: VENDOR_ONBOARDING_html_repo_host
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: html5-apps-repo
-    service-name: VENDOR_ONBOARDING-html5-app-host-service
-    service-plan: app-host
-- name: uaa_VENDOR_ONBOARDING
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      tenant-mode: dedicated
-      xsappname: VENDOR_ONBOARDING-${org}-${space}
-    path: ./xs-security.json
-    service: xsuaa
-    service-name: VENDOR_ONBOARDING-xsuaa-service
-    service-plan: application
-- name: VENDOR_ONBOARDING-db
-  type: com.sap.xs.hdi-container
-  parameters:
-    service: hana
-    service-plan: hdi-shared
+            - Name: onboarding_VENDOR_ONBOARDING_html_repo_host
+              ServiceInstanceName: VENDOR_ONBOARDING-html5-app-host-service
+              ServiceKeyName: VENDOR_ONBOARDING_html_repo_host-key
+              URL: ~{srv-api/srv-url}
+              sap.cloud.service: onboarding
+            - Authentication: OAuth2UserTokenExchange
+              Name: onboarding_uaa_VENDOR_ONBOARDING
+              ServiceInstanceName: VENDOR_ONBOARDING-xsuaa-service
+              ServiceKeyName: uaa_VENDOR_ONBOARDING-key
+              sap.cloud.service: onboarding
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+  - name: VENDOR_ONBOARDING-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: VENDOR_ONBOARDING_html_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - spfiorionboarding.zip
+          name: spfiorionboarding
+          target-path: resources/
+        - artifacts:
+            - spfiorisupplierform.zip
+          name: spfiorisupplierform
+          target-path: resources/
+  - name: spfiorionboarding
+    type: html5
+    path: app/onboarding
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms:
+        []
+  - name: VENDOR_ONBOARDING-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: VENDOR_ONBOARDING-db
+    parameters:
+      buildpack: nodejs_buildpack
+  - name: spfiorisupplierform
+    type: html5
+    path: app/supplierform
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms:
+        []
+resources:
+  - name: VENDOR_ONBOARDING-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+              - Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+                Name: VENDOR_ONBOARDING-srv-api
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: VENDOR_ONBOARDING-destination-service
+      service-plan: lite
+    requires:
+      - name: srv-api
+  - name: VENDOR_ONBOARDING_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: VENDOR_ONBOARDING-html5-app-host-service
+      service-plan: app-host
+  - name: uaa_VENDOR_ONBOARDING
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: VENDOR_ONBOARDING-${org}-${space}
+      path: ./xs-security.json
+      service: xsuaa
+      service-name: VENDOR_ONBOARDING-xsuaa-service
+      service-plan: application
+  - name: VENDOR_ONBOARDING-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
 build-parameters:
   before-all:
-  - builder: custom
-    commands:
-    - npx cds build --production
+    - builder: custom
+      commands:
+        - npx cds build --production

@@ -701,7 +701,7 @@
             </Panel>
             <Panel
                 id="_IDGenPanel5"
-                headerText="Additinal Details"
+                headerText="Additional Details"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1694,6 +1694,12 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            id="suppregformId"
+                            text="Download"
+                            target="_blank"
+                            press="onGetSupplierRegForm"
+                        />
+                        <Link
                             text="{create>/SupplierAssessment}"
                             visible="{= ${create>/SupplierAssessment} !== ''}"
                             press="onAttachmentGet"
@@ -1787,6 +1793,11 @@
                             </u:customData>
                         </u:FileUploader>
                         <Link
+                            text="Download"
+                            target="_blank"
+                            press="onGetRiskAssess"
+                        />
+                        <Link
                             text="{create>/RiskAssessment}"
                             visible="{= ${create>/RiskAssessment} !== ''}"
                             press="onAttachmentGet"
@@ -1830,6 +1841,11 @@
                                 <core:CustomData key="SystemAuditCheck" />
                             </u:customData>
                         </u:FileUploader>
+                         <Link
+                            text="Download"
+                            target="_blank"
+                            press="onGetSysAud"
+                        />
                         <Link
                             text="{create>/SystemAuditCheck}"
                             visible="{= ${create>/SystemAuditCheck} !== ''}"
