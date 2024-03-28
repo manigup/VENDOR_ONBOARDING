@@ -933,7 +933,6 @@
                 <HBox>
                     <VBox>
                         <f:SimpleForm
-                            id="_IDGenSimpleForm1"
                             editable="true"
                             layout="ResponsiveGridLayout"
                         >
