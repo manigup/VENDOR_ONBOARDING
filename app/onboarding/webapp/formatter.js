@@ -65,7 +65,7 @@ formatter = {
                     text = "Submited by COO";
                     break;
                 case "SBE":
-                    text = "Submited by CEO";
+                    text = "Submited by Marketing";
                     break;
                 case "SBF":
                     text = "Submited by Finance";
@@ -80,7 +80,7 @@ formatter = {
                     text = "Approved by COO";
                     break;
                 case "ABE":
-                    text = "Approved by CEO";
+                    text = "Approved by Marketing";
                     break;
                 case "ABF":
                     text = "Approved by Finance";
@@ -95,7 +95,7 @@ formatter = {
                     text = "Rejected by COO";
                     break;
                 case "RBE":
-                    text = "Rejected by CEO";
+                    text = "Rejected by Marketing";
                     break;
                 case "RBF":
                     text = "Rejected by Finance";
@@ -244,6 +244,34 @@ formatter = {
                 } else {
                     return false;
                 } 
+            }else if(regtype === "Customer Driven (Domestic)"){
+                if(supType === "Temporary" || supType === "One Time" ){
+                    if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }else{    
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingdom") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            }else if(regtype === "Customer Driven (Export)"){
+                if(supType === "Temporary" || supType === "One Time" ){
+                    if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }else{    
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingexp") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
             }else{
             if(supType === "Temporary" || supType === "One Time" ){
                 if ((status === "SBS" && Access === "Purchase")|| (status === "ABP" && Access === "Finance") || (status === "RBF" && Access === "Purchase")) {
@@ -295,7 +323,7 @@ formatter = {
         // }
     },
     viewFormBtnVisible: function (status, Access) {
-        if (((status === "ABQ" || status === "RBQ") && Access === "Quality") || ((status === "ABP" || status === "RBP") && Access === "Purchase") || ((status === "ABC" || status === "RBC") && Access === "COO") || ((status === "ABE" || status === "RBE") && Access === "CEO") || ((status === "ABF" || status === "RBF") && Access === "Finance")) {
+        if (((status !== "INITIATED" || status !== "SAD") && Access === "Requestor") || ((status === "ABF" || status === "ABC" || status === "ABQ" || status === "ABE" || status === "ABP" || status === "RBP") && Access === "Purchase") ||((status === "ABF" || status === "ABC" || status === "ABQ" || status === "ABE" || status === "RBE") && (Access === "Marketingexp" || Access === "Marketingdom")) || ((status === "ABF" || status === "ABC" || status === "ABQ" || status === "RBQ") && Access === "Quality")|| ((status === "ABF" || status === "ABC" || status === "RBC") && Access === "COO") || ((status === "ABE" || status === "RBE") && Access === "CEO") || ((status === "ABF" || status === "RBF") && Access === "Finance")) {
             return true;
         } else {
             return false;
@@ -310,7 +338,7 @@ formatter = {
     },
     approveBtnVisible: function (regtype, approve, btn, status) {
         // if (related === "No") {
-            if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
+            if ((approve === "1" && btn === "purchase" && status === "SBP") || (approve === "1" && (btn === "marketingdom" || btn === "marketingexp") && status === "SBE") || (approve === "1" && btn === "quality" && status === "SBQ") || (approve === "1" && btn === "coo" && status === "SBC") || (approve === "1" && btn === "ceo" && status === "SBE") || (approve === "1" && btn === "finance" && status === "SBF")) {
                 return true;
             } else {
                 return false;

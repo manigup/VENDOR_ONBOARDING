@@ -160,21 +160,21 @@
                         />
                         <RadioButtonGroup
                             id="registrationtypeRbId"
-                            columns="3"
+                            columns="4"
                             enabled="false"
                             select="onRadioButtonSelect"
                         >
-                            <RadioButton
-                                id="_IDGenRadioButton10"
-                                text="Customer Approved"
-                            />
+                            <RadioButton 
+                                text="Customer Driven (Domestic)" />
+                            <RadioButton 
+                                text="Customer Driven (Export)" />
                             <RadioButton
                                 id="_IDGenRadioButton21"
-                                text="BOM Parts"
+                                text="BOM Parts (Quality Approval Reqd)"
                             />
                             <RadioButton
                                 id="_IDGenRadioButton11"
-                                text="Non BOM parts"
+                                text="Indirect Material"
                             />
                         </RadioButtonGroup>
                         <Label
@@ -236,7 +236,7 @@
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/GroupType}"
-                            enabled="true"
+                            enabled="false"
                         >
                             <core:ListItem
                                 id="_IDGenListItem2"
@@ -783,12 +783,12 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                id="_IDGenPanel2"
-                headerText="KYC Data"
+                id="_IDGenPanel5"
+                headerText="Additinal Details"
                 expandable="true"
             >
                 <f:SimpleForm
-                    id="_IDGenSimpleForm2"
+                    id="_IDGenSimpleForm5"
                     editable="true"
                     layout="ColumnLayout"
                     columnsM="2"
@@ -796,6 +796,147 @@
                     columnsXL="3"
                 >
                     <f:content>
+                      <Label
+                            design="Bold"
+                            text="Contact Person Name 2"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMail2'}"
+                        />  
+                        <Label
+                            design="Bold"
+                            text="Contact Person Name 3"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonName3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDepartment3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDesignation3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonPhone3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMobile3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMail3'}"
+                        />  
+                        <Label
+                            design="Bold"
+                            text="Contact Person Name 4"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonName4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDepartment4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDesignation4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonPhone4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMobile4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMail4'}"
+                        />  
+                    </f:content>
+                </f:SimpleForm>
+            </Panel>
+            <Panel
+                id="_IDGenPanel2"
+                headerText="KYC Data"
+                expandable="true"
+            >
+                <HBox>
+                    <VBox>
+                        <f:SimpleForm
+                            id="_IDGenSimpleForm1"
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
                         <Label
                             id="_IDGenLabel501"
                             design="Bold"
@@ -970,10 +1111,13 @@
                             placeholder="Enter Import/Export Code"
                             value="{create>/ImportExportCode}"
                         />
-                        <!-- <Label text="" />
-                        <Text text="" />
-                        <Label text="" />
-                        <Text text="" /> -->
+                        </f:SimpleForm>
+                    </VBox>
+                    <VBox>
+                    <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
                         <Label
                             id="_IDGenLabel65"
                             design="Bold"
@@ -1128,16 +1272,13 @@
                                 <core:CustomData key="BalanceSheet" />
                             </customData>
                         </Link>
-                        <!-- <Label
-                            design="Bold"
-                            text=""
-                        />
-                        <Text text="" />
-                         <Label
-                            design="Bold"
-                            text=""
-                        />
-                        <Text text="" /> -->
+                        </f:SimpleForm>
+                    </VBox>
+                    <VBox>
+                    <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
                         <Label
                             id="_IDGenLabel67"
                             design="Bold"
@@ -1286,8 +1427,9 @@
                                 <core:CustomData key="MsmeDeclarationName" />
                             </customData>
                         </Link>
-                    </f:content>
-                </f:SimpleForm>
+                    </f:SimpleForm>
+                    </VBox>
+                </HBox>
             </Panel>
             <Panel
                 id="_IDGenPanel4"
@@ -1350,19 +1492,17 @@
                         />
                         <DatePicker
                             id="ISO9001ValidFrom"
-                            placeholder="Enter ISO9001 Valid From"
+                            tooltip="Enter ISO9001 Valid From"
                             width="5rem"
                             value="{path:'create>/ISO9001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/ISO9001ValidFrom}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
                         <DatePicker
                             id="ISO9001ValidTo"
-                            placeholder="Enter ISO9001 Valid To"
+                            tooltip="Enter ISO9001 Valid To"
                             width="5rem"
                             value="{path:'create>/ISO9001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/ISO9001ValidTo}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
@@ -1400,18 +1540,16 @@
                         <DatePicker
                             id="IATF16949ValidFrom"
                             width="5rem"
-                            placeholder="Enter IATF16949 Valid From"
+                            tooltip="Enter IATF16949 Valid From"
                             value="{path:'create>/IATF16949ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/IATF16949ValidFrom}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
                         <DatePicker
                             id="IATF16949ValidTo"
                             width="5rem"
-                            placeholder="Enter IATF16949 Valid To"
+                            tooltip="Enter IATF16949 Valid To"
                             value="{path:'create>/IATF16949ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/IATF16949ValidTo}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
@@ -1449,18 +1587,16 @@
                         <DatePicker
                             id="ISO14001ValidFrom"
                             width="5rem"
-                            placeholder="Enter ISO14001 Valid From"
+                            tooltip="Enter ISO14001 Valid From"
                             value="{path:'create>/ISO14001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/ISO14001ValidFrom}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
                         <DatePicker
                             id="ISO14001ValidTo"
                             width="5rem"
-                            placeholder="Enter ISO14001 Valid To"
+                            tooltip="Enter ISO14001 Valid To"
                             value="{path:'create>/ISO14001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/ISO14001ValidTo}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
@@ -1498,18 +1634,16 @@
                         <DatePicker
                             id="ISO45001ValidFrom"
                             width="5rem"
-                            placeholder="Enter ISO45001 Valid From"
+                            tooltip="Enter ISO45001 Valid From"
                             value="{path:'create>/ISO45001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/ISO45001ValidFrom}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
                         <DatePicker
                             id="ISO45001ValidTo"
                             width="5rem"
-                            placeholder="Enter ISO45001 Valid To"
+                            tooltip="Enter ISO45001 Valid To"
                             value="{path:'create>/ISO45001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/ISO45001ValidTo}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
@@ -1578,18 +1712,16 @@
                         <DatePicker
                             id="MACEGreenValidFrom"
                             width="5rem"
-                            placeholder="Enter MACE Green Valid From"
+                            tooltip="Enter MACE Green Valid From"
                             value="{path:'create>/MACEGreenValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/MACEGreenValidFrom}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />
                         <DatePicker
                             id="MACEGreenValidTo"
                             width="5rem"
-                            placeholder="Enter MACEGreen Valid To"
+                            tooltip="Enter MACEGreen Valid To"
                             value="{path:'create>/MACEGreenValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            tooltip="{create>/MACEGreenValidTo}"
                             valueFormat="yyyyMMdd"
                             enabled="true"
                         />

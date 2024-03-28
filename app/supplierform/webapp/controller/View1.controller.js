@@ -73,6 +73,7 @@ sap.ui.define([
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
                 createdata.RegistrationType = requestData.RegistrationType;
+                createdata.GroupType = requestData.GroupType;
                 createdata.VDAAssessment = requestData.VDAAssessment;
                 createdata.RelatedParty = false;
                 createdata.SupplierType = "Permanent";
@@ -280,10 +281,12 @@ sap.ui.define([
                 } else if (data.Companycode === "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED") {
                     this.byId("companycodeRbId").setSelectedIndex(3);
                 }
-                if (data.RegistrationType === "BOM Parts") {
+                if (data.RegistrationType === "Customer Driven (Export)") {
                     this.byId("registrationtypeRbId").setSelectedIndex(1);
-                } else if (data.RegistrationType === "Non BOM parts") {
+                }else if (data.RegistrationType === "BOM Parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(2);
+                }else if (data.RegistrationType === "Non BOM parts") {
+                    this.byId("registrationtypeRbId").setSelectedIndex(3);
                 }
                 if (data.Msme === "NO") {
                     this.byId("msmeRbId").setSelectedIndex(1);
@@ -403,10 +406,12 @@ sap.ui.define([
                         break;
                     case "registrationtypeRbId":
                         if (index === 0) {
-                            data.RegistrationType = "Customer Approved";
-                        } else if (index === 1) {
+                            data.RegistrationType = "Customer Driven (Domestic)";
+                        }else if (index === 1) {
+                            data.RegistrationType = "Customer Driven (Export)";
+                        }else if(index === 2){
                             data.RegistrationType = "BOM Parts";
-                        } else {
+                        }else {
                             data.RegistrationType = "Non BOM parts";
                         }
                         break;
