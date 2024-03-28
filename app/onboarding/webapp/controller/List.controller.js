@@ -77,7 +77,7 @@ sap.ui.define([
                                 // parseInt(item.Score);
                                 return item;
                             });
-                            var reqData = { purchase: false, quality: false, coo: false, ceo: false, finance: false };
+                            var reqData = { purchase: false, quality: false, coo: false, marketingdom: false, marketingexp: false, finance: false };
                             var accessdata = this.getView().getModel("AccessDetails").getData();
                             var res = this.getView().getModel("UserApiDetails").getData();
                             //var res = {};
@@ -85,7 +85,8 @@ sap.ui.define([
                             reqData.purchase = accessdata.find(item => item.email === res.email && item.Access === "Purchase") ? true : false;
                             reqData.quality = accessdata.find(item => item.email === res.email && item.Access === "Quality") ? true : false;
                             reqData.coo = accessdata.find(item => item.email === res.email && item.Access === "COO") ? true : false;
-                            reqData.ceo = accessdata.find(item => item.email === res.email && item.Access === "CEO") ? true : false;
+                            reqData.marketingdom = accessdata.find(item => item.email === res.email && item.Access === "Marketingdom") ? true : false;
+                            reqData.marketingexp = accessdata.find(item => item.email === res.email && item.Access === "Marketingexp") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
                             // reqData.finance = true;
                             if (reqData.purchase) {
@@ -94,8 +95,10 @@ sap.ui.define([
                                 reqData.appbtn = "quality";
                             } else if (reqData.coo) {
                                 reqData.appbtn = "coo";
-                            } else if (reqData.ceo) {
-                                reqData.appbtn = "ceo";
+                            } else if (reqData.marketingdom) {
+                                reqData.appbtn = "marketingdom";
+                            }else if (reqData.marketingexp) {
+                                reqData.appbtn = "marketingexp";
                             } else if (reqData.finance) {
                                 reqData.appbtn = "finance";
                             }
@@ -125,7 +128,7 @@ sap.ui.define([
                                 // parseInt(item.Score);
                                 return item;
                             });
-                            var reqData = { purchase: false, quality: false, coo: false, ceo: false, finance: false };
+                            var reqData = { purchase: false, quality: false, coo: false, marketingdom: false, marketingexp: false, finance: false, requestor: false };
                             var accessdata = this.getView().getModel("AccessDetails").getData();
                             var res = this.getView().getModel("UserApiDetails").getData();
                             //var res = {};
@@ -133,8 +136,10 @@ sap.ui.define([
                             reqData.purchase = accessdata.find(item => item.email === res.email && item.Access === "Purchase") ? true : false;
                             reqData.quality = accessdata.find(item => item.email === res.email && item.Access === "Quality") ? true : false;
                             reqData.coo = accessdata.find(item => item.email === res.email && item.Access === "COO") ? true : false;
-                            reqData.ceo = accessdata.find(item => item.email === res.email && item.Access === "CEO") ? true : false;
+                            reqData.marketingdom = accessdata.find(item => item.email === res.email && item.Access === "Marketingdom") ? true : false;
+                            reqData.marketingexp = accessdata.find(item => item.email === res.email && item.Access === "Marketingexp") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
+                            reqData.requestor = accessdata.find(item => item.email === res.email && item.Access === "Requestor") ? true : false;
                             // reqData.finance = true;
                             if (reqData.purchase) {
                                 reqData.appbtn = "purchase";
@@ -142,8 +147,10 @@ sap.ui.define([
                                 reqData.appbtn = "quality";
                             } else if (reqData.coo) {
                                 reqData.appbtn = "coo";
-                            } else if (reqData.ceo) {
-                                reqData.appbtn = "ceo";
+                            } else if (reqData.marketingdom) {
+                                reqData.appbtn = "marketingdom";
+                            }else if (reqData.marketingexp) {
+                                reqData.appbtn = "marketingexp";
                             } else if (reqData.finance) {
                                 reqData.appbtn = "finance";
                             }
@@ -301,10 +308,14 @@ sap.ui.define([
                     data.Access = "Quality";
                 } else if (requestData.coo === true) {
                     data.Access = "COO";
-                } else if (requestData.ceo === true) {
-                    data.Access = "CEO";
+                } else if (requestData.marketingdom === true) {
+                    data.Access = "Marketingdom";
+                }else if (requestData.marketingexp === true) {
+                    data.Access = "Marketingexp";
                 } else if (requestData.finance === true) {
                     data.Access = "Finance";
+                } else if (requestData.requestor === true) {
+                    data.Access = "Requestor";
                 }
                 var popOver = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.VendorDetails", this);
                 sap.ui.getCore().byId("displayPopover").setModel(new JSONModel(data), "VenModel");
@@ -508,12 +519,18 @@ sap.ui.define([
                     var appr = "0";
                     var venName = payload.VendorName;
                     if (venStatus === "SBQ") {
+                        if (venRegType === "Customer Driven (Domestic)"){
+                            level = "4";
+                        }else if(venRegType === "Customer Driven (Export)"){
+                            level = "4";
+                        } else {
+                            level = "3";
+                        }
                         this.access = "COO";
                         this.emailbodyini = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at COO. `;
                         this.emailbody = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                         this.VendorName = "COO Team";
                         stat = "ABQ";
-                        level = "3";
                         pending = "COO"
                         this.msg = "Approved by Quality";
                     } else if (venStatus === "SBP") {
@@ -537,7 +554,49 @@ sap.ui.define([
                                 pending = "COO"
                                 this.msg = "Approved by Purchase";
                             }
-                        } else {
+                        }else if(venRegType === "Customer Driven (Domestic)"){
+                            if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
+                                this.access = "Finance";
+                                this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.VendorName = "Finance Team";
+                                stat = "ABP";
+                                pending = "Finance"
+                                this.msg = "Approved by Purchase";
+                                level = "2";
+                            } else {
+                                level = "2";
+                                this.access = "Marketingdom";
+                                this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.VendorName = "Marketing Team";
+                                stat = "ABP";
+                                pending = "Marketing"
+                                this.msg = "Approved by Purchase";
+                            }
+                        }
+                        else if(venRegType === "Customer Driven (Export)"){
+                            if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
+                                this.access = "Finance";
+                                this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.VendorName = "Finance Team";
+                                stat = "ABP";
+                                pending = "Finance"
+                                this.msg = "Approved by Purchase";
+                                level = "2";
+                            } else {
+                                level = "2";
+                                this.access = "Marketingexp";
+                                this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.VendorName = "Marketing Team";
+                                stat = "ABP";
+                                pending = "Marketing"
+                                this.msg = "Approved by Purchase";
+                            }
+                        } 
+                        else {
                             if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                                 this.access = "Finance";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
@@ -559,9 +618,22 @@ sap.ui.define([
                             }
                         }
 
-                    } else if (venStatus === "SBC" ) {
+                    }else if (venStatus === "SBE") {
+                        this.access = "Quality";
+                        this.emailbodyini = `||Form for the supplier ${venName} is approved by the Marketing. Approval pending at Quality. `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the Marketing. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.VendorName = "Quality Team";
+                        level = "3";
+                        stat = "ABE";
+                        pending = "Quality"
+                        this.msg = "Approved by Marketing";
+                    }else if (venStatus === "SBC" ) {
                         if (venRegType === "Non BOM parts") {
                             level = "3";
+                        }else if(venRegType === "Customer Driven (Domestic)"){
+                            level = "5";
+                        }else if(venRegType === "Customer Driven (Export)"){
+                            level = "5";
                         } else {
                             level = "4";
                         }
@@ -1242,7 +1314,7 @@ sap.ui.define([
                     pending = "Purchase";
                     stat = "RBE";
                     level = "1";
-                    this.msg = "Rejected successfully by CEO";
+                    this.msg = "Rejected successfully by Marketing";
                 } else if (venStatus === "SBF") {
                     pending = "Purchase";
                     stat = "RBF";

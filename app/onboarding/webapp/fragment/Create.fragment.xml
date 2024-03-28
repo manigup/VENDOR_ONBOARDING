@@ -112,37 +112,119 @@
             >
                 <core:Item
                     id="_IDGenItem6"
-                    key=""
-                    text=""
+                    key="Customer Driven (Domestic)"
+                    text="Customer Driven (Domestic)"
                 />
                 <core:Item
                     id="_IDGenItem5"
-                    key="Customer Approved"
-                    text="Customer Approved"
+                    key="Customer Driven (Export)"
+                    text="Customer Driven (Export)"
                 />
                 <core:Item
                     id="_IDGenItem10"
                     key="BOM Parts"
-                    text="BOM Parts"
+                    text="BOM Parts (Quality Approval Reqd)"
                 />
                 <core:Item
                     id="_IDGenItem4"
                     key="Non BOM parts"
-                    text="Non BOM parts"
+                    text="Indirect Material"
                 />
             </Select>
-            <!-- <Label
-                id="_IDGenLabel3"
+            <Label 
+                id="_IDGenLabel10"
                 design="Bold"
+                text="Group Type"
                 required="true"
-                text="Department"
             />
-            <Input
-                id="_IDGenInput2"
-                value="{path:'CreateModel>/Department',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+            <Select
+                id="grouptypeId"
+                forceSelection="false"
+                selectedKey="{path:'CreateModel>/GroupType',type:'sap.ui.model.type.String'}"
                 valueStateText="Required"
                 fieldGroupIds="required"
-            /> -->
+            >
+                <core:ListItem id="_IDGenListItem1"
+                    key="A01"
+                    text="Casting"
+                    additionalText="A01"
+                />
+                <core:ListItem id="_IDGenListItem2"
+                    key="B01"
+                    text="Forging"
+                    additionalText="B01"
+                />
+                <core:ListItem id="_IDGenListItem3"
+                    key="C01"
+                    text="Bulk Hose"
+                    additionalText="C01"
+                />
+                <core:ListItem id="_IDGenListItem4"
+                    key="D01"
+                    text="Formed Hose"
+                    additionalText="D01"
+                />
+                <core:ListItem id="_IDGenListItem5"
+                    key="E01"
+                    text="Ind Material - Prod"
+                    additionalText="E01"
+                />
+                <core:ListItem id="_IDGenListItem6"
+                    key="F01"
+                    text="Ind Material - Other"
+                    additionalText="F01"
+                />
+                <core:ListItem id="_IDGenListItem7"
+                    key="G01"
+                    text="Molding"
+                    additionalText="G01"
+                />
+                <core:ListItem id="_IDGenListItem8"
+                    key="H01"
+                    text="Job-work"
+                    additionalText="H01"
+                />
+                <core:ListItem id="_IDGenListItem9"
+                    key="I01"
+                    text="Machining"
+                    additionalText="I01"
+                />
+                <core:ListItem id="_IDGenListItem10"
+                    key="J01"
+                    text="RM - Polymer"
+                    additionalText="J01"
+                />
+                <core:ListItem id="_IDGenListItem11"
+                    key="K01"
+                    text="Proprietory"
+                    additionalText="K01"
+                />
+                <core:ListItem id="_IDGenListItem12"
+                    key="L01"
+                    text="Sheet Metal"
+                    additionalText="L01"
+                />
+                <core:ListItem id="_IDGenListItem13"
+                    key="M01"
+                    text="Capex"
+                    additionalText="M01"
+                />
+                <core:ListItem id="_IDGenListItem14"
+                    key="N01"
+                    text="Tubes"
+                    additionalText="N01"
+                />
+                <core:ListItem id="_IDGenListItem15"
+                    key="O01"
+                    text="Sleeves"
+                    additionalText="O01"
+                />
+                <core:ListItem id="_IDGenListItem16"
+                    key="P01"
+                    text="Springs"
+                    additionalText="P01"
+                />
+            </Select>
             <Label
                 id="_IDGenLabel4"
                 design="Bold"

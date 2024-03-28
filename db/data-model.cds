@@ -36,6 +36,7 @@ entity VenOnboardHeader : managed {
       VendorType         : String(5);
       Companycode        : String;
       RegistrationType   : String;
+      GroupType          : String;
       Telephone          : String(10);
       City               : String;
       VendorMail         : String;
@@ -201,6 +202,18 @@ entity VendorForm : managed {
       ContactPersonPhone2          : String;
       ContactPersonMobile2         : String;
       ContactPersonMail2           : String;
+      ContactPersonName3           : String;
+      ContactPersonDepartment3     : String;
+      ContactPersonDesignation3    : String;
+      ContactPersonPhone3          : String;
+      ContactPersonMobile3         : String;
+      ContactPersonMail3           : String;
+      ContactPersonName4           : String;
+      ContactPersonDepartment4     : String;
+      ContactPersonDesignation4    : String;
+      ContactPersonPhone4          : String;
+      ContactPersonMobile4         : String;
+      ContactPersonMail4           : String;
       DocCode                      : String;
       DocDescription               : String;
       BankAddress                  : String;
