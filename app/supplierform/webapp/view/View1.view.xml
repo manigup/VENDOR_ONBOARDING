@@ -469,7 +469,7 @@
                             id="_IDGenText1"
                             text=""
                         />
-                        <Label
+                        <!-- <Label
                             id="_IDGenLabel57"
                             design="Bold"
                             text=""
@@ -478,7 +478,7 @@
                             visible="{= ${create>/RelatedParty} === false}"
                             id="_IDGenText2"
                             text=""
-                        />
+                        /> -->
                         <!-- <Label
                             id="_IDGenLabel23"
                             design="Bold"
@@ -784,7 +784,7 @@
             </Panel>
             <Panel
                 id="_IDGenPanel5"
-                headerText="Additinal Details"
+                headerText="Additional Details"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1803,6 +1803,12 @@
                                 <core:CustomData key="SupplierAssessment" />
                             </u:customData>
                         </u:FileUploader>
+                        <Link
+                            id="suppregformId"
+                            text="Download"
+                            target="_blank"
+                            press="onGetSupplierRegForm"
+                        />
                         <Link
                             id="_IDGenLink8"
                             text="{create>/SupplierAssessment}"

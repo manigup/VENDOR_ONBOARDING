@@ -356,6 +356,30 @@ sap.ui.define([
                 }, 1000);
                 // this.fetchProductInfo();
             },
+            onGetSupplierRegForm: function(){
+                this.hardcodedURL="";
+                if (window.location.href.includes("site")) {
+					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+				}
+                var fileUrl = this.hardcodedURL + "/files/SupplierRegistrationfromupdated.doc";
+                window.open(fileUrl, '_blank');
+            },
+            onGetRiskAssess: function(){
+                this.hardcodedURL="";
+                if (window.location.href.includes("site")) {
+					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+				}
+                var fileUrl = this.hardcodedURL + "/files/RiskassessmentsupplierFinal.xlsx";
+                window.open(fileUrl, '_blank');
+            },
+            onGetSysAud: function(){
+                this.hardcodedURL="";
+                if (window.location.href.includes("site")) {
+					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+				}
+                var fileUrl = this.hardcodedURL + "/files/SystemAuditCheckSheet.xlsx";
+                window.open(fileUrl, '_blank');
+            },
             onRiskRatingChange: function (oEvent) {
                 var rating = oEvent.getSource().getValue();
                 if (rating >= "0" && rating <= "2") {
@@ -1565,7 +1589,7 @@ sap.ui.define([
                             stat = "SBE";
                             appr = "1"
                             level = "2";
-                            pending = "Marketing";
+                            pending = "Marketingdom";
                             this.msg = "Form submitted successfully by Marketing";
                         }
                     }else if(venRegType === "Customer Driven (Export)") {
@@ -1579,7 +1603,7 @@ sap.ui.define([
                             stat = "SBE";
                             appr = "1"
                             level = "2";
-                            pending = "Marketing";
+                            pending = "Marketingexp";
                             this.msg = "Form submitted successfully by Marketing";
                         }
                     } else {

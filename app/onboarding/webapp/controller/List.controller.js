@@ -88,7 +88,7 @@ sap.ui.define([
                             reqData.marketingdom = accessdata.find(item => item.email === res.email && item.Access === "Marketingdom") ? true : false;
                             reqData.marketingexp = accessdata.find(item => item.email === res.email && item.Access === "Marketingexp") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                            // reqData.finance = true;
+                            // reqData.purchase = true;
                             if (reqData.purchase) {
                                 reqData.appbtn = "purchase";
                             } else if (reqData.quality) {
@@ -571,7 +571,7 @@ sap.ui.define([
                                 this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                                 this.VendorName = "Marketing Team";
                                 stat = "ABP";
-                                pending = "Marketing"
+                                pending = "Marketingdom"
                                 this.msg = "Approved by Purchase";
                             }
                         }
@@ -592,7 +592,7 @@ sap.ui.define([
                                 this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
                                 this.VendorName = "Marketing Team";
                                 stat = "ABP";
-                                pending = "Marketing"
+                                pending = "Marketingexp"
                                 this.msg = "Approved by Purchase";
                             }
                         } 
