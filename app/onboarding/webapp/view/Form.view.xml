@@ -696,166 +696,65 @@
                             visible="{= ${create>/RelatedParty} === true}"
                             value="{path:'create>/RelatedPartyContact',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
-                    </f:content>
-                </f:SimpleForm>
-            </Panel>
-            <Panel
-                id="_IDGenPanel5"
-                headerText="Additional Details"
-                expandable="true"
-            >
-                <f:SimpleForm
-                    id="_IDGenSimpleForm5"
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
                         <Label
                             design="Bold"
-                            text="Contact Person Name 2"
+                            text="Supplier Registration Form"
+                            visible="true"
+                            required="true"
+                        />
+                        <u:FileUploader
+                            id="supplierAssessmentFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            visible="true"
+                        >
+                            <u:customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="suppregformId"
+                            text="Download"
+                            target="_blank"
+                            press="onGetSupplierRegForm"
+                        />
+                        <Link
+                            text="{create>/SupplierAssessment}"
+                            visible="{= ${create>/SupplierAssessment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </customData>
+                        </Link>
+                        <Label
+                            id="_IDGenLabel710"
+                            design="Bold"
+                            text="Supplier Payment Term"
+                            required="true"
                         />
                         <Input
+                            id="suppPaymentTerm"
+                            value="{path:'create>/SuppPaymentTerm',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String'}"
                         />
                         <Label
+                            id="_IDGenLabel720"
                             design="Bold"
-                            text="Department"
+                            text="Supplier Default Currency"
+                            required="true"
                         />
                         <Input
+                            id="suppCurrency"
+                            value="{path:'create>/SuppCurrency',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMail2'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Contact Person Name 3"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonName3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDepartment3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDesignation3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonPhone3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMobile3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMail3'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Contact Person Name 4"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonName4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDepartment4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDesignation4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonPhone4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMobile4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMail4'}"
                         />
                     </f:content>
                 </f:SimpleForm>
@@ -1335,7 +1234,7 @@
                 </HBox>
             </Panel>
             <Panel
-                headerText="Manufacturing Data"
+                headerText="Quality Assurance and Certification Data"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1355,38 +1254,38 @@
                             id="ISO9001Certification"
                             text="ISO9001"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <CheckBox
                             id="IATF16949Certification"
                             text="IATF 16949"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <CheckBox
                             id="ISO14001Certification"
                             text="ISO 14001"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <Label text="" />
                         <CheckBox
                             id="ISO45001Certification"
                             text="ISO 45001"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <CheckBox
                             id="VDA63Certification"
                             text="VDA 6.3"
                             select="onCertificationChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <CheckBox
                             id="MACEGreen"
                             text="MACE Green"
                             select="onMACEGreenChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <Label
                             design="Bold"
@@ -1398,14 +1297,14 @@
                             tooltip="Enter ISO9001 Valid From"
                             value="{path:'create>/ISO9001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <DatePicker
                             id="ISO9001ValidTo"
                             tooltip="Enter ISO9001 Valid To"
                             value="{path:'create>/ISO9001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <u:FileUploader
                             id="ISO9001attach1fileUploader"
@@ -1417,7 +1316,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO9001Attachment" />
@@ -1442,14 +1341,14 @@
                             tooltip="Enter IATF16949 Valid From"
                             value="{path:'create>/IATF16949ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <DatePicker
                             id="IATF16949ValidTo"
                             tooltip="Enter IATF16949 Valid To"
                             value="{path:'create>/IATF16949ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <u:FileUploader
                             id="IATF16949attach1fileUploader"
@@ -1461,7 +1360,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="IATF16949Attachment" />
@@ -1486,14 +1385,14 @@
                             tooltip="Enter ISO14001 Valid From"
                             value="{path:'create>/ISO14001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <DatePicker
                             id="ISO14001ValidTo"
                             tooltip="Enter ISO14001 Valid To"
                             value="{path:'create>/ISO14001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <u:FileUploader
                             id="ISO14001attach1fileUploader"
@@ -1505,7 +1404,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO14001Attachment" />
@@ -1530,14 +1429,14 @@
                             tooltip="Enter ISO45001 Valid From"
                             value="{path:'create>/ISO45001ValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <DatePicker
                             id="ISO45001ValidTo"
                             tooltip="Enter ISO45001 Valid To"
                             value="{path:'create>/ISO45001ValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <u:FileUploader
                             id="ISO45001attach1fileUploader"
@@ -1549,7 +1448,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="ISO45001Attachment" />
@@ -1579,7 +1478,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="VDA63Attachment" />
@@ -1605,7 +1504,7 @@
                             tooltip="Enter MACE Green Valid From"
                             value="{path:'create>/MACEGreenValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <DatePicker
                             id="MACEGreenValidTo"
@@ -1613,7 +1512,7 @@
                             tooltip="Enter MACEGreen Valid To"
                             value="{path:'create>/MACEGreenValidTo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             valueFormat="yyyyMMdd"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
                         <u:FileUploader
                             id="MACEGreenfileUploader"
@@ -1625,7 +1524,7 @@
                             fileSizeExceed="onFileSizeExceded"
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
-                            enabled="false"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         >
                             <u:customData>
                                 <core:CustomData key="MACEGreenAttachment" />
@@ -1672,87 +1571,12 @@
                         </Link>
                         <Label
                             design="Bold"
-                            text="Supplier Registration Form"
-                            visible="true"
-                            required="true"
-                        />
-                        <u:FileUploader
-                            id="supplierAssessmentFileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            buttonText="Browse"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            visible="true"
-                        >
-                            <u:customData>
-                                <core:CustomData key="SupplierAssessment" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="suppregformId"
-                            text="Download"
-                            target="_blank"
-                            press="onGetSupplierRegForm"
-                        />
-                        <Link
-                            text="{create>/SupplierAssessment}"
-                            visible="{= ${create>/SupplierAssessment} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="SupplierAssessment" />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel710"
-                            design="Bold"
-                            text="Supplier Payment Term"
-                            required="true"
-                        />
-                        <Input
-                            id="suppPaymentTerm"
-                            value="{path:'create>/SuppPaymentTerm',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
-                            enabled="false"
-                        />
-                        <Label
-                            id="_IDGenLabel720"
-                            design="Bold"
-                            text="Supplier Default Currency"
-                            required="true"
-                        />
-                        <Input
-                            id="suppCurrency"
-                            value="{path:'create>/SuppCurrency',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
-                            enabled="false"
-                        />
-                    </f:content>
-                </f:SimpleForm>
-            </Panel>
-            <Panel
-                headerText="Supplier Quality Assurance"
-                expandable="true"
-            >
-                <f:SimpleForm
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
-                        <Label
-                            design="Bold"
                             text="Risk Rating"
-                            required="{= ${request>/quality} === true || ${request>/purchase} === true}"
+                            required="{= ${request>/quality} === true}"
                         />
                         <Input
                             id="overallRatingId"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/OverallRating',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
                             change="onRiskRatingChange"
                         />
@@ -1766,14 +1590,14 @@
                         <Input
                             id="riskRatingRemId"
                             visible="{= ${create>/OverallRating} > '3'}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                             value="{path:'create>/RiskRatingRemark',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
                         <Label
                             design="Bold"
                             text="Risk Assessment"
                             visible="true"
-                            required="{= (${request>/quality} === true || ${request>/purchase} === true) &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts') }"
+                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Driven (Domestic)' || ${create>/RegistrationType} === 'Customer Driven (Export)' ||  ${create>/RegistrationType} === 'BOM Parts') }"
                         />
                         <u:FileUploader
                             id="riskFileUploader"
@@ -1785,7 +1609,7 @@
                             fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
                             maximumFileSize="10MB"
                             buttonText="Browse"
-                            enabled="{= ${request>/edit} === true &amp;&amp; (${request>/purchase} === true || ${request>/quality} === true)}"
+                            enabled="{= ${request>/edit} === true &amp;&amp;  ${request>/quality} === true}"
                             visible="true"
                         >
                             <u:customData>
@@ -1822,7 +1646,7 @@
                             design="Bold"
                             text="System Audit Check"
                             visible="true"
-                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Approved' ||  ${create>/RegistrationType} === 'BOM Parts')}"
+                            required="{= ${request>/quality} === true &amp;&amp; (${create>/RegistrationType} === 'Customer Driven (Domestic)' || ${create>/RegistrationType} === 'Customer Driven (Export)' ||  ${create>/RegistrationType} === 'BOM Parts')}"
                         />
                         <u:FileUploader
                             id="systemAuditCheckFileUploader"
@@ -1976,7 +1800,7 @@
                 </f:SimpleForm>
             </Panel>
             <Panel
-                headerText="Attachments"
+                headerText="Optional Details"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1987,6 +1811,150 @@
                     columnsXL="3"
                 >
                     <f:content>
+                    <Label
+                            design="Bold"
+                            text="Contact Person Name 2"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonMail2'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Contact Person Name 3"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonName3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonDepartment3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonDesignation3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonPhone3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonMobile3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonMail3'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Contact Person Name 4"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonName4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonDepartment4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonDesignation4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonPhone4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonMobile4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ContactPersonMail4'}"
+                        />
                         <Label
                             design="Bold"
                             text="Action Plan"

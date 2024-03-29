@@ -779,149 +779,63 @@
                             visible="{= ${create>/RelatedParty} === true}"
                             value="{path:'create>/RelatedPartyContact',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
                         />
-                    </f:content>
-                </f:SimpleForm>
-            </Panel>
-            <Panel
-                id="_IDGenPanel5"
-                headerText="Additional Details"
-                expandable="true"
-            >
-                <f:SimpleForm
-                    id="_IDGenSimpleForm5"
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
-                      <Label
+                        <Label
+                            id="_IDGenLabel75"
                             design="Bold"
-                            text="Contact Person Name 2"
+                            text="Supplier Registration Form"
+                            required="true"
+                        />
+                        <u:FileUploader
+                            id="supplierAssessmentFileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            fileSizeExceed="onFileSizeExceded"
+                            uploadComplete="onUploadComplete"
+                            change="onFileUploaderChange"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            buttonText="Browse"
+                        >
+                            <u:customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="suppregformId"
+                            text="Download"
+                            target="_blank"
+                            press="onGetSupplierRegForm"
+                        />
+                        <Link
+                            id="_IDGenLink8"
+                            text="{create>/SupplierAssessment}"
+                            visible="{= ${create>/SupplierAssessment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="SupplierAssessment" />
+                            </customData>
+                        </Link>
+                        <Label
+                            id="_IDGenLabel710"
+                            design="Bold"
+                            text="Supplier Payment Term"
+                            required="true"
                         />
                         <Input
-                            value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String'}"
+                            id="suppPaymentTerm"
+                            value="{path:'create>/SuppPaymentTerm',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
                         />
                         <Label
+                            id="_IDGenLabel720"
                             design="Bold"
-                            text="Department"
+                            text="Supplier Default Currency"
+                            required="true"
                         />
                         <Input
-                            value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String'}"
+                            id="suppCurrency"
+                            value="{path:'create>/SuppCurrency',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
                         />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonMail2'}"
-                        />  
-                        <Label
-                            design="Bold"
-                            text="Contact Person Name 3"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonName3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonDepartment3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonDesignation3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonPhone3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonMobile3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonMail3'}"
-                        />  
-                        <Label
-                            design="Bold"
-                            text="Contact Person Name 4"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonName4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonDepartment4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonDesignation4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonPhone4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonMobile4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            value="{path:'create>/ContactPersonMail4'}"
-                        />  
                     </f:content>
                 </f:SimpleForm>
             </Panel>
@@ -1432,7 +1346,7 @@
             </Panel>
             <Panel
                 id="_IDGenPanel4"
-                headerText="Manufacturing Data"
+                headerText="Quality Assurance and Certification Data"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1782,69 +1696,12 @@
                                 <core:CustomData key="IATFAttachment" />
                             </customData>
                         </Link>
-                        <Label
-                            id="_IDGenLabel75"
-                            design="Bold"
-                            text="Supplier Registration Form"
-                            required="true"
-                        />
-                        <u:FileUploader
-                            id="supplierAssessmentFileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            fileSizeExceed="onFileSizeExceded"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            buttonText="Browse"
-                        >
-                            <u:customData>
-                                <core:CustomData key="SupplierAssessment" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="suppregformId"
-                            text="Download"
-                            target="_blank"
-                            press="onGetSupplierRegForm"
-                        />
-                        <Link
-                            id="_IDGenLink8"
-                            text="{create>/SupplierAssessment}"
-                            visible="{= ${create>/SupplierAssessment} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="SupplierAssessment" />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel710"
-                            design="Bold"
-                            text="Supplier Payment Term"
-                            required="true"
-                        />
-                        <Input
-                            id="suppPaymentTerm"
-                            value="{path:'create>/SuppPaymentTerm',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
-                        />
-                        <Label
-                            id="_IDGenLabel720"
-                            design="Bold"
-                            text="Supplier Default Currency"
-                            required="true"
-                        />
-                        <Input
-                            id="suppCurrency"
-                            value="{path:'create>/SuppCurrency',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
-                        />
                     </f:content>
                 </f:SimpleForm>
             </Panel>
             <Panel
                 id="_IDGenPanel3"
-                headerText="Attachments"
+                headerText="Optional Details"
                 expandable="true"
             >
                 <f:SimpleForm
@@ -1856,6 +1713,132 @@
                     columnsXL="3"
                 >
                     <f:content>
+                    <Label
+                            design="Bold"
+                            text="Contact Person Name 2"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMail2'}"
+                        />  
+                        <Label
+                            design="Bold"
+                            text="Contact Person Name 3"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonName3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDepartment3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDesignation3',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonPhone3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMobile3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMail3'}"
+                        />  
+                        <Label
+                            design="Bold"
+                            text="Contact Person Name 4"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonName4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Department"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDepartment4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Designation"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonDesignation4',type:'sap.ui.model.type.String'}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Landline Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonPhone4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Mobile Number"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMobile4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                        />
+                        <Label
+                            design="Bold"
+                            text="Email"
+                        />
+                        <Input
+                            value="{path:'create>/ContactPersonMail4'}"
+                        /> 
                         <Label
                             id="_IDGenLabel76"
                             design="Bold"
