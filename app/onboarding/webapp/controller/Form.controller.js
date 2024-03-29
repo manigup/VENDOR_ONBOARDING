@@ -912,9 +912,9 @@ sap.ui.define([
                 if (requestData.quality && data.OverallRating > "3") {
                     aInputs.push(oView.byId("riskRatingRemId"));
                 }
-                if (requestData.purchase) {
-                    aInputs.push(oView.byId("overallRatingId"));
-                }
+                // if (requestData.purchase) {
+                //     aInputs.push(oView.byId("overallRatingId"));
+                // }
 
 
                 // Inside _mandatCheck function
@@ -1301,14 +1301,6 @@ sap.ui.define([
                     bValidationError = true;
                     this.byId("canChqfileUploader").setValueState("Error");
                 }
-                if (requestData.purchase === true) {
-                    if (this.byId("riskFileUploader").getValue() || data.RiskAssessment) {
-                        this.byId("riskFileUploader").setValueState("None");
-                    } else {
-                        bValidationError = true;
-                        this.byId("riskFileUploader").setValueState("Error");
-                    }
-                }
                 if (requestData.quality === true) {
 
                     if (data.VDAAssessment === "Yes") {
@@ -1318,6 +1310,12 @@ sap.ui.define([
                             bValidationError = true;
                             this.byId("VDAAssessmentFileUploader").setValueState("Error");
                         }
+                    }
+                    if (this.byId("riskFileUploader").getValue() || data.RiskAssessment) {
+                        this.byId("riskFileUploader").setValueState("None");
+                    } else {
+                        bValidationError = true;
+                        this.byId("riskFileUploader").setValueState("Error");
                     }
                     if (this.byId("systemAuditCheckFileUploader").getValue() || data.SystemAuditCheck) {
                         this.byId("systemAuditCheckFileUploader").setValueState("None");
