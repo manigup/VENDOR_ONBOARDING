@@ -296,7 +296,23 @@
                                 key="Capacity"
                                 text="Capacity"
                             />
+                            <core:Item
+                                key="Other"
+                                text="Other"
+                            />
                         </Select>
+                        <Label
+                            design="Bold"
+                            text="Other Reason"
+                            required="{= ${create>/Purpose} === 'Other'}"
+                            visible="{= ${create>/Purpose} === 'Other'}"
+                        />
+                        <Input
+                            id="reasonTextId"
+                            visible="{= ${create>/Purpose} === 'Other'}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                            value="{path:'create>/ReasonText',type: 'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                        />
                         <Label
                             design="Bold"
                             text="Constitution of Business"

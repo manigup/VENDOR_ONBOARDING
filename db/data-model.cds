@@ -96,6 +96,7 @@ entity VendorForm : managed {
       VendorName2                  : String;
       VendorName3                  : String;
       Purpose                      : String;
+      ReasonText                   : String;
       Telephone                    : String(10);
       Consitution                  : String;
       Address1                     : String;

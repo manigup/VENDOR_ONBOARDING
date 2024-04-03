@@ -959,7 +959,12 @@ sap.ui.define([
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
                 if (requestData.purchase) {
+                    aInputs.push(oView.byId("suppPaymentTerm"));
+                    aInputs.push(oView.byId("suppCurrency"));
                     aSelects.push(oView.byId("purposeId"));
+                }
+                if (data.Purpose === "Other") {
+                    aInputs.push(oView.byId("reasonTextId"));
                 }
                 if (requestData.quality && data.VDAAssessment === "Yes") {
                     aSelects.push(oView.byId("VDAStatusId"));

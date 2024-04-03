@@ -816,7 +816,7 @@
                                 <core:CustomData key="SupplierAssessment" />
                             </customData>
                         </Link>
-                        <Label
+                        <!-- <Label
                             id="_IDGenLabel710"
                             design="Bold"
                             text="Supplier Payment Term"
@@ -835,7 +835,7 @@
                         <Input
                             id="suppCurrency"
                             value="{path:'create>/SuppCurrency',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
-                        />
+                        /> -->
                     </f:content>
                 </f:SimpleForm>
             </Panel>
