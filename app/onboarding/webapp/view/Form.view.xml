@@ -772,6 +772,42 @@
                             value="{path:'create>/SuppCurrency',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         />
+                        <Label
+                            design="Bold"
+                            text="Inco Terms"
+                            required="true"
+                        />
+                        <Select
+                            id="incoid"
+                            showSecondaryValues="true"
+                            forceSelection="false"
+                            selectedKey="{create>/IncoTerm}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                        >
+                            <core:Item
+                                key="CIF"
+                                text="CIF"
+                            />
+                            <core:Item
+                                key="FOB"
+                                text="FOB"
+                            />
+                            <core:Item
+                                key="EXW"
+                                text="EXW"
+                            />
+                        </Select>
+                        <Label
+                            id="_IDGenLabel721"
+                            design="Bold"
+                            text="Inco Terms Location"
+                            required="true"
+                        />
+                        <Input
+                            id="incolocationid"
+                            value="{path:'create>/IncoTermLocation',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                        />
                     </f:content>
                 </f:SimpleForm>
             </Panel>
@@ -1587,6 +1623,13 @@
                         </Link>
                         <Label
                             design="Bold"
+                            text=""
+                        />
+                        <Text
+                            text=""
+                        />
+                        <Label
+                            design="Bold"
                             text="Risk Rating"
                             required="{= ${request>/quality} === true}"
                         />
@@ -1819,14 +1862,12 @@
                 headerText="Optional Details"
                 expandable="true"
             >
-                <f:SimpleForm
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
+                <HBox>
+                    <VBox>
+                        <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
                     <Label
                             design="Bold"
                             text="Contact Person Name 2"
@@ -1877,6 +1918,42 @@
                         />
                         <Label
                             design="Bold"
+                            text="Action Plan"
+                        />
+                        <u:FileUploader
+                            id="actionPlanfileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            enabled="{= ${request>/edit} === true}"
+                        >
+                            <u:customData>
+                                <core:CustomData key="ActionPlanAttachment" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/ActionPlanAttachment}"
+                            visible="{= ${create>/ActionPlanAttachment} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="ActionPlanAttachment" />
+                            </customData>
+                        </Link>
+                        </f:SimpleForm>
+                    </VBox>
+                    <VBox>
+                    <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
+                        <Label
+                            design="Bold"
                             text="Contact Person Name 3"
                         />
                         <Input
@@ -1923,6 +2000,47 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                             value="{path:'create>/ContactPersonMail3'}"
                         />
+                        <Label
+                            design="Bold"
+                            text="Attachment 1"
+                        />
+                        <Input
+                            id="attach1Id"
+                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
+                            enabled="false"
+                        />
+                        <u:FileUploader
+                            id="attach1fileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                            enabled="{= ${request>/edit} === true}"
+                        >
+                            <u:customData>
+                                <core:CustomData key="Attachment1" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            text="{create>/Attachment1}"
+                            visible="{= ${create>/Attachment1} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="Attachment1" />
+                            </customData>
+                        </Link>
+                        </f:SimpleForm>
+                    </VBox>
+                    <VBox>
+                    <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
                         <Label
                             design="Bold"
                             text="Contact Person Name 4"
@@ -1973,69 +2091,6 @@
                         />
                         <Label
                             design="Bold"
-                            text="Action Plan"
-                        />
-                        <u:FileUploader
-                            id="actionPlanfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="ActionPlanAttachment" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/ActionPlanAttachment}"
-                            visible="{= ${create>/ActionPlanAttachment} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="ActionPlanAttachment" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="Attachment 1"
-                        />
-                        <Input
-                            id="attach1Id"
-                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
-                            enabled="false"
-                        />
-                        <u:FileUploader
-                            id="attach1fileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="Attachment1" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/Attachment1}"
-                            visible="{= ${create>/Attachment1} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="Attachment1" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
                             text="Attachment 2"
                         />
                         <Input
@@ -2068,8 +2123,9 @@
                                 <core:CustomData key="Attachment2" />
                             </customData>
                         </Link>
-                    </f:content>
-                </f:SimpleForm>
+                        </f:SimpleForm>
+                    </VBox>
+                    </HBox>
             </Panel>
         </content>
     </Page>

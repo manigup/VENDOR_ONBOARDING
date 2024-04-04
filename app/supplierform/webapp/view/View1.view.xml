@@ -1704,15 +1704,12 @@
                 headerText="Optional Details"
                 expandable="true"
             >
-                <f:SimpleForm
-                    id="_IDGenSimpleForm3"
-                    editable="true"
-                    layout="ColumnLayout"
-                    columnsM="2"
-                    columnsL="3"
-                    columnsXL="3"
-                >
-                    <f:content>
+                <HBox>
+                    <VBox>
+                        <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
                     <Label
                             design="Bold"
                             text="Contact Person Name 2"
@@ -1754,7 +1751,48 @@
                         />
                         <Input
                             value="{path:'create>/ContactPersonMail2'}"
-                        />  
+                        />
+                        <Label
+                            id="_IDGenLabel76"
+                            design="Bold"
+                            text="Attachment 1"
+                        />
+                        <Input
+                            id="attach1Id"
+                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
+                        />
+                        <u:FileUploader
+                            id="attach1fileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="Attachment1" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="_IDGenLink9"
+                            text="{create>/Attachment1}"
+                            visible="{= ${create>/Attachment1} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="Attachment1" />
+                            </customData>
+                        </Link>  
+                        </f:SimpleForm>
+                    </VBox>
+                    <VBox>
+                    <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
                         <Label
                             design="Bold"
                             text="Contact Person Name 3"
@@ -1798,6 +1836,47 @@
                             value="{path:'create>/ContactPersonMail3'}"
                         />  
                         <Label
+                            id="_IDGenLabel77"
+                            design="Bold"
+                            text="Attachment 2"
+                        />
+                        <Input
+                            id="attach2Id"
+                            value="{path:'create>/Attachment2Name',type:'sap.ui.model.type.String'}"
+                        />
+                        <u:FileUploader
+                            id="attach2fileUploader"
+                            sendXHR="true"
+                            useMultipart="false"
+                            change="onFileUploaderChange"
+                            uploadComplete="onUploadComplete"
+                            buttonText="Browse"
+                            fileSizeExceed="onFileSizeExceded"
+                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                            maximumFileSize="10MB"
+                        >
+                            <u:customData>
+                                <core:CustomData key="Attachment2" />
+                            </u:customData>
+                        </u:FileUploader>
+                        <Link
+                            id="_IDGenLink10"
+                            text="{create>/Attachment2}"
+                            visible="{= ${create>/Attachment2} !== ''}"
+                            press="onAttachmentGet"
+                        >
+                            <customData>
+                                <core:CustomData key="Attachment2" />
+                            </customData>
+                        </Link>
+                        </f:SimpleForm>
+                    </VBox>
+                    <VBox>
+                    <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
+                        <Label
                             design="Bold"
                             text="Contact Person Name 4"
                         />
@@ -1839,76 +1918,9 @@
                         <Input
                             value="{path:'create>/ContactPersonMail4'}"
                         /> 
-                        <Label
-                            id="_IDGenLabel76"
-                            design="Bold"
-                            text="Attachment 1"
-                        />
-                        <Input
-                            id="attach1Id"
-                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
-                        />
-                        <u:FileUploader
-                            id="attach1fileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                        >
-                            <u:customData>
-                                <core:CustomData key="Attachment1" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink9"
-                            text="{create>/Attachment1}"
-                            visible="{= ${create>/Attachment1} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="Attachment1" />
-                            </customData>
-                        </Link>
-                        <Label
-                            id="_IDGenLabel77"
-                            design="Bold"
-                            text="Attachment 2"
-                        />
-                        <Input
-                            id="attach2Id"
-                            value="{path:'create>/Attachment2Name',type:'sap.ui.model.type.String'}"
-                        />
-                        <u:FileUploader
-                            id="attach2fileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                        >
-                            <u:customData>
-                                <core:CustomData key="Attachment2" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="_IDGenLink10"
-                            text="{create>/Attachment2}"
-                            visible="{= ${create>/Attachment2} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="Attachment2" />
-                            </customData>
-                        </Link>
-                    </f:content>
-                </f:SimpleForm>
+                        </f:SimpleForm>
+                    </VBox>
+                    </HBox>
             </Panel>
         </content>
     </Page>

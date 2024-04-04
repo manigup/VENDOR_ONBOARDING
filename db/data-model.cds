@@ -270,6 +270,8 @@ entity VendorForm : managed {
       VDA63Certification           : String;
       SuppCurrency                 : String;
       SuppPaymentTerm              : String;
+      IncoTerm                     : String;
+      IncoTermLocation             : String;
       MACEGreen                    : String;
       WorkingTowardsCertifications : String;
       ProbableCertificationDate    : String;

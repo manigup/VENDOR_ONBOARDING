@@ -961,6 +961,8 @@ sap.ui.define([
                 if (requestData.purchase) {
                     aInputs.push(oView.byId("suppPaymentTerm"));
                     aInputs.push(oView.byId("suppCurrency"));
+                    aInputs.push(oView.byId("incolocationid"));
+                    aSelects.push(oView.byId("incoid"));
                     aSelects.push(oView.byId("purposeId"));
                 }
                 if (data.Purpose === "Other") {
