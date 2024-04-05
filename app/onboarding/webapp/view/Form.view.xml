@@ -176,94 +176,117 @@
                             text="Group Type"
                             required="true"
                         />
-                        <Select
+                        <!-- <Select
                             id="grouptypeId"
                             showSecondaryValues="true"
                             forceSelection="false"
                             selectedKey="{create>/GroupType}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                        > -->
+                        <MultiComboBox
+                            id="grouptypeId"
+                            showSecondaryValues="true"
+                            selectedKeys="{create>/GroupType}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:ListItem
+                                id="_IDGenListItem1"
                                 key="A01"
                                 text="Casting"
-                                additionalText="A01"
+                                additionalText="CASTI"
                             />
                             <core:ListItem
+                                id="_IDGenListItem2"
                                 key="B01"
                                 text="Forging"
-                                additionalText="B01"
+                                additionalText="FORGI"
                             />
                             <core:ListItem
+                                id="_IDGenListItem3"
                                 key="C01"
                                 text="Bulk Hose"
-                                additionalText="C01"
+                                additionalText="BULKH"
                             />
                             <core:ListItem
+                                id="_IDGenListItem4"
                                 key="D01"
                                 text="Formed Hose"
-                                additionalText="D01"
+                                additionalText="FORHO"
                             />
                             <core:ListItem
+                                id="_IDGenListItem5"
                                 key="E01"
                                 text="Ind Material - Prod"
-                                additionalText="E01"
+                                additionalText="INMTP"
                             />
                             <core:ListItem
+                                id="_IDGenListItem6"
                                 key="F01"
                                 text="Ind Material - Other"
-                                additionalText="F01"
+                                additionalText="INMTO"
                             />
                             <core:ListItem
+                                id="_IDGenListItem7"
                                 key="G01"
                                 text="Molding"
-                                additionalText="G01"
+                                additionalText="MOLDI"
                             />
                             <core:ListItem
+                                id="_IDGenListItem8"
                                 key="H01"
                                 text="Job-work"
-                                additionalText="H01"
+                                additionalText="JOBWO"
                             />
                             <core:ListItem
+                                id="_IDGenListItem9"
                                 key="I01"
                                 text="Machining"
-                                additionalText="I01"
+                                additionalText="MACHI"
                             />
                             <core:ListItem
+                                id="_IDGenListItem10"
                                 key="J01"
                                 text="RM - Polymer"
-                                additionalText="J01"
+                                additionalText="RMPOL"
                             />
                             <core:ListItem
+                                id="_IDGenListItem11"
                                 key="K01"
                                 text="Proprietory"
-                                additionalText="K01"
+                                additionalText="PROPR"
                             />
                             <core:ListItem
+                                id="_IDGenListItem12"
                                 key="L01"
                                 text="Sheet Metal"
-                                additionalText="L01"
+                                additionalText="SHEET"
                             />
                             <core:ListItem
+                                id="_IDGenListItem13"
                                 key="M01"
                                 text="Capex"
-                                additionalText="M01"
+                                additionalText="CAPEX"
                             />
                             <core:ListItem
+                                id="_IDGenListItem14"
                                 key="N01"
                                 text="Tubes"
-                                additionalText="N01"
+                                additionalText="TUBES"
                             />
                             <core:ListItem
+                                id="_IDGenListItem15"
                                 key="O01"
                                 text="Sleeves"
-                                additionalText="O01"
+                                additionalText="SLEEV"
                             />
                             <core:ListItem
+                                id="_IDGenListItem16"
                                 key="P01"
                                 text="Springs"
-                                additionalText="P01"
+                                additionalText="SPRIN"
                             />
-                        </Select>
+                        </MultiComboBox>
+                        <!-- </Select> -->
                         <Label
                             design="Bold"
                             text="Reasons for the development of new vendor"
@@ -426,6 +449,11 @@
                             value="{create>/Website}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         /> -->
+                        <Label
+                            design="Bold"
+                            text=""
+                        />
+                        <Text text="" />
                         <Label
                             design="Bold"
                             text="Vendor Name"
@@ -785,6 +813,10 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:Item
+                                key="Door Delivery"
+                                text="Door Delivery"
+                            />
+                            <core:Item
                                 key="CIF"
                                 text="CIF"
                             />
@@ -979,308 +1011,312 @@
                         </f:SimpleForm>
                     </VBox>
                     <VBox>
-                    <f:SimpleForm
+                        <f:SimpleForm
                             editable="true"
                             layout="ResponsiveGridLayout"
                         >
-                        <Label
-                            design="Bold"
-                            text="Bank details"
-                        />
-                        <Text text="" />
-                        <Label
-                            design="Bold"
-                            text="Bank Name"
-                            required="true"
-                        />
-                        <Input
-                            id="bankNameId"
-                            enabled="false"
-                            value="{path:'create>/BankName',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Account No."
-                            required="true"
-                        />
-                        <Input
-                            id="accNoId"
-                            maxLength="18"
-                            enabled="false"
-                            value="{path:'create>/AccountNo',type:'.customAccountType',constraints:{minLength:1,maxLength:18}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Beneficiary Name"
-                            required="true"
-                        />
-                        <Input
-                            id="benNameId"
-                            enabled="false"
-                            value="{path:'create>/BeneficiaryName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Beneficiary A/C Type"
-                            required="true"
-                        />
-                        <Select
-                            id="benAccTypeId"
-                            enabled="false"
-                            forceSelection="false"
-                            selectedKey="{create>/AccountType}"
-                        >
-                            <core:Item
-                                key="SAVINGS"
-                                text="Savings"
+                            <Label
+                                design="Bold"
+                                text="Bank details"
                             />
-                            <core:Item
-                                key="CURRENT"
-                                text="Current"
+                            <Text text="" />
+                            <Label
+                                design="Bold"
+                                text="Bank Name"
+                                required="true"
                             />
-                        </Select>
-                        <Label
-                            design="Bold"
-                            text="IFSC/Swift Code"
-                            required="true"
-                        />
-                        <Input
-                            id="ifscId"
-                            enabled="false"
-                            value="{ path : 'create>/IFSCCode', type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Branch Name"
-                            required="true"
-                        />
-                        <Input
-                            id="branchNameId"
-                            enabled="false"
-                            value="{path:'create>/BranchName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Beneficiary Bank Location"
-                            required="true"
-                        />
-                        <Input
-                            id="benLocId"
-                            enabled="false"
-                            value="{path:'create>/BeneficiaryLocation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Bank Address"
-                        />
-                        <Input
-                            id="bankaddressId"
-                            enabled="false"
-                            value="{path:'create>/BankAddress',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Cancelled Cheque &amp; Declaration"
-                            required="true"
-                        />
-                        <u:FileUploader
-                            id="canChqfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"
-                            enabled="false"
-                            buttonText="Browse"
-                        >
-                            <u:customData>
-                                <core:CustomData key="CancelledCheque" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="canChqfileUploadLink"
-                            text="{create>/CancelledCheque}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="CancelledCheque" />
-                            </customData>
-                        </Link>
-                        <Label
-                            design="Bold"
-                            text="Financial Status (Balance Sheet)"
-                        />
-                        <u:FileUploader
-                            id="balanceSheetfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            uploadComplete="onUploadComplete"
-                            change="onFileUploaderChange"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            buttonText="Browse"
-                        >
-                            <u:customData>
-                                <core:CustomData key="BalanceSheet" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="balanceSheetfileUploadLink"
-                            text="{create>/BalanceSheet}"
-                            visible="{= ${create>/BalanceSheet} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="BalanceSheet" />
-                            </customData>
-                        </Link>
+                            <Input
+                                id="bankNameId"
+                                enabled="false"
+                                value="{path:'create>/BankName',type:'sap.ui.model.type.String',constraints :{minLength:1}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Account No."
+                                required="true"
+                            />
+                            <Input
+                                id="accNoId"
+                                maxLength="18"
+                                enabled="false"
+                                value="{path:'create>/AccountNo',type:'.customAccountType',constraints:{minLength:1,maxLength:18}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Beneficiary Name"
+                                required="true"
+                            />
+                            <Input
+                                id="benNameId"
+                                enabled="false"
+                                value="{path:'create>/BeneficiaryName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Beneficiary A/C Type"
+                                required="true"
+                            />
+                            <Select
+                                id="benAccTypeId"
+                                enabled="false"
+                                forceSelection="false"
+                                selectedKey="{create>/AccountType}"
+                            >
+                                <core:Item
+                                    key="SAVINGS"
+                                    text="Savings"
+                                />
+                                <core:Item
+                                    key="CURRENT"
+                                    text="Current"
+                                />
+                            </Select>
+                            <Label
+                                design="Bold"
+                                text="IFSC/Swift Code"
+                                required="true"
+                            />
+                            <Input
+                                id="ifscId"
+                                enabled="false"
+                                value="{ path : 'create>/IFSCCode', type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Branch Name"
+                                required="true"
+                            />
+                            <Input
+                                id="branchNameId"
+                                enabled="false"
+                                value="{path:'create>/BranchName',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Beneficiary Bank Location"
+                                required="true"
+                            />
+                            <Input
+                                id="benLocId"
+                                enabled="false"
+                                value="{path:'create>/BeneficiaryLocation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Bank Address"
+                            />
+                            <Input
+                                id="bankaddressId"
+                                enabled="false"
+                                value="{path:'create>/BankAddress',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Cancelled Cheque &amp; Declaration"
+                                required="true"
+                            />
+                            <u:FileUploader
+                                id="canChqfileUploader"
+                                sendXHR="true"
+                                useMultipart="false"
+                                uploadComplete="onUploadComplete"
+                                change="onFileUploaderChange"
+                                fileSizeExceed="onFileSizeExceded"
+                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                                maximumFileSize="10MB"
+                                enabled="false"
+                                buttonText="Browse"
+                            >
+                                <u:customData>
+                                    <core:CustomData key="CancelledCheque" />
+                                </u:customData>
+                            </u:FileUploader>
+                            <Link
+                                id="canChqfileUploadLink"
+                                text="{create>/CancelledCheque}"
+                                press="onAttachmentGet"
+                            >
+                                <customData>
+                                    <core:CustomData key="CancelledCheque" />
+                                </customData>
+                            </Link>
+                            <Label
+                                design="Bold"
+                                text="Financial Status (Balance Sheet)"
+                            />
+                            <u:FileUploader
+                                id="balanceSheetfileUploader"
+                                sendXHR="true"
+                                useMultipart="false"
+                                uploadComplete="onUploadComplete"
+                                change="onFileUploaderChange"
+                                fileSizeExceed="onFileSizeExceded"
+                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                                maximumFileSize="10MB"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                                buttonText="Browse"
+                            >
+                                <u:customData>
+                                    <core:CustomData key="BalanceSheet" />
+                                </u:customData>
+                            </u:FileUploader>
+                            <Link
+                                id="balanceSheetfileUploadLink"
+                                text="{create>/BalanceSheet}"
+                                visible="{= ${create>/BalanceSheet} !== ''}"
+                                press="onAttachmentGet"
+                            >
+                                <customData>
+                                    <core:CustomData key="BalanceSheet" />
+                                </customData>
+                            </Link>
                         </f:SimpleForm>
                     </VBox>
                     <VBox>
-                    <f:SimpleForm
+                        <f:SimpleForm
                             editable="true"
                             layout="ResponsiveGridLayout"
                         >
-                        <Label
-                            design="Bold"
-                            text="MSME details"
-                        />
-                        <Text text="" />
-                        <Label
-                            design="Bold"
-                            text="MSME ITIL View"
-                        />
-                        <RadioButtonGroup
-                            selectedIndex="{= ${create>/MsmeItilView} === 'MSME' ? 0 : 1}"
-                            columns="2"
-                            id="msmeItil"
-                            visible="{= ${create>/VendorType} === 'DM'}"
-                            select="onRadioButtonSelect"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                        >
-                            <RadioButton text="MSME" />
-                            <RadioButton text="Non-MSME" />
-                        </RadioButtonGroup>
-                        <Label
-                            design="Bold"
-                            text="MSME Main Certificate"
-                            required="true"
-                        />
-                        <CheckBox
-                            id="msmeCert"
-                            select="onMainCertificateChange"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            selected="{= ${create>/MsmeMainCertificate} === 'X' ? true : false}"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="MSME Certificate ID"
-                            required="true"
-                        />
-                        <Select
-                            id="MsmeCertificateId"
-                            showSecondaryValues="true"
-                            forceSelection="false"
-                            selectedKey="{create>/MsmeMainCertificateId}"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                        >
-                            <core:Item
-                                key="INMED"
-                                text="Medium"
+                            <Label
+                                design="Bold"
+                                text="MSME details"
                             />
-                            <core:Item
-                                key="INMIC"
-                                text="Micro"
+                            <Text text="" />
+                            <Label
+                                design="Bold"
+                                text="MSME ITIL View"
                             />
-                            <core:Item
-                                key="INSML"
-                                text="Small"
+                            <RadioButtonGroup
+                                selectedIndex="{= ${create>/MsmeItilView} === 'MSME' ? 0 : 1}"
+                                columns="2"
+                                id="msmeItil"
+                                visible="{= ${create>/VendorType} === 'DM'}"
+                                select="onRadioButtonSelect"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            >
+                                <RadioButton text="MSME" />
+                                <RadioButton text="Non-MSME" />
+                            </RadioButtonGroup>
+                            <Label
+                                design="Bold"
+                                text="MSME Main Certificate"
+                                required="true"
                             />
-                        </Select>
-                        <Label
-                            design="Bold"
-                            text="MSME Certification No."
-                            required="true"
-                        />
-                        <Input
-                            id="MsmeCertificateNo"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            value="{path:'create>/MsmeCertificateNo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="MSME Valid From"
-                            required="true"
-                        />
-                        <DatePicker
-                            id="MsmeValidFrom"
-                            value="{path:'create>/MsmeValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            valueFormat="yyyyMMdd"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="MSME Valid Up To"
-                            required="true"
-                        />
-                        <DatePicker
-                            id="MsmeValidTo"
-                            value="{create>/MsmeValidTo}"
-                            valueFormat="yyyyMMdd"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="MSME Registration City"
-                            required="true"
-                        />
-                        <Input
-                            id="MsmeRegistrationCity"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            value="{path:'create>/MsmeRegistrationCity',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Upload MSME Certificate"
-                            required="true"
-                        />
-                        <u:FileUploader
-                            id="msmefileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                            change="onFileUploaderChange"
-                            maximumFileSize="10MB"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="MsmeDeclarationName" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            id="msmefileUploadLink"
-                            text="{create>/MsmeDeclarationName}"
-                            press="onAttachmentGet"
-                            visible="{= ${create>/MsmeItilView} === 'MSME'}"
-                        >
-                            <customData>
-                                <core:CustomData key="MsmeDeclarationName" />
-                            </customData>
-                        </Link>
+                            <CheckBox
+                                id="msmeCert"
+                                select="onMainCertificateChange"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                                selected="{= ${create>/MsmeMainCertificate} === 'X' ? true : false}"
+                                visible="{= ${create>/MsmeItilView} === 'MSME'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="MSME Certificate ID"
+                                required="true"
+                            />
+                            <Select
+                                id="MsmeCertificateId"
+                                showSecondaryValues="true"
+                                forceSelection="false"
+                                selectedKey="{create>/MsmeMainCertificateId}"
+                                visible="{= ${create>/MsmeItilView} === 'MSME'}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            >
+                                <core:Item
+                                    key="INMED"
+                                    text="Medium"
+                                />
+                                <core:Item
+                                    key="INMIC"
+                                    text="Micro"
+                                />
+                                <core:Item
+                                    key="INSML"
+                                    text="Small"
+                                />
+                            </Select>
+                            <Label
+                                design="Bold"
+                                text="MSME Certification No."
+                                required="true"
+                            />
+                            <Input
+                                id="MsmeCertificateNo"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                                value="{path:'create>/MsmeCertificateNo',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                                visible="{= ${create>/MsmeItilView} === 'MSME'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="MSME Valid From"
+                                required="true"
+                            />
+                            <DatePicker
+                                id="MsmeValidFrom"
+                                value="{path:'create>/MsmeValidFrom',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                                valueFormat="yyyyMMdd"
+                                visible="{= ${create>/MsmeItilView} === 'MSME'}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="MSME Valid Up To"
+                                required="true"
+                            />
+                            <DatePicker
+                                id="MsmeValidTo"
+                                value="{create>/MsmeValidTo}"
+                                valueFormat="yyyyMMdd"
+                                visible="{= ${create>/MsmeItilView} === 'MSME'}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="MSME Registration City"
+                                required="true"
+                            />
+                            <Input
+                                id="MsmeRegistrationCity"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                                value="{path:'create>/MsmeRegistrationCity',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
+                                visible="{= ${create>/MsmeItilView} === 'MSME'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Upload MSME Certificate"
+                                required="true"
+                            />
+                            <u:FileUploader
+                                id="msmefileUploader"
+                                sendXHR="true"
+                                useMultipart="false"
+                                uploadComplete="onUploadComplete"
+                                buttonText="Browse"
+                                fileSizeExceed="onFileSizeExceded"
+                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
+                                change="onFileUploaderChange"
+                                maximumFileSize="10MB"
+                                visible="{= ${create>/MsmeItilView} === 'MSME'}"
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                            >
+                                <u:customData>
+                                    <core:CustomData
+                                        key="MsmeDeclarationName"
+                                    />
+                                </u:customData>
+                            </u:FileUploader>
+                            <Link
+                                id="msmefileUploadLink"
+                                text="{create>/MsmeDeclarationName}"
+                                press="onAttachmentGet"
+                                visible="{= ${create>/MsmeItilView} === 'MSME'}"
+                            >
+                                <customData>
+                                    <core:CustomData
+                                        key="MsmeDeclarationName"
+                                    />
+                                </customData>
+                            </Link>
                         </f:SimpleForm>
                     </VBox>
                 </HBox>
@@ -1290,6 +1326,7 @@
                 expandable="true"
             >
                 <f:SimpleForm
+                    id="_IDGenSimpleForm4"
                     editable="true"
                     layout="ColumnLayout"
                     columnsM="2"
@@ -1314,19 +1351,20 @@
                             select="onCertificationChange"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
+                        <Label text="" />
                         <CheckBox
                             id="ISO14001Certification"
                             text="ISO 14001"
                             select="onCertificationChange"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
-                        <Label text="" />
                         <CheckBox
                             id="ISO45001Certification"
                             text="ISO 45001"
                             select="onCertificationChange"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/quality} === true}"
                         />
+                        <Label text="" />
                         <CheckBox
                             id="VDA63Certification"
                             text="VDA 6.3"
@@ -1427,6 +1465,8 @@
                                 <core:CustomData key="IATF16949Attachment" />
                             </customData>
                         </Link>
+                        <Label text="" />
+                        <Text text="" />
                         <Label
                             design="Bold"
                             text="ISO 14001 Certificate"
@@ -1621,13 +1661,8 @@
                                 <core:CustomData key="IATFAttachment" />
                             </customData>
                         </Link>
-                        <Label
-                            design="Bold"
-                            text=""
-                        />
-                        <Text
-                            text=""
-                        />
+                        <Label text="" />
+                        <Text text="" />
                         <Label
                             design="Bold"
                             text="Risk Rating"
@@ -1724,7 +1759,7 @@
                                 <core:CustomData key="SystemAuditCheck" />
                             </u:customData>
                         </u:FileUploader>
-                         <Link
+                        <Link
                             text="Download"
                             target="_blank"
                             press="onGetSysAud"
@@ -1863,269 +1898,273 @@
                 expandable="true"
             >
                 <HBox>
-                    <VBox>
+                    <VBox width="30rem">
                         <f:SimpleForm
                             editable="true"
                             layout="ResponsiveGridLayout"
                         >
-                    <Label
-                            design="Bold"
-                            text="Contact Person Name 2"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMail2'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Action Plan"
-                        />
-                        <u:FileUploader
-                            id="actionPlanfileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="ActionPlanAttachment" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/ActionPlanAttachment}"
-                            visible="{= ${create>/ActionPlanAttachment} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="ActionPlanAttachment" />
-                            </customData>
-                        </Link>
+                            <Label
+                                design="Bold"
+                                text="Contact Person Name 2"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonName2',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Department"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonDepartment2',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Designation"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonDesignation2',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Landline Number"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonPhone2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Mobile Number"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonMobile2',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Email"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonMail2'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Action Plan"
+                            />
+                            <u:FileUploader
+                                id="actionPlanfileUploader"
+                                sendXHR="true"
+                                useMultipart="false"
+                                change="onFileUploaderChange"
+                                uploadComplete="onUploadComplete"
+                                buttonText="Browse"
+                                fileSizeExceed="onFileSizeExceded"
+                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                                maximumFileSize="10MB"
+                                enabled="{= ${request>/edit} === true}"
+                            >
+                                <u:customData>
+                                    <core:CustomData
+                                        key="ActionPlanAttachment"
+                                    />
+                                </u:customData>
+                            </u:FileUploader>
+                            <Link
+                                text="{create>/ActionPlanAttachment}"
+                                visible="{= ${create>/ActionPlanAttachment} !== ''}"
+                                press="onAttachmentGet"
+                            >
+                                <customData>
+                                    <core:CustomData
+                                        key="ActionPlanAttachment"
+                                    />
+                                </customData>
+                            </Link>
                         </f:SimpleForm>
                     </VBox>
-                    <VBox>
-                    <f:SimpleForm
+                    <VBox width="30rem">
+                        <f:SimpleForm
                             editable="true"
                             layout="ResponsiveGridLayout"
                         >
-                        <Label
-                            design="Bold"
-                            text="Contact Person Name 3"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonName3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDepartment3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDesignation3',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonPhone3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMobile3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMail3'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Attachment 1"
-                        />
-                        <Input
-                            id="attach1Id"
-                            value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
-                            enabled="false"
-                        />
-                        <u:FileUploader
-                            id="attach1fileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="Attachment1" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/Attachment1}"
-                            visible="{= ${create>/Attachment1} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="Attachment1" />
-                            </customData>
-                        </Link>
+                            <Label
+                                design="Bold"
+                                text="Contact Person Name 3"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonName3',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Department"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonDepartment3',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Designation"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonDesignation3',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Landline Number"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonPhone3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Mobile Number"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonMobile3',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Email"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonMail3'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Attachment 1"
+                            />
+                            <Input
+                                id="attach1Id"
+                                value="{path:'create>/Attachment1Name',type:'sap.ui.model.type.String'}"
+                                enabled="false"
+                            />
+                            <u:FileUploader
+                                id="attach1fileUploader"
+                                sendXHR="true"
+                                useMultipart="false"
+                                change="onFileUploaderChange"
+                                uploadComplete="onUploadComplete"
+                                buttonText="Browse"
+                                fileSizeExceed="onFileSizeExceded"
+                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                                maximumFileSize="10MB"
+                                enabled="{= ${request>/edit} === true}"
+                            >
+                                <u:customData>
+                                    <core:CustomData key="Attachment1" />
+                                </u:customData>
+                            </u:FileUploader>
+                            <Link
+                                text="{create>/Attachment1}"
+                                visible="{= ${create>/Attachment1} !== ''}"
+                                press="onAttachmentGet"
+                            >
+                                <customData>
+                                    <core:CustomData key="Attachment1" />
+                                </customData>
+                            </Link>
                         </f:SimpleForm>
                     </VBox>
-                    <VBox>
-                    <f:SimpleForm
+                    <VBox width="30rem">
+                        <f:SimpleForm
                             editable="true"
                             layout="ResponsiveGridLayout"
                         >
-                        <Label
-                            design="Bold"
-                            text="Contact Person Name 4"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonName4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Department"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDepartment4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Designation"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonDesignation4',type:'sap.ui.model.type.String'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Landline Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonPhone4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Mobile Number"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMobile4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Email"
-                        />
-                        <Input
-                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                            value="{path:'create>/ContactPersonMail4'}"
-                        />
-                        <Label
-                            design="Bold"
-                            text="Attachment 2"
-                        />
-                        <Input
-                            id="attach2Id"
-                            value="{path:'create>/Attachment2Name',type:'sap.ui.model.type.String'}"
-                            enabled="false"
-                        />
-                        <u:FileUploader
-                            id="attach2fileUploader"
-                            sendXHR="true"
-                            useMultipart="false"
-                            change="onFileUploaderChange"
-                            uploadComplete="onUploadComplete"
-                            buttonText="Browse"
-                            fileSizeExceed="onFileSizeExceded"
-                            fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
-                            maximumFileSize="10MB"
-                            enabled="{= ${request>/edit} === true}"
-                        >
-                            <u:customData>
-                                <core:CustomData key="Attachment2" />
-                            </u:customData>
-                        </u:FileUploader>
-                        <Link
-                            text="{create>/Attachment2}"
-                            visible="{= ${create>/Attachment2} !== ''}"
-                            press="onAttachmentGet"
-                        >
-                            <customData>
-                                <core:CustomData key="Attachment2" />
-                            </customData>
-                        </Link>
+                            <Label
+                                design="Bold"
+                                text="Contact Person Name 4"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonName4',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Department"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonDepartment4',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Designation"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonDesignation4',type:'sap.ui.model.type.String'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Landline Number"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonPhone4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Mobile Number"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonMobile4',type:'sap.ui.model.type.String',constraints:{minLength:10,maxLength:10}}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Email"
+                            />
+                            <Input
+                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
+                                value="{path:'create>/ContactPersonMail4'}"
+                            />
+                            <Label
+                                design="Bold"
+                                text="Attachment 2"
+                            />
+                            <Input
+                                id="attach2Id"
+                                value="{path:'create>/Attachment2Name',type:'sap.ui.model.type.String'}"
+                                enabled="false"
+                            />
+                            <u:FileUploader
+                                id="attach2fileUploader"
+                                sendXHR="true"
+                                useMultipart="false"
+                                change="onFileUploaderChange"
+                                uploadComplete="onUploadComplete"
+                                buttonText="Browse"
+                                fileSizeExceed="onFileSizeExceded"
+                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost,xls,xlsx"
+                                maximumFileSize="10MB"
+                                enabled="{= ${request>/edit} === true}"
+                            >
+                                <u:customData>
+                                    <core:CustomData key="Attachment2" />
+                                </u:customData>
+                            </u:FileUploader>
+                            <Link
+                                text="{create>/Attachment2}"
+                                visible="{= ${create>/Attachment2} !== ''}"
+                                press="onAttachmentGet"
+                            >
+                                <customData>
+                                    <core:CustomData key="Attachment2" />
+                                </customData>
+                            </Link>
                         </f:SimpleForm>
                     </VBox>
-                    </HBox>
+                </HBox>
             </Panel>
         </content>
     </Page>

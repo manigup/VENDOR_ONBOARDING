@@ -87,6 +87,7 @@ sap.ui.define([
                         success: (data) => {
                             //data.PartyClassification = "Sup";
                             this.SupplierType = data.SupplierType;
+                            data.GroupType = data.GroupType.split(",");
                             //     data.TaxNumCat = "IN3";
                             // data.ChkDoubleInv = "X";
                             // data.GrBasedInv = "X";
@@ -1359,6 +1360,7 @@ sap.ui.define([
                 var mandat = await this._mandatCheck(); // Mandatory Check
                 if (!mandat) { //this.isGSTValid
                     var createData = this.createModel.getData();
+                    createData.GroupType = createData.GroupType.join(',');
                     // var data = this.getView().getModel("request").getData();
                     this.saveData(createData);
                     // Prepare the function import parameters

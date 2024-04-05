@@ -227,6 +227,7 @@ sap.ui.define([
                     payload.VenFrom = new Date();
                     payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
                     payload.initiatedBy = sessionStorage.getItem('userEmail');
+                    payload.GroupType = payload.GroupType.join(',');
                     setTimeout(() => {
                         this.getView().getModel().create("/VenOnboard", payload, {
                             success: async (sData) => {

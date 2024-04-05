@@ -137,94 +137,103 @@
                 text="Group Type"
                 required="true"
             />
-            <Select
+            <!-- <Select
                 id="grouptypeId"
                 forceSelection="false"
                 selectedKey="{path:'CreateModel>/GroupType',type:'sap.ui.model.type.String'}"
                 valueStateText="Required"
                 fieldGroupIds="required"
-            >
+            > -->
+            <MultiComboBox
+            id="grouptypeId"
+			showSecondaryValues= "true"
+            selectedKeys="{CreateModel>/GroupType}"
+			width="500px"
+            valueStateText="Required"
+            fieldGroupIds="required"
+			>
                 <core:ListItem id="_IDGenListItem1"
                     key="A01"
                     text="Casting"
-                    additionalText="A01"
+                    additionalText="CASTI"
                 />
                 <core:ListItem id="_IDGenListItem2"
                     key="B01"
                     text="Forging"
-                    additionalText="B01"
+                    additionalText="FORGI"
                 />
                 <core:ListItem id="_IDGenListItem3"
                     key="C01"
                     text="Bulk Hose"
-                    additionalText="C01"
+                    additionalText="BULKH"
                 />
                 <core:ListItem id="_IDGenListItem4"
                     key="D01"
                     text="Formed Hose"
-                    additionalText="D01"
+                    additionalText="FORHO"
                 />
                 <core:ListItem id="_IDGenListItem5"
                     key="E01"
                     text="Ind Material - Prod"
-                    additionalText="E01"
+                    additionalText="INMTP"
                 />
                 <core:ListItem id="_IDGenListItem6"
                     key="F01"
                     text="Ind Material - Other"
-                    additionalText="F01"
+                    additionalText="INMTO"
                 />
                 <core:ListItem id="_IDGenListItem7"
                     key="G01"
                     text="Molding"
-                    additionalText="G01"
+                    additionalText="MOLDI"
                 />
                 <core:ListItem id="_IDGenListItem8"
                     key="H01"
                     text="Job-work"
-                    additionalText="H01"
+                    additionalText="JOBWO"
                 />
                 <core:ListItem id="_IDGenListItem9"
                     key="I01"
                     text="Machining"
-                    additionalText="I01"
+                    additionalText="MACHI"
                 />
                 <core:ListItem id="_IDGenListItem10"
                     key="J01"
                     text="RM - Polymer"
-                    additionalText="J01"
+                    additionalText="RMPOL"
                 />
                 <core:ListItem id="_IDGenListItem11"
                     key="K01"
                     text="Proprietory"
-                    additionalText="K01"
+                    additionalText="PROPR"
                 />
                 <core:ListItem id="_IDGenListItem12"
                     key="L01"
                     text="Sheet Metal"
-                    additionalText="L01"
+                    additionalText="SHEET"
                 />
                 <core:ListItem id="_IDGenListItem13"
                     key="M01"
                     text="Capex"
-                    additionalText="M01"
+                    additionalText="CAPEX"
                 />
                 <core:ListItem id="_IDGenListItem14"
                     key="N01"
                     text="Tubes"
-                    additionalText="N01"
+                    additionalText="TUBES"
                 />
                 <core:ListItem id="_IDGenListItem15"
                     key="O01"
                     text="Sleeves"
-                    additionalText="O01"
+                    additionalText="SLEEV"
                 />
                 <core:ListItem id="_IDGenListItem16"
                     key="P01"
                     text="Springs"
-                    additionalText="P01"
+                    additionalText="SPRIN"
                 />
-            </Select>
+                	</MultiComboBox>
+            <!-- </Select> -->
             <Label
                 id="_IDGenLabel4"
                 design="Bold"

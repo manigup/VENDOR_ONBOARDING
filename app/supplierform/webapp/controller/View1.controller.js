@@ -73,7 +73,7 @@ sap.ui.define([
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
                 createdata.RegistrationType = requestData.RegistrationType;
-                createdata.GroupType = requestData.GroupType;
+                createdata.GroupType = requestData.GroupType.split(",");
                 createdata.VDAAssessment = requestData.VDAAssessment;
                 createdata.RelatedParty = false;
                 createdata.SupplierType = "Permanent";
@@ -836,6 +836,7 @@ sap.ui.define([
                 data.VendorType = requestData.VendorType;
                 data.VendorMail = requestData.VendorMail;
                 data.BeneficiaryName = requestData.VendorName;
+                data.GroupType = data.GroupType.join(',');
                 var payloadStr = JSON.stringify(data);
                 this.draft = true;
                 // var oDataModel = this.getOwnerComponent().getModel();
@@ -994,6 +995,7 @@ sap.ui.define([
                 data.VendorMail = requestData.VendorMail;
                 data.vendorId = requestData.vendorId;
                 data.BeneficiaryName = requestData.VendorName;
+                data.GroupType = data.GroupType.join(',');
 
                 if (!this.oSubmitDialog) {
                     this.oSubmitDialog = new Dialog({
