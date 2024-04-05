@@ -16,8 +16,9 @@ entity City {
 }
 
 entity UnitCode {
-  key code        : String;
-      addressCode : String;
+  key code            : String;
+      addressCode     : String;
+      unitDescription : String;
 };
 
 

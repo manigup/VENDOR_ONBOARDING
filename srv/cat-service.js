@@ -429,7 +429,8 @@ async function getUnitCodes() {
         const unitCodes = JSON.parse(response.data.d);
         return unitCodes.map(unitCode => ({
             code: unitCode.UnitCode,
-            addressCode: unitCode.AddressCode
+            addressCode: unitCode.AddressCode,
+            unitDescription: unitCode.UnitDescription
         }));
 
     } catch (error) {
