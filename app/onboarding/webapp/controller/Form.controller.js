@@ -1241,7 +1241,7 @@ sap.ui.define([
 
             _validateSelect: function (oInput, bValidationError) {
                 var sValueState = "None";
-                var value = oInput.getSelectedKey();
+                var value = oInput.getMetadata().getName() === 'sap.m.MultiComboBox' ? oInput.getSelectedKeys() : oInput.getSelectedKey();
 
                 try {
                     if (!value) {
