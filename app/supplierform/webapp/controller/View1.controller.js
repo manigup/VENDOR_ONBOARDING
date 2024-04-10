@@ -124,6 +124,7 @@ sap.ui.define([
                             data.Type = "MATERIAL";
                             // data.ScopeOfSupply = "PARTS";
                         }
+                        data.GroupType = data.GroupType.split(",");
                         data.SupplierType = "Permanent";
                         if (!data.MsmeItilView && requestData.VendorType === "DM") {
                             data.MsmeItilView = "MSME";
@@ -724,7 +725,7 @@ sap.ui.define([
 
             _validateSelect: function (oInput, bValidationError) {
                 var sValueState = "None";
-                var value = oInput.getSelectedKey();
+                var value = oInput.getMetadata().getName() === 'sap.m.MultiComboBox' ? oInput.getSelectedKeys() : oInput.getSelectedKey();
 
                 try {
                     if (!value) {
