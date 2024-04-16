@@ -784,11 +784,210 @@
                             text="Supplier Payment Term"
                             required="true"
                         />
-                        <Input
+                        <Select
                             id="suppPaymentTerm"
-                            value="{path:'create>/SuppPaymentTerm',type:'sap.ui.model.type.String',constraints:{minLength:1,maxLength:60}}"
+                            showSecondaryValues="true"
+                            forceSelection="false"
+                            selectedKey="{create>/SuppPaymentTerm}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
-                        />
+                        >
+                            <core:Item
+                                key="Z001"
+                                text="Advance Payment"
+                            />
+                            <core:Item
+                                key="Z003"
+                                text="15  Days from the Date of Invoice"
+                            />
+                            <core:Item
+                                key="Z004"
+                                text="100% advance along with PO"
+                            />
+                            <core:Item
+                                key="Z005"
+                                text="100% immediately after Installation"
+                            />
+                            <core:Item
+                                key="Z007"
+                                text="100% after completion"
+                            />
+                            <core:Item
+                                key="Z008"
+                                text="100% against PI"
+                            />
+                            <core:Item
+                                key="Z009"
+                                text="100% after receipt"
+                            />
+                            <core:Item
+                                key="Z010"
+                                text="100% after submission of bill"
+                            />
+                            <core:Item
+                                key="Z011"
+                                text="100% after submission of bill"
+                            />
+                            <core:Item
+                                key="Z013"
+                                text="100% payment after PPAP"
+                            />
+                            <core:Item
+                                key="Z014"
+                                text="100% T/T advance against PI"
+                            />
+                            <core:Item
+                                key="Z016"
+                                text="15 days from Receipt of Material"
+                            />
+                            <core:Item
+                                key="Z018"
+                                text="30% along with PO, 70% on readiness"
+                            />
+                            <core:Item
+                                key="Z021"
+                                text="30 days from Date of Invoice"
+                            />
+                            <core:Item
+                                key="Z022"
+                                text="30 days from Receipt of Material"
+                            />
+                            <core:Item
+                                key="Z023"
+                                text="35  Days from the Date of Invoice"
+                            />
+                            <core:Item
+                                key="Z032"
+                                text="30% along PO & Bal. after delivery and bal on delv"
+                            />
+                            <core:Item
+                                key="Z039"
+                                text="45 days from the date of invoice"
+                            />
+                            <core:Item
+                                key="Z040"
+                                text="45 days from the receipt of material"
+                            />
+                            <core:Item
+                                key="Z041"
+                                text="50% against PI & balance after completion of work"
+                            />
+                            <core:Item
+                                key="Z043"
+                                text="50% advance along with PO & balance after delivery"
+                            />
+                            <core:Item
+                                key="Z049"
+                                text="50% advance with PO & balance after successful ins"
+                            />
+                            <core:Item
+                                key="Z054"
+                                text="50% advance with PO & bal after readiness"
+                            />
+                            <core:Item
+                                key="Z057"
+                                text="52 days from the date of Invoice"
+                            />
+                            <core:Item
+                                key="Z058"
+                                text="60 days from the date of Bill of Lading"
+                            />
+                            <core:Item
+                                key="Z059"
+                                text="60 days from the date of Invoice"
+                            />
+                            <core:Item
+                                key="Z060"
+                                text="60 days from the Receipt of Material"
+                            />
+                            <core:Item
+                                key="Z067"
+                                text="80% advance with PO & balance after readiness"
+                            />
+                            <core:Item
+                                key="Z068"
+                                text="80% advance with PO & balance after delivery"
+                            />
+                            <core:Item
+                                key="Z069"
+                                text="80% adv with PO & balance after installation"
+                            />
+                            <core:Item
+                                key="Z073"
+                                text="90% advance with PO & balance after readiness"
+                            />
+                            <core:Item
+                                key="Z074"
+                                text="90% advance with PO & balance after delivery"
+                            />
+                            <core:Item
+                                key="Z075"
+                                text="90% advance with PO & balance after installation"
+                            />
+                            <core:Item
+                                key="Z078"
+                                text="Hundi against gate entry"
+                            />
+                            <core:Item
+                                key="Z082"
+                                text="Payment on 15th of next month for all Gate Entries"
+                            />
+                            <core:Item
+                                key="Z084"
+                                text="T/T Remittance on 30 days from Receipt of Material"
+                            />
+                            <core:Item
+                                key="Z085"
+                                text="37 days from the date of Invoice"
+                            />
+                            <core:Item
+                                key="Z086"
+                                text="64 days from the date of Invoice"
+                            />
+                            <core:Item
+                                key="Z087"
+                                text="75 days from the date of Invoice"
+                            />
+                            <core:Item
+                                key="Z088"
+                                text="90 days from the date of Invoice"
+                            />
+                            <core:Item
+                                key="Z089"
+                                text="120 days from the date of Invoice"
+                            />
+                            <core:Item
+                                key="Z090"
+                                text="180 days from the date of Invoice"
+                            />
+                            <core:Item
+                                key="Z091"
+                                text="90 days from the date of Material"
+                            />
+                            <core:Item
+                                key="Z092"
+                                text="D/P at sight"
+                            />
+                            <core:Item
+                                key="Z093"
+                                text="L/C 90 Days from B/L date"
+                            />
+                            <core:Item
+                                key="Z094"
+                                text="L/C 60 days from B/L date"
+                            />
+                            <core:Item
+                                key="Z095"
+                                text="D/A 45 days from B/L Date"
+                            />
+                            <core:Item
+                                key="Z096"
+                                text="D/A 60 days from B/L Date"
+                            />
+                            <core:Item
+                                key="Z097"
+                                text="D/A 30 days from B/L Date"
+                            />
+                        </Select>
                         <Label
                             id="_IDGenLabel720"
                             design="Bold"

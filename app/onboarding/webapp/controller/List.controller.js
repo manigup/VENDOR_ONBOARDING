@@ -990,7 +990,8 @@ sap.ui.define([
                 // }
                 var form = {
                     "SupplierType": formdata.SupplierType,
-                    "UnitCode": sessionStorage.getItem("unitCode"),
+                    //"UnitCode": sessionStorage.getItem("unitCode"),
+                    "UnitCode": "P01",
                     "AddressCode": formdata.AddressCode,
                     "AddressDesc": formdata.VendorName,
                     "vendorAddress": formdata.Address1,

@@ -960,7 +960,7 @@ sap.ui.define([
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
                 if (requestData.purchase) {
-                    aInputs.push(oView.byId("suppPaymentTerm"));
+                    aSelects.push(oView.byId("suppPaymentTerm"));
                     aInputs.push(oView.byId("suppCurrency"));
                     aInputs.push(oView.byId("incolocationid"));
                     aSelects.push(oView.byId("incoid"));
