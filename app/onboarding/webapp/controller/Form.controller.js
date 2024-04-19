@@ -463,7 +463,7 @@ sap.ui.define([
             },
 
             initializeAPIS: function () {
-                var unitCode = sessionStorage.getItem("unitCode");
+                var unitCode = "P01";
 
                 this.GetSupplierAccountCodeList(unitCode)
                     .then(function () {

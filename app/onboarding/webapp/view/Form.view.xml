@@ -857,7 +857,7 @@
                             />
                             <core:Item
                                 key="Z032"
-                                text="30% along PO & Bal. after delivery and bal on delv"
+                                text="30% along PO &amp; Bal. after delivery and bal on delv"
                             />
                             <core:Item
                                 key="Z039"
@@ -869,19 +869,19 @@
                             />
                             <core:Item
                                 key="Z041"
-                                text="50% against PI & balance after completion of work"
+                                text="50% against PI &amp; balance after completion of work"
                             />
                             <core:Item
                                 key="Z043"
-                                text="50% advance along with PO & balance after delivery"
+                                text="50% advance along with PO &amp; balance after delivery"
                             />
                             <core:Item
                                 key="Z049"
-                                text="50% advance with PO & balance after successful ins"
+                                text="50% advance with PO &amp; balance after successful ins"
                             />
                             <core:Item
                                 key="Z054"
-                                text="50% advance with PO & bal after readiness"
+                                text="50% advance with PO &amp; bal after readiness"
                             />
                             <core:Item
                                 key="Z057"
@@ -901,27 +901,27 @@
                             />
                             <core:Item
                                 key="Z067"
-                                text="80% advance with PO & balance after readiness"
+                                text="80% advance with PO &amp; balance after readiness"
                             />
                             <core:Item
                                 key="Z068"
-                                text="80% advance with PO & balance after delivery"
+                                text="80% advance with PO &amp; balance after delivery"
                             />
                             <core:Item
                                 key="Z069"
-                                text="80% adv with PO & balance after installation"
+                                text="80% adv with PO &amp; balance after installation"
                             />
                             <core:Item
                                 key="Z073"
-                                text="90% advance with PO & balance after readiness"
+                                text="90% advance with PO &amp; balance after readiness"
                             />
                             <core:Item
                                 key="Z074"
-                                text="90% advance with PO & balance after delivery"
+                                text="90% advance with PO &amp; balance after delivery"
                             />
                             <core:Item
                                 key="Z075"
-                                text="90% advance with PO & balance after installation"
+                                text="90% advance with PO &amp; balance after installation"
                             />
                             <core:Item
                                 key="Z078"
