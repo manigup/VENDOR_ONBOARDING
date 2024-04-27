@@ -73,7 +73,9 @@ sap.ui.define([
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
                 createdata.RegistrationType = requestData.RegistrationType;
+                createdata.GroupType = requestData.GroupType.split(",");
                 createdata.VDAAssessment = requestData.VDAAssessment;
+                createdata.RelatedParty = false;
                 createdata.SupplierType = "Permanent";
                 if (requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
@@ -122,6 +124,7 @@ sap.ui.define([
                             data.Type = "MATERIAL";
                             // data.ScopeOfSupply = "PARTS";
                         }
+                        data.GroupType = data.GroupType.split(",");
                         data.SupplierType = "Permanent";
                         if (!data.MsmeItilView && requestData.VendorType === "DM") {
                             data.MsmeItilView = "MSME";
@@ -175,6 +178,14 @@ sap.ui.define([
                 });
                 //this.fetchProductInfo();
                 this._showRemainingTime();
+            },
+            onGetSupplierRegForm: function(){
+                this.hardcodedURL = "";
+                if (window.location.href.includes("launchpad")) {
+                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+                }
+                var fileUrl = this.hardcodedURL + "/files/SupplierRegistrationfromupdated.doc";
+                window.open(fileUrl, '_blank');
             },
             fetchProductInfo: function () {
                 var requestData = this.getView().getModel("request").getData();
@@ -279,10 +290,12 @@ sap.ui.define([
                 } else if (data.Companycode === "4000 IMPERIAL MARTOR ENGINE TUBES PRIVATE LIMITED") {
                     this.byId("companycodeRbId").setSelectedIndex(3);
                 }
-                if (data.RegistrationType === "BOM Parts") {
+                if (data.RegistrationType === "Customer Driven (Export)") {
                     this.byId("registrationtypeRbId").setSelectedIndex(1);
-                } else if (data.RegistrationType === "Non BOM parts") {
+                }else if (data.RegistrationType === "BOM Parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(2);
+                }else if (data.RegistrationType === "Non BOM parts") {
+                    this.byId("registrationtypeRbId").setSelectedIndex(3);
                 }
                 if (data.Msme === "NO") {
                     this.byId("msmeRbId").setSelectedIndex(1);
@@ -402,10 +415,12 @@ sap.ui.define([
                         break;
                     case "registrationtypeRbId":
                         if (index === 0) {
-                            data.RegistrationType = "Customer Approved";
-                        } else if (index === 1) {
+                            data.RegistrationType = "Customer Driven (Domestic)";
+                        }else if (index === 1) {
+                            data.RegistrationType = "Customer Driven (Export)";
+                        }else if(index === 2){
                             data.RegistrationType = "BOM Parts";
-                        } else {
+                        }else {
                             data.RegistrationType = "Non BOM parts";
                         }
                         break;
@@ -459,7 +474,7 @@ sap.ui.define([
                 var aInputs = [oView.byId("venNameId"), oView.byId("mobileId"),
                 oView.byId("address1Id"), oView.byId("accNoId"), oView.byId("bankNameId"), oView.byId("ifscId"),
                 oView.byId("branchNameId"), oView.byId("benNameId"), oView.byId("benLocId"),
-                oView.byId("address2Id"), oView.byId("pincodeId"), oView.byId("suppPaymentTerm"), oView.byId("suppCurrency")];
+                oView.byId("address2Id"), oView.byId("pincodeId")];
 
                 // Inside _mandatCheck function
                 if (data.GstApplicable === "YES") {  // Making sure it's "YES" and not null
@@ -502,6 +517,12 @@ sap.ui.define([
                 oView.byId("benAccTypeId"),
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
+
+                if (data.RelatedParty === true) {
+                    aInputs.push(oView.byId("RelatedPartyNameId"));
+                    aInputs.push(oView.byId("RelatedPartyDesigId"));
+                    aInputs.push(oView.byId("RelatedPartyContactId"));
+                }
 
                 if (data.MsmeItilView === 'MSME') {
                     aInputs.push(oView.byId("MsmeCertificateNo"));
@@ -704,7 +725,7 @@ sap.ui.define([
 
             _validateSelect: function (oInput, bValidationError) {
                 var sValueState = "None";
-                var value = oInput.getSelectedKey();
+                var value = oInput.getMetadata().getName() === 'sap.m.MultiComboBox' ? oInput.getSelectedKeys() : oInput.getSelectedKey();
 
                 try {
                     if (!value) {
@@ -816,6 +837,7 @@ sap.ui.define([
                 data.VendorType = requestData.VendorType;
                 data.VendorMail = requestData.VendorMail;
                 data.BeneficiaryName = requestData.VendorName;
+                data.GroupType = data.GroupType.join(',');
                 var payloadStr = JSON.stringify(data);
                 this.draft = true;
                 // var oDataModel = this.getOwnerComponent().getModel();
@@ -974,6 +996,7 @@ sap.ui.define([
                 data.VendorMail = requestData.VendorMail;
                 data.vendorId = requestData.vendorId;
                 data.BeneficiaryName = requestData.VendorName;
+                data.GroupType = data.GroupType.join(',');
 
                 if (!this.oSubmitDialog) {
                     this.oSubmitDialog = new Dialog({

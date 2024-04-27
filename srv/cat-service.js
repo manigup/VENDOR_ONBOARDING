@@ -33,7 +33,7 @@ module.exports = cds.service.impl(async function () {
         await _createFolder(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId);
     });
 
-    this.before(['CREATE','UPDATE'], VendorForm, async (data, req) => {
+    this.before(['CREATE', 'UPDATE'], VendorForm, async (data, req) => {
         data.RelatedParty = data.RelatedParty === 'true';
         return data;
     });
@@ -54,7 +54,7 @@ module.exports = cds.service.impl(async function () {
         }
     })
 
-    
+
     this.before("CREATE", 'Attachments', async (req) => {
 
         const reqData = req.data.Filename.split("/");
@@ -200,16 +200,38 @@ module.exports = cds.service.impl(async function () {
         return getUnitCodes();
     });
 
+    this.on('GetSupplierList', async (req) => {
+        try {
+            const token = await generateToken(req.headers.loginid),
+                legApi = await cds.connect.to('Legacy'),
+                response = await legApi.send({
+                    query: `GET GetSupplierList?RequestBy='${req.headers.loginid}'`,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                });
+
+            if (response.d) {
+                return JSON.parse(response.d);
+            } else {
+                req.reject(500, `Error parsing response: ${response.data}`);
+            }
+        } catch (error) {
+            req.reject(500, "Unable to fetch Supplier List");
+        }
+    });
+
     //SupplierMaster
     this.on('submitFormData', async (req) => {
         const formDataString = req.data.data;
         const formDatapar = JSON.parse(formDataString);
         const formData = JSON.stringify(formDatapar, null, 2)
         try {
-        return await postFormData(formData);
-        }catch (error) {
+            return await postFormData(formData);
+        } catch (error) {
             console.error('Error submitting form data:', error);
-            req.reject(400,`Error creationg BP: ${error.message}`);
+            req.reject(400, `Error creationg BP: ${error.message}`);
         }
     });
 
@@ -553,4 +575,28 @@ async function getSupplierLocationList(unitCode) {
     }
 }
 
+async function generateToken(username) {
+    try {
+        const legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `POST GenerateToken`,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    "InputKey": username
+                }
+            });
+
+        if (response.d) {
+            return response.d;
+        } else {
+            console.error('Error parsing token response:', response.data);
+            throw new Error('Error parsing the token response from the API.');
+        }
+    } catch (error) {
+        console.error('Error generating token:', error);
+        throw new Error('Unable to generate token.');
+    }
+}
 
