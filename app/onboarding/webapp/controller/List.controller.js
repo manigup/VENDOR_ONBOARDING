@@ -97,7 +97,7 @@ sap.ui.define([
                                 reqData.appbtn = "coo";
                             } else if (reqData.marketingdom) {
                                 reqData.appbtn = "marketingdom";
-                            }else if (reqData.marketingexp) {
+                            } else if (reqData.marketingexp) {
                                 reqData.appbtn = "marketingexp";
                             } else if (reqData.finance) {
                                 reqData.appbtn = "finance";
@@ -149,7 +149,7 @@ sap.ui.define([
                                 reqData.appbtn = "coo";
                             } else if (reqData.marketingdom) {
                                 reqData.appbtn = "marketingdom";
-                            }else if (reqData.marketingexp) {
+                            } else if (reqData.marketingexp) {
                                 reqData.appbtn = "marketingexp";
                             } else if (reqData.finance) {
                                 reqData.appbtn = "finance";
@@ -283,7 +283,7 @@ sap.ui.define([
                 if (href.includes("impautosuppdev")) {
 
                     //  url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
-                    url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
+                    url = jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + this.vendorId;
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
                 }
@@ -311,7 +311,7 @@ sap.ui.define([
                     data.Access = "COO";
                 } else if (requestData.marketingdom === true) {
                     data.Access = "Marketingdom";
-                }else if (requestData.marketingexp === true) {
+                } else if (requestData.marketingexp === true) {
                     data.Access = "Marketingexp";
                 } else if (requestData.finance === true) {
                     data.Access = "Finance";
@@ -520,9 +520,9 @@ sap.ui.define([
                     var appr = "0";
                     var venName = payload.VendorName;
                     if (venStatus === "SBQ") {
-                        if (venRegType === "Customer Driven (Domestic)"){
+                        if (venRegType === "Customer Driven (Domestic)") {
                             level = "4";
-                        }else if(venRegType === "Customer Driven (Export)"){
+                        } else if (venRegType === "Customer Driven (Export)") {
                             level = "4";
                         } else {
                             level = "3";
@@ -555,7 +555,7 @@ sap.ui.define([
                                 pending = "COO"
                                 this.msg = "Approved by Purchase";
                             }
-                        }else if(venRegType === "Customer Driven (Domestic)"){
+                        } else if (venRegType === "Customer Driven (Domestic)") {
                             if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                                 this.access = "Finance";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
@@ -576,7 +576,7 @@ sap.ui.define([
                                 this.msg = "Approved by Purchase";
                             }
                         }
-                        else if(venRegType === "Customer Driven (Export)"){
+                        else if (venRegType === "Customer Driven (Export)") {
                             if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                                 this.access = "Finance";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
@@ -596,7 +596,7 @@ sap.ui.define([
                                 pending = "Marketingexp"
                                 this.msg = "Approved by Purchase";
                             }
-                        } 
+                        }
                         else {
                             if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                                 this.access = "Finance";
@@ -619,7 +619,7 @@ sap.ui.define([
                             }
                         }
 
-                    }else if (venStatus === "SBE") {
+                    } else if (venStatus === "SBE") {
                         this.access = "Quality";
                         this.emailbodyini = `||Form for the supplier ${venName} is approved by the Marketing. Approval pending at Quality. `;
                         this.emailbody = `||Form for the supplier ${venName} is approved by the Marketing. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
@@ -628,12 +628,12 @@ sap.ui.define([
                         stat = "ABE";
                         pending = "Quality"
                         this.msg = "Approved by Marketing";
-                    }else if (venStatus === "SBC" ) {
+                    } else if (venStatus === "SBC") {
                         if (venRegType === "Non BOM parts") {
                             level = "3";
-                        }else if(venRegType === "Customer Driven (Domestic)"){
+                        } else if (venRegType === "Customer Driven (Domestic)") {
                             level = "5";
-                        }else if(venRegType === "Customer Driven (Export)"){
+                        } else if (venRegType === "Customer Driven (Export)") {
                             level = "5";
                         } else {
                             level = "4";
@@ -645,7 +645,7 @@ sap.ui.define([
                         stat = "ABC";
                         pending = "Finance"
                         this.msg = "Approved by COO";
-                    } 
+                    }
                     // else if (venStatus === "SBC" && venRelated === "Yes") {
                     //     if (venRegType === "Non BOM parts") {
                     //         level = "3";
@@ -674,7 +674,7 @@ sap.ui.define([
                     //     pending = "Finance"
                     //     this.msg = "Approved by CEO";
                     // }
-                     else if (venStatus === "SBF") {
+                    else if (venStatus === "SBF") {
                         this.access = "Supplier";
                         this.emailbodyini = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
                         this.emailbody = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
@@ -1098,9 +1098,9 @@ sap.ui.define([
                 }
                 var formdatastr = JSON.stringify(form);
                 this.hardcodedURL = "";
-				if (window.location.href.includes("site")) {
-					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
-				}
+                if (window.location.href.includes("site")) {
+                    this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+                }
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/submitFormData`;
                 $.ajax({
                     type: "POST",
@@ -1117,7 +1117,7 @@ sap.ui.define([
                     }.bind(this),
                     error: function (error) {
                         var errormsg = JSON.parse(error.responseText)
-						MessageBox.error(errormsg.error.message.value);
+                        MessageBox.error(errormsg.error.message.value);
                     }
                 });
             },
@@ -1298,16 +1298,16 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                 if (venStatus === "SBP") {
+                if (venStatus === "SBP") {
                     stat = "RBP";
                     this.msg = "Rejected successfully by Purchase Head";
-                }else if (venStatus === "SBQ") {
+                } else if (venStatus === "SBQ") {
                     pending = "Purchase";
                     stat = "RBQ";
                     level = "1";
                     this.msg = "Rejected successfully by Quality";
                 }
-                 else if (venStatus === "SBC") {
+                else if (venStatus === "SBC") {
                     pending = "Purchase";
                     stat = "RBC";
                     level = "1";

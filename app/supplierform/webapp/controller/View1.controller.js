@@ -55,8 +55,11 @@ sap.ui.define([
 
                 this.hardcodedURL = "";
                 if (window.location.href.includes("launchpad")) {
+
                     //  this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
-                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+                    // this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+
+                    this.hardcodedURL = window.location.href.split("/index")[0];
                 }
 
                 this.initializeCountries();
@@ -179,7 +182,7 @@ sap.ui.define([
                 //this.fetchProductInfo();
                 this._showRemainingTime();
             },
-            onGetSupplierRegForm: function(){
+            onGetSupplierRegForm: function () {
                 this.hardcodedURL = "";
                 if (window.location.href.includes("launchpad")) {
                     this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
@@ -292,9 +295,9 @@ sap.ui.define([
                 }
                 if (data.RegistrationType === "Customer Driven (Export)") {
                     this.byId("registrationtypeRbId").setSelectedIndex(1);
-                }else if (data.RegistrationType === "BOM Parts") {
+                } else if (data.RegistrationType === "BOM Parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(2);
-                }else if (data.RegistrationType === "Non BOM parts") {
+                } else if (data.RegistrationType === "Non BOM parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(3);
                 }
                 if (data.Msme === "NO") {
@@ -416,11 +419,11 @@ sap.ui.define([
                     case "registrationtypeRbId":
                         if (index === 0) {
                             data.RegistrationType = "Customer Driven (Domestic)";
-                        }else if (index === 1) {
+                        } else if (index === 1) {
                             data.RegistrationType = "Customer Driven (Export)";
-                        }else if(index === 2){
+                        } else if (index === 2) {
                             data.RegistrationType = "BOM Parts";
-                        }else {
+                        } else {
                             data.RegistrationType = "Non BOM parts";
                         }
                         break;
