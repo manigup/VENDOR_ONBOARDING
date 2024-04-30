@@ -185,7 +185,8 @@ sap.ui.define([
             onGetSupplierRegForm: function () {
                 this.hardcodedURL = "";
                 if (window.location.href.includes("launchpad")) {
-                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+                    //this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+                    this.hardcodedURL = window.location.href.split("/index")[0];
                 }
                 var fileUrl = this.hardcodedURL + "/files/SupplierRegistrationfromupdated.doc";
                 window.open(fileUrl, '_blank');
@@ -931,7 +932,8 @@ sap.ui.define([
                     if (venaddress === "Initiator") {
                         emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Purchase.`;
                     } else {
-                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Purchase. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>`;
+                        let url = window.location.href.split("/index")[0].split(".onboarding")[0] + ".onboarding.spfiorionboarding/index.html";
+                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Purchase. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>`;
                     }
                     var oModel = this.getView().getModel();
                     var mParameters = {

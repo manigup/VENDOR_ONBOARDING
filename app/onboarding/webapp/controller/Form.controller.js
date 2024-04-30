@@ -1784,7 +1784,8 @@ sap.ui.define([
                 });
             },
             sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
-                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
+                let url = "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
+                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href=${url}>CLICK HERE</a>`;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
