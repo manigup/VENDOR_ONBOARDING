@@ -145,6 +145,7 @@ module.exports = cds.service.impl(async function () {
     //Email trigger
     this.on('sendEmail', async (req) => {
         const { vendorName, subject, content, toAddress, ccAddress } = req.data;
+        const loginid = req.headers.loginid || "NewSupplier";
         console.log(req.data)
 
         const payload = {
@@ -154,50 +155,56 @@ module.exports = cds.service.impl(async function () {
             ToAddress: toAddress,
             CCAddress: ccAddress,
             BCCAddress: "",
-            CreatedBy: "Manikandan"
+            CreatedBy: loginid
         };
 
         try {
             // Make the API request
-            const response = await axios.post('https://imperialauto.co:84/IAIAPI.asmx/SendMail', payload, {
-                headers: {
-                    'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                    'Content-Type': 'application/json'
-                }
+            const token = await generateToken(loginid),
+                legApi = await cds.connect.to('Legacy'),
+                response = await legApi.send({
+                    query: `POST SendMail`,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    data: payload
             });
 
-            if (response.status === 200) {
-                return `Email sent successfully.`;
+            if (response.ErrorCode) {
+                return "Error sending email";
             } else {
-                console.error('Error:', response.data);
-                throw new Error('Failed to send email');
+                return "Email sent successfully";
             }
         } catch (error) {
             console.error('Error:', error);
-            throw new Error('Failed to send email');
         }
     });
 
     //Country Data
-    this.on('READ', 'Country', async () => {
-        return getCountries();
+    this.on('READ', 'Country', async (req) => {
+        const loginid = req.headers.loginid || "NewSupplier";
+        return getCountries(loginid);
     });
 
     //State Data
     this.on('READ', 'States', async (req) => {
         const country = req._queryOptions.country;
-        return getStates(country);
+        const loginid = req.headers.loginid || "NewSupplier";
+        return getStates(country, loginid);
     });
 
     //City Data
     this.on('READ', 'City', async (req) => {
         const { country, state } = req._queryOptions
-        return getCities(country, state);
+        const loginid = req.headers.loginid || "NewSupplier";
+        return getCities(country, state, loginid);
     });
 
     //UnitCode data
-    this.on('READ', 'UnitCodes', async () => {
-        return getUnitCodes();
+    this.on('READ', 'UnitCodes', async (req) => {
+        const loginid = req.headers.loginid || "NewSupplier";
+        return getUnitCodes(loginid);
     });
 
     this.on('GetSupplierList', async (req) => {
@@ -227,8 +234,9 @@ module.exports = cds.service.impl(async function () {
         const formDataString = req.data.data;
         const formDatapar = JSON.parse(formDataString);
         const formData = JSON.stringify(formDatapar, null, 2)
+        const loginid = req.headers.loginid;
         try {
-            return await postFormData(formData);
+            return await postFormData(formData, loginid);
         } catch (error) {
             console.error('Error submitting form data:', error);
             req.reject(400, `Error creationg BP: ${error.message}`);
@@ -238,25 +246,29 @@ module.exports = cds.service.impl(async function () {
     //GetSupplierCodeList
     this.on('GetSupplierAccountCodeList', async (req) => {
         const { unitCode } = req.data
-        return getSupplierAccountCodeList(unitCode)
+        const loginid = req.headers.loginid || "NewSupplier";
+        return getSupplierAccountCodeList(unitCode, loginid)
     })
 
     //GetDocumentList
     this.on('GetDocumentList', async (req) => {
         const { unitCode } = req.data
-        return getDocumentList(unitCode);
+        const loginid = req.headers.loginid || "NewSupplier";
+        return getDocumentList(unitCode, loginid);
     })
 
     //TransportersList
     this.on('GetSupplierTransportersList', async (req) => {
         const { unitCode } = req.data
-        return getSupplierTransportersList(unitCode);
+        const loginid = req.headers.loginid || "NewSupplier";
+        return getSupplierTransportersList(unitCode, loginid);
     })
 
     //LocationList
     this.on('GetSupplierLocationList', async (req) => {
         const { unitCode } = req.data
-        return getSupplierLocationList(unitCode);
+        const loginid = req.headers.loginid || "NewSupplier";
+        return getSupplierLocationList(unitCode, loginid);
     })
 });
 
@@ -365,19 +377,20 @@ const _deleteAttachment = async function (sdmUrl, jwtToken, repositoryId, folder
     })
 }
 
-async function getCountries() {
+async function getCountries(loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: "https://imperialauto.co:84/IAIAPI.asmx/GetCountryList?RequestBy='Manikandan'",
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetCountryList?RequestBy='${loginid}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
 
-        const countries = JSON.parse(response.data.d);
+        const countries = JSON.parse(response.d);
         countries.sort((a, b) => a.Country.localeCompare(b.Country));
 
         return countries.map(country => ({
@@ -390,19 +403,20 @@ async function getCountries() {
     }
 }
 
-async function getStates(country) {
+async function getStates(country, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetStateList?RequestBy='Manikandan'&Country='${country}'`,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GETGetStateList?RequestBy='${loginid}'&Country='${country}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
 
-        const states = JSON.parse(response.data.d);
+        const states = JSON.parse(response.d);
 
         return states.map(state => ({
             name: state.State
@@ -413,19 +427,20 @@ async function getStates(country) {
     }
 }
 
-async function getCities(country, state) {
+async function getCities(country, state, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetCityList?RequestBy='Manikandan'&Country='${country}'&State='${state}'`,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetCityList?RequestBy='${loginid}'&Country='${country}'&State='${state}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
 
-        const cities = JSON.parse(response.data.d);
+        const cities = JSON.parse(response.d);
 
         return cities.map(city => ({
             name: city.City
@@ -436,19 +451,20 @@ async function getCities(country, state) {
     }
 }
 
-async function getUnitCodes() {
+async function getUnitCodes(loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: "https://imperialauto.co:84/IAIAPI.asmx/GetUnitCodeList?RequestBy='UnitCode'",
-            headers: {
-                'Authorization': 'Bearer aum4c9qG+6+0GZmSd3co9Q==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetUnitCodeList?RequestBy='${loginid}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
 
-        const unitCodes = JSON.parse(response.data.d);
+        const unitCodes = JSON.parse(response.d);
         return unitCodes.map(unitCode => ({
             code: unitCode.UnitCode,
             addressCode: unitCode.AddressCode,
@@ -461,17 +477,18 @@ async function getUnitCodes() {
     }
 }
 
-async function postFormData(formData) {
+async function postFormData(formData, loginid) {
     try {
-        const response = await axios({
-            method: 'POST',
-            url: "https://imperialauto.co:84/IAIAPI.asmx/PostSupplierMaster",
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: formData
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `POST PostSupplierMaster`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: formData
+            });
 
         if (response.status === 200) {
             return 'Form data submitted successfully';
@@ -485,19 +502,20 @@ async function postFormData(formData) {
     }
 }
 
-async function getSupplierAccountCodeList(unitCode) {
+async function getSupplierAccountCodeList(unitCode, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetSupplierAccountCodeList?RequestBy='Manikandan'&UnitCode='${unitCode}'`,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetSupplierAccountCodeList?RequestBy='${loginid}'&UnitCode='${unitCode}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
 
-        const accountData = JSON.parse(response.data.d);
+        const accountData = JSON.parse(response.d);
         return accountData.map(item => ({
             AcctCode: item.AcctCode,
             AcctName: item.AcctName
@@ -509,18 +527,19 @@ async function getSupplierAccountCodeList(unitCode) {
     }
 }
 
-async function getDocumentList(unitCode) {
+async function getDocumentList(unitCode, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetDocumentList?RequestBy='Manikandan'&UnitCode='${unitCode}'`,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
-        const documentList = JSON.parse(response.data.d);
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetDocumentList?RequestBy='${loginid}'&UnitCode='${unitCode}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
+        const documentList = JSON.parse(response.d);
         return documentList.map(document => ({
             DocumentsCode: document.DocumentsCode,
             DocumentsName: document.DocumentsName
@@ -531,18 +550,19 @@ async function getDocumentList(unitCode) {
     }
 }
 
-async function getSupplierTransportersList(unitCode) {
+async function getSupplierTransportersList(unitCode, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetSupplierTransportersList?RequestBy='Manikandan'&UnitCode='${unitCode}'`,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
-        const transportersList = JSON.parse(response.data.d);
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetSupplierTransportersList?RequestBy='${loginid}'&UnitCode='${unitCode}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
+        const transportersList = JSON.parse(response.d);
         return transportersList.map(transporter => ({
             TransportersCode: transporter.TranportersCode,
             TransportersName: transporter.TranportersName
@@ -553,18 +573,19 @@ async function getSupplierTransportersList(unitCode) {
     }
 }
 
-async function getSupplierLocationList(unitCode) {
+async function getSupplierLocationList(unitCode, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetSupplierLocationList?RequestBy='Manikandan'&UnitCode='${unitCode}'`,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
-        const locationList = JSON.parse(response.data.d);
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetSupplierLocationList?RequestBy='${loginid}'&UnitCode='${unitCode}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
+        const locationList = JSON.parse(response.d);
         return locationList.map(location => ({
             LocationCode: location.LocationCode,
             LocationName: location.LocationName
