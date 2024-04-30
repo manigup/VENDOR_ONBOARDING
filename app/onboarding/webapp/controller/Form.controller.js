@@ -1784,7 +1784,7 @@ sap.ui.define([
                 });
             },
             sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
-                let url = "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
+                let url = window.location.href.split("/")[2] + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
                 let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href=${url}>CLICK HERE</a>`;
                 var oModel = this.getView().getModel();
                 var mParameters = {

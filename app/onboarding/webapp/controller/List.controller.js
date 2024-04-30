@@ -250,7 +250,7 @@ sap.ui.define([
             },
 
             sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
-               let url = "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
+               let url = window.location.href.split("/")[2] + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
                 return new Promise((resolve, reject) => {
                     let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href=${url}>CLICK HERE</a>`;
                     var oModel = this.getView().getModel();
@@ -284,7 +284,7 @@ sap.ui.define([
                 if (href.includes("impautosuppdev")) {
 
                     //  url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
-                    url = "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + this.vendorId;
+                    url =  jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + this.vendorId;
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
                 }
@@ -377,7 +377,7 @@ sap.ui.define([
                 }, 1000);
             },
             sendResetEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
-               let url = "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
+               let url = window.location.href.split("/")[2] + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
                 let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Validity of the form is extended for next 7 days. Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href=${url}>CLICK HERE</a>`;
                 var oModel = this.getView().getModel();
                 var mParameters = {
@@ -1335,7 +1335,7 @@ sap.ui.define([
                 this.VendorMail = payload.VendorMail;
                 this.VenValidTo = payload.VenValidTo;
                 this.venstatus = stat;
-                this.url = "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + this.vendorId;
+                this.url =window.location.href.split("/")[2] +  jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + this.vendorId;
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
                     success: () => {
 
