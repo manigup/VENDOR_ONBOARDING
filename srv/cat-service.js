@@ -2,16 +2,21 @@ const cds = require('@sap/cds');
 const axios = require('axios').default;
 const { panOptions, gstOptions, bankOptions } = require('./apiConfig');
 const FormData = require('form-data');
-const { on } = require('events');
-const { Console } = require('console');
+// const { on } = require('events');
+// const { Console } = require('console');
 
-const sdmCredentials = {
+const ecmserviceurl = "https://api-sdm-di.cfapps.ap10.hana.ondemand.com/";
+const devSdm = {
     "clientid": "sb-af5ed0ac-6872-41a0-956e-ec2fea18c139!b26649|sdm-di-DocumentManagement-sdm_integration!b247",
     "clientsecret": "vORif9806WxSm8azpmw6Fuj99Ro=",
     "url": "https://impautosuppdev.authentication.ap10.hana.ondemand.com",
-    "ecmserviceurl": "https://api-sdm-di.cfapps.ap10.hana.ondemand.com/",
     "repositoryId": "Vendor_Onboading"
-}
+}, prdSdm = {
+    "clientid": "sb-75d68fc2-fdc0-4ee1-ac19-572a35f46864!b36774|sdm-di-DocumentManagement-sdm_integration!b247",
+    "clientsecret": "5LcakzQRIAEeMZpjCSUPd6NhKRE=",
+    "url": "https://supplier-portal.authentication.ap10.hana.ondemand.com",
+    "repositoryId": "ZDMS_SUPP"
+};
 
 module.exports = cds.service.impl(async function () {
     const { AccessInfo, VendorForm } = cds.entities;
@@ -27,10 +32,19 @@ module.exports = cds.service.impl(async function () {
             req.reject(400, 'Email id ' + req.data.VendorMail + ' already exist for supplier ' + duplicate[0].Vendor);
         }
 
-        const connJwtToken = await _fetchJwtToken(sdmCredentials.url, sdmCredentials.clientid, sdmCredentials.clientsecret);
+        let connJwtToken;
+        if (req.headers.origin.includes("port") || req.headers.origin.includes("impautosuppdev")) {
+            connJwtToken = await _fetchJwtToken(devSdm.url, devSdm.clientid, devSdm.clientsecret);
 
-        // Creating dms folder
-        await _createFolder(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId);
+            // Creating dms folder
+            await _createFolder(ecmserviceurl, connJwtToken, devSdm.repositoryId, req.data.VendorId);
+        } else {
+
+            connJwtToken = await _fetchJwtToken(prdSdm.url, prdSdm.clientid, prdSdm.clientsecret);
+
+            // Creating dms folder
+            await _createFolder(prdSdm.ecmserviceurl, connJwtToken, prdSdm.repositoryId, req.data.VendorId);
+        }
     });
 
     this.before(['CREATE', 'UPDATE'], VendorForm, async (data, req) => {
@@ -59,9 +73,20 @@ module.exports = cds.service.impl(async function () {
 
         const reqData = req.data.Filename.split("/");
 
-        const connJwtToken = await _fetchJwtToken(sdmCredentials.url, sdmCredentials.clientid, sdmCredentials.clientsecret);
+        let connJwtToken;
+        if (req.headers.origin.includes("port") || req.headers.origin.includes("impautosuppdev")) {
 
-        req.data.ObjectId = await _uploadAttachment(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, reqData[0], reqData[1]);
+            connJwtToken = await _fetchJwtToken(devSdm.url, devSdm.clientid, devSdm.clientsecret);
+
+            req.data.ObjectId = await _uploadAttachment(ecmserviceurl, connJwtToken, devSdm.repositoryId, reqData[0], reqData[1]);
+
+        } else {
+
+            connJwtToken = await _fetchJwtToken(prdSdm.url, prdSdm.clientid, prdSdm.clientsecret);
+
+            req.data.ObjectId = await _uploadAttachment(ecmserviceurl, connJwtToken, prdSdm.repositoryId, reqData[0], reqData[1]);
+        }
+
         req.data.VendorId = reqData[0];
         req.data.Filename = reqData[1];
         req.data.Venfiletype = reqData[2];
@@ -70,9 +95,19 @@ module.exports = cds.service.impl(async function () {
 
     this.before("DELETE", 'Attachments', async (req) => {
 
-        const connJwtToken = await _fetchJwtToken(sdmCredentials.url, sdmCredentials.clientid, sdmCredentials.clientsecret);
+        let connJwtToken;
+        if (req.headers.origin.includes("port") || req.headers.origin.includes("impautosuppdev")) {
 
-        await _deleteAttachment(sdmCredentials.ecmserviceurl, connJwtToken, sdmCredentials.repositoryId, req.data.VendorId, req.data.ObjectId);
+            connJwtToken = await _fetchJwtToken(devSdm.url, devSdm.clientid, devSdm.clientsecret);
+
+            await _deleteAttachment(ecmserviceurl, connJwtToken, devSdm.repositoryId, req.data.VendorId, req.data.ObjectId);
+
+        } else {
+
+            connJwtToken = await _fetchJwtToken(prdSdm.url, prdSdm.clientid, prdSdm.clientsecret);
+
+            await _deleteAttachment(ecmserviceurl, connJwtToken, prdSdm.repositoryId, req.data.VendorId, req.data.ObjectId);
+        }
     });
 
     this.on('verifyPANDetails', async (req) => {
@@ -169,7 +204,7 @@ module.exports = cds.service.impl(async function () {
                         'Content-Type': 'application/json'
                     },
                     data: payload
-            });
+                });
 
             if (response.ErrorCode) {
                 return "Error sending email";
