@@ -56,6 +56,8 @@ entity VenOnboardHeader : managed {
       RejReason          : String;
       SupplierType       : String;
       VDAAssessment      : String;
+      Purpose            : String;
+      ReasonText         : String;
 }
 
 entity Attachments : managed {
@@ -348,6 +350,32 @@ entity VendorForm : managed {
       RelatedPartyName             : String;
       RelatedPartyDesignation      : String;
       RelatedPartyContact          : String;
+      AdditionalGst                : Boolean default false;
+      GstNumber1                   : String;
+      GstFileName1                 : String;
+      Gst1Address1                 : String;
+      Gst1Address2                 : String;
+      GstNumber2                   : String;
+      GstFileName2                 : String;
+      Gst2Address1                 : String;
+      Gst2Address2                 : String;
+      GstNumber3                   : String;
+      GstFileName3                 : String;
+      Gst3Address1                 : String;
+      Gst3Address2                 : String;
+      GstNumber4                   : String;
+      GstFileName4                 : String;
+      Gst4Address1                 : String;
+      Gst4Address2                 : String;
+      GstNumber5                   : String;
+      GstFileName5                 : String;
+      Gst5Address1                 : String;
+      Gst5Address2                 : String;
+      AddressCode1                 : String;
+      AddressCode2                 : String;
+      AddressCode3                 : String;
+      AddressCode4                 : String;
+      AddressCode5                 : String;
       Products                     : Composition of many ProductInfo
                                        on Products.Vendor = $self;
 }

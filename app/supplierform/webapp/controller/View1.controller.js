@@ -75,11 +75,16 @@ sap.ui.define([
                 var createdata = this.getView().getModel("create").getData();
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
+                createdata.VendorType = requestData.VendorType;
+                createdata.Companycode = requestData.Companycode;
                 createdata.RegistrationType = requestData.RegistrationType;
                 createdata.GroupType = requestData.GroupType.split(",");
                 createdata.VDAAssessment = requestData.VDAAssessment;
                 createdata.RelatedParty = false;
+                createdata.AdditionalGst = false;
                 createdata.SupplierType = "Permanent";
+                createdata.Purpose = requestData.Purpose;
+                createdata.ReasonText = requestData.ReasonText;
                 if (requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
                     this.byId("msmeItil").setSelectedIndex(0);
@@ -127,8 +132,11 @@ sap.ui.define([
                             data.Type = "MATERIAL";
                             // data.ScopeOfSupply = "PARTS";
                         }
+
                         data.GroupType = data.GroupType.split(",");
                         data.SupplierType = "Permanent";
+                        data.Purpose = data.Purpose;
+                        data.ReasonText = data.ReasonText;
                         if (!data.MsmeItilView && requestData.VendorType === "DM") {
                             data.MsmeItilView = "MSME";
                             this.byId("msmeItil").setSelectedIndex(0);
@@ -180,6 +188,7 @@ sap.ui.define([
                     }
                 });
                 //this.fetchProductInfo();
+                this._setRadioButtons(createdata);
                 this._showRemainingTime();
             },
             onGetSupplierRegForm: function () {
@@ -468,6 +477,7 @@ sap.ui.define([
                 }
                 this.createModel.refresh(true);
             },
+
             _mandatCheck: async function () {
 
                 var data = this.createModel.getData();

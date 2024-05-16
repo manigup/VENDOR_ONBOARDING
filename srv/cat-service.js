@@ -61,7 +61,7 @@ module.exports = cds.service.impl(async function () {
         if (req._queryOptions && req._queryOptions.venfilter == 'true') {
             let userID = req.user.id;
             if (req.user.id === "anonymous") {
-                userID = "manishgupta8@kpmg.com";
+                userID = "rajeshsehgal@impauto.com";
             }
             const { Access } = await SELECT.one.from(AccessInfo).where({ email: userID }).columns('Access');
             req.query.where(`VenApprovalPending = '${Access}' or initiatedBy = '${userID}'`)
@@ -443,7 +443,7 @@ async function getStates(country, loginid) {
         const token = await generateToken(loginid),
             legApi = await cds.connect.to('Legacy'),
             response = await legApi.send({
-                query: `GETGetStateList?RequestBy='${loginid}'&Country='${country}'`,
+                query: `GET GetStateList?RequestBy='${loginid}'&Country='${country}'`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -525,10 +525,10 @@ async function postFormData(formData, loginid) {
                 data: formData
             });
 
-        if (response.status === 200) {
-            return 'Form data submitted successfully';
+        if (response.SuccessCode) {
+            return response.SuccessCode;
         } else {
-            throw new Error(`Failed to submit form data: ${response.statusText}`);
+            throw new Error(response.ErrorDescription || 'Unknown error occurred');
         }
 
     } catch (error) {
