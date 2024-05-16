@@ -252,7 +252,7 @@ formatter = {
                         return false;
                     }
                 }else{    
-                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingdom") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingdom") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBQ" || status === "RBC" || status === "RBF") && Access === "Purchase")) {
                     return true;
                 } else {
                     return false;
@@ -266,7 +266,7 @@ formatter = {
                         return false;
                     }
                 }else{    
-                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingexp") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingexp") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBQ" || status === "RBC" || status === "RBF") && Access === "Purchase")) {
                     return true;
                 } else {
                     return false;
@@ -280,7 +280,7 @@ formatter = {
                     return false;
                 }
             }else{    
-            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBQ" || status === "RBC" || status === "RBF") && Access === "Purchase")) {
                 return true;
             } else {
                 return false;

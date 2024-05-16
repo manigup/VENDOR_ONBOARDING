@@ -86,6 +86,21 @@ sap.ui.define([
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
                             //data.PartyClassification = "Sup";
+                            if(data.GstNumber1 === null || data.GstNumber1 === undefined){
+                                data.GstNumber1 = "";
+                            }
+                            if(data.GstNumber2 === null || data.GstNumber2 === undefined){
+                                data.GstNumber2 = "";
+                            }
+                            if(data.GstNumber3 === null || data.GstNumber3 === undefined){
+                                data.GstNumber3 = "";
+                            }
+                            if(data.GstNumber4 === null || data.GstNumber4 === undefined){
+                                data.GstNumber4 = "";
+                            }
+                            if(data.GstNumber5 === null || data.GstNumber5 === undefined){
+                                data.GstNumber5 = "";
+                            }
                             this.SupplierType = data.SupplierType;
                             data.GroupType = data.GroupType.split(",");
                             //     data.TaxNumCat = "IN3";
@@ -963,18 +978,31 @@ sap.ui.define([
                     aSelects.push(oView.byId("suppPaymentTerm"));
                     aInputs.push(oView.byId("suppCurrency"));
                     aInputs.push(oView.byId("incolocationid"));
+                    aInputs.push(oView.byId("addcodeId"));
                     aSelects.push(oView.byId("incoid"));
-                    aSelects.push(oView.byId("purposeId"));
+                    if(data.AdditionalGst === true){
+                    if(data.GstNumber1 !== ""){
+                        aInputs.push(oView.byId("addcode1Id"));
+                    }
+                    if(data.GstNumber2 !== ""){
+                        aInputs.push(oView.byId("addcode2Id"));
+                    }
+                    if(data.GstNumber3 !== ""){
+                        aInputs.push(oView.byId("addcode3Id"));
+                    }
+                    if(data.GstNumber4 !== ""){
+                        aInputs.push(oView.byId("addcode4Id"));
+                    }
+                    if(data.GstNumber5 !== ""){
+                        aInputs.push(oView.byId("addcode5Id"));
+                    }
                 }
-                if (data.Purpose === "Other") {
-                    aInputs.push(oView.byId("reasonTextId"));
                 }
                 if (requestData.quality && data.VDAAssessment === "Yes") {
                     aSelects.push(oView.byId("VDAStatusId"));
                 }
                 if (requestData.finance) {
                     aInputs.push(oView.byId("accdescId"));
-                    aInputs.push(oView.byId("addcodeId"));
                     aSelects.push(oView.byId("accountcodeId"));
                 }
                 if (data.RelatedParty === true) {
