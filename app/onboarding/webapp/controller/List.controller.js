@@ -88,7 +88,7 @@ sap.ui.define([
                             reqData.marketingdom = accessdata.find(item => item.email === res.email && item.Access === "Marketingdom") ? true : false;
                             reqData.marketingexp = accessdata.find(item => item.email === res.email && item.Access === "Marketingexp") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                            reqData.finance = true;
+                            // reqData.finance = true;
                             if (reqData.purchase) {
                                 reqData.appbtn = "purchase";
                             } else if (reqData.quality) {
