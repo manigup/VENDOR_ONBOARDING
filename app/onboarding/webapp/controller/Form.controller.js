@@ -500,7 +500,7 @@ sap.ui.define([
 
             getSupplierList: function () {
                 var oModel = this.getView().getModel();
-                return new Promise((resolve, reject) => {
+                return new Promise(function (resolve, reject) {
                     oModel.callFunction("/GetSupplierList", {
                         method: "GET",
                         success: function (oData, response) {
@@ -509,12 +509,12 @@ sap.ui.define([
                             this.getView().getModel("SupplierModel").setSizeLimit(this.suppData.length);
                             this.getView().getModel("SupplierModel").setData(this.suppData);
                             resolve();
-                        },
+                        }.bind(this),
                         error: function (oError) {
                             reject(new Error("Failed to fetch supplier data."));
                         }
                     });
-                });
+                }.bind(this));
             },
 
             GetSupplierAccountCodeList: function (unitCode) {
