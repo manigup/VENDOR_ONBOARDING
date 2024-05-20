@@ -989,7 +989,7 @@
                             </Link>
                             <Label
                                 design="Bold"
-                                text="Additional Gst Details"
+                                text="Other GST"
                             />
                             <Switch
                                 state="{create>/AdditionalGst}"

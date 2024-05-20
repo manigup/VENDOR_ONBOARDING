@@ -353,5 +353,34 @@ formatter = {
         //     return false;
         // }
     },
+    formatApproval: function (approval) {
+        var text = "";
+        if (approval) {
+            switch (approval) {
+                case "Purchase":
+                    text = "Purchase";
+                    break;
+                case "Quality":
+                    text = "Quality";
+                    break;
+                case "COO":
+                    text = "COO";
+                    break;
+                case "CEO":
+                    text = "CEO";
+                    break;
+                case "Marketingdom":
+                    text = "Marketing";
+                    break;
+                case "Marketingexp":
+                    text = "Marketing";
+                    break;
+                case "Finance":
+                    text = "Finance";
+                    break;
+                }
+            }
+            return text;
+        },
 
 };
