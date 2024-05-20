@@ -478,15 +478,16 @@ sap.ui.define([
                 return new Promise(resolve => setTimeout(resolve, ms));
             },
             changeStatus: async function () {
-                BusyIndicator.show();
+                
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
                 var requestData = this.getView().getModel("request").getData();
                 this.SupplierType = formdata.SupplierType;
-                if (requestData.quality && this.SupplierType === "Permanent" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "70") {
+                if (requestData.quality && this.SupplierType === "Permanent" && formdata.SystemAuditRating < "70") {
                     MessageBox.error("The form cannot be approved as System Audit Rating is " + formdata.SystemAuditRating);
                     return;
                 } else {
+                    BusyIndicator.show();
                     var payload = {};
                     for (var i = 0; i < vendata.length; i++) {
                         if (vendata[i].VendorId === this.vendorId) {
