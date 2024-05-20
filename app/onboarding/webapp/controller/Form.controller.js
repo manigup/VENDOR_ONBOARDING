@@ -86,19 +86,19 @@ sap.ui.define([
                     this.getView().getModel().read("/VendorForm(VendorId='" + this.id + "')", {
                         success: (data) => {
                             //data.PartyClassification = "Sup";
-                            if(data.GstNumber1 === null || data.GstNumber1 === undefined){
+                            if (data.GstNumber1 === null || data.GstNumber1 === undefined) {
                                 data.GstNumber1 = "";
                             }
-                            if(data.GstNumber2 === null || data.GstNumber2 === undefined){
+                            if (data.GstNumber2 === null || data.GstNumber2 === undefined) {
                                 data.GstNumber2 = "";
                             }
-                            if(data.GstNumber3 === null || data.GstNumber3 === undefined){
+                            if (data.GstNumber3 === null || data.GstNumber3 === undefined) {
                                 data.GstNumber3 = "";
                             }
-                            if(data.GstNumber4 === null || data.GstNumber4 === undefined){
+                            if (data.GstNumber4 === null || data.GstNumber4 === undefined) {
                                 data.GstNumber4 = "";
                             }
-                            if(data.GstNumber5 === null || data.GstNumber5 === undefined){
+                            if (data.GstNumber5 === null || data.GstNumber5 === undefined) {
                                 data.GstNumber5 = "";
                             }
                             this.SupplierType = data.SupplierType;
@@ -372,27 +372,27 @@ sap.ui.define([
                 }, 1000);
                 // this.fetchProductInfo();
             },
-            onGetSupplierRegForm: function(){
-                this.hardcodedURL="";
+            onGetSupplierRegForm: function () {
+                this.hardcodedURL = "";
                 if (window.location.href.includes("site")) {
-					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
-				}
+                    this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+                }
                 var fileUrl = this.hardcodedURL + "/files/SupplierRegistrationfromupdated.doc";
                 window.open(fileUrl, '_blank');
             },
-            onGetRiskAssess: function(){
-                this.hardcodedURL="";
+            onGetRiskAssess: function () {
+                this.hardcodedURL = "";
                 if (window.location.href.includes("site")) {
-					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
-				}
+                    this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+                }
                 var fileUrl = this.hardcodedURL + "/files/RiskassessmentsupplierFinal.xlsx";
                 window.open(fileUrl, '_blank');
             },
-            onGetSysAud: function(){
-                this.hardcodedURL="";
+            onGetSysAud: function () {
+                this.hardcodedURL = "";
                 if (window.location.href.includes("site")) {
-					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
-				}
+                    this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+                }
                 var fileUrl = this.hardcodedURL + "/files/SystemAuditCheckSheet.xlsx";
                 window.open(fileUrl, '_blank');
             },
@@ -482,6 +482,9 @@ sap.ui.define([
 
                 this.GetSupplierAccountCodeList(unitCode)
                     .then(function () {
+                        return this.getSupplierList();
+                    }.bind(this))
+                    .then(function () {
                         return this.GetDocumentList(unitCode);
                     }.bind(this))
                     .then(function () {
@@ -493,6 +496,25 @@ sap.ui.define([
                     .catch(function (error) {
                         MessageBox.error("Failed to fetch data: " + error.message);
                     });
+            },
+
+            getSupplierList: function () {
+                var oModel = this.getView().getModel();
+                return new Promise((resolve, reject) => {
+                    oModel.callFunction("/GetSupplierList", {
+                        method: "GET",
+                        success: function (oData, response) {
+                            this.suppData = oData.results;
+                            this.getView().setModel(new JSONModel([]), "SupplierModel");
+                            this.getView().getModel("SupplierModel").setSizeLimit(this.suppData.length);
+                            this.getView().getModel("SupplierModel").setData(this.suppData);
+                            resolve();
+                        },
+                        error: function (oError) {
+                            reject(new Error("Failed to fetch supplier data."));
+                        }
+                    });
+                });
             },
 
             GetSupplierAccountCodeList: function (unitCode) {
@@ -684,9 +706,11 @@ sap.ui.define([
             },
             onAddressCodChange: function (oEvent) {
                 var addcode = oEvent.getSource().getValue();
-                var addresscodedata = JSON.parse(sessionStorage.getItem("CodeDetails"));
-                this.isunitaddressexists = addresscodedata.find(item => item.AddressCode === addcode) ? true : false;
-                sessionStorage.setItem("isunitaddressexists", this.isunitaddressexists);
+                this.isunitaddressexists = this.suppData.find(item => item.AddressCode === addcode) ? true : false;
+                if (!this.isunitaddressexists) {
+                    oEvent.getSource().setValueState("Error");
+                    MessageBox.error("Address Code already exists. Kindly enter new Address Code");
+                }
             },
             onCalcTaxPress: function (oEvent) {
                 var data = this.createModel.getData();
@@ -980,23 +1004,23 @@ sap.ui.define([
                     aInputs.push(oView.byId("incolocationid"));
                     aInputs.push(oView.byId("addcodeId"));
                     aSelects.push(oView.byId("incoid"));
-                    if(data.AdditionalGst === true){
-                    if(data.GstNumber1 !== ""){
-                        aInputs.push(oView.byId("addcode1Id"));
+                    if (data.AdditionalGst === true) {
+                        if (data.GstNumber1 !== "") {
+                            aInputs.push(oView.byId("addcode1Id"));
+                        }
+                        if (data.GstNumber2 !== "") {
+                            aInputs.push(oView.byId("addcode2Id"));
+                        }
+                        if (data.GstNumber3 !== "") {
+                            aInputs.push(oView.byId("addcode3Id"));
+                        }
+                        if (data.GstNumber4 !== "") {
+                            aInputs.push(oView.byId("addcode4Id"));
+                        }
+                        if (data.GstNumber5 !== "") {
+                            aInputs.push(oView.byId("addcode5Id"));
+                        }
                     }
-                    if(data.GstNumber2 !== ""){
-                        aInputs.push(oView.byId("addcode2Id"));
-                    }
-                    if(data.GstNumber3 !== ""){
-                        aInputs.push(oView.byId("addcode3Id"));
-                    }
-                    if(data.GstNumber4 !== ""){
-                        aInputs.push(oView.byId("addcode4Id"));
-                    }
-                    if(data.GstNumber5 !== ""){
-                        aInputs.push(oView.byId("addcode5Id"));
-                    }
-                }
                 }
                 if (requestData.quality && data.VDAAssessment === "Yes") {
                     aSelects.push(oView.byId("VDAStatusId"));
@@ -1613,7 +1637,7 @@ sap.ui.define([
                             pending = "COO";
                             this.msg = "Form submitted successfully by COO";
                         }
-                    }else if(venRegType === "Customer Driven (Domestic)"){
+                    } else if (venRegType === "Customer Driven (Domestic)") {
                         if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                             stat = "SBF";
                             appr = "1"
@@ -1627,7 +1651,7 @@ sap.ui.define([
                             pending = "Marketingdom";
                             this.msg = "Form submitted successfully by Marketing";
                         }
-                    }else if(venRegType === "Customer Driven (Export)") {
+                    } else if (venRegType === "Customer Driven (Export)") {
                         if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                             stat = "SBF";
                             appr = "1"
@@ -1656,17 +1680,17 @@ sap.ui.define([
                             this.msg = "Form submitted successfully by Quality";
                         }
                     }
-                }else if (venStatus === "ABE") {
-                            stat = "SBQ";
-                            appr = "1"
-                            level = "3";
-                            pending = "Quality";
-                            this.msg = "Form submitted successfully by Quality";
+                } else if (venStatus === "ABE") {
+                    stat = "SBQ";
+                    appr = "1"
+                    level = "3";
+                    pending = "Quality";
+                    this.msg = "Form submitted successfully by Quality";
                 }
-                 else if (venStatus === "ABQ") {
-                    if (venRegType === "Customer Driven (Domestic)"){
+                else if (venStatus === "ABQ") {
+                    if (venRegType === "Customer Driven (Domestic)") {
                         level = "4";
-                    }else if(venRegType === "Customer Driven (Export)"){
+                    } else if (venRegType === "Customer Driven (Export)") {
                         level = "4";
                     } else {
                         level = "3";
@@ -1679,17 +1703,17 @@ sap.ui.define([
                 else if (venStatus === "ABC") {
                     if (venRegType === "Non BOM parts") {
                         level = "3";
-                    }else if(venRegType === "Customer Driven (Domestic)"){
+                    } else if (venRegType === "Customer Driven (Domestic)") {
                         level = "5";
-                    }else if(venRegType === "Customer Driven (Export)"){
+                    } else if (venRegType === "Customer Driven (Export)") {
                         level = "5";
                     } else {
                         level = "4";
                     }
-                        stat = "SBF";
-                        appr = "1"
-                        pending = "Finance";
-                        this.msg = "Form submitted successfully by Finance";
+                    stat = "SBF";
+                    appr = "1"
+                    pending = "Finance";
+                    this.msg = "Form submitted successfully by Finance";
                 }
                 // else if (venStatus === "ABC" && venRelated === "Yes") {
                 //     if(venRegType === "Non BOM parts"){

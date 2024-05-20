@@ -1118,6 +1118,16 @@ sap.ui.define([
                         "PayeeName": formdata.BeneficiaryName,
                         "BankName": formdata.BankName,
                         "BankAddress": formdata.BankAddress,
+                        "Street": formdata.Address1,
+                        "Street2": formdata.Address2,
+                        "Street3": formdata.Address3,
+                        "Street4": formdata.City_name,
+                        "Street5": formdata.District,
+                        "Customer": "",
+                        "BPGrouping": formdata.RegistrationType,
+                        "Name1": formdata.VendorName,
+                        "Name2": formdata.VendorName2,
+                        "Name3": formdata.VendorName3,
                         "ContantInformation": [
                             {
                                 "ContactName": formdata.ContactPersonName,
