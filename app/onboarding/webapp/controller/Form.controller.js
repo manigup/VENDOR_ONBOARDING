@@ -706,7 +706,7 @@ sap.ui.define([
             },
             onAddressCodChange: function (oEvent) {
                 var addcode = oEvent.getSource().getValue();
-                this.isunitaddressexists = this.suppData.find(item => item.AddressCode === addcode) ? true : false;
+                this.isunitaddressexists = this.suppData.find(item => item.SupplierCode === addcode) ? true : false;
                 if (!this.isunitaddressexists) {
                     oEvent.getSource().setValueState("Error");
                     MessageBox.error("Address Code already exists. Kindly enter new Address Code");
