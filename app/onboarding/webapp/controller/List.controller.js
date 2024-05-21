@@ -225,7 +225,7 @@ sap.ui.define([
                     const payload = sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData();
                     payload.Vendor = this.generateVendorNo();
                     payload.VenFrom = new Date();
-                    payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                    payload.VenValidTo = this.changeDate(payload.VenFrom, 15, "add");
                     payload.initiatedBy = sessionStorage.getItem('userEmail');
                     payload.GroupType = payload.GroupType.join(',');
                     setTimeout(() => {
@@ -343,7 +343,7 @@ sap.ui.define([
                         payload.City = vendata[i].City;
                         payload.VendorMail = vendata[i].VendorMail;
                         payload.VenFrom = new Date();;
-                        payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                        payload.VenValidTo = this.changeDate(payload.VenFrom, 15, "add");
                         payload.VenTimeLeft = "";
                         payload.Status = vendata[i].Status;
                         payload.ResetValidity = "";
@@ -361,7 +361,7 @@ sap.ui.define([
                     this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
                         success: () => {
                             BusyIndicator.hide();
-                            MessageBox.success("Form validity extended for next 7 days for vendor " + this.vendor, {
+                            MessageBox.success("Form validity extended for next 15 days for vendor " + this.vendor, {
                                 onClose: () => {
                                     source.getParent().getParent().destroy();
                                     this.getData();
@@ -378,7 +378,7 @@ sap.ui.define([
             },
             sendResetEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
                 let url = window.location.href.split("/")[2] + "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
-                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Validity of the form is extended for next 7 days. Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href=${url}>CLICK HERE</a>`;
+                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Validity of the form is extended for next 15 days. Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href=${url}>CLICK HERE</a>`;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
@@ -1128,6 +1128,7 @@ sap.ui.define([
                         "Name1": formdata.VendorName,
                         "Name2": formdata.VendorName2,
                         "Name3": formdata.VendorName3,
+                        "PayTerms": formdata.SuppPaymentTerm,
                         "ContantInformation": [
                             {
                                 "ContactName": formdata.ContactPersonName,
@@ -1367,7 +1368,7 @@ sap.ui.define([
                         payload.City = vendata[i].City;
                         payload.VendorMail = vendata[i].VendorMail;
                         payload.VenFrom = new Date();
-                        payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                        payload.VenValidTo = this.changeDate(payload.VenFrom, 15, "add");
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         payload.initiatedBy = vendata[i].initiatedBy;
                         var venStatus = vendata[i].Status;
