@@ -1058,6 +1058,7 @@
                         />
                         <Input
                             id="addcode1Id"
+                            change="onAddressCodChange"
                             maxLength="9"
                             visible="{= ${create>/GstNumber1} !== '' &amp;&amp; ${create>/AdditionalGst} === true}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
@@ -1070,6 +1071,7 @@
                         />
                         <Input
                             id="addcode2Id"
+                            change="onAddressCodChange"
                             maxLength="9"
                             visible="{= ${create>/GstNumber2} !== '' &amp;&amp; ${create>/AdditionalGst} === true}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
@@ -1082,6 +1084,7 @@
                         />
                         <Input
                             id="addcode3Id"
+                            change="onAddressCodChange"
                             maxLength="9"
                             visible="{= ${create>/GstNumber3} !== '' &amp;&amp; ${create>/AdditionalGst} === true}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
@@ -1094,6 +1097,7 @@
                         />
                         <Input
                             id="addcode4Id"
+                            change="onAddressCodChange"
                             maxLength="9"
                             visible="{= ${create>/GstNumber4} !== '' &amp;&amp; ${create>/AdditionalGst} === true}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
@@ -1106,6 +1110,7 @@
                         />
                         <Input
                             id="addcode5Id"
+                            change="onAddressCodChange"
                             maxLength="9"
                             visible="{= ${create>/GstNumber5} !== '' &amp;&amp; ${create>/AdditionalGst} === true}"
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
