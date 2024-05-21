@@ -1024,18 +1024,18 @@ sap.ui.define([
                 if (formdata.DocDescription === null) {
                     formdata.DocDescription = "";
                 }
-                // if (formdata.ContactPersonName2 === null) {
-                //     formdata.ContactPersonName2 = "";
-                // }
-                // if (formdata.ContactPersonDepartment2 === null) {
-                //     formdata.ContactPersonDepartment2 = "";
-                // }
-                // if (formdata.ContactPersonDesignation2 === null) {
-                //     formdata.ContactPersonDesignation2 = "";
-                // }
-                // if (formdata.ContactPersonPhone2 === null) {
-                //     formdata.ContactPersonPhone2 = "";
-                // }
+                if (formdata.Address3 === null) {
+                    formdata.Address3 = "";
+                }
+                if (formdata.District === null) {
+                    formdata.District = "";
+                }
+                if (formdata.VendorName2 === null) {
+                    formdata.VendorName2 = "";
+                }
+                if (formdata.VendorName3 === null) {
+                    formdata.VendorName3 = "";
+                }
                 // if (formdata.ContactPersonMobile2 === null) {
                 //     formdata.ContactPersonMobile2 = "";
                 // }
