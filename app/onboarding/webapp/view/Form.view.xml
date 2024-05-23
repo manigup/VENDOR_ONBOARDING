@@ -300,8 +300,8 @@
                             enabled="{= ${request>/edit} === true &amp;&amp; ${request>/purchase} === true}"
                         >
                             <core:Item
-                                key="Customer Recommendation "
-                                text="Customer Recommendation "
+                                key="Customer Recommendation"
+                                text="Customer Recommendation"
                             />
                             <core:Item
                                 key="Quality Performance"
@@ -2476,6 +2476,39 @@
                     columnsXL="3"
                 >
                     <f:content>
+                    <Label
+                            design="Bold"
+                            text="BP Grouping"
+                            required="{= ${request>/finance} === true}"
+                        />
+                        <Select
+                            id="bpGroupingId"
+                            showSecondaryValues="true"
+                            forceSelection="false"
+                            selectedKey="{create>/BPGrouping}"
+                            enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
+                        >
+                            <core:Item
+                                key="Domestic Supplier"
+                                text="Domestic Supplier"
+                            />
+                            <core:Item
+                                key="Import Supplier"
+                                text="Import Supplier"
+                            />
+                            <core:Item
+                                key="Plant as vendor"
+                                text="Plant as vendor"
+                            />
+                            <core:Item
+                                key="Employee"
+                                text="Employee"
+                            />
+                            <core:Item
+                                key="Indirect Import vendor"
+                                text="Indirect Import vendor"
+                            />
+                        </Select>
                         <Label
                             design="Bold"
                             text="Account Code"

@@ -376,6 +376,7 @@ entity VendorForm : managed {
       AddressCode3                 : String;
       AddressCode4                 : String;
       AddressCode5                 : String;
+      BPGrouping                   : String;
       Products                     : Composition of many ProductInfo
                                        on Products.Vendor = $self;
 }

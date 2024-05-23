@@ -1124,7 +1124,7 @@ sap.ui.define([
                         "Street4": formdata.City_name,
                         "Street5": formdata.District,
                         "Customer": "",
-                        "BPGrouping": formdata.RegistrationType,
+                        "BPGrouping": formdata.BPGrouping,
                         "Name1": formdata.VendorName,
                         "Name2": formdata.VendorName2,
                         "Name3": formdata.VendorName3,

@@ -264,8 +264,8 @@
                 fieldGroupIds="required"
             >
                 <core:Item
-                    key="Customer Recommendation "
-                    text="Customer Recommendation "
+                    key="Customer Recommendation"
+                    text="Customer Recommendation"
                 />
                 <core:Item
                     key="Quality Performance"
