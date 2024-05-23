@@ -1028,6 +1028,7 @@ sap.ui.define([
                 if (requestData.finance) {
                     aInputs.push(oView.byId("accdescId"));
                     aSelects.push(oView.byId("accountcodeId"));
+                    aSelects.push(oView.byId("bpGroupingId"));
                 }
                 if (data.RelatedParty === true) {
                     aInputs.push(oView.byId("RelatedPartyNameId"));
