@@ -995,7 +995,7 @@ sap.ui.define([
                 // oView.byId("constId")
                 var aSelects = [oView.byId("countryId"),
                 oView.byId("stateId"), oView.byId("cityId"),
-                oView.byId("benAccTypeId"),
+                oView.byId("benAccTypeId"),oView.byId("bankstateId"),
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
                 if (requestData.purchase) {
@@ -1119,7 +1119,6 @@ sap.ui.define([
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
 
                     if (sCountryKey) {
-                        oStateSelect.setEnabled(true);
                         this.loadStates(sCountryKey).then(resolve).catch(reject);
                     } else {
                         oStateSelect.setEnabled(false);
@@ -1857,6 +1856,17 @@ sap.ui.define([
                     }
                 };
                 oModel.callFunction("/sendEmail", mParameters);
+            },
+
+            onDisplayGstPress: function () {
+                var data = this.createModel.getData();
+                var dialog = sap.ui.xmlfragment("sp.fiori.onboarding.fragment.Gst", this);
+                this.getView().addDependent(dialog);
+                sap.ui.getCore().byId("gstDialog").setModel(new JSONModel(data), "GstModel");
+                dialog.open();
+            },
+            onDialogCancel: function (evt) {
+                evt.getSource().getParent().destroy();
             },
 
             customPanType: SimpleType.extend("Pan", {

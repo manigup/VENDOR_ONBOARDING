@@ -528,7 +528,7 @@ sap.ui.define([
                 // oView.byId("constId")
                 var aSelects = [oView.byId("countryId"),
                 oView.byId("stateId"), oView.byId("cityId"),
-                oView.byId("benAccTypeId"),
+                oView.byId("benAccTypeId"), oView.byId("bankstateId"),
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
 
@@ -623,7 +623,6 @@ sap.ui.define([
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
 
                     if (sCountryKey) {
-                        oStateSelect.setEnabled(true);
                         this.loadStates(sCountryKey).then(resolve).catch(reject);
                     } else {
                         oStateSelect.setEnabled(false);
@@ -1438,7 +1437,43 @@ sap.ui.define([
                     }
                 });
             },
-
+            onAddGstPress: function () {
+                var dialog = sap.ui.xmlfragment("sp.fiori.supplierform.fragment.Gst", this);
+                this.getView().addDependent(dialog);
+                sap.ui.getCore().byId("gstDialog").setModel(new JSONModel({}), "GstModel");
+                dialog.open();
+            },
+            onGstSubmit: function () {
+                BusyIndicator.show();
+                var payload = sap.ui.getCore().byId("gstDialog").getModel("GstModel").getData();
+                var data = this.createModel.getData();
+                data.GstNumber1 = payload.GstNumber1;
+                data.GstFileName1 = payload.GstFileName1;
+                data.Gst1Address1 = payload.Gst1Address1;
+                data.Gst1Address2 = payload.Gst1Address2;
+                data.GstNumber2 = payload.GstNumber2;
+                data.GstFileName2 = payload.GstFileName2;
+                data.Gst2Address1 = payload.Gst2Address1;
+                data.Gst2Address2 = payload.Gst2Address2;
+                data.GstNumber3 = payload.GstNumber3;
+                data.GstFileName3 = payload.GstFileName3;
+                data.Gst3Address1 = payload.Gst3Address1;
+                data.Gst3Address2 = payload.Gst3Address2;
+                data.GstNumber4 = payload.GstNumber4;
+                data.GstFileName4 = payload.GstFileName4;
+                data.Gst4Address1 = payload.Gst4Address1;
+                data.Gst4Address2 = payload.Gst4Address2;
+                data.GstNumber5 = payload.GstNumber5;
+                data.GstFileName5 = payload.GstFileName5;
+                data.Gst5Address1 = payload.Gst5Address1;
+                data.Gst5Address2 = payload.Gst5Address2;
+                this.createModel.refresh(true);
+                BusyIndicator.hide()
+                sap.ui.getCore().byId("createDialog").destroy();
+            },
+            onDialogCancel: function (evt) {
+                evt.getSource().getParent().destroy();
+            },
 
             customPanType: SimpleType.extend("Pan", {
                 formatValue: function (oValue) {

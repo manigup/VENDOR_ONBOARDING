@@ -108,6 +108,7 @@ entity VendorForm : managed {
       City                         : Association to City;
       Country                      : Association to Country;
       State                        : Association to States;
+      BankState                    : Association to States;
       District                     : String;
       Pincode                      : String(6);
       ContactPerson                : String;
