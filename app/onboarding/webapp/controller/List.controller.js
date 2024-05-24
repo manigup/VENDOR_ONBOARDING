@@ -1129,6 +1129,7 @@ sap.ui.define([
                         "Name2": formdata.VendorName2,
                         "Name3": formdata.VendorName3,
                         "PayTerms": formdata.SuppPaymentTerm,
+                        "BankState": formdata.BankState_name,
                         "ContantInformation": [
                             {
                                 "ContactName": formdata.ContactPersonName,

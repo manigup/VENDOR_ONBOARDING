@@ -1254,354 +1254,11 @@
                                     <core:CustomData key="GstFileName" />
                                 </customData>
                             </Link>
-                            <Label
-                                design="Bold"
-                                text="Other GST"
-                            />
-                            <Switch
-                                state="{create>/AdditionalGst}"
-                                customTextOn="Yes"
-                                customTextOff="No"
-                            />
-                            <Label
-                                design="Bold"
-                                text="GST 1"
-                            />
-                            <Text text="" visible="{= ${create>/AdditionalGst} === true}"/>
-                            <Label
-                                design="Bold"
-                                text="GSTIN 1"
-                            />
-                            <Input
-                                placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)"
-                                change="onInputChange($event,'GstNumber1')"
-                                value="{path:'create>/GstNumber1',type: '.customGstType'}"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Upload GSTIN 1"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                            />
-                            <u:FileUploader
-                                sendXHR="true"
-                                useMultipart="false"
-                                uploadComplete="onUploadComplete"
-                                buttonText="Browse"
-                                fileSizeExceed="onFileSizeExceded"
-                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                                change="onFileUploaderChange"
-                                maximumFileSize="10MB"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            >
-                                <u:customData>
-                                    <core:CustomData key="GstFileName1" />
-                                </u:customData>
-                            </u:FileUploader>
-                            <Link
-                                text="{create>/GstFileName1}"
-                                press="onAttachmentGet"
-                                visible="{= ${create>/GstApplicable} === 'YES' &amp;&amp; ${create>/GstFileName1} !== ''}"
-                            >
-                                <customData>
-                                    <core:CustomData key="GstFileName1" />
-                                </customData>
-                            </Link>
-                            <Label
-                                design="Bold"
-                                text="Address 1"
-                            />
-                            <Input
-                                placeholder="Plot No.,House No.,Street No."
-                                maxLength="60"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst1Address1',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Address 2"
-                            />
-                            <Input
-                                placeholder="City, State, District"
-                                maxLength="40"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst1Address2',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="GST 2"
-                            />
-                            <Text text="" visible="{= ${create>/AdditionalGst} === true}"/>
-                            <Label
-                                design="Bold"
-                                text="GSTIN 2"
-                            />
-                            <Input
-                                placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)"
-                                change="onInputChange($event,'GstNumber2')"
-                                value="{path:'create>/GstNumber2',type: '.customGstType'}"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Upload GSTIN 2"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                            />
-                            <u:FileUploader
-                                sendXHR="true"
-                                useMultipart="false"
-                                uploadComplete="onUploadComplete"
-                                buttonText="Browse"
-                                fileSizeExceed="onFileSizeExceded"
-                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                                change="onFileUploaderChange"
-                                maximumFileSize="10MB"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            >
-                                <u:customData>
-                                    <core:CustomData key="GstFileName2" />
-                                </u:customData>
-                            </u:FileUploader>
-                            <Link
-                                text="{create>/GstFileName2}"
-                                press="onAttachmentGet"
-                                visible="{= ${create>/GstApplicable} === 'YES' &amp;&amp; ${create>/GstFileName2} !== ''}"
-                            >
-                                <customData>
-                                    <core:CustomData key="GstFileName2" />
-                                </customData>
-                            </Link>
-                            <Label
-                                design="Bold"
-                                text="Address 1"
-                            />
-                            <Input
-                                placeholder="Plot No.,House No.,Street No."
-                                maxLength="60"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst2Address1',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Address 2"
-                            />
-                            <Input
-                                placeholder="City, State, District"
-                                maxLength="40"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst2Address2',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="GST 3"
-                            />
-                            <Text text="" visible="{= ${create>/AdditionalGst} === true}"/>
-                            <Label
-                                design="Bold"
-                                text="GSTIN 3"
-                            />
-                            <Input
-                                placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)"
-                                change="onInputChange($event,'GstNumber3')"
-                                value="{path:'create>/GstNumber3',type: '.customGstType'}"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Upload GSTIN 3"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                            />
-                            <u:FileUploader
-                                sendXHR="true"
-                                useMultipart="false"
-                                uploadComplete="onUploadComplete"
-                                buttonText="Browse"
-                                fileSizeExceed="onFileSizeExceded"
-                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                                change="onFileUploaderChange"
-                                maximumFileSize="10MB"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            >
-                                <u:customData>
-                                    <core:CustomData key="GstFileName3" />
-                                </u:customData>
-                            </u:FileUploader>
-                            <Link
-                                text="{create>/GstFileName3}"
-                                press="onAttachmentGet"
-                                visible="{= ${create>/GstApplicable} === 'YES' &amp;&amp; ${create>/GstFileName3} !== ''}"
-                            >
-                                <customData>
-                                    <core:CustomData key="GstFileName3" />
-                                </customData>
-                            </Link>
-                            <Label
-                                design="Bold"
-                                text="Address 1"
-                            />
-                            <Input
-                                placeholder="Plot No.,House No.,Street No."
-                                maxLength="60"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst3Address1',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Address 2"
-                            />
-                            <Input
-                                placeholder="City, State, District"
-                                maxLength="40"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst3Address2',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="GST 4"
-                            />
-                            <Text text="" visible="{= ${create>/AdditionalGst} === true}"/>
-                            <Label
-                                design="Bold"
-                                text="GSTIN 4"
-                            />
-                            <Input
-                                placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)"
-                                change="onInputChange($event,'GstNumber4')"
-                                value="{path:'create>/GstNumber4',type: '.customGstType'}"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Upload GSTIN 4"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                            />
-                            <u:FileUploader
-                                sendXHR="true"
-                                useMultipart="false"
-                                uploadComplete="onUploadComplete"
-                                buttonText="Browse"
-                                fileSizeExceed="onFileSizeExceded"
-                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                                change="onFileUploaderChange"
-                                maximumFileSize="10MB"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            >
-                                <u:customData>
-                                    <core:CustomData key="GstFileName4" />
-                                </u:customData>
-                            </u:FileUploader>
-                            <Link
-                                text="{create>/GstFileName4}"
-                                press="onAttachmentGet"
-                                visible="{= ${create>/GstApplicable} === 'YES' &amp;&amp; ${create>/GstFileName4} !== ''}"
-                            >
-                                <customData>
-                                    <core:CustomData key="GstFileName4" />
-                                </customData>
-                            </Link>
-                            <Label
-                                design="Bold"
-                                text="Address 1"
-                            />
-                            <Input
-                                placeholder="Plot No.,House No.,Street No."
-                                maxLength="60"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst4Address1',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Address 2"
-                            />
-                            <Input
-                                placeholder="City, State, District"
-                                maxLength="40"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst4Address2',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="GST 5"
-                            />
-                            <Text text="" visible="{= ${create>/AdditionalGst} === true}"/>
-                            <Label
-                                design="Bold"
-                                text="GSTIN 5"
-                            />
-                            <Input
-                                placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)"
-                                change="onInputChange($event,'GstNumber5')"
-                                value="{path:'create>/GstNumber5',type: '.customGstType'}"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Upload GSTIN 5"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                            />
-                            <u:FileUploader
-                                sendXHR="true"
-                                useMultipart="false"
-                                uploadComplete="onUploadComplete"
-                                buttonText="Browse"
-                                fileSizeExceed="onFileSizeExceded"
-                                fileType="jpg,jpeg,msg,pdf,docx,doc,ppt,pptx,ost"
-                                change="onFileUploaderChange"
-                                maximumFileSize="10MB"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                            >
-                                <u:customData>
-                                    <core:CustomData key="GstFileName5" />
-                                </u:customData>
-                            </u:FileUploader>
-                            <Link
-                                text="{create>/GstFileName5}"
-                                press="onAttachmentGet"
-                                visible="{= ${create>/GstApplicable} === 'YES' &amp;&amp; ${create>/GstFileName5} !== ''}"
-                            >
-                                <customData>
-                                    <core:CustomData key="GstFileName5" />
-                                </customData>
-                            </Link>
-                            <Label
-                                design="Bold"
-                                text="Address 1"
-                            />
-                            <Input
-                                placeholder="Plot No.,House No.,Street No."
-                                maxLength="60"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst5Address1',type:'sap.ui.model.type.String'}"
-                            />
-                            <Label
-                                design="Bold"
-                                text="Address 2"
-                            />
-                            <Input
-                                placeholder="City, State, District"
-                                maxLength="40"
-                                visible="{= ${create>/AdditionalGst} === true}"
-                                enabled="{= ${request>/edit} === true &amp;&amp; ${request>/finance} === true}"
-                                value="{path:'create>/Gst5Address2',type:'sap.ui.model.type.String'}"
+                            <Button
+                                id="_IDGenButton1"
+                                type="Emphasized"
+                                text="Display GST"
+                                press="onDisplayGstPress"
                             />
                             <Label
                                 design="Bold"
@@ -1726,6 +1383,23 @@
                                 enabled="false"
                                 value="{path:'create>/BeneficiaryLocation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                             />
+                            <Label
+                                design="Bold"
+                                text="Bank State"
+                                required="true"
+                            />
+                            <Select
+                                id="bankstateId"
+                                forceSelection="false"
+                                enabled="false"
+                                selectedKey="{create>/BankState_name}"
+                                items="{states>/}"
+                            >
+                                <core:Item
+                                    key="{states>name}"
+                                    text="{states>name}"
+                                />
+                            </Select>
                             <Label
                                 design="Bold"
                                 text="Bank Address"
@@ -2476,7 +2150,7 @@
                     columnsXL="3"
                 >
                     <f:content>
-                    <Label
+                        <Label
                             design="Bold"
                             text="BP Grouping"
                             required="{= ${request>/finance} === true}"
@@ -2536,7 +2210,6 @@
                             enabled="false"
                             value="{path:'create>/AccountDesc',type:'sap.ui.model.type.String',constraints:{minLength: 1}}"
                         />
-                        
                     </f:content>
                 </f:SimpleForm>
             </Panel>
