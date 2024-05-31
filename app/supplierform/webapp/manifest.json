@@ -73,6 +73,7 @@
                 "dataSource": "mainService",
                 "preload": true,
                 "settings": {
+                    "useBatch": false,
                     "synchronizationMode": "None",
                     "operationMode": "Server",
                     "autoExpandSelect": true,
