@@ -948,7 +948,6 @@
                                 text="GSTIN"
                                 required="true"
                             />
-                            <!-- <Input id="gstId" type="Text" placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)" change="onInputChange($event,'GstNumber')" value="{path:'create>/GstNumber',type:'sap.ui.model.type.String',constraints:{minLength: 15,maxLength:15}}" visible="{= ${create>/GstApplicable} === 'YES'}"/> -->
                             <Input
                                 id="gstId"
                                 placeholder="Enter GST Number (Eg: 29ABCDE1234ZXXX)"
@@ -988,6 +987,12 @@
                                     <core:CustomData key="GstFileName" />
                                 </customData>
                             </Link>
+                            <Button
+                                id="_IDGenButton1"
+                                type="Emphasized"
+                                text="Add GST"
+                                press="onAddGstPress"
+                            />
                             <Label
                                 id="_IDGenLabel40"
                                 design="Bold"
@@ -1129,6 +1134,25 @@
                                 id="benLocId"
                                 value="{path:'create>/BeneficiaryLocation',type:'sap.ui.model.type.String',constraints:{minLength:1}}"
                             />
+                            <Label
+                                id="_IDGenLabel115"
+                                design="Bold"
+                                text="Bank State"
+                                required="true"
+                            />
+                            <Select
+                                id="bankstateId"
+                                forceSelection="false"
+                                selectedKey="{create>/BankState_name}"
+                                items="{states>/}"
+                                enabled="true"
+                            >
+                                <core:Item
+                                    id="_IDGenItem40"
+                                    key="{states>name}"
+                                    text="{states>name}"
+                                />
+                            </Select>
                             <Label
                                 id="_IDGenLabel50"
                                 design="Bold"

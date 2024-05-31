@@ -242,7 +242,7 @@
                             />
                             <ObjectStatus
                                 id="_IDGenObjectStatus5"
-                                text="{DataModel>VenApprovalPending}"
+                                text="{path:'DataModel>VenApprovalPending',formatter:'formatter.formatApproval'}"
                                 class="objectStatus"
                             />
                             <FlexBox

@@ -634,7 +634,8 @@ sap.ui.define([
             loadStates: function (sCountryKey, selectedState, isRefresh) {
                 var that = this;
                 return new Promise(function (resolve, reject) {
-                    var oStateSelect = that.getView().byId("stateId");
+                    var oStateSelect = that.byId("stateId"),
+                        oBankStateId = that.byId("bankstateId");
                     var oDataModel = that.getOwnerComponent().getModel();
                     var sPath = "/States";
 
@@ -648,6 +649,15 @@ sap.ui.define([
 
                             oStateSelect.setModel(oJsonModel, "states");
                             oStateSelect.bindItems({
+                                path: "states>/States",
+                                template: new sap.ui.core.Item({
+                                    key: "{states>name}",
+                                    text: "{states>name}"
+                                })
+                            });
+
+                            oBankStateId.setModel(oJsonModel, "states");
+                            oBankStateId.bindItems({
                                 path: "states>/States",
                                 template: new sap.ui.core.Item({
                                     key: "{states>name}",

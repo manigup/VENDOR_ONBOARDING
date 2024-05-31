@@ -55,8 +55,11 @@ sap.ui.define([
 
                 this.hardcodedURL = "";
                 if (window.location.href.includes("launchpad")) {
+
                     //  this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1";
-                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+                    // this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+
+                    this.hardcodedURL = window.location.href.split("/index")[0];
                 }
 
                 this.initializeCountries();
@@ -72,11 +75,16 @@ sap.ui.define([
                 var createdata = this.getView().getModel("create").getData();
                 createdata.VendorId = this.id;
                 createdata.Vendor = requestData.Vendor;
+                createdata.VendorType = requestData.VendorType;
+                createdata.Companycode = requestData.Companycode;
                 createdata.RegistrationType = requestData.RegistrationType;
                 createdata.GroupType = requestData.GroupType.split(",");
                 createdata.VDAAssessment = requestData.VDAAssessment;
                 createdata.RelatedParty = false;
+                createdata.AdditionalGst = false;
                 createdata.SupplierType = "Permanent";
+                createdata.Purpose = requestData.Purpose;
+                createdata.ReasonText = requestData.ReasonText;
                 if (requestData.VendorType === "DM") {
                     createdata.MsmeItilView = "MSME";
                     this.byId("msmeItil").setSelectedIndex(0);
@@ -124,8 +132,11 @@ sap.ui.define([
                             data.Type = "MATERIAL";
                             // data.ScopeOfSupply = "PARTS";
                         }
+
                         data.GroupType = data.GroupType.split(",");
                         data.SupplierType = "Permanent";
+                        data.Purpose = data.Purpose;
+                        data.ReasonText = data.ReasonText;
                         if (!data.MsmeItilView && requestData.VendorType === "DM") {
                             data.MsmeItilView = "MSME";
                             this.byId("msmeItil").setSelectedIndex(0);
@@ -177,12 +188,14 @@ sap.ui.define([
                     }
                 });
                 //this.fetchProductInfo();
+                this._setRadioButtons(createdata);
                 this._showRemainingTime();
             },
-            onGetSupplierRegForm: function(){
+            onGetSupplierRegForm: function () {
                 this.hardcodedURL = "";
                 if (window.location.href.includes("launchpad")) {
-                    this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+                    //this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1";
+                    this.hardcodedURL = window.location.href.split("/index")[0];
                 }
                 var fileUrl = this.hardcodedURL + "/files/SupplierRegistrationfromupdated.doc";
                 window.open(fileUrl, '_blank');
@@ -292,9 +305,9 @@ sap.ui.define([
                 }
                 if (data.RegistrationType === "Customer Driven (Export)") {
                     this.byId("registrationtypeRbId").setSelectedIndex(1);
-                }else if (data.RegistrationType === "BOM Parts") {
+                } else if (data.RegistrationType === "BOM Parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(2);
-                }else if (data.RegistrationType === "Non BOM parts") {
+                } else if (data.RegistrationType === "Non BOM parts") {
                     this.byId("registrationtypeRbId").setSelectedIndex(3);
                 }
                 if (data.Msme === "NO") {
@@ -416,11 +429,11 @@ sap.ui.define([
                     case "registrationtypeRbId":
                         if (index === 0) {
                             data.RegistrationType = "Customer Driven (Domestic)";
-                        }else if (index === 1) {
+                        } else if (index === 1) {
                             data.RegistrationType = "Customer Driven (Export)";
-                        }else if(index === 2){
+                        } else if (index === 2) {
                             data.RegistrationType = "BOM Parts";
-                        }else {
+                        } else {
                             data.RegistrationType = "Non BOM parts";
                         }
                         break;
@@ -464,6 +477,7 @@ sap.ui.define([
                 }
                 this.createModel.refresh(true);
             },
+
             _mandatCheck: async function () {
 
                 var data = this.createModel.getData();
@@ -514,7 +528,7 @@ sap.ui.define([
                 // oView.byId("constId")
                 var aSelects = [oView.byId("countryId"),
                 oView.byId("stateId"), oView.byId("cityId"),
-                oView.byId("benAccTypeId"),
+                oView.byId("benAccTypeId"), oView.byId("bankstateId"),
                 oView.byId("suppliertypeId"),
                 oView.byId("grouptypeId")];
 
@@ -609,7 +623,6 @@ sap.ui.define([
                     var sCountryKey = this.getView().byId("countryId").getSelectedKey();
 
                     if (sCountryKey) {
-                        oStateSelect.setEnabled(true);
                         this.loadStates(sCountryKey).then(resolve).catch(reject);
                     } else {
                         oStateSelect.setEnabled(false);
@@ -621,7 +634,8 @@ sap.ui.define([
             loadStates: function (sCountryKey, selectedState, isRefresh) {
                 var that = this;
                 return new Promise(function (resolve, reject) {
-                    var oStateSelect = that.getView().byId("stateId");
+                    var oStateSelect = that.byId("stateId"),
+                        oBankStateId = that.byId("bankstateId");
                     var oDataModel = that.getOwnerComponent().getModel();
                     var sPath = "/States";
 
@@ -635,6 +649,15 @@ sap.ui.define([
 
                             oStateSelect.setModel(oJsonModel, "states");
                             oStateSelect.bindItems({
+                                path: "states>/States",
+                                template: new sap.ui.core.Item({
+                                    key: "{states>name}",
+                                    text: "{states>name}"
+                                })
+                            });
+
+                            oBankStateId.setModel(oJsonModel, "states");
+                            oBankStateId.bindItems({
                                 path: "states>/States",
                                 template: new sap.ui.core.Item({
                                     key: "{states>name}",
@@ -928,7 +951,8 @@ sap.ui.define([
                     if (venaddress === "Initiator") {
                         emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Purchase.`;
                     } else {
-                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Purchase. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>`;
+                        let url = window.location.href.split("/index")[0].split(".onboarding")[0] + ".onboarding.spfiorionboarding/index.html";
+                        emailBody = `||Form is submitted by the supplier ${vendorName} on ${moddate}. Approval pending at Purchase. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>`;
                     }
                     var oModel = this.getView().getModel();
                     var mParameters = {
@@ -1423,7 +1447,43 @@ sap.ui.define([
                     }
                 });
             },
-
+            onAddGstPress: function () {
+                var dialog = sap.ui.xmlfragment("sp.fiori.supplierform.fragment.Gst", this);
+                this.getView().addDependent(dialog);
+                sap.ui.getCore().byId("gstDialog").setModel(new JSONModel({}), "GstModel");
+                dialog.open();
+            },
+            onGstSubmit: function () {
+                BusyIndicator.show();
+                var payload = sap.ui.getCore().byId("gstDialog").getModel("GstModel").getData();
+                var data = this.createModel.getData();
+                data.GstNumber1 = payload.GstNumber1;
+                data.GstFileName1 = payload.GstFileName1;
+                data.Gst1Address1 = payload.Gst1Address1;
+                data.Gst1Address2 = payload.Gst1Address2;
+                data.GstNumber2 = payload.GstNumber2;
+                data.GstFileName2 = payload.GstFileName2;
+                data.Gst2Address1 = payload.Gst2Address1;
+                data.Gst2Address2 = payload.Gst2Address2;
+                data.GstNumber3 = payload.GstNumber3;
+                data.GstFileName3 = payload.GstFileName3;
+                data.Gst3Address1 = payload.Gst3Address1;
+                data.Gst3Address2 = payload.Gst3Address2;
+                data.GstNumber4 = payload.GstNumber4;
+                data.GstFileName4 = payload.GstFileName4;
+                data.Gst4Address1 = payload.Gst4Address1;
+                data.Gst4Address2 = payload.Gst4Address2;
+                data.GstNumber5 = payload.GstNumber5;
+                data.GstFileName5 = payload.GstFileName5;
+                data.Gst5Address1 = payload.Gst5Address1;
+                data.Gst5Address2 = payload.Gst5Address2;
+                this.createModel.refresh(true);
+                BusyIndicator.hide()
+                sap.ui.getCore().byId("gstDialog").destroy();
+            },
+            onDialogCancel: function (evt) {
+                evt.getSource().getParent().destroy();
+            },
 
             customPanType: SimpleType.extend("Pan", {
                 formatValue: function (oValue) {

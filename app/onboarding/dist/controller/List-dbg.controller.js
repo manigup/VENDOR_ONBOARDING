@@ -88,7 +88,7 @@ sap.ui.define([
                             reqData.marketingdom = accessdata.find(item => item.email === res.email && item.Access === "Marketingdom") ? true : false;
                             reqData.marketingexp = accessdata.find(item => item.email === res.email && item.Access === "Marketingexp") ? true : false;
                             reqData.finance = accessdata.find(item => item.email === res.email && item.Access === "Finance") ? true : false;
-                            // reqData.purchase = true;
+                            // reqData.finance = true;
                             if (reqData.purchase) {
                                 reqData.appbtn = "purchase";
                             } else if (reqData.quality) {
@@ -97,7 +97,7 @@ sap.ui.define([
                                 reqData.appbtn = "coo";
                             } else if (reqData.marketingdom) {
                                 reqData.appbtn = "marketingdom";
-                            }else if (reqData.marketingexp) {
+                            } else if (reqData.marketingexp) {
                                 reqData.appbtn = "marketingexp";
                             } else if (reqData.finance) {
                                 reqData.appbtn = "finance";
@@ -149,7 +149,7 @@ sap.ui.define([
                                 reqData.appbtn = "coo";
                             } else if (reqData.marketingdom) {
                                 reqData.appbtn = "marketingdom";
-                            }else if (reqData.marketingexp) {
+                            } else if (reqData.marketingexp) {
                                 reqData.appbtn = "marketingexp";
                             } else if (reqData.finance) {
                                 reqData.appbtn = "finance";
@@ -225,7 +225,7 @@ sap.ui.define([
                     const payload = sap.ui.getCore().byId("createDialog").getModel("CreateModel").getData();
                     payload.Vendor = this.generateVendorNo();
                     payload.VenFrom = new Date();
-                    payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                    payload.VenValidTo = this.changeDate(payload.VenFrom, 15, "add");
                     payload.initiatedBy = sessionStorage.getItem('userEmail');
                     payload.GroupType = payload.GroupType.join(',');
                     setTimeout(() => {
@@ -250,8 +250,9 @@ sap.ui.define([
             },
 
             sendEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
+                let url = window.location.href.split("/")[2] + "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
                 return new Promise((resolve, reject) => {
-                    let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
+                    let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href=${url}>CLICK HERE</a>`;
                     var oModel = this.getView().getModel();
                     var mParameters = {
                         method: "GET",
@@ -283,7 +284,7 @@ sap.ui.define([
                 if (href.includes("impautosuppdev")) {
 
                     //  url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/da8bb600-97b5-4ae9-822d-e6aa134d8e1a.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
-                    url = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=" + this.vendorId;
+                    url = jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + this.vendorId;
                 } else {
                     url = "/supplierform/webapp/index.html?id=" + this.vendorId;
                 }
@@ -311,7 +312,7 @@ sap.ui.define([
                     data.Access = "COO";
                 } else if (requestData.marketingdom === true) {
                     data.Access = "Marketingdom";
-                }else if (requestData.marketingexp === true) {
+                } else if (requestData.marketingexp === true) {
                     data.Access = "Marketingexp";
                 } else if (requestData.finance === true) {
                     data.Access = "Finance";
@@ -342,7 +343,7 @@ sap.ui.define([
                         payload.City = vendata[i].City;
                         payload.VendorMail = vendata[i].VendorMail;
                         payload.VenFrom = new Date();;
-                        payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                        payload.VenValidTo = this.changeDate(payload.VenFrom, 15, "add");
                         payload.VenTimeLeft = "";
                         payload.Status = vendata[i].Status;
                         payload.ResetValidity = "";
@@ -360,7 +361,7 @@ sap.ui.define([
                     this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
                         success: () => {
                             BusyIndicator.hide();
-                            MessageBox.success("Form validity extended for next 7 days for vendor " + this.vendor, {
+                            MessageBox.success("Form validity extended for next 15 days for vendor " + this.vendor, {
                                 onClose: () => {
                                     source.getParent().getParent().destroy();
                                     this.getData();
@@ -376,7 +377,8 @@ sap.ui.define([
                 }, 1000);
             },
             sendResetEmailNotification: function (vendorName, vendorId, vendorMail, validTo) {
-                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Validity of the form is extended for next 7 days. Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${vendorId}">CLICK HERE</a>`;
+                let url = window.location.href.split("/")[2] + "/" + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + vendorId;
+                let emailBody = `||Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Validity of the form is extended for next 15 days. Form is valid till ${validTo}. Request you to fill the form and submit on time.<br><br><a href=${url}>CLICK HERE</a>`;
                 var oModel = this.getView().getModel();
                 var mParameters = {
                     method: "GET",
@@ -476,15 +478,16 @@ sap.ui.define([
                 return new Promise(resolve => setTimeout(resolve, ms));
             },
             changeStatus: async function () {
-                BusyIndicator.show();
+
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
                 var requestData = this.getView().getModel("request").getData();
                 this.SupplierType = formdata.SupplierType;
-                if (requestData.quality && this.SupplierType === "Permanent" && formdata.SystemAuditRating >= "0" && formdata.SystemAuditRating < "70") {
+                if (requestData.quality && this.SupplierType === "Permanent" && formdata.SystemAuditRating < "70") {
                     MessageBox.error("The form cannot be approved as System Audit Rating is " + formdata.SystemAuditRating);
                     return;
                 } else {
+                    BusyIndicator.show();
                     var payload = {};
                     for (var i = 0; i < vendata.length; i++) {
                         if (vendata[i].VendorId === this.vendorId) {
@@ -519,17 +522,18 @@ sap.ui.define([
                     var pending = "";
                     var appr = "0";
                     var venName = payload.VendorName;
+                    let url = window.location.href.split("/index")[0].split(".onboarding")[0] + ".onboarding.spfiorionboarding/index.html";
                     if (venStatus === "SBQ") {
-                        if (venRegType === "Customer Driven (Domestic)"){
+                        if (venRegType === "Customer Driven (Domestic)") {
                             level = "4";
-                        }else if(venRegType === "Customer Driven (Export)"){
+                        } else if (venRegType === "Customer Driven (Export)") {
                             level = "4";
                         } else {
                             level = "3";
                         }
                         this.access = "COO";
                         this.emailbodyini = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at COO. `;
-                        this.emailbody = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the Quality. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                         this.VendorName = "COO Team";
                         stat = "ABQ";
                         pending = "COO"
@@ -539,7 +543,7 @@ sap.ui.define([
                             if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                                 this.access = "Finance";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
-                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                                 this.VendorName = "Finance Team";
                                 stat = "ABP";
                                 pending = "Finance"
@@ -549,17 +553,17 @@ sap.ui.define([
                                 level = "2";
                                 this.access = "COO";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. `;
-                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at COO. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                                 this.VendorName = "COO Team";
                                 stat = "ABP";
                                 pending = "COO"
                                 this.msg = "Approved by Purchase";
                             }
-                        }else if(venRegType === "Customer Driven (Domestic)"){
+                        } else if (venRegType === "Customer Driven (Domestic)") {
                             if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                                 this.access = "Finance";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
-                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                                 this.VendorName = "Finance Team";
                                 stat = "ABP";
                                 pending = "Finance"
@@ -569,18 +573,18 @@ sap.ui.define([
                                 level = "2";
                                 this.access = "Marketingdom";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. `;
-                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                                 this.VendorName = "Marketing Team";
                                 stat = "ABP";
                                 pending = "Marketingdom"
                                 this.msg = "Approved by Purchase";
                             }
                         }
-                        else if(venRegType === "Customer Driven (Export)"){
+                        else if (venRegType === "Customer Driven (Export)") {
                             if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                                 this.access = "Finance";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
-                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                                 this.VendorName = "Finance Team";
                                 stat = "ABP";
                                 pending = "Finance"
@@ -590,18 +594,18 @@ sap.ui.define([
                                 level = "2";
                                 this.access = "Marketingexp";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. `;
-                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Marketing. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                                 this.VendorName = "Marketing Team";
                                 stat = "ABP";
                                 pending = "Marketingexp"
                                 this.msg = "Approved by Purchase";
                             }
-                        } 
+                        }
                         else {
                             if (this.SupplierType === "Temporary" || this.SupplierType === "One Time") {
                                 this.access = "Finance";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. `;
-                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                                 this.VendorName = "Finance Team";
                                 stat = "ABP";
                                 pending = "Finance"
@@ -611,7 +615,7 @@ sap.ui.define([
                                 level = "2";
                                 this.access = "Quality";
                                 this.emailbodyini = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Quality. `;
-                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                                this.emailbody = `||Form for the supplier ${venName} is approved by the Purchase. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                                 this.VendorName = "Quality Team";
                                 stat = "ABP";
                                 pending = "Quality"
@@ -619,33 +623,33 @@ sap.ui.define([
                             }
                         }
 
-                    }else if (venStatus === "SBE") {
+                    } else if (venStatus === "SBE") {
                         this.access = "Quality";
                         this.emailbodyini = `||Form for the supplier ${venName} is approved by the Marketing. Approval pending at Quality. `;
-                        this.emailbody = `||Form for the supplier ${venName} is approved by the Marketing. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the Marketing. Approval pending at Quality. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                         this.VendorName = "Quality Team";
                         level = "3";
                         stat = "ABE";
                         pending = "Quality"
                         this.msg = "Approved by Marketing";
-                    }else if (venStatus === "SBC" ) {
+                    } else if (venStatus === "SBC") {
                         if (venRegType === "Non BOM parts") {
                             level = "3";
-                        }else if(venRegType === "Customer Driven (Domestic)"){
+                        } else if (venRegType === "Customer Driven (Domestic)") {
                             level = "5";
-                        }else if(venRegType === "Customer Driven (Export)"){
+                        } else if (venRegType === "Customer Driven (Export)") {
                             level = "5";
                         } else {
                             level = "4";
                         }
                         this.access = "Finance";
                         this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. `;
-                        this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                        this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                         this.VendorName = "Finance Team";
                         stat = "ABC";
                         pending = "Finance"
                         this.msg = "Approved by COO";
-                    } 
+                    }
                     // else if (venStatus === "SBC" && venRelated === "Yes") {
                     //     if (venRegType === "Non BOM parts") {
                     //         level = "3";
@@ -654,7 +658,7 @@ sap.ui.define([
                     //     }
                     //     this.access = "CEO";
                     //     this.emailbodyini = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. `;
-                    //     this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                    //     this.emailbody = `||Form for the supplier ${venName} is approved by the COO. Approval pending at CEO. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                     //     this.VendorName = "CEO Team";
                     //     stat = "ABC";
                     //     pending = "CEO"
@@ -668,20 +672,20 @@ sap.ui.define([
                     //     }
                     //     this.access = "Finance";
                     //     this.emailbodyini = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. `;
-                    //     this.emailbody = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/site?siteId=3c32de29-bdc6-438e-95c3-285f3d2e74da&sap-language=en#onboarding-manage?sap-ui-app-id-hint=saas_approuter_sp.fiori.onboarding&/">CLICK HERE</a>  `;
+                    //     this.emailbody = `||Form for the supplier ${venName} is approved by the CEO. Approval pending at Finance. Kindly submit and approve using below link.<br><br><a href=${url}>CLICK HERE</a>  `;
                     //     this.VendorName = "Finance Team";
                     //     stat = "ABE";
                     //     pending = "Finance"
                     //     this.msg = "Approved by CEO";
                     // }
-                     else if (venStatus === "SBF") {
+                    else if (venStatus === "SBF") {
                         this.access = "Supplier";
                         this.emailbodyini = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
                         this.emailbody = `||Form for the supplier ${venName} is approved by the Finance and BP created successfully. `;
                         this.VendorName = payload.VendorName;
                         stat = "ABF";
                         payload.AddressCode = formdata.AddressCode;
-                        this.msg = "Approved by Finance and BP " + payload.AddressCode + " created successfully";
+                        this.msg = "Approved by Finance and BP created successfully";
                     }
                     payload.Status = stat;
                     payload.VenLevel = level;
@@ -788,10 +792,58 @@ sap.ui.define([
                     });
                 });
             },
-            getFormData: function () {
+            getFormData: async function () {
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
                 var res = this.getView().getModel("UserApiDetails").getData();
+                var GstData = [], i = 0;
+                GstData[i] = {
+                    GstNumber: formdata.GstNumber,
+                    Address: formdata.Address1 + " " + formdata.Address2,
+                    AddressCode: formdata.AddressCode
+                }
+                if (formdata.AdditionalGst === true) {
+                    if (formdata.GstNumber1 !== "" && formdata.GstNumber1 !== null && formdata.GstNumber1 !== undefined) {
+                        i = i + 1;
+                        GstData[i] = {
+                            GstNumber: formdata.GstNumber1,
+                            Address: formdata.Gst1Address1 + " " + formdata.Gst1Address2,
+                            AddressCode: formdata.AddressCode1
+                        }
+                    }
+                    if (formdata.GstNumber2 !== "" && formdata.GstNumber2 !== null && formdata.GstNumber2 !== undefined) {
+                        i = i + 1;
+                        GstData[i] = {
+                            GstNumber: formdata.GstNumber2,
+                            Address: formdata.Gst2Address1 + " " + formdata.Gst2Address2,
+                            AddressCode: formdata.AddressCode2
+                        }
+                    }
+                    if (formdata.GstNumber3 !== "" && formdata.GstNumber3 !== null && formdata.GstNumber3 !== undefined) {
+                        i = i + 1;
+                        GstData[i] = {
+                            GstNumber: formdata.GstNumber3,
+                            Address: formdata.Gst3Address1 + " " + formdata.Gst3Address2,
+                            AddressCode: formdata.AddressCode3
+                        }
+                    }
+                    if (formdata.GstNumber4 !== "" && formdata.GstNumber4 !== null && formdata.GstNumber4 !== undefined) {
+                        i = i + 1;
+                        GstData[i] = {
+                            GstNumber: formdata.GstNumber4,
+                            Address: formdata.Gst4Address1 + " " + formdata.Gst4Address2,
+                            AddressCode: formdata.AddressCode4
+                        }
+                    }
+                    if (formdata.GstNumber5 !== "" && formdata.GstNumber5 !== null && formdata.GstNumber5 !== undefined) {
+                        i = i + 1;
+                        GstData[i] = {
+                            GstNumber: formdata.GstNumber5,
+                            Address: formdata.Gst5Address1 + " " + formdata.Gst5Address2,
+                            AddressCode: formdata.AddressCode5
+                        }
+                    }
+                }
                 if (formdata.ExciseDivision === null) {
                     formdata.ExciseDivision = "-";
                 }
@@ -895,8 +947,10 @@ sap.ui.define([
                 if (formdata.CinNo === null) {
                     formdata.CinNo = "";
                 }
-                if (formdata.GstRegistered === null) {
-                    formdata.GstRegistered = "";
+                if (formdata.GstApplicable === 'YES') {
+                    formdata.GstRegistered = "1";
+                } else {
+                    formdata.GstRegistered = "0";
                 }
                 if (formdata.GSTDate === null) {
                     formdata.GSTDate = "";
@@ -970,156 +1024,190 @@ sap.ui.define([
                 if (formdata.DocDescription === null) {
                     formdata.DocDescription = "";
                 }
-                // if (formdata.ContactPersonName2 === null) {
-                //     formdata.ContactPersonName2 = "";
-                // }
-                // if (formdata.ContactPersonDepartment2 === null) {
-                //     formdata.ContactPersonDepartment2 = "";
-                // }
-                // if (formdata.ContactPersonDesignation2 === null) {
-                //     formdata.ContactPersonDesignation2 = "";
-                // }
-                // if (formdata.ContactPersonPhone2 === null) {
-                //     formdata.ContactPersonPhone2 = "";
-                // }
+                if (formdata.Address3 === null) {
+                    formdata.Address3 = "";
+                }
+                if (formdata.District === null) {
+                    formdata.District = "";
+                }
+                if (formdata.VendorName2 === null) {
+                    formdata.VendorName2 = "";
+                }
+                if (formdata.VendorName3 === null) {
+                    formdata.VendorName3 = "";
+                }
                 // if (formdata.ContactPersonMobile2 === null) {
                 //     formdata.ContactPersonMobile2 = "";
                 // }
                 // if (formdata.ContactPersonMail2 === null) {
                 //     formdata.ContactPersonMail2 = "";
                 // }
-                var form = {
-                    "SupplierType": formdata.SupplierType,
-                    //"UnitCode": sessionStorage.getItem("unitCode"),
-                    "UnitCode": "P01",
-                    "AddressCode": formdata.AddressCode,
-                    "AddressDesc": formdata.VendorName,
-                    "vendorAddress": formdata.Address1,
-                    "AccountCode": formdata.AccountCode,
-                    "AccountDesc": formdata.AccountDesc,
-                    "FaxNo": formdata.Fax,
-                    "ContactPerson": formdata.ContactPersonName,
-                    "LeadTime": "",
-                    "Remark": formdata.Remarks,
-                    "IAIvendorCode": "",
-                    "Country": formdata.Country_code,
-                    "State": formdata.State_name,
-                    "City": formdata.City_name,
-                    "Location": formdata.Location,
-                    "PinNo": formdata.Pincode,
-                    "PhoneNumber": formdata.Telephone,
-                    "Email": formdata.VendorMail,
-                    "ContactPersonDesgn": formdata.ContactPersonDesignation,
-                    "DeliveryMode": "",
-                    "CustomerCategory": "",
-                    "ExciseDivision": "-",
-                    "ExciseBankAccount": "-",
-                    "StRatePercent": "0",
-                    "TinNo": formdata.Tin,
-                    "Composite": "",
-                    "GSTRegistartion": formdata.GstNumber,
-                    "CreditRating": "",
-                    "CreditRatingAgency": "",
-                    "ServiceAccounType": "",
-                    "ECCNo": "",
-                    "CSTDate": formdata.CSTDate,
-                    "LSTDate": formdata.LSTDate,
-                    "ExciseNo": "",
-                    "JswCost": "0",
-                    "CompanyType": formdata.CompanyType,
-                    "ISOExpiryDate": "",
-                    "AddressType": formdata.AddressType,
-                    "ExciseRange": "0",
-                    "ExciseBankAccountName": "-",
-                    "ExciseDuty": "0",
-                    "CinNo": formdata.CinNo,
-                    "GstRegistered": formdata.GstRegistered,
-                    "GstDate": formdata.GSTDate,
-                    "MSMEType": formdata.MsmeMainCertificateId,
-                    "ServiceAccountCode": "",
-                    "STRateSurCharge": "0",
-                    "CSTNo": formdata.CSTNo,
-                    "LSTNo": "0",
-                    "PANNo": formdata.Pan,
-                    "ExciseDate": "",
-                    "MRPPercentage": "0",
-                    "SalesPersonCode": "",
-                    "DistanceKm": "0",
-                    "TypeOfSupplier": "",
-                    "PartyClassification": "sup",
-                    "GroupingLocation": formdata.GroupingLocation,
-                    "GroupCode5": "",
-                    "GroupCode7": "/ /",
-                    "Tax": "-",
-                    "GroupCode4": "",
-                    "Transporters": "",
-                    "GroupCode8": "",
-                    "BankAccountNo": formdata.AccountNo,
-                    "IFSCNo": formdata.IFSCCode,
-                    "PayeeName": formdata.BeneficiaryName,
-                    "BankName": formdata.BankName,
-                    "BankAddress": formdata.BankAddress,
-                    "ContantInformation": [
-                        {
-                            "ContactName": formdata.ContactPersonName,
-                            "ContactDepartment": formdata.ContactPersonDepartment,
-                            "ContactAddress": formdata.ContactPersonDesignation,
-                            "ContactPhoneNo": formdata.ContactPersonPhone,
-                            "ContactMobiloNo": formdata.ContactPersonMobile,
-                            "ContactEmail": formdata.ContactPersonMail,
-                            "SNo": "1"
-                        }
-                        // {
-                        //     "ContactName": formdata.ContactPersonName2,
-                        //     "ContactDepartment": formdata.ContactPersonDepartment2,
-                        //     "ContactAddress": formdata.ContactPersonDesignation2,
-                        //     "ContactPhoneNo": formdata.ContactPersonPhone2,
-                        //     "ContactMobiloNo": formdata.ContactPersonMobile2,
-                        //     "ContactEmail": formdata.ContactPersonMail2,
-                        //     "SNo": "2"
-                        // }
-                    ],
-                    "DocumentRequired": [
-                        {
-                            "DocumentCode": "",
-                            "DocumentDescription": ""
-                        }
-                    ],
-                    "TransMode": "",
-                    "CreatedBy": "Manikandan",
-                    "CreatedIP": "",
-                    "UpdatedBy": ""
-                };
-                if (sessionStorage.getItem("isunitaddressexists") === true) {
-                    form.TransMode = "EDIT";
-                    form.UpdatedBy = res.email;
-                } else {
-                    form.TransMode = "ADD";
-                }
-                var formdatastr = JSON.stringify(form);
-                this.hardcodedURL = "";
-				if (window.location.href.includes("site")) {
-					this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
-				}
-                var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/submitFormData`;
-                $.ajax({
-                    type: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    url: sPath,
-                    data: JSON.stringify({
-                        data: formdatastr
-                    }),
-                    context: this,
-                    success: function (data, textStatus, jqXHR) {
-                        this.changeStatus();
-                    }.bind(this),
-                    error: function (error) {
-                        var errormsg = JSON.parse(error.responseText)
-						MessageBox.error(errormsg.error.message.value);
+                for (var j = 0; j < GstData.length; j++) {
+                    this.lastItem = false;
+                    if (j === (GstData.length - 1)) {
+                        this.lastItem = true;
                     }
-                });
+                    var form = {
+                        "SupplierType": formdata.SupplierType,
+                        //"UnitCode": sessionStorage.getItem("unitCode"),
+                        "UnitCode": "P01",
+                        "AddressCode": GstData[j].AddressCode,
+                        "AddressDesc": formdata.VendorName,
+                        "vendorAddress": GstData[j].Address,
+                        "AccountCode": formdata.AccountCode,
+                        "AccountDesc": formdata.AccountDesc,
+                        "FaxNo": formdata.Fax,
+                        "ContactPerson": formdata.ContactPersonName,
+                        "LeadTime": "",
+                        "Remark": formdata.Remarks,
+                        "IAIvendorCode": "",
+                        "Country": formdata.Country_code,
+                        "State": formdata.State_name,
+                        "City": formdata.City_name,
+                        "Location": formdata.Location,
+                        "PinNo": formdata.Pincode,
+                        "PhoneNumber": formdata.Telephone,
+                        "Email": formdata.VendorMail,
+                        "ContactPersonDesgn": formdata.ContactPersonDesignation,
+                        "DeliveryMode": "",
+                        "CustomerCategory": "",
+                        "ExciseDivision": "-",
+                        "ExciseBankAccount": "-",
+                        "StRatePercent": "0",
+                        "TinNo": formdata.Tin,
+                        "Composite": "",
+                        "GSTRegistartion": GstData[j].GstNumber,
+                        "CreditRating": "",
+                        "CreditRatingAgency": "",
+                        "ServiceAccounType": "",
+                        "ECCNo": "",
+                        "CSTDate": formdata.CSTDate,
+                        "LSTDate": formdata.LSTDate,
+                        "ExciseNo": "",
+                        "JswCost": "0",
+                        "CompanyType": formdata.CompanyType,
+                        "ISOExpiryDate": "",
+                        "AddressType": formdata.AddressType,
+                        "ExciseRange": "0",
+                        "ExciseBankAccountName": "-",
+                        "ExciseDuty": "0",
+                        "CinNo": formdata.CinNo,
+                        "GstRegistered": formdata.GstRegistered,
+                        "GstDate": formdata.GSTDate,
+                        "MSMEType": formdata.MsmeMainCertificateId,
+                        "ServiceAccountCode": "",
+                        "STRateSurCharge": "0",
+                        "CSTNo": formdata.CSTNo,
+                        "LSTNo": "0",
+                        "PANNo": formdata.Pan,
+                        "ExciseDate": "",
+                        "MRPPercentage": "0",
+                        "SalesPersonCode": "",
+                        "DistanceKm": "0",
+                        "TypeOfSupplier": "",
+                        "PartyClassification": "Sup",
+                        "GroupingLocation": formdata.GroupingLocation,
+                        "GroupCode5": "",
+                        "GroupCode7": "/ /",
+                        "Tax": "-",
+                        "GroupCode4": "",
+                        "Transporters": "",
+                        "GroupCode8": "",
+                        "BankAccountNo": formdata.AccountNo,
+                        "IFSCNo": formdata.IFSCCode,
+                        "PayeeName": formdata.BeneficiaryName,
+                        "BankName": formdata.BankName,
+                        "BankAddress": formdata.BankAddress,
+                        "Street": formdata.Address1,
+                        "Street2": formdata.Address2,
+                        "Street3": formdata.Address3,
+                        "Street4": formdata.City_name,
+                        "Street5": formdata.District,
+                        "Customer": "",
+                        "BPGrouping": formdata.BPGrouping,
+                        "Name1": formdata.VendorName,
+                        "Name2": formdata.VendorName2,
+                        "Name3": formdata.VendorName3,
+                        "PayTerms": formdata.SuppPaymentTerm,
+                        "BankState": formdata.BankState_name,
+                        "ContantInformation": [
+                            {
+                                "ContactName": formdata.ContactPersonName,
+                                "ContactDepartment": formdata.ContactPersonDepartment,
+                                "ContactAddress": formdata.ContactPersonDesignation,
+                                "ContactPhoneNo": formdata.ContactPersonPhone,
+                                "ContactMobiloNo": formdata.ContactPersonMobile === null ? '' : formdata.ContactPersonMobile,
+                                "ContactEmail": formdata.ContactPersonMail === null ? '' : formdata.ContactPersonMail,
+                                "SNo": "1"
+                            }
+                            // {
+                            //     "ContactName": formdata.ContactPersonName2,
+                            //     "ContactDepartment": formdata.ContactPersonDepartment2,
+                            //     "ContactAddress": formdata.ContactPersonDesignation2,
+                            //     "ContactPhoneNo": formdata.ContactPersonPhone2,
+                            //     "ContactMobiloNo": formdata.ContactPersonMobile2,
+                            //     "ContactEmail": formdata.ContactPersonMail2,
+                            //     "SNo": "2"
+                            // }
+                        ],
+                        "DocumentRequired": [
+                            {
+                                "DocumentCode": "",
+                                "DocumentDescription": ""
+                            }
+                        ],
+                        "TransMode": "",
+                        "CreatedBy": this.getView().getModel().getHeaders().loginId,
+                        "CreatedIP": "",
+                        "UpdatedBy": ""
+                    };
+                    if (sessionStorage.getItem("isunitaddressexists") === true) {
+                        form.TransMode = "EDIT";
+                        form.UpdatedBy = res.email;
+                    } else {
+                        form.TransMode = "ADD";
+                    }
+                    var formdatastr = JSON.stringify(form);
+                    this.AddressCode = GstData[j].AddressCode;
+                    await this.call(formdatastr);
+                    await this.delay(500);
+                }
+                //Promise.all(allAjax).then
+            },
+            call: function (formdatastr) {
+                this.hardcodedURL = "";
+                if (window.location.href.includes("site")) {
+                    this.hardcodedURL = jQuery.sap.getModulePath("sp.fiori.onboarding");
+                }
+                var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/submitFormData`;
+                // var result;
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        headers: {
+                            'loginid': this.getView().getModel().getHeaders().loginId,
+                            'Content-Type': 'application/json'
+                        },
+                        url: sPath,
+                        data: JSON.stringify({
+                            data: formdatastr
+                        }),
+                        context: this,
+                        success: function (data) {
+                            MessageBox.success("Approved by Finance and BP " + data.d.submitFormData + " created successfully");
+                            if (this.lastItem === true) {
+                                this.changeStatus();
+                            }
+                            resolve(data);
+                        }.bind(this),
+                        error: function (error) {
+                            var errormsg = JSON.parse(error.responseText)
+                            MessageBox.error(errormsg.error.message.value);
+                            reject(error);
+                        }
+                    });
+                })
             },
             onApprPress: function (evt) {
                 var vendata = this.getView().getModel("DataModel").getData();
@@ -1265,6 +1353,7 @@ sap.ui.define([
                 this.oSubmitDialog.open();
             },
             onRejPress: function () {
+                var that = this;
                 var vendata = this.getView().getModel("DataModel").getData();
                 var payload = {};
                 for (var i = 0; i < vendata.length; i++) {
@@ -1280,7 +1369,7 @@ sap.ui.define([
                         payload.City = vendata[i].City;
                         payload.VendorMail = vendata[i].VendorMail;
                         payload.VenFrom = new Date();
-                        payload.VenValidTo = this.changeDate(payload.VenFrom, 7, "add");
+                        payload.VenValidTo = this.changeDate(payload.VenFrom, 15, "add");
                         payload.VenTimeLeft = vendata[i].VenTimeLeft;
                         payload.initiatedBy = vendata[i].initiatedBy;
                         var venStatus = vendata[i].Status;
@@ -1298,16 +1387,16 @@ sap.ui.define([
                 var level = "";
                 var pending = "";
                 var appr = "0";
-                 if (venStatus === "SBP") {
+                if (venStatus === "SBP") {
                     stat = "RBP";
                     this.msg = "Rejected successfully by Purchase Head";
-                }else if (venStatus === "SBQ") {
+                } else if (venStatus === "SBQ") {
                     pending = "Purchase";
                     stat = "RBQ";
                     level = "1";
                     this.msg = "Rejected successfully by Quality";
                 }
-                 else if (venStatus === "SBC") {
+                else if (venStatus === "SBC") {
                     pending = "Purchase";
                     stat = "RBC";
                     level = "1";
@@ -1331,15 +1420,16 @@ sap.ui.define([
                 this.VendorMail = payload.VendorMail;
                 this.VenValidTo = payload.VenValidTo;
                 this.venstatus = stat;
+                this.url = window.location.href.split("/")[2] + jQuery.sap.getModulePath("sp/fiori/onboarding").split("/")[1].split(".")[0] + ".onboarding.spfiorisupplierform/index.html?id=" + this.vendorId;
                 this.getView().getModel().update("/VenOnboard(Vendor='" + payload.Vendor + "',VendorId=" + this.vendorId + ")", payload, {
                     success: () => {
 
                         MessageBox.success(this.msg, {
                             onClose: () => this.getData()
                         });
-                        if (this.venstatus === "RBP") {
-                            this.rejemail = `||The form is rejected due to the following reason ${this.RejReason} .Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${this.VenValidTo}. Request you to fill the form and submit on time.<br><br><a href="https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/ed7b03c3-9a0c-46b0-b0de-b5b00d211677.onboarding.spfiorisupplierform-0.0.1/index.html?id=${this.vendorId}">CLICK HERE</a>`;
-                            this.sendRejEmailNotification(this.rejemail, this.VendorName, this.vendorId, this.VendorMail, this.VenValidTo);
+                        if (that.venstatus === "RBP") {
+                            that.rejemail = `||The form is rejected due to the following reason ${that.RejReason} .Please find the link below for Vendor Assessment Form. Kindly log-in with the link to fill the form.<br><br>Form is valid till ${that.VenValidTo}. Request you to fill the form and submit on time.<br><br><a href=${that.url}>CLICK HERE</a>`;
+                            that.sendRejEmailNotification(that.rejemail, that.VendorName, that.vendorId, that.VendorMail, that.VenValidTo);
                         }
                     },
                     error: (error) => {

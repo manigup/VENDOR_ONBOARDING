@@ -252,7 +252,7 @@ formatter = {
                         return false;
                     }
                 }else{    
-                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingdom") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingdom") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBQ" || status === "RBC" || status === "RBF") && Access === "Purchase")) {
                     return true;
                 } else {
                     return false;
@@ -266,7 +266,7 @@ formatter = {
                         return false;
                     }
                 }else{    
-                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingexp") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+                if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Marketingexp") || (status === "ABE" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBE" || status === "RBQ" || status === "RBC" || status === "RBF") && Access === "Purchase")) {
                     return true;
                 } else {
                     return false;
@@ -280,7 +280,7 @@ formatter = {
                     return false;
                 }
             }else{    
-            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBP" || status === "RBC" || status === "RBF") && Access === "Quality")) {
+            if ((status === "SBS" && Access === "Purchase") || (status === "ABP" && Access === "Quality") || (status === "ABQ" && Access === "COO") || (status === "ABC" && Access === "Finance") || ((status === "RBQ" || status === "RBC" || status === "RBF") && Access === "Purchase")) {
                 return true;
             } else {
                 return false;
@@ -323,7 +323,7 @@ formatter = {
         // }
     },
     viewFormBtnVisible: function (status, Access) {
-        if (((status !== "INITIATED" || status !== "SAD") && Access === "Requestor") || ((status === "ABF" || status === "ABC" || status === "ABQ" || status === "ABE" || status === "ABP" || status === "RBP") && Access === "Purchase") ||((status === "ABF" || status === "ABC" || status === "ABQ" || status === "ABE" || status === "RBE") && (Access === "Marketingexp" || Access === "Marketingdom")) || ((status === "ABF" || status === "ABC" || status === "ABQ" || status === "RBQ") && Access === "Quality")|| ((status === "ABF" || status === "ABC" || status === "RBC") && Access === "COO") || ((status === "ABE" || status === "RBE") && Access === "CEO") || ((status === "ABF" || status === "RBF") && Access === "Finance")) {
+        if (((status !== "INITIATED" || status !== "SAD") && Access === "Requestor") || ((status === "ABF" || status === "SBF" || status === "ABC" || status === "SBC" || status === "ABQ" || status === "SBQ" || status === "ABE"  || status === "SBE" || status === "ABP" || status === "SBP" || status === "RBP") && Access === "Purchase") ||((status === "ABF" || status === "SBF" || status === "ABC" || status === "SBC" || status === "ABQ" || status === "SBQ" || status === "ABE" || status === "SBE" || status === "RBE") && (Access === "Marketingexp" || Access === "Marketingdom")) || ((status === "ABF" || status === "SBF" || status === "ABC" || status === "SBC" || status === "ABQ" || status === "SBQ" || status === "RBQ") && Access === "Quality")|| ((status === "ABF" || status === "SBF" || status === "ABC" || status === "SBC" || status === "RBC") && Access === "COO") || ((status === "ABF" || status === "SBF" || status === "RBF") && Access === "Finance")) {
             return true;
         } else {
             return false;
@@ -353,5 +353,34 @@ formatter = {
         //     return false;
         // }
     },
+    formatApproval: function (approval) {
+        var text = "";
+        if (approval) {
+            switch (approval) {
+                case "Purchase":
+                    text = "Purchase";
+                    break;
+                case "Quality":
+                    text = "Quality";
+                    break;
+                case "COO":
+                    text = "COO";
+                    break;
+                case "CEO":
+                    text = "CEO";
+                    break;
+                case "Marketingdom":
+                    text = "Marketing";
+                    break;
+                case "Marketingexp":
+                    text = "Marketing";
+                    break;
+                case "Finance":
+                    text = "Finance";
+                    break;
+                }
+            }
+            return text;
+        },
 
 };

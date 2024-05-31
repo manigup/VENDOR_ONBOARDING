@@ -478,7 +478,7 @@ sap.ui.define([
                 return new Promise(resolve => setTimeout(resolve, ms));
             },
             changeStatus: async function () {
-                
+
                 var vendata = this.getView().getModel("DataModel").getData();
                 var formdata = this.getView().getModel("FormData").getData();
                 var requestData = this.getView().getModel("request").getData();
@@ -1136,8 +1136,8 @@ sap.ui.define([
                                 "ContactDepartment": formdata.ContactPersonDepartment,
                                 "ContactAddress": formdata.ContactPersonDesignation,
                                 "ContactPhoneNo": formdata.ContactPersonPhone,
-                                "ContactMobiloNo": formdata.ContactPersonMobile,
-                                "ContactEmail": formdata.ContactPersonMail,
+                                "ContactMobiloNo": formdata.ContactPersonMobile === null ? '' : formdata.ContactPersonMobile,
+                                "ContactEmail": formdata.ContactPersonMail === null ? '' : formdata.ContactPersonMail,
                                 "SNo": "1"
                             }
                             // {
@@ -1182,32 +1182,32 @@ sap.ui.define([
                 var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/submitFormData`;
                 // var result;
                 return new Promise((resolve, reject) => {
-                $.ajax({
-                    async: true,
-                    type: "POST",
-                    headers: {
-                        'loginid': this.getView().getModel().getHeaders().loginId,
-                        'Content-Type': 'application/json'
-                    },
-                    url: sPath,
-                    data: JSON.stringify({
-                        data: formdatastr
-                    }),
-                    context: this,
-                    success: function (data) {
-                        MessageBox.success("Approved by Finance and BP " + data.d.submitFormData + " created successfully");
-                                if (this.lastItem === true) {
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        headers: {
+                            'loginid': this.getView().getModel().getHeaders().loginId,
+                            'Content-Type': 'application/json'
+                        },
+                        url: sPath,
+                        data: JSON.stringify({
+                            data: formdatastr
+                        }),
+                        context: this,
+                        success: function (data) {
+                            MessageBox.success("Approved by Finance and BP " + data.d.submitFormData + " created successfully");
+                            if (this.lastItem === true) {
                                 this.changeStatus();
                             }
-                        resolve(data);
-                    }.bind(this),
-                    error: function (error) {
-                        var errormsg = JSON.parse(error.responseText)
-                        MessageBox.error(errormsg.error.message.value);
-                        reject(error);
-                    }
-                });
-            })
+                            resolve(data);
+                        }.bind(this),
+                        error: function (error) {
+                            var errormsg = JSON.parse(error.responseText)
+                            MessageBox.error(errormsg.error.message.value);
+                            reject(error);
+                        }
+                    });
+                })
             },
             onApprPress: function (evt) {
                 var vendata = this.getView().getModel("DataModel").getData();

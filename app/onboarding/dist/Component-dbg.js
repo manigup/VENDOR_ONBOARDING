@@ -58,7 +58,7 @@ sap.ui.define([
                             }
                         });
                     } else {
-                        this.setHeaders("RA046 ", "E");
+                        this.setHeaders("RA046", "E");
                     }
                 }).catch(err => {
                     // metadata error

@@ -18,3 +18,7 @@
 .ratingSuccess .sapMInputBaseInner {
     color: rgb(73, 183, 18) !important;
 }
+
+.sapMObjStatusInverted {
+    width: max-content !important;
+}
