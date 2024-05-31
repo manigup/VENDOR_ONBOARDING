@@ -5,10 +5,10 @@
     xmlns:f="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
     xmlns="sap.m"
+    xmlns:u="sap.ui.unified"
     draggable="true"
-    escapeHandler=".onDialogEscapeHandler"
-    contentWidth="350px"
-    contentHeight="400px"
+    contentWidth="300px"
+    contentHeight="350px"
     class="sapUiSizeCompact"
 >
     <content>

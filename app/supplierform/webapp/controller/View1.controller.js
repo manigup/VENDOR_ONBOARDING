@@ -1469,7 +1469,7 @@ sap.ui.define([
                 data.Gst5Address2 = payload.Gst5Address2;
                 this.createModel.refresh(true);
                 BusyIndicator.hide()
-                sap.ui.getCore().byId("createDialog").destroy();
+                sap.ui.getCore().byId("gstDialog").destroy();
             },
             onDialogCancel: function (evt) {
                 evt.getSource().getParent().destroy();
